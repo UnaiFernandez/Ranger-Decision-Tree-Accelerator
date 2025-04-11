@@ -35,23 +35,29 @@ def create_model(x_train, y_train):
 
     clf = tree.DecisionTreeClassifier()
     clf = clf.fit(X, Y)
-    tree.plot_tree(clf, class_names=True)
+    #tree.plot_tree(clf, class_names=True)
 
     r = tree.export_text(clf)
 
-    plt.show()
+    #plt.show()
     return clf
 
 
 def classify(clf, x_test):
     X_test = pd.read_csv(x_test)
     #X_test = np.loadtxt(x_test, delimiter=",")
+    str_to_int = preprocessing.LabelEncoder()
+    X_test = X_test.apply(str_to_int.fit_transform)
 
     prediction = clf.predict(X_test)
 
     return prediction
 
 def get_metrics(clf, pred, Y_test):
+    str_to_int = preprocessing.LabelEncoder()
+    Y_test = Y_test.apply(str_to_int.fit_transform)
+
+
     print(
 	f"Classification report for classifier {clf}:\n"
 	f"{metrics.classification_report(Y_test, pred)}\n"

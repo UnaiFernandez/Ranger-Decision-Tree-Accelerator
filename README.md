@@ -1,3 +1,10 @@
 # DT\_vhdl
 
-Implementation of Decision tree in VHDL
+Inference of decision tree in VHDL.
+
+## Build
+
+```bash
+$ make
+```
+
