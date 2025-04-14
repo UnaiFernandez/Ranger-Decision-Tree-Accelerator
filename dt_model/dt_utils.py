@@ -100,16 +100,18 @@ def export_to_json(filename, clf):
         else:
             node_info['node_id'] = str(i)
             node_info['feature'] = str(feature[i])
-            left = {}
-            right = {}
-            left['node_id'] = str(children_left[i])
-            left['cond'] = "<="
-            left['value'] = str(threshold[i])
-            right['node_id'] = str(children_right[i])
-            right['cond'] = ">"
-            right['value'] = str(threshold[i])
-            node_info['left'] = left
-            node_info['right'] = right
+            childs = []
+            c = {}
+            c['node_id'] = str(children_left[i])
+            c['cond'] = "<="
+            c['value'] = str(threshold[i])
+            childs.append(c)
+            c = {}
+            c['node_id'] = str(children_right[i])
+            c['cond'] = ">"
+            c['value'] = str(threshold[i])
+            childs.append(c)
+            node_info['childs'] = childs
 
         tree_dict.append(node_info)
     json_file_content = json.dumps(tree_dict, indent=4)
