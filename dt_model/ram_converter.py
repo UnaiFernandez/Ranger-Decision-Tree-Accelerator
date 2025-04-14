@@ -1,4 +1,5 @@
 import json
+from ieee754 import *
 
 file = "dt.json"
 
@@ -50,9 +51,10 @@ for node in data:
             addr += 1
             ch_node_id = int(ch['node_id'])
             ch_comp = get_code(ch['cond'])
-            ch_value = int(float(ch['value']))
-            hex_val = f'{ch_value:029b}'+ch_comp
-            print("value: {val}, cmd: {cmd}                      -----> 0x{addr} {h}".format(val=ch_value, cmd=ch_comp, addr=f'{addr:04X}', h=hex_val))
+            ch_value, sign, exp, mantissa = to_ieee754_format(float(ch['value']))
+            hex_val = ch_value+ch_comp
+            f_val = (-1)**(sign) * (1 + mantissa) * (2**(exp-127))
+            print("value: {val}, cmd: {cmd}                      -----> 0x{addr} {h}".format(val=f_val, cmd=ch_comp, addr=f'{addr:04X}', h=hex_val))
             node_mem.append(hex_val)
             l_node_id.append(ch_node_id)
            
