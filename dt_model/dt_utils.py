@@ -71,6 +71,8 @@ def export_to_json(filename, clf):
     feature = clf.tree_.feature
     threshold = clf.tree_.threshold
     values = clf.tree_.value
+    cl = clf.tree_.value.argmax(axis=2).flatten()
+    print(cl)
 
     node_depth = np.zeros(shape=n_nodes, dtype=np.int64)
     is_leaves = np.zeros(shape=n_nodes, dtype=bool)
@@ -96,7 +98,7 @@ def export_to_json(filename, clf):
         node_info = {}
         if is_leaves[i]:
             node_info['node_id'] = str(i)
-            node_info['class'] = str(i)
+            node_info['class'] = str(cl[i])
         else:
             node_info['node_id'] = str(i)
             node_info['feature'] = str(feature[i])
