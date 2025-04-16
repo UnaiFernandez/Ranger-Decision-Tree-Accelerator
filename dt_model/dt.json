@@ -1,0 +1,126 @@
+[
+    {
+        "node_id": "0",
+        "feature": "0",
+        "childs": [
+            {
+                "node_id": "1",
+                "cond": "<=",
+                "value": "0.5"
+            },
+            {
+                "node_id": "2",
+                "cond": ">",
+                "value": "0.5"
+            }
+        ]
+    },
+    {
+        "node_id": "1",
+        "class": "1"
+    },
+    {
+        "node_id": "2",
+        "feature": "2",
+        "childs": [
+            {
+                "node_id": "3",
+                "cond": "<=",
+                "value": "0.5"
+            },
+            {
+                "node_id": "8",
+                "cond": ">",
+                "value": "0.5"
+            }
+        ]
+    },
+    {
+        "node_id": "3",
+        "feature": "0",
+        "childs": [
+            {
+                "node_id": "4",
+                "cond": "<=",
+                "value": "1.5"
+            },
+            {
+                "node_id": "7",
+                "cond": ">",
+                "value": "1.5"
+            }
+        ]
+    },
+    {
+        "node_id": "4",
+        "feature": "3",
+        "childs": [
+            {
+                "node_id": "5",
+                "cond": "<=",
+                "value": "0.5"
+            },
+            {
+                "node_id": "6",
+                "cond": ">",
+                "value": "0.5"
+            }
+        ]
+    },
+    {
+        "node_id": "5",
+        "class": "0"
+    },
+    {
+        "node_id": "6",
+        "class": "1"
+    },
+    {
+        "node_id": "7",
+        "class": "0"
+    },
+    {
+        "node_id": "8",
+        "feature": "3",
+        "childs": [
+            {
+                "node_id": "9",
+                "cond": "<=",
+                "value": "0.5"
+            },
+            {
+                "node_id": "12",
+                "cond": ">",
+                "value": "0.5"
+            }
+        ]
+    },
+    {
+        "node_id": "9",
+        "feature": "1",
+        "childs": [
+            {
+                "node_id": "10",
+                "cond": "<=",
+                "value": "1.0"
+            },
+            {
+                "node_id": "11",
+                "cond": ">",
+                "value": "1.0"
+            }
+        ]
+    },
+    {
+        "node_id": "10",
+        "class": "0"
+    },
+    {
+        "node_id": "11",
+        "class": "1"
+    },
+    {
+        "node_id": "12",
+        "class": "1"
+    }
+]

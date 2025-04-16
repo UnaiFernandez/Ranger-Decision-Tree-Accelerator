@@ -1,5 +1,5 @@
 exponent_bits = 8
-mantissa_bits = 19
+mantissa_bits = 20
 
 
 def to_ieee754_format(number):
@@ -9,11 +9,11 @@ def to_ieee754_format(number):
         sign = 0
 
     exponent, num = get_exponent(number)
-    print("Number: {} Exp: {}".format(num, exponent))
+    #print("Number: {} Exp: {}".format(num, exponent))
 
     mantissa = get_mantissa(num)
 
-    formatted_num = f'{sign:01b}' + f'{exponent:08b}' + f'{mantissa:019b}'
+    formatted_num = f'{sign:01b}' + f'{exponent:08b}' + f'{mantissa:020b}'
 
     return formatted_num, sign, exponent, mantissa
 
