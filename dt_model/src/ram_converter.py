@@ -54,9 +54,9 @@ def create_mem_layouts(filename):
                 addr += 1
                 ch_node_id = int(ch['node_id'])
                 ch_comp = get_code(ch['cond'])
-                ch_value, sign, exp, mantissa = to_ieee754_format(float(ch['value']))
+                ch_value, *_ = to_fixed_point(float(ch['value']))
                 hex_val = ch_value+ch_comp
-                f_val = (-1)**(sign) * (1 + mantissa) * (2**(exp-127))
+                #f_val = (-1)**(sign) * (1 + mantissa) * (2**(exp-127))
             #    print("Value: {} --> {} cmd: {}".format(
             #       float(ch['value']), ch_value, ch_comp))
                 node_mem.append(hex_val)
@@ -80,3 +80,6 @@ def create_mem_layouts(filename):
         link_mem.append(f'{node_addr[n]:016b}')
 
     return node_mem, link_mem
+
+
+create_mem_layouts("dt.json")
