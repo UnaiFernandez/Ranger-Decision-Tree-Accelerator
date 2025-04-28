@@ -26,14 +26,12 @@ def create_data(fname="wdbc.data"):
 def create_model(x_train, y_train):
     X = pd.read_csv(x_train)
     Y = pd.read_csv(y_train)
-    #X = np.loadtxt(x_train, delimiter=",")
-    #Y = np.loadtxt(y_train, delimiter=",")
 
     str_to_int = preprocessing.LabelEncoder()
     X = X.apply(str_to_int.fit_transform)
     Y = Y.apply(str_to_int.fit_transform)
 
-    clf = tree.DecisionTreeClassifier()
+    clf = tree.DecisionTreeClassifier(min_samples_split=7) #default = 2
     clf = clf.fit(X, Y)
     #tree.plot_tree(clf, class_names=True)
 
@@ -45,7 +43,6 @@ def create_model(x_train, y_train):
 
 def classify(clf, x_test):
     X_test = pd.read_csv(x_test)
-    #X_test = np.loadtxt(x_test, delimiter=",")
     str_to_int = preprocessing.LabelEncoder()
     X_test = X_test.apply(str_to_int.fit_transform)
 
