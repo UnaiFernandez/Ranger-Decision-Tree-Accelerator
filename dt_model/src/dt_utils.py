@@ -48,9 +48,9 @@ def classify(clf, x_test):
 
     prediction = clf.predict(X_test)
 
-    return prediction
+    return prediction, X_test
 
-def get_metrics(clf, pred, Y_test):
+def get_metrics(clf, pred, X_test, Y_test):
     str_to_int = preprocessing.LabelEncoder()
     Y_test = Y_test.apply(str_to_int.fit_transform)
 

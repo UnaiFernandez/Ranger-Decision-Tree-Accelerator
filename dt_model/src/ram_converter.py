@@ -82,4 +82,15 @@ def create_mem_layouts(filename):
     return node_mem, link_mem
 
 
-create_mem_layouts("dt.json")
+def create_data_mem(data):
+    feature_list = []
+    col = len(data.columns)
+    row = len(data.index)
+    for r in range(0, row):
+        for c in range(0, col):
+            feature = data.iat[r, c]
+            feature_list.append(format(feature, "032b"))
+            #print("{} ---> {}".format(data.iat[r, c], format(feature, "032b")))
+
+    #print(feature_list)
+    return feature_list
