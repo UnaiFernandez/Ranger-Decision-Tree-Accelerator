@@ -1,6 +1,6 @@
 GHDL=ghdl-gcc
 
-sim_time="1500ns"
+sim_time="3000ns"
 OBJ = bin/ram_pkg.o \
       bin/ram.o \
       bin/dt_ctl_pkg.o \
@@ -9,7 +9,7 @@ OBJ = bin/ram_pkg.o \
 
 test/sim_dt.ghw: dt_ctl_tb
 	@ echo "Simulating..."
-	@ $(GHDL) -r --std=08 $^ --wave=$@ --stop-time=${sim_time}
+	@ $(GHDL) -r  --std=08 $^ --ieee-asserts=disable-at-0 --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
 	@ rm *.o
 

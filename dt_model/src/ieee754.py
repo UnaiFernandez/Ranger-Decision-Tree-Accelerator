@@ -42,45 +42,47 @@ def get_fraction(number):
     return bin
 
 
-def to_floating_point(number):
+def to_floating_point(number, exp_bits, m_bits):
     if number < 0:
         sign = "1"
     else:
         sign = "0"
 
-    exponent, num = get_exponent(number)
+    exponent, num = get_exponent(number, exp_bits)
     #print("Number: {} Exp: {}".format(num, exponent))
 
-    mantissa = get_mantissa(num)
+    mantissa = get_mantissa(num, m_bits)
 
-    formatted_num = sign + format(exponent, "0{}b".format(exponent_bits)) \
-            + format(mantissa, "0{}b".format(mantissa_bits))
+    formatted_num = sign + format(exponent, "0{}b".format(exp_bits)) \
+            + format(mantissa, "0{}b".format(m_bits))
 
     return formatted_num, sign, exponent, mantissa
 
 
-def get_exponent(number):
+def get_exponent(number, exp_bits):
     exp = 0
     num = abs(number)
 
     while num < 1 or num >= 2:
         num = abs(number)
-        num = num / (2**(exp))       
-        if num < 1:
+        num = num / (2**(exp))
+        if num < 1 and num != 0:
             exp -= 1
         elif num >= 2:
             exp += 1
+        elif num == 0:
+            return 0, 0
 
-    exp = exp + (2**(exponent_bits - 1) - 1)
+    exp = exp + (2**(exp_bits - 1) - 1)
     return exp, num
 
 
-def get_mantissa(number):
+def get_mantissa(number, m_bits):
     cont = 0
     num = number % 1
     bin = 0
 
-    while cont < mantissa_bits:
+    while cont < m_bits:
         if num == 1:
             bin = bin << 1
             bin = bin | 0
