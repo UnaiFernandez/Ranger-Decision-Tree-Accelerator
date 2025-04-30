@@ -1,6 +1,9 @@
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.fixed_pkg.all;
+use ieee.float_pkg.all;
 use work.dt_ctl_pkg.all;
 
 entity dt_ctl is
@@ -61,13 +64,13 @@ signal r_class_out : std_logic_vector(link_width - 2 downto 0);
 -- CMP
 signal eq, gr, ls, gr_eq, ls_eq: std_logic;
 signal cmd : std_logic_vector(2 downto 0);
-signal value : std_logic_vector(node_width - 4 downto 0);
+signal value : float(8 downto -23);
+signal data_out : float(8 downto -23);
 
 --JK
 signal CL_jk, PR_jk : std_logic;
 
 signal leaf, node_sel, read_node_info : std_logic;
-
 
 begin
 
@@ -199,7 +202,9 @@ begin
 end process;
 
 cmd <= r_value_out(2 downto 0);
-value <= r_value_out(node_width - 1 downto 3);
+value <= to_float(r_value_out(node_width - 1 downto 3) & "000");
+--value <= to_float(r_value_out);
+data_out <= to_float(i_data_out);
 
 -- R class
 
@@ -217,13 +222,13 @@ end process;
 
 -- CMP
 
-process(value, i_data_out)
+process(value, data_out)
 begin
-    if i_data_out > "000" & value then
+    if data_out > value then
         gr <= '1'; eq <= '0'; ls <= '0';
-    elsif i_data_out = "000" & value then
+    elsif data_out = value then
         gr <= '0'; eq <= '1'; ls <= '0';
-    elsif i_data_out < "000" & value then
+    elsif data_out < value then
         gr <= '0'; eq <= '0'; ls <= '1';
     else
         gr <= '0'; eq <= '0'; ls <= '0';

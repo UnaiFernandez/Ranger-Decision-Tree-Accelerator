@@ -34,7 +34,7 @@ NODE_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
-    g_init_file => "./memory_content/node_content.txt",
+    g_init_file => "./memory_content/node_mem_content.txt",
     g_init => '1'
 )
 port map(
@@ -51,7 +51,7 @@ LINK_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => l_width,
-    g_init_file => "./memory_content/node_links.txt",
+    g_init_file => "./memory_content/link_mem_content.txt",
     g_init => '1'
 )
 port map(
@@ -67,7 +67,7 @@ DATA_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
-    g_init_file => "./memory_content/data_content.txt",
+    g_init_file => "./memory_content/data_mem_content.txt",
     g_init => '1'
 )
 port map(

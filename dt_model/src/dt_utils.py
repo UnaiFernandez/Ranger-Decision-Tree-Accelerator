@@ -31,7 +31,7 @@ def create_model(x_train, y_train):
     X = X.apply(str_to_int.fit_transform)
     Y = Y.apply(str_to_int.fit_transform)
 
-    clf = tree.DecisionTreeClassifier(min_samples_split=7) #default = 2
+    clf = tree.DecisionTreeClassifier(min_samples_split=2) #default = 2
     clf = clf.fit(X, Y)
     #tree.plot_tree(clf, class_names=True)
 

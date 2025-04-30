@@ -9,15 +9,15 @@ OBJ = bin/ram_pkg.o \
 
 test/sim_dt.ghw: dt_ctl_tb
 	@ echo "Simulating..."
-	@ $(GHDL) -r $^ --wave=$@ --stop-time=${sim_time}
+	@ $(GHDL) -r --std=08 $^ --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
 	@ rm *.o
 
 dt_ctl_tb: $(OBJ)
-	$(GHDL) -e --workdir=bin $@
+	$(GHDL) -e --std=08 --workdir=bin $@
 
 bin/%.o: src/%.vhd
-	$(GHDL) -a --workdir=bin $< 
+	$(GHDL) -a --std=08 --workdir=bin $<
 
 clean:
 	@ rm -f bin/*.o

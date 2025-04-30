@@ -7,10 +7,10 @@ package ram_pkg is
 
     component ram is
         generic (
-    	g_addr_width : integer;
-    	g_data_width : integer;
-    	G_init_file  : string;
-    	g_init	     : std_logic
+       	    g_addr_width : integer;
+       	    g_data_width : integer;
+       	    G_init_file  : string;
+       	    g_init	     : std_logic
         );
         port(
             i_clk	    : in std_logic;
