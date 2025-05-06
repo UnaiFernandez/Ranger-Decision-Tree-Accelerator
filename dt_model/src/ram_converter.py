@@ -22,7 +22,7 @@ def write_to_file(list, filename):
             print("[SUCCESS] Data writen to {}".format(filename))
 
 
-def create_mem_layouts(filename):
+def create_mem_layouts(filename, t_dict):
 
     node_mem = []
     link_mem = []
@@ -33,8 +33,9 @@ def create_mem_layouts(filename):
     link_addr_base = 0
 
 
-    with open(filename, "r") as f:
-        data = json.load(f)
+    #with open(filename, "r") as f:
+    #    data = json.load(f)
+    data = t_dict
 
 
 

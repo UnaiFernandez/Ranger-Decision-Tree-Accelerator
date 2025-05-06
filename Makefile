@@ -22,3 +22,7 @@ bin/%.o: src/%.vhd
 clean:
 	@ rm -f bin/*.o
 	@ rm -f bin/*.cf
+
+tree:
+	@ echo "Creating new tree..."
+	python3 dt_model/src/tree.py

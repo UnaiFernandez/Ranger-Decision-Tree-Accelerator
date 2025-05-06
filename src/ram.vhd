@@ -50,7 +50,7 @@ architecture arch_ram of ram is
     end;
 
     --signal ram_mem: memory_t(2**g_addr_width-1 downto 0) := init_mem(2**g_addr_width);
-    signal ram_mem: memory_t(31 downto 0) := init_mem(32);
+    signal ram_mem: memory_t(63 downto 0) := init_mem(64);
 
     attribute ram_style of ram_mem: signal is "block";
 

@@ -1,7 +1,7 @@
 exponent_bits = 8
 mantissa_bits = 20
-integer_bits  = 15
-fraction_bits = 16
+integer_bits  = 14
+fraction_bits = 14
 
 
 def to_fixed_point(number):
@@ -95,7 +95,16 @@ def get_mantissa(number, m_bits):
 
     return bin
 
-
+#a1, *_ = to_fixed_point(1.5)
+#a2, *_ = to_fixed_point(-1.5)
+#
+#b1, *_ = to_floating_point(1.5, exponent_bits, mantissa_bits)
+#b2, *_ = to_floating_point(-1.5, exponent_bits, mantissa_bits)
+#
+#print(a1)
+#print(a2)
+#print(b1)
+#print(b2)
 #d1, a, b = to_fixed_point(8.5)
 #d2, a, b = to_fixed_point(2.3)
 #print(d1)

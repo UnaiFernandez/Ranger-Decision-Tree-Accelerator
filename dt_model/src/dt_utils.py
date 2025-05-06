@@ -9,7 +9,7 @@ def create_data(fname="wdbc.data"):
 
     train = data[:data.shape[0]//4*3, :]
     test = data[data.shape[0]//4*3:, :]
-
+    
     X_train = train[:, 2:]
     X_test = test[:, 2:]
 
@@ -24,12 +24,18 @@ def create_data(fname="wdbc.data"):
 
 
 def create_model(x_train, y_train):
-    X = pd.read_csv(x_train)
-    Y = pd.read_csv(y_train)
+    X = pd.read_csv(x_train, header=None)
+    Y = pd.read_csv(y_train, header=None)
 
     str_to_int = preprocessing.LabelEncoder()
-    X = X.apply(str_to_int.fit_transform)
-    Y = Y.apply(str_to_int.fit_transform)
+    for column in X:
+        if pd.api.types.is_string_dtype(X[column]):
+            X[column] = str_to_int.fit_transform(X[column]) 
+
+    for column in Y:
+        if pd.api.types.is_string_dtype(Y[column]):
+            Y[column] = str_to_int.fit_transform(Y[column]) 
+
 
     clf = tree.DecisionTreeClassifier(min_samples_split=2) #default = 2
     clf = clf.fit(X, Y)
@@ -42,9 +48,12 @@ def create_model(x_train, y_train):
 
 
 def classify(clf, x_test):
-    X_test = pd.read_csv(x_test)
+    X_test = pd.read_csv(x_test, header=None)
+
     str_to_int = preprocessing.LabelEncoder()
-    X_test = X_test.apply(str_to_int.fit_transform)
+    for column in X_test:
+        if pd.api.types.is_string_dtype(X_test[column]):
+            X_test[column] = str_to_int.fit_transform(X_test[column]) 
 
     prediction = clf.predict(X_test)
 
@@ -52,7 +61,9 @@ def classify(clf, x_test):
 
 def get_metrics(clf, pred, X_test, Y_test):
     str_to_int = preprocessing.LabelEncoder()
-    Y_test = Y_test.apply(str_to_int.fit_transform)
+    for column in Y_test:
+        if pd.api.types.is_string_dtype(Y_test[column]):
+            Y_test[column] = str_to_int.fit_transform(Y_test[column]) 
 
 
     print(
@@ -60,7 +71,7 @@ def get_metrics(clf, pred, X_test, Y_test):
 	f"{metrics.classification_report(Y_test, pred)}\n"
     )
 
-def export_to_json(filename, clf):
+def export_to_dict(clf):
     tree_dict = []
     n_nodes = clf.tree_.node_count
     children_left = clf.tree_.children_left
@@ -112,7 +123,13 @@ def export_to_json(filename, clf):
             node_info['childs'] = childs
 
         tree_dict.append(node_info)
+    
+    return tree_dict
+    
+
+def export_to_json(filename, tree_dict):
     json_file_content = json.dumps(tree_dict, indent=4)
+
 
     with open(filename, "w") as f:
         if f.write(json_file_content+"\n"):
