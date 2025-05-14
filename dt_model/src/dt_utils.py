@@ -9,7 +9,7 @@ def create_data(fname="wdbc.data"):
 
     train = data[:data.shape[0]//4*3, :]
     test = data[data.shape[0]//4*3:, :]
-    
+
     X_train = train[:, 2:]
     X_test = test[:, 2:]
 
@@ -30,20 +30,20 @@ def create_model(x_train, y_train):
     str_to_int = preprocessing.LabelEncoder()
     for column in X:
         if pd.api.types.is_string_dtype(X[column]):
-            X[column] = str_to_int.fit_transform(X[column]) 
+            X[column] = str_to_int.fit_transform(X[column])
 
     for column in Y:
         if pd.api.types.is_string_dtype(Y[column]):
-            Y[column] = str_to_int.fit_transform(Y[column]) 
+            Y[column] = str_to_int.fit_transform(Y[column])
 
 
     clf = tree.DecisionTreeClassifier(min_samples_split=2) #default = 2
     clf = clf.fit(X, Y)
-    #tree.plot_tree(clf, class_names=True)
+    tree.plot_tree(clf, class_names=True)
 
     r = tree.export_text(clf)
 
-    #plt.show()
+    plt.show()
     return clf
 
 
@@ -53,7 +53,7 @@ def classify(clf, x_test):
     str_to_int = preprocessing.LabelEncoder()
     for column in X_test:
         if pd.api.types.is_string_dtype(X_test[column]):
-            X_test[column] = str_to_int.fit_transform(X_test[column]) 
+            X_test[column] = str_to_int.fit_transform(X_test[column])
 
     prediction = clf.predict(X_test)
 
@@ -63,7 +63,7 @@ def get_metrics(clf, pred, X_test, Y_test):
     str_to_int = preprocessing.LabelEncoder()
     for column in Y_test:
         if pd.api.types.is_string_dtype(Y_test[column]):
-            Y_test[column] = str_to_int.fit_transform(Y_test[column]) 
+            Y_test[column] = str_to_int.fit_transform(Y_test[column])
 
 
     print(
@@ -71,7 +71,8 @@ def get_metrics(clf, pred, X_test, Y_test):
 	f"{metrics.classification_report(Y_test, pred)}\n"
     )
 
-def export_to_dict(clf):
+
+def export_to_dict_bin(clf):
     tree_dict = []
     n_nodes = clf.tree_.node_count
     children_left = clf.tree_.children_left
@@ -83,6 +84,8 @@ def export_to_dict(clf):
 
     node_depth = np.zeros(shape=n_nodes, dtype=np.int64)
     is_leaves = np.zeros(shape=n_nodes, dtype=bool)
+
+    addr = 0
 
     stack = [(0, 0)]  # start with the root node id (0) and its depth (0)
     while len(stack) > 0:
@@ -106,9 +109,63 @@ def export_to_dict(clf):
         if is_leaves[i]:
             node_info['node_id'] = str(i)
             node_info['class'] = str(cl[i])
+            node_info['addr'] = addr
         else:
             node_info['node_id'] = str(i)
             node_info['feature'] = str(feature[i])
+            node_info['addr'] = addr
+            node_info['threshold'] = str(threshold[i])
+            node_info['left_child'] = str(children_left[i])
+            node_info['right_child'] = str(children_right[i])
+            addr += 1
+        addr += 1
+        tree_dict.append(node_info)
+
+    return tree_dict
+
+
+def export_to_dict(clf):
+    tree_dict = []
+    n_nodes = clf.tree_.node_count
+    children_left = clf.tree_.children_left
+    children_right = clf.tree_.children_right
+    feature = clf.tree_.feature
+    threshold = clf.tree_.threshold
+    values = clf.tree_.value
+    cl = clf.tree_.value.argmax(axis=2).flatten()
+
+    node_depth = np.zeros(shape=n_nodes, dtype=np.int64)
+    is_leaves = np.zeros(shape=n_nodes, dtype=bool)
+
+    addr = 0
+
+    stack = [(0, 0)]  # start with the root node id (0) and its depth (0)
+    while len(stack) > 0:
+        # `pop` ensures each node is only visited once
+        node_id, depth = stack.pop()
+        node_depth[node_id] = depth
+
+        # If the left and right child of a node is not the same we have a split
+        # node
+        is_split_node = children_left[node_id] != children_right[node_id]
+        # If a split node, append left and right children and depth to `stack`
+        # so we can loop through them
+        if is_split_node:
+            stack.append((children_left[node_id], depth + 1))
+            stack.append((children_right[node_id], depth + 1))
+        else:
+            is_leaves[node_id] = True
+
+    for i in range(n_nodes):
+        node_info = {}
+        if is_leaves[i]:
+            node_info['node_id'] = str(i)
+            node_info['class'] = str(cl[i])
+            node_info['addr'] = addr
+        else:
+            node_info['node_id'] = str(i)
+            node_info['feature'] = str(feature[i])
+            node_info['addr'] = addr
             childs = []
             c = {}
             c['node_id'] = str(children_left[i])
@@ -122,10 +179,11 @@ def export_to_dict(clf):
             childs.append(c)
             node_info['childs'] = childs
 
+        addr += 1
         tree_dict.append(node_info)
-    
+
     return tree_dict
-    
+
 
 def export_to_json(filename, tree_dict):
     json_file_content = json.dumps(tree_dict, indent=4)
@@ -136,3 +194,4 @@ def export_to_json(filename, tree_dict):
             print("[SUCCESS] Exported to {filename}".format(filename=filename))
         else:
             print("[ERROR] Exporting to JSON.")
+

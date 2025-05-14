@@ -21,6 +21,58 @@ def write_to_file(list, filename):
         if f.write('\n'.join(str(i) for i in list)):
             print("[SUCCESS] Data writen to {}".format(filename))
 
+def find_node(data, id):
+    addr = 0
+    for node in data:
+        if node['node_id'] == id:
+            addr = node['addr']
+    return addr
+
+def create_mem_bin_layouts(filename, t_dict):
+    node_mem = []
+    l_node_id = []
+    node_addr = []
+
+    addr = 0
+
+    #with open(filename, "r") as f:
+    #    data = json.load(f)
+    data = t_dict
+
+
+
+    for node in data:
+        node_id = int(node['node_id'])
+        try:
+            feature = int(node['feature'])
+            right_addr = find_node(data, node['right_child'])
+            threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            node_info = f'{right_addr:016b}'+f'{feature*2:016b}'
+            node_mem.append(node_info)
+            node_mem.append(threshold)
+        except:
+            c = int(node['class'])
+            hex_info = f'{0:016b}'+f'{(c*2)+1:016b}'
+            node_mem.append(hex_info)
+            node_addr.append(addr)
+
+            #print("Node ID: {} link_base: {} class: {} leaf: {}".format(
+            #        node_id, link_addr_base, c, 1))
+
+        addr += 1
+
+    #print("link_mem: {}".format(node_addr))
+    #print("link_mem: {}".format(l_node_id))
+
+    for n in l_node_id:
+        link_mem.append(f'{node_addr[n]:016b}')
+
+    print("node mem:\n{}".format(node_mem))
+    return node_mem
+
+
+
+
 
 def create_mem_layouts(filename, t_dict):
 
@@ -96,3 +148,4 @@ def create_data_mem(data):
 
     #print(feature_list)
     return feature_list
+

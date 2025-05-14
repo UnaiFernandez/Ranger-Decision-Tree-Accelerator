@@ -256,4 +256,14 @@ begin
     end if;
 end process;
 
+
+p_ASSERT : process (i_clk) is
+  begin
+    if rising_edge(i_clk) then
+      if ld_class = '1' and next_s = E1 then
+        report "Class: " & integer'image(to_integer(unsigned(r_feature_out))) severity note;
+      end if;
+    end if;
+  end process p_ASSERT;
+
 end arch_dt_ctl;
