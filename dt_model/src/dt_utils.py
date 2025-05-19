@@ -4,41 +4,36 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
-def create_data(fname="wdbc.data"):
-    data = np.loadtxt(fname, delimiter=",")
+def create_data(fname, train_size):
+    print("[-] Reading data from {}".format(fname))
+    print("     - Training size: {}%".format(train_size))
+    print("     - Testing size: {}%".format(100 - train_size))
+    data = pd.read_csv(fname, sep=",", header=None)
 
-    train = data[:data.shape[0]//4*3, :]
-    test = data[data.shape[0]//4*3:, :]
+    str_to_int = preprocessing.LabelEncoder()
+    for column in data:
+        if pd.api.types.is_string_dtype(data[column]):
+            data[column] = str_to_int.fit_transform(data[column])
 
-    X_train = train[:, 2:]
-    X_test = test[:, 2:]
 
-    Y_train = train[:, 1:2]
-    Y_test = test[:, 1:2]
+    num_rows = int(len(data) * (train_size/100))
 
-    np.savetxt("x_train.csv", X_train, delimiter=",")
-    np.savetxt("x_test.csv", X_test, delimiter=",")
+    train = data.iloc[:num_rows]
+    test = data.iloc[num_rows:]
 
-    np.savetxt("y_train.csv", Y_train, delimiter=",")
-    np.savetxt("y_test.csv", Y_test, delimiter=",")
+    X_train = train.iloc[:, 0:-1]
+    X_test = test.iloc[:, 0:-1]
+
+    Y_train = train.iloc[:, -1:]
+    Y_test = test.iloc[:, -1:]
+
+    return X_train, X_test, Y_train, Y_test
 
 
 def create_model(x_train, y_train):
-    X = pd.read_csv(x_train, header=None)
-    Y = pd.read_csv(y_train, header=None)
-
-    str_to_int = preprocessing.LabelEncoder()
-    for column in X:
-        if pd.api.types.is_string_dtype(X[column]):
-            X[column] = str_to_int.fit_transform(X[column])
-
-    for column in Y:
-        if pd.api.types.is_string_dtype(Y[column]):
-            Y[column] = str_to_int.fit_transform(Y[column])
-
 
     clf = tree.DecisionTreeClassifier(min_samples_split=2) #default = 2
-    clf = clf.fit(X, Y)
+    clf = clf.fit(x_train, y_train)
     tree.plot_tree(clf, class_names=True)
 
     r = tree.export_text(clf)
@@ -48,23 +43,11 @@ def create_model(x_train, y_train):
 
 
 def classify(clf, x_test):
-    X_test = pd.read_csv(x_test, header=None)
+    prediction = clf.predict(x_test)
 
-    str_to_int = preprocessing.LabelEncoder()
-    for column in X_test:
-        if pd.api.types.is_string_dtype(X_test[column]):
-            X_test[column] = str_to_int.fit_transform(X_test[column])
-
-    prediction = clf.predict(X_test)
-
-    return prediction, X_test
+    return prediction
 
 def get_metrics(clf, pred, X_test, Y_test):
-    str_to_int = preprocessing.LabelEncoder()
-    for column in Y_test:
-        if pd.api.types.is_string_dtype(Y_test[column]):
-            Y_test[column] = str_to_int.fit_transform(Y_test[column])
-
 
     print(
 	f"Classification report for classifier {clf}:\n"

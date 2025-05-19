@@ -4,19 +4,17 @@ import pandas as pd
 import time 
 
 def main():
-
+   
+    x_train, x_test, y_train, y_test = create_data("dt_model/datasets/iris_2.data", 80)
     print("[-] Training decision tree")
-    x_train = "dt_model/datasets/x_train.csv"
-    y_train = "dt_model/datasets/y_train.csv"
     tree = create_model(x_train, y_train)
 
     print("[-] Testing decision tree")
     start = time.time()
-    pred, X_test = classify(tree, "dt_model/datasets/x_test.csv")
+    pred = classify(tree, x_test)
     stop = time.time()
     total = stop - start
-    Y_test = pd.read_csv("dt_model/datasets/y_test.csv", header=None)
-    get_metrics(tree, pred, X_test, Y_test)
+    get_metrics(tree, pred, x_test, y_test)
 
     print("-------------------------------------------------------")
     print("total time:                                     {} ms\n".format(round(total*1000, 2)))
@@ -28,7 +26,7 @@ def main():
     print("[-] Creating memory layouts")
     node_mem, link_mem = create_mem_layouts("dt.json", t_dict)
     bin_node_mem = create_mem_bin_layouts("dt.json", t_dict_bin)
-    data_mem = create_data_mem(X_test)
+    data_mem = create_data_mem(x_test)
 
     print("[-] Writing memory layouts to txt files")
     write_to_file(node_mem, "memory_content/node_mem_content.txt")

@@ -67,7 +67,6 @@ def create_mem_bin_layouts(filename, t_dict):
     for n in l_node_id:
         link_mem.append(f'{node_addr[n]:016b}')
 
-    print("node mem:\n{}".format(node_mem))
     return node_mem
 
 
