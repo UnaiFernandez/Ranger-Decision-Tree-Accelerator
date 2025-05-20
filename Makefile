@@ -3,6 +3,8 @@ GHDL=ghdl-gcc
 sim_time="3000ns"
 OBJ = bin/ram_pkg.o \
       bin/ram.o \
+      bin/fifo_pkg.o \
+      bin/fifo.o \
       bin/dt_ctl_pkg.o \
       bin/dt_ctl.o \
       bin/dt_ctl_tb.o \

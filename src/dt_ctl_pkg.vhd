@@ -26,6 +26,7 @@ package dt_ctl_pkg is
             o_node_addr     : out unsigned(link_width - 1 downto 0);
             o_link_addr	    : out unsigned(link_width - 1 downto 0);
             o_data_addr	    : out unsigned(link_width - 1 downto 0);
+            o_wr_fifo		    : out std_logic;
             o_class		    : out std_logic_vector(15 downto 0)
         );
     end component;

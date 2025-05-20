@@ -26,7 +26,8 @@ entity dt_ctl is
 	o_node_addr         : out unsigned(link_width - 1 downto 0);
 	o_link_addr	        : out unsigned(link_width - 1 downto 0);
     o_data_addr	        : out unsigned(link_width - 1 downto 0);
-	o_class		        : out std_logic_vector(15 downto 0)
+	o_wr_fifo		    : out std_logic;
+	o_class		        : out std_logic_vector(link_width - 1 downto 0)
     );
 end dt_ctl;
 
@@ -51,7 +52,7 @@ signal c_data_mem_out : std_logic_vector(link_width - 1 downto 0);
 
 -- R feature
 signal LD_feature : std_logic;
-signal r_feature_out : std_logic_vector(link_width - 2 downto 0);
+signal r_feature_out : std_logic_vector(link_width - 1 downto 0);
 
 -- R value
 signal LD_value : std_logic;
@@ -59,7 +60,7 @@ signal r_value_out : std_logic_vector(node_width - 1 downto 0);
 
 -- R class
 signal LD_class : std_logic;
-signal r_class_out : std_logic_vector(link_width - 2 downto 0);
+signal r_class_out : std_logic_vector(link_width - 1 downto 0);
 
 -- CMP
 signal eq, gr, ls, gr_eq, ls_eq: std_logic;
@@ -110,7 +111,7 @@ end process;
 
 -- LEAF and NODE_ACT
 
-leaf <= i_node_out(0);
+leaf <= i_node_out(0) when current_s = E2;
 PR_jk <= '1' when current_s = E0 or current_s = E7 else '0';
 CL_jk <= '1' when current_s = E9 else '0';
 
@@ -183,7 +184,7 @@ process(i_clk)
 begin
 	if rising_edge(i_clk) then
 	    if LD_feature = '1' then
-			r_feature_out <= i_node_out(node_width - 17 downto 1);
+			r_feature_out <= i_node_out(node_width - 16 downto 1);
 	    end if;
 	end if;
 end process;
@@ -218,7 +219,8 @@ begin
     end if;
 end process;
 
---o_class <= r_class_out;
+o_class <= r_feature_out;
+o_wr_fifo <= '1' when current_s = E10 else '0';
 
 -- CMP
 

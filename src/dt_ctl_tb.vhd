@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 
 use work.dt_ctl_pkg.all;
 use work.ram_pkg.all;
+use work.fifo_pkg.all;
 
 entity dt_ctl_tb is
 end dt_ctl_tb;
@@ -26,7 +27,14 @@ signal RE_data : std_logic := '0';
 signal node_addr: unsigned(l_width - 1 downto 0);
 signal link_addr: unsigned(l_width - 1 downto 0);
 signal data_addr: unsigned(l_width - 1 downto 0);
-signal class: std_logic_vector(15 downto 0);
+signal class: std_logic_vector(l_width - 1 downto 0);
+
+
+signal re_en		: std_logic;
+signal wr_en		: std_logic;
+signal rd_data		: std_logic_vector(l_width - 1 downto 0);
+signal fifo_empty	: std_logic;
+signal fifo_full	: std_logic;
 
 begin
 
@@ -100,7 +108,23 @@ port map(
     o_node_addr => node_addr,
     o_link_addr => link_addr,
     o_data_addr	=> data_addr,
+    o_wr_fifo => wr_en,
     o_class => class
+);
+
+CLASS_FIFO: fifo
+generic map(
+    g_depth => 8,
+    g_width => l_width
+)
+port map(
+    i_clk => clk,
+    i_re_en => re_en,
+    i_wr_en => wr_en,
+    i_wr_data => class,
+    o_rd_data => rd_data, 
+    o_fifo_empty => fifo_empty,
+    o_fifo_full	=> fifo_full
 );
 
 clk <= not clk after 10 ns;

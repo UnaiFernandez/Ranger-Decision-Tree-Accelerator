@@ -26,6 +26,7 @@ entity bin_dt_ctl is
 	o_node_addr         : out unsigned(link_width - 1 downto 0);
 	o_thr_addr	        : out unsigned(link_width - 1 downto 0);
 	o_data_addr	        : out unsigned(link_width - 1 downto 0);
+	o_wr_fifo		    : out std_logic;
 	o_class		        : out std_logic_vector(15 downto 0)
     );
 end bin_dt_ctl;
@@ -134,17 +135,8 @@ o_data_addr <= unsigned(c_data_mem_out) + (unsigned(feature));
 
 -- R class
 
-LD_class <= '1' when current_s = E7 else '0';
-
-process(i_clk)
-begin
-    if rising_edge(i_clk) then
-	if LD_class = '1' then
-	    R_class <= feature;
-	end if;
-    end if;
-end process;
-
+o_class <= feature;
+o_wr_fifo <= '1' when current_s = E7 else '0';
 
 -- CMP
 
@@ -163,7 +155,7 @@ end process;
 p_ASSERT : process (i_clk) is
   begin
     if rising_edge(i_clk) then
-      if ld_class = '1' and next_s = E1 then
+      if o_wr_fifo = '1' and next_s = E1 then
         report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
       end if;
     end if;
