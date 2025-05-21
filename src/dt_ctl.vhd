@@ -73,6 +73,10 @@ signal CL_jk, PR_jk : std_logic;
 
 signal leaf, node_sel, read_node_info : std_logic;
 
+signal debug : std_logic;
+signal debug_node : std_logic_vector(32 downto 0);
+
+
 begin
 
 -- State machine
@@ -126,6 +130,7 @@ o_RE_data <= '1' when current_s = E4 else '0';
 LD_c_node_mem <= '1' when current_s = E7 else '0';
 INC_c_node_mem <= '1' when current_s = E1 or current_s = E8 else '0';
 CL_c_node_mem <= '1' when current_s = E0 or current_s = E10 else '0';
+debug <= '1' when current_s = E2 else '0';
 
 process(i_clk, CL_c_node_mem)
     begin
@@ -140,6 +145,7 @@ process(i_clk, CL_c_node_mem)
 end process;
 
 o_node_addr <= unsigned(c_node_mem_out);
+debug_node <= i_node_out & debug;
 
 -- C link mem
 
@@ -209,16 +215,6 @@ data_out <= to_float(i_data_out);
 
 -- R class
 
-LD_class <= '1' when current_s = E10 else '0';
-process(i_clk)
-begin
-    if rising_edge(i_clk) then
-        if LD_class = '1' then
-            r_class_out <= r_feature_out;
-        end if;
-    end if;
-end process;
-
 o_class <= r_feature_out;
 o_wr_fifo <= '1' when current_s = E10 else '0';
 
@@ -262,7 +258,7 @@ end process;
 p_ASSERT : process (i_clk) is
   begin
     if rising_edge(i_clk) then
-      if ld_class = '1' and next_s = E1 then
+      if o_wr_fifo = '1' and next_s = E1 then
         report "Class: " & integer'image(to_integer(unsigned(r_feature_out))) severity note;
       end if;
     end if;

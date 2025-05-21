@@ -32,7 +32,7 @@ def create_data(fname, train_size):
 
 def create_model(x_train, y_train):
 
-    clf = tree.DecisionTreeClassifier(min_samples_split=2) #default = 2
+    clf = tree.DecisionTreeClassifier(min_samples_split=2, max_depth=8) #min_samplessplit (default) = 2
     clf = clf.fit(x_train, y_train)
     tree.plot_tree(clf, class_names=True)
 

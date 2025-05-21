@@ -43,6 +43,7 @@ NODE_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
+    g_depth => 256,
     g_init_file => "./memory_content/bin_node_mem_content.txt",
     g_init => '1'
 )
@@ -60,6 +61,7 @@ DATA_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
+    g_depth => 256,
     g_init_file => "./memory_content/data_mem_content.txt",
     g_init => '1'
 )
@@ -119,7 +121,11 @@ clk <= not clk after 10 ns;
 
 process
 begin
+    re_en <= '0';
+    wait for 420 ns;
+    re_en <= '1';
     wait for 20 ns;
+    re_en <= '0';
     wait;
 end process;
 

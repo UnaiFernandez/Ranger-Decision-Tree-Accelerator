@@ -9,6 +9,7 @@ entity ram is
     generic (
 	g_addr_width : integer;
 	g_data_width : integer;
+	g_depth	     : integer;
 	g_init_file  : string;
 	g_init	     : std_logic
     );
@@ -50,7 +51,7 @@ architecture arch_ram of ram is
     end;
 
     --signal ram_mem: memory_t(2**g_addr_width-1 downto 0) := init_mem(2**g_addr_width);
-    signal ram_mem: memory_t(63 downto 0) := init_mem(64);
+    signal ram_mem: memory_t(g_depth - 1 downto 0) := init_mem(g_depth);
 
     attribute ram_style of ram_mem: signal is "block";
 

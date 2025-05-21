@@ -9,6 +9,7 @@ package ram_pkg is
         generic (
        	    g_addr_width : integer;
        	    g_data_width : integer;
+       	    g_depth	 : integer;
        	    G_init_file  : string;
        	    g_init	     : std_logic
         );

@@ -42,6 +42,7 @@ NODE_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
+    g_depth => 256,
     g_init_file => "./memory_content/node_mem_content.txt",
     g_init => '1'
 )
@@ -59,6 +60,7 @@ LINK_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => l_width,
+    g_depth => 256,
     g_init_file => "./memory_content/link_mem_content.txt",
     g_init => '1'
 )
@@ -75,6 +77,7 @@ DATA_MEM: ram
 generic map(
     g_addr_width => l_width,
     g_data_width => n_width,
+    g_depth => 256,
     g_init_file => "./memory_content/data_mem_content.txt",
     g_init => '1'
 )

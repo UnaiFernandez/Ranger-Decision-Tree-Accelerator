@@ -77,9 +77,10 @@ process(i_clk, CL)
 begin
     if CL = '1' then Q <= 0;
     elsif rising_edge(i_clk) then
-	if INC = '1' then
+	if INC = '1' and DEC = '0' then
 	    Q <= Q + 1;
-	elsif DEC = '1' then
+	end if;
+	if DEC = '1' and INC = '0' then
 	    Q <= Q - 1;
 	end if;
     end if;
