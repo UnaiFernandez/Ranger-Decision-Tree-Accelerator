@@ -34,7 +34,7 @@ end bin_dt_ctl;
 architecture arch_bin_dt_ctl of bin_dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6);
+    type state is (E0, E1, E2, E3, E4);
     signal current_s, next_s: state;
 
 -- C node mem
@@ -64,14 +64,10 @@ begin
 	    when E0 => next_s <= E1;
 	    when E1 => next_s <= E2;
 	    when E2 => if leaf = '0' then next_s <= E3;
-		       else next_s <= E6;
+		       else next_s <= E4;
 		       end if;
-	    when E3 => if go_right = '1' then next_s <= E4;
-		       else next_s <= E5;
-		       end if;
+	    when E3 => next_s <= E1;
 	    when E4 => next_s <= E1;
-	    when E5 => next_s <= E1;
-	    when E6 => next_s <= E1;
 	end case;
     end process;
 
@@ -96,9 +92,9 @@ begin
 
 -- C node mem
 
-    LD_c_node_mem <= '1' when current_s = E4 else '0';
-    INC_c_node_mem <= '1' when current_s = E5 else '0';
-    CL_c_node_mem <= '1' when current_s = E0 or current_s = E6 else '0';
+    LD_c_node_mem <= '1' when current_s = E3 and go_right = '1' else '0';
+    INC_c_node_mem <= '1' when current_s = E3 and go_right = '0' else '0';
+    CL_c_node_mem <= '1' when current_s = E0 or current_s = E4 else '0';
 
     process(i_clk, CL_c_node_mem)
     begin
@@ -117,7 +113,7 @@ begin
 
 -- C data mem
 
-    INC_c_data_mem <= '1' when current_s = E6 else '0';
+    INC_c_data_mem <= '1' when current_s = E4 else '0';
     CL_c_data_mem <= '1' when current_s = E0 else '0';
 
     process(i_clk, CL_c_data_mem)
@@ -139,7 +135,7 @@ begin
 -- R class
 
     o_class <= feature;
-    o_wr_fifo <= '1' when current_s = E6 else '0';
+    o_wr_fifo <= '1' when current_s = E4 else '0';
 
 -- CMP
 

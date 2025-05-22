@@ -34,7 +34,7 @@ end dt_ctl;
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-type state is (E0, E1, E2, E3, E4, E5, E6,E7, E8, E9, E10);
+type state is (E0, E1, E2, E3, E4, E5, E6, E7);
 signal current_s, next_s: state;
 
 -- C node mem
@@ -86,21 +86,18 @@ begin
 	case current_s is
 	    when E0 => next_s <= E1;
 	    when E1 => if read_node_info = '1' then next_s <= E2;
-					else next_s <= E3;
-					end if;
-	    when E2 => if leaf = '1' then next_s <= E10;
-            else next_s <= E3;
-            end if;
-        when E3 => next_s <= E4;
-	    when E4 => next_s <= E5;
-	    when E5 => if node_sel = '1' then next_s <= E6;
-			else next_s <= E8;
-			end if;
-	    when E6 => next_s <= E7;
-		when E7 => next_s <= E1;
-	    when E8 => next_s <= E9;
-		when E9 => next_s <= E3;
-	    when E10 => next_s <= E1;
+		       else next_s <= E3;
+		       end if;
+	    when E2 => if leaf = '1' then next_s <= E7;
+		       else next_s <= E3;
+		       end if;
+	    when E3 => next_s <= E4;
+	    when E4 => if node_sel = '1' then next_s <= E5;
+		       else next_s <= E6;
+		       end if;
+	    when E5 => next_s <= E1;
+	    when E6 => next_s <= E3;
+	    when E7 => next_s <= E1;
 	end case;
 end process;
 
@@ -116,20 +113,20 @@ end process;
 -- LEAF and NODE_ACT
 
 leaf <= i_node_out(0) when current_s = E2;
-PR_jk <= '1' when current_s = E0 or current_s = E7 else '0';
-CL_jk <= '1' when current_s = E9 else '0';
+PR_jk <= '1' when current_s = E0 or current_s = E5 else '0';
+CL_jk <= '1' when current_s = E6 else '0';
 
 -- RE mem signals
 
-o_RE_node <= '1' when current_s = E1 or current_s = E2 or current_s = E9 else '0';
-o_RE_link <= '1' when current_s = E6 else '0';
-o_RE_data <= '1' when current_s = E4 else '0';
+o_RE_node <= '1' when current_s = E1 or current_s = E2 or current_s = E6 else '0';
+o_RE_link <= '1' when current_s = E4 and node_sel = '1' else '0';
+o_RE_data <= '1' when current_s = E3 else '0';
 
 -- C node mem
 
-LD_c_node_mem <= '1' when current_s = E7 else '0';
-INC_c_node_mem <= '1' when current_s = E1 or current_s = E8 else '0';
-CL_c_node_mem <= '1' when current_s = E0 or current_s = E10 else '0';
+LD_c_node_mem <= '1' when current_s = E5 else '0';
+INC_c_node_mem <= '1' when current_s = E1 or (current_s = E4 and node_sel = '0') else '0';
+CL_c_node_mem <= '1' when current_s = E0 or current_s = E7 else '0';
 debug <= '1' when current_s = E2 else '0';
 
 process(i_clk, CL_c_node_mem)
@@ -150,7 +147,7 @@ debug_node <= i_node_out & debug;
 -- C link mem
 
 LD_c_link_mem <= '1' when current_s = E2 else '0';
-INC_c_link_mem <= '1' when current_s = E8 else '0';
+INC_c_link_mem <= '1' when current_s = E4 and node_sel = '0' else '0';
 
 process(i_clk)
     begin
@@ -167,7 +164,7 @@ o_link_addr <= unsigned(c_link_mem_out);
 
 -- C data mem
 
-INC_c_data_mem <= '1' when current_s = E10 else '0';
+INC_c_data_mem <= '1' when current_s = E7 else '0';
 CL_c_data_mem <= '1' when current_s = E0 else '0';
 
 process(i_clk, CL_c_data_mem)
@@ -216,7 +213,7 @@ data_out <= to_float(i_data_out);
 -- R class
 
 o_class <= r_feature_out;
-o_wr_fifo <= '1' when current_s = E10 else '0';
+o_wr_fifo <= '1' when current_s = E7 else '0';
 
 -- CMP
 
