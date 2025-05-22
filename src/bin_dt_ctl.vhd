@@ -34,17 +34,19 @@ end bin_dt_ctl;
 architecture arch_bin_dt_ctl of bin_dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6, E7);
+    type state is (E0, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- C node mem
     signal LD_c_node_mem, INC_c_node_mem, CL_c_node_mem : std_logic;
     signal c_node_mem_out : std_logic_vector(link_width - 1 downto 0);
     signal feature, right_node : std_logic_vector(link_width - 1 downto 0);
+    signal threshold : float(8 downto -23);
 
 -- C data mem
     signal CL_c_data_mem, INC_c_data_mem : std_logic;
     signal c_data_mem_out : std_logic_vector(link_width - 1 downto 0);
+    signal data_out : float(8 downto -23);
 
 -- R class
     signal LD_class : std_logic;
@@ -62,15 +64,14 @@ begin
 	    when E0 => next_s <= E1;
 	    when E1 => next_s <= E2;
 	    when E2 => if leaf = '0' then next_s <= E3;
-	else next_s <= E7;
-	end if;
-    when E3 => next_s <= E4;
-    when E4 => if go_right = '1' then next_s <= E5;
-else next_s <= E6;
-end if;
+		       else next_s <= E6;
+		       end if;
+	    when E3 => if go_right = '1' then next_s <= E4;
+		       else next_s <= E5;
+		       end if;
+	    when E4 => next_s <= E1;
 	    when E5 => next_s <= E1;
 	    when E6 => next_s <= E1;
-	    when E7 => next_s <= E1;
 	end case;
     end process;
 
@@ -91,13 +92,13 @@ end if;
 
     o_RE_node <= '1' when current_s = E1 else '0';
     o_RE_thr  <= '1' when current_s = E1 else '0';
-    o_RE_data <= '1' when current_s = E3 else '0';
+    o_RE_data <= '1' when current_s = E2 else '0';
 
 -- C node mem
 
-    LD_c_node_mem <= '1' when current_s = E5 else '0';
-    INC_c_node_mem <= '1' when current_s = E6 else '0';
-    CL_c_node_mem <= '1' when current_s = E0 or current_s = E7 else '0';
+    LD_c_node_mem <= '1' when current_s = E4 else '0';
+    INC_c_node_mem <= '1' when current_s = E5 else '0';
+    CL_c_node_mem <= '1' when current_s = E0 or current_s = E6 else '0';
 
     process(i_clk, CL_c_node_mem)
     begin
@@ -112,10 +113,11 @@ end if;
     end process;
 
     o_node_addr <= unsigned(c_node_mem_out);
+    threshold <= to_float(i_threshold);
 
 -- C data mem
 
-    INC_c_data_mem <= '1' when current_s = E7 else '0';
+    INC_c_data_mem <= '1' when current_s = E6 else '0';
     CL_c_data_mem <= '1' when current_s = E0 else '0';
 
     process(i_clk, CL_c_data_mem)
@@ -131,20 +133,21 @@ end if;
     feature <= '0' & i_node_info(15 downto 1);
     right_node<= i_node_info(31 downto 16);
     o_data_addr <= unsigned(c_data_mem_out) + (unsigned(feature));
+    data_out <= to_float(i_data_out);
 
 
 -- R class
 
     o_class <= feature;
-    o_wr_fifo <= '1' when current_s = E7 else '0';
+    o_wr_fifo <= '1' when current_s = E6 else '0';
 
 -- CMP
 
-    process(i_threshold, i_data_out)
+    process(threshold, data_out)
     begin
-	if i_data_out = i_threshold then
+	if data_out = threshold then
 	    go_right <= '0';
-	elsif i_data_out < i_threshold then
+	elsif data_out < threshold then
 	    go_right <= '0';
 	else
 	    go_right <= '1';
