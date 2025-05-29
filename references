@@ -1,0 +1,38 @@
+FPGA Accelerator for Gradient Boosting Decision Trees
+
+IEEE 754:
+---------------------------------------------------------------------------------------
+URL:
+
+    - https://www.tutorialspoint.com/fixed-point-and-floating-point-number-representations
+
+    - https://mathcenter.oxford.emory.edu/site/cs170/ieee754/
+
+    - https://www.h-schmidt.net/FloatConverter/IEEE754.html
+
+    - https://hardwaredescriptions.com/floating-point-in-vhdl/
+
+    - https://github.com/peteut/ghdl/tree/master/libraries/ieee2008
+
+XGBoost:
+---------------------------------------------------------------------------------------
+Papers:
+    
+- Optimized XGBoost Architecture on FPGA for High-Performance and Seamless Deployment
+- 
+
+URL:
+
+- https://www.nvidia.com/en-us/glossary/xgboost/
+
+
+AXI:
+---------------------------------------------------------------------------------------
+
+URL:
+
+- https://www.allaboutcircuits.com/technical-articles/introduction-to-the-advanced-extensible-interface-axi/
+
+- https://www.realdigital.org/doc/a9fee931f7a172423e1ba73f66ca4081
+
+- https://developer.arm.com/documentation/ihi0022/b/
