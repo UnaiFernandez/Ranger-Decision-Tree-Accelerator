@@ -4,9 +4,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.fixed_pkg.all;
 use ieee.float_pkg.all;
-use work.bin_dt_ctl_pkg.all;
+use work.dt_ctl_pkg.all;
 
-entity bin_dt_ctl is
+entity dt_ctl is
     generic(
 	       node_width : integer;
 	       link_width : integer;
@@ -29,9 +29,9 @@ entity bin_dt_ctl is
 	    o_wr_fifo		    : out std_logic;
 	    o_class		        : out std_logic_vector(15 downto 0)
 	);
-end bin_dt_ctl;
+end dt_ctl;
 
-architecture arch_bin_dt_ctl of bin_dt_ctl is
+architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
     type state is (E0, E1, E2, E3, E4);
@@ -162,4 +162,4 @@ begin
 
 
 
-end arch_bin_dt_ctl;
+end arch_dt_ctl;

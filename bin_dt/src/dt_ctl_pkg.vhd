@@ -3,9 +3,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package bin_dt_ctl_pkg is
+package dt_ctl_pkg is
 
-    component bin_dt_ctl is
+    component dt_ctl is
 
         generic(
             node_width : integer;
@@ -31,4 +31,4 @@ package bin_dt_ctl_pkg is
         );
     end component;
 
-end bin_dt_ctl_pkg;
+end dt_ctl_pkg;

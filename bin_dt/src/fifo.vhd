@@ -86,8 +86,8 @@ begin
     end if;
 end process;
 
-FF <= '1' when Q = g_depth else '0';
-FE <= '1' when Q = 0 else '0';
+FF <= '1' when Q >= g_depth else '0';
+FE <= '1' when Q <= 0 else '0';
 
 o_fifo_empty <= FE;
 o_fifo_full <= FF;

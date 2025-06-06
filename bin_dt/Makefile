@@ -7,13 +7,15 @@ OBJ = bin/ram_pkg.o \
       bin/fifo.o \
       bin/dt_ctl_pkg.o \
       bin/dt_ctl.o \
-      bin/dt_ctl_tb.o \
-      bin/bin_dt_ctl_pkg.o \
-      bin/bin_dt_ctl.o \
-      bin/bin_dt_ctl_tb.o \
-      bin/bin_dt_accel_pkg.o \
-      bin/bin_dt_accel.o \
-      bin/bin_dt_accel_tb.o
+      bin/dt_accel_pkg.o \
+      bin/dt_accel.o \
+      bin/configurator_pkg.o \
+      bin/configurator.o \
+      bin/ranger_pkg.o \
+      bin/ranger.o \
+      bin/testbench/dt_ctl_tb.o \
+      bin/testbench/dt_accel_tb.o \
+      bin/testbench/ranger_tb.o
 
 all: test/sim_dt.ghw test/sim_bin_dt.ghw
 
@@ -23,6 +25,8 @@ acc: test/sim_bin_dt_accel.ghw
 
 gen: test/sim_dt.ghw
 
+ran: test/sim_ranger.ghw
+
 
 test/sim_dt.ghw: dt_ctl_tb
 	@ echo "Simulating" $< "..."
@@ -30,13 +34,13 @@ test/sim_dt.ghw: dt_ctl_tb
 	@ mv $< test
 	@ rm *.o
 
-test/sim_bin_dt.ghw: bin_dt_ctl_tb
+test/sim_bin_dt_accel.ghw: dt_accel_tb
 	@ echo "Simulating" $< "..."
 	@ $(GHDL) -r  --std=08 $^ --ieee-asserts=disable-at-0 --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
 	@ rm *.o
 
-test/sim_bin_dt_accel.ghw: bin_dt_accel_tb
+test/sim_ranger.ghw: ranger_tb
 	@ echo "Simulating" $< "..."
 	@ $(GHDL) -r  --std=08 $^ --ieee-asserts=disable-at-0 --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
@@ -53,6 +57,9 @@ bin_dt_ctl_tb: $(OBJ)
 bin_dt_accel_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
 
+ranger_tb: $(OBJ)
+	$(GHDL) -e --std=08 --workdir=bin $@
+
 
 
 bin/%.o: src/%.vhd
@@ -60,6 +67,7 @@ bin/%.o: src/%.vhd
 
 clean:
 	@ rm -f bin/*.o
+	@ rm -f bin/testbench/*.o
 	@ rm -f bin/*.cf
 
 tree:

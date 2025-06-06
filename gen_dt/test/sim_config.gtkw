@@ -1,0 +1,82 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Thu Jun  5 21:58:34 2025
+[*]
+[dumpfile] "/home/unai/Projects/dt_vhdl/test/sim_ranger.ghw"
+[dumpfile_mtime] "Thu Jun  5 14:49:13 2025"
+[dumpfile_size] 72313
+[savefile] "/home/unai/Projects/dt_vhdl/test/sim_config.gtkw"
+[timestart] 0
+[size] 1864 956
+[pos] -1 -1
+*-25.500000 200000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.ranger_tb.
+[treeopen] top.ranger_tb.dt_ranger.
+[treeopen] top.ranger_tb.dt_ranger.class_fifo.
+[treeopen] top.ranger_tb.dt_ranger.config.
+[sst_width] 297
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 281
+@28
+top.ranger_tb.dt_ranger.i_clk
+@420
+top.ranger_tb.dt_ranger.config.current_s
+@28
+top.ranger_tb.dt_ranger.config.config
+@23
+#{top.ranger_tb.dt_ranger.config.i_data[31:0]} top.ranger_tb.dt_ranger.config.i_data[31] top.ranger_tb.dt_ranger.config.i_data[30] top.ranger_tb.dt_ranger.config.i_data[29] top.ranger_tb.dt_ranger.config.i_data[28] top.ranger_tb.dt_ranger.config.i_data[27] top.ranger_tb.dt_ranger.config.i_data[26] top.ranger_tb.dt_ranger.config.i_data[25] top.ranger_tb.dt_ranger.config.i_data[24] top.ranger_tb.dt_ranger.config.i_data[23] top.ranger_tb.dt_ranger.config.i_data[22] top.ranger_tb.dt_ranger.config.i_data[21] top.ranger_tb.dt_ranger.config.i_data[20] top.ranger_tb.dt_ranger.config.i_data[19] top.ranger_tb.dt_ranger.config.i_data[18] top.ranger_tb.dt_ranger.config.i_data[17] top.ranger_tb.dt_ranger.config.i_data[16] top.ranger_tb.dt_ranger.config.i_data[15] top.ranger_tb.dt_ranger.config.i_data[14] top.ranger_tb.dt_ranger.config.i_data[13] top.ranger_tb.dt_ranger.config.i_data[12] top.ranger_tb.dt_ranger.config.i_data[11] top.ranger_tb.dt_ranger.config.i_data[10] top.ranger_tb.dt_ranger.config.i_data[9] top.ranger_tb.dt_ranger.config.i_data[8] top.ranger_tb.dt_ranger.config.i_data[7] top.ranger_tb.dt_ranger.config.i_data[6] top.ranger_tb.dt_ranger.config.i_data[5] top.ranger_tb.dt_ranger.config.i_data[4] top.ranger_tb.dt_ranger.config.i_data[3] top.ranger_tb.dt_ranger.config.i_data[2] top.ranger_tb.dt_ranger.config.i_data[1] top.ranger_tb.dt_ranger.config.i_data[0]
+@28
+top.ranger_tb.dt_ranger.config.o_re_data
+top.ranger_tb.dt_ranger.config.ld_c_nodes
+top.ranger_tb.dt_ranger.config.ld_dt_id
+@23
+#{top.ranger_tb.dt_ranger.config.r_dt_id_out[7:0]} top.ranger_tb.dt_ranger.config.r_dt_id_out[7] top.ranger_tb.dt_ranger.config.r_dt_id_out[6] top.ranger_tb.dt_ranger.config.r_dt_id_out[5] top.ranger_tb.dt_ranger.config.r_dt_id_out[4] top.ranger_tb.dt_ranger.config.r_dt_id_out[3] top.ranger_tb.dt_ranger.config.r_dt_id_out[2] top.ranger_tb.dt_ranger.config.r_dt_id_out[1] top.ranger_tb.dt_ranger.config.r_dt_id_out[0]
+@c00200
+-fifo
+@28
+top.ranger_tb.fifo_data.i_re_en
+top.ranger_tb.fifo_data.i_wr_en
+@22
+#{top.ranger_tb.fifo_data.i_wr_data[31:0]} top.ranger_tb.fifo_data.i_wr_data[31] top.ranger_tb.fifo_data.i_wr_data[30] top.ranger_tb.fifo_data.i_wr_data[29] top.ranger_tb.fifo_data.i_wr_data[28] top.ranger_tb.fifo_data.i_wr_data[27] top.ranger_tb.fifo_data.i_wr_data[26] top.ranger_tb.fifo_data.i_wr_data[25] top.ranger_tb.fifo_data.i_wr_data[24] top.ranger_tb.fifo_data.i_wr_data[23] top.ranger_tb.fifo_data.i_wr_data[22] top.ranger_tb.fifo_data.i_wr_data[21] top.ranger_tb.fifo_data.i_wr_data[20] top.ranger_tb.fifo_data.i_wr_data[19] top.ranger_tb.fifo_data.i_wr_data[18] top.ranger_tb.fifo_data.i_wr_data[17] top.ranger_tb.fifo_data.i_wr_data[16] top.ranger_tb.fifo_data.i_wr_data[15] top.ranger_tb.fifo_data.i_wr_data[14] top.ranger_tb.fifo_data.i_wr_data[13] top.ranger_tb.fifo_data.i_wr_data[12] top.ranger_tb.fifo_data.i_wr_data[11] top.ranger_tb.fifo_data.i_wr_data[10] top.ranger_tb.fifo_data.i_wr_data[9] top.ranger_tb.fifo_data.i_wr_data[8] top.ranger_tb.fifo_data.i_wr_data[7] top.ranger_tb.fifo_data.i_wr_data[6] top.ranger_tb.fifo_data.i_wr_data[5] top.ranger_tb.fifo_data.i_wr_data[4] top.ranger_tb.fifo_data.i_wr_data[3] top.ranger_tb.fifo_data.i_wr_data[2] top.ranger_tb.fifo_data.i_wr_data[1] top.ranger_tb.fifo_data.i_wr_data[0]
+#{top.ranger_tb.fifo_data.fifo_data[0][31:0]} top.ranger_tb.fifo_data.fifo_data[0][31] top.ranger_tb.fifo_data.fifo_data[0][30] top.ranger_tb.fifo_data.fifo_data[0][29] top.ranger_tb.fifo_data.fifo_data[0][28] top.ranger_tb.fifo_data.fifo_data[0][27] top.ranger_tb.fifo_data.fifo_data[0][26] top.ranger_tb.fifo_data.fifo_data[0][25] top.ranger_tb.fifo_data.fifo_data[0][24] top.ranger_tb.fifo_data.fifo_data[0][23] top.ranger_tb.fifo_data.fifo_data[0][22] top.ranger_tb.fifo_data.fifo_data[0][21] top.ranger_tb.fifo_data.fifo_data[0][20] top.ranger_tb.fifo_data.fifo_data[0][19] top.ranger_tb.fifo_data.fifo_data[0][18] top.ranger_tb.fifo_data.fifo_data[0][17] top.ranger_tb.fifo_data.fifo_data[0][16] top.ranger_tb.fifo_data.fifo_data[0][15] top.ranger_tb.fifo_data.fifo_data[0][14] top.ranger_tb.fifo_data.fifo_data[0][13] top.ranger_tb.fifo_data.fifo_data[0][12] top.ranger_tb.fifo_data.fifo_data[0][11] top.ranger_tb.fifo_data.fifo_data[0][10] top.ranger_tb.fifo_data.fifo_data[0][9] top.ranger_tb.fifo_data.fifo_data[0][8] top.ranger_tb.fifo_data.fifo_data[0][7] top.ranger_tb.fifo_data.fifo_data[0][6] top.ranger_tb.fifo_data.fifo_data[0][5] top.ranger_tb.fifo_data.fifo_data[0][4] top.ranger_tb.fifo_data.fifo_data[0][3] top.ranger_tb.fifo_data.fifo_data[0][2] top.ranger_tb.fifo_data.fifo_data[0][1] top.ranger_tb.fifo_data.fifo_data[0][0]
+#{top.ranger_tb.fifo_data.fifo_data[1][31:0]} top.ranger_tb.fifo_data.fifo_data[1][31] top.ranger_tb.fifo_data.fifo_data[1][30] top.ranger_tb.fifo_data.fifo_data[1][29] top.ranger_tb.fifo_data.fifo_data[1][28] top.ranger_tb.fifo_data.fifo_data[1][27] top.ranger_tb.fifo_data.fifo_data[1][26] top.ranger_tb.fifo_data.fifo_data[1][25] top.ranger_tb.fifo_data.fifo_data[1][24] top.ranger_tb.fifo_data.fifo_data[1][23] top.ranger_tb.fifo_data.fifo_data[1][22] top.ranger_tb.fifo_data.fifo_data[1][21] top.ranger_tb.fifo_data.fifo_data[1][20] top.ranger_tb.fifo_data.fifo_data[1][19] top.ranger_tb.fifo_data.fifo_data[1][18] top.ranger_tb.fifo_data.fifo_data[1][17] top.ranger_tb.fifo_data.fifo_data[1][16] top.ranger_tb.fifo_data.fifo_data[1][15] top.ranger_tb.fifo_data.fifo_data[1][14] top.ranger_tb.fifo_data.fifo_data[1][13] top.ranger_tb.fifo_data.fifo_data[1][12] top.ranger_tb.fifo_data.fifo_data[1][11] top.ranger_tb.fifo_data.fifo_data[1][10] top.ranger_tb.fifo_data.fifo_data[1][9] top.ranger_tb.fifo_data.fifo_data[1][8] top.ranger_tb.fifo_data.fifo_data[1][7] top.ranger_tb.fifo_data.fifo_data[1][6] top.ranger_tb.fifo_data.fifo_data[1][5] top.ranger_tb.fifo_data.fifo_data[1][4] top.ranger_tb.fifo_data.fifo_data[1][3] top.ranger_tb.fifo_data.fifo_data[1][2] top.ranger_tb.fifo_data.fifo_data[1][1] top.ranger_tb.fifo_data.fifo_data[1][0]
+@28
+top.ranger_tb.fifo_data.i_re_en
+top.ranger_tb.dt_ranger.en_config
+top.ranger_tb.dt_ranger.config.config
+@22
+#{top.ranger_tb.fifo_data.o_rd_data[31:0]} top.ranger_tb.fifo_data.o_rd_data[31] top.ranger_tb.fifo_data.o_rd_data[30] top.ranger_tb.fifo_data.o_rd_data[29] top.ranger_tb.fifo_data.o_rd_data[28] top.ranger_tb.fifo_data.o_rd_data[27] top.ranger_tb.fifo_data.o_rd_data[26] top.ranger_tb.fifo_data.o_rd_data[25] top.ranger_tb.fifo_data.o_rd_data[24] top.ranger_tb.fifo_data.o_rd_data[23] top.ranger_tb.fifo_data.o_rd_data[22] top.ranger_tb.fifo_data.o_rd_data[21] top.ranger_tb.fifo_data.o_rd_data[20] top.ranger_tb.fifo_data.o_rd_data[19] top.ranger_tb.fifo_data.o_rd_data[18] top.ranger_tb.fifo_data.o_rd_data[17] top.ranger_tb.fifo_data.o_rd_data[16] top.ranger_tb.fifo_data.o_rd_data[15] top.ranger_tb.fifo_data.o_rd_data[14] top.ranger_tb.fifo_data.o_rd_data[13] top.ranger_tb.fifo_data.o_rd_data[12] top.ranger_tb.fifo_data.o_rd_data[11] top.ranger_tb.fifo_data.o_rd_data[10] top.ranger_tb.fifo_data.o_rd_data[9] top.ranger_tb.fifo_data.o_rd_data[8] top.ranger_tb.fifo_data.o_rd_data[7] top.ranger_tb.fifo_data.o_rd_data[6] top.ranger_tb.fifo_data.o_rd_data[5] top.ranger_tb.fifo_data.o_rd_data[4] top.ranger_tb.fifo_data.o_rd_data[3] top.ranger_tb.fifo_data.o_rd_data[2] top.ranger_tb.fifo_data.o_rd_data[1] top.ranger_tb.fifo_data.o_rd_data[0]
+@1401200
+-fifo
+@28
+top.ranger_tb.dt_ranger.config.c_end
+top.ranger_tb.dt_ranger.config.last_node
+@c00200
+-counters
+@28
+top.ranger_tb.dt_ranger.config.cl_c_dt
+@420
+top.ranger_tb.dt_ranger.config.c_dt_out
+@28
+top.ranger_tb.dt_ranger.config.cl_c_nodes
+@420
+top.ranger_tb.dt_ranger.config.c_nodes_out
+@1401200
+-counters
+@28
+top.ranger_tb.dt_ranger.config.dec_c_dt
+@420
+top.ranger_tb.dt_ranger.config.c_dt_out
+@28
+top.ranger_tb.dt_ranger.config.ld_dt_id
+top.ranger_tb.dt_ranger.en_config
+top.ranger_tb.dt_ranger.config.o_config_done
+@420
+top.ranger_tb.dt_ranger.current_s
+@28
+top.ranger_tb.dt_ranger.init
+top.ranger_tb.dt_ranger.en_config
+[pattern_trace] 1
+[pattern_trace] 0

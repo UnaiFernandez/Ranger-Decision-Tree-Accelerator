@@ -3,30 +3,39 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.bin_dt_ctl_pkg.all;
+use work.dt_ctl_pkg.all;
 use work.ram_pkg.all;
 use work.fifo_pkg.all;
+use work.dt_accel_pkg.all;
 
-entity bin_dt_ctl_tb is
-end bin_dt_ctl_tb;
+entity dt_accel is
+    generic(
+	g_data_width: integer;
+	g_addr_width: integer
+    );    
+    port(
+	i_clk : in std_logic;
+	i_reset : in std_logic;
+	i_data : in std_logic_vector;
+	----------------------------------------------------
+	o_RE_data : out std_logic;
+	o_data_addr : out unsigned(g_addr_width - 1 downto 0);
+	o_class : out std_logic_vector(15 downto 0)
+    );
+end dt_accel;
 
-architecture arch_bin_dt_ctl_tb of bin_dt_ctl_tb is
+architecture arch_dt_accel of dt_accel is
 
-constant n_width: integer := 32;
-constant l_width: integer := 16;
+constant n_width: integer := g_data_width;
+constant l_width: integer := g_addr_width;
 
-signal clk : std_logic := '1';
-signal reset : std_logic := '0';
 signal node_info : std_logic_vector(n_width - 1 downto 0);
 signal threshold : std_logic_vector(n_width - 1 downto 0);
-signal data_out : std_logic_vector(n_width - 1 downto 0);
 ---------------------------------------------------------------------
 signal RE_node : std_logic := '0';
 signal RE_thr : std_logic := '0';
-signal RE_data : std_logic := '0';
 signal node_addr: unsigned(l_width - 1 downto 0);
 signal thr_addr: unsigned(l_width - 1 downto 0);
-signal data_addr: unsigned(l_width - 1 downto 0);
 signal class: std_logic_vector(15 downto 0);
 
 signal re_en		: std_logic;
@@ -48,7 +57,7 @@ generic map(
     g_init => '1'
 )
 port map(
-    i_clk => clk,
+    i_clk => i_clk,
     i_read_en_0 => RE_node,
     i_read_en_1 => RE_thr,
     i_addr_0 => node_addr,
@@ -57,25 +66,8 @@ port map(
     o_data_1 => threshold
 );
 
-DATA_MEM: ram
-generic map(
-    g_addr_width => l_width,
-    g_data_width => n_width,
-    g_depth => 256,
-    g_init_file => "./memory_content/data_mem_content.txt",
-    g_init => '1'
-)
-port map(
-    i_clk => clk,
-    i_read_en_0 => RE_data,
-    i_read_en_1 => RE_data,
-    i_addr_0 => data_addr,
-    i_addr_1 => data_addr,
-    o_data_0 => data_out,
-    o_data_1 => data_out
-);
 
-DT: bin_dt_ctl
+DT: dt_ctl
 generic map(
     node_width => n_width,
     link_width => l_width,
@@ -83,18 +75,17 @@ generic map(
     span => 4
 )
 port map(
-    i_clk => clk,
-    i_reset => reset,
+    i_clk => i_clk,
+    i_reset => i_reset,
     i_node_info => node_info,
     i_threshold	=> threshold,
-    i_data_out => data_out,
-    -----------------------------------------------------
+    i_data_out => i_data,
     o_RE_node => RE_node,
-    o_RE_data => RE_data,
+    o_RE_data => o_RE_data,
     o_RE_thr => RE_thr,
     o_node_addr => node_addr,
     o_thr_addr => thr_addr,
-    o_data_addr	=> data_addr,
+    o_data_addr	=> o_data_addr,
     o_wr_fifo => wr_en,
     o_class => class
 );
@@ -105,29 +96,13 @@ generic map(
     g_width => l_width
 )
 port map(
-    i_clk => clk,
+    i_clk => i_clk,
     i_re_en => re_en,
     i_wr_en => wr_en,
     i_wr_data => class,
-    o_rd_data => rd_data, 
+    o_rd_data => o_class, 
     o_fifo_empty => fifo_empty,
     o_fifo_full	=> fifo_full
 );
 
-
-
-
-clk <= not clk after 10 ns;
-
-process
-begin
-    re_en <= '0';
-    wait for 420 ns;
-    re_en <= '1';
-    wait for 20 ns;
-    re_en <= '0';
-    wait;
-end process;
-
-
-end arch_bin_dt_ctl_tb;
+end arch_dt_accel;

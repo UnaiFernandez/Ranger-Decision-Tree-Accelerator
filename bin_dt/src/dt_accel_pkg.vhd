@@ -3,9 +3,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-package bin_dt_accel_pkg is
+package dt_accel_pkg is
 
-    component bin_dt_accel is
+    component dt_accel is
 	generic(
 	    g_data_width: integer;
 	    g_addr_width: integer
@@ -21,4 +21,4 @@ package bin_dt_accel_pkg is
     	);
     end component;
 
-end bin_dt_accel_pkg;
+end dt_accel_pkg;

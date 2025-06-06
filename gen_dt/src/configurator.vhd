@@ -1,0 +1,126 @@
+library ieee;
+
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+use work.configurator_pkg.all;
+
+entity configurator is
+    generic(
+	g_dt_number : integer	
+    );
+    port(
+	i_clk : in std_logic;
+	i_reset : in std_logic;
+	i_en_config : in std_logic;
+	i_data : in std_logic_vector(31 downto 0);
+	-----------------------------------------------
+	o_dt_id : out std_logic_vector(7 downto 0);
+	o_config_done : out std_logic;
+	o_re_data : out std_logic
+    );
+end configurator;
+
+architecture arch_configurator of configurator is
+
+-- State machine
+type state is (E0, E1, E2, E3);
+signal current_s, next_s: state;
+
+signal config, c_end, last_node, re_en : std_logic := '0';
+
+-- DT counter
+signal cl_c_dt, ld_c_dt, dec_c_dt : std_logic;
+signal c_dt_out : integer := 0; --range??
+-- Node Counter
+signal cl_c_nodes, ld_c_nodes, dec_c_nodes : std_logic;
+signal c_nodes_out : integer := 0; --range??
+-- Register
+
+signal r_dt_id_out : std_logic_vector(7 downto 0);
+signal ld_dt_id : std_logic;
+
+begin
+
+
+-- State machine
+
+process(current_s, next_s, config, c_end, last_node)
+begin
+	case current_s is
+	    when E0 => if config = '1' then next_s <= E1;
+		       else next_s <= E0;
+		       end if;
+	    when E1 => next_s <= E2;
+	    when E2 => next_s <= E3;
+	    when E3 => if c_end = '1' and last_node = '1' then next_s <= E0;
+		       elsif c_end = '1' and last_node = '0' then next_s <= E1;
+		       elsif c_end = '0' then next_s <= E3;
+		       end if;
+	end case;
+end process;
+
+-- CLK
+
+process(i_clk, i_reset)
+begin
+	if i_reset = '1' then current_s <= E0;
+	elsif rising_edge(i_clk) then current_s <= next_s;
+	end if;
+end process;
+
+config <= i_en_config; --'1' when current_s = E0 else '0';
+o_config_done <= '1' when current_s = E3 and last_node = '1' else '0';
+re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0') else '0';
+
+o_re_data <= re_en;
+
+-- DT Counter
+
+cl_c_dt <= '1' when current_s = E0 else '0';
+dec_c_dt <= '1' when current_s = E3 and c_end = '1' and last_node = '0' else '0';
+
+process (i_clk, cl_c_dt)
+begin
+    if cl_c_dt = '1' then c_dt_out <= g_dt_number - 1;
+    elsif rising_edge(i_clk) then
+	if dec_c_dt = '1' then 
+	    c_dt_out <= c_dt_out - 1;
+	end if;
+    end if;
+end process;
+
+last_node <= '1' when c_dt_out <= 0 else '0';
+
+-- Node Counter
+
+cl_c_nodes <= '1' when current_s = E1 else '0';
+ld_c_nodes <= '1' when current_s = E2 else '0';
+dec_c_nodes <= '1' when current_s = E3 and c_end = '0' else '0';
+
+process (i_clk, cl_c_nodes)
+begin
+    if cl_c_nodes = '1' then c_nodes_out <= 0;
+    elsif rising_edge(i_clk) then
+	if ld_c_nodes = '1' then
+	    c_nodes_out <= to_integer(unsigned(i_data(31 downto 8)) - 1);
+	elsif dec_c_nodes = '1' then
+	    c_nodes_out <= c_nodes_out - 1;
+	end if;
+    end if;
+end process;
+
+c_end <= '1' when current_s = E3 and c_nodes_out <= 0 else '0';
+
+-- DT ID Register
+
+ld_dt_id <= '1' when current_s = E2 else '0';
+process (i_clk)
+begin
+    if rising_edge(i_clk) then
+	if ld_dt_id = '1' then
+	    r_dt_id_out <= i_data(7 downto 0);
+	end if;
+    end if;
+end process;
+end arch_configurator;

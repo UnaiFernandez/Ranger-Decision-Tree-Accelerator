@@ -1,0 +1,129 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Mon Apr  7 14:58:11 2025
+[*]
+[dumpfile] "/home/unai/ML/decision_tree/dt_vhdl/test/sim_dt_ctl.ghw"
+[dumpfile_mtime] "Mon Apr  7 14:56:39 2025"
+[dumpfile_size] 12785
+[savefile] "/home/unai/ML/decision_tree/dt_vhdl/test/pruebas.gtkw"
+[timestart] 168800000
+[size] 2544 1356
+[pos] -1 -1
+*-26.100000 289900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.dt_ctl_tb.
+[treeopen] top.dt_ctl_tb.dt.
+[sst_width] 297
+[signals_width] 190
+[sst_expanded] 1
+[sst_vpaned_height] 793
+@28
+top.dt_ctl_tb.dt.i_clk
+@420
+top.dt_ctl_tb.dt.current_s
+@c00200
+-E0
+@28
+top.dt_ctl_tb.dt.cl_c_node_mem
+top.dt_ctl_tb.dt.cl_c_data_mem
+@22
+#{top.dt_ctl_tb.node_addr[15:0]} top.dt_ctl_tb.node_addr[15] top.dt_ctl_tb.node_addr[14] top.dt_ctl_tb.node_addr[13] top.dt_ctl_tb.node_addr[12] top.dt_ctl_tb.node_addr[11] top.dt_ctl_tb.node_addr[10] top.dt_ctl_tb.node_addr[9] top.dt_ctl_tb.node_addr[8] top.dt_ctl_tb.node_addr[7] top.dt_ctl_tb.node_addr[6] top.dt_ctl_tb.node_addr[5] top.dt_ctl_tb.node_addr[4] top.dt_ctl_tb.node_addr[3] top.dt_ctl_tb.node_addr[2] top.dt_ctl_tb.node_addr[1] top.dt_ctl_tb.node_addr[0]
+#{top.dt_ctl_tb.data_addr[15:0]} top.dt_ctl_tb.data_addr[15] top.dt_ctl_tb.data_addr[14] top.dt_ctl_tb.data_addr[13] top.dt_ctl_tb.data_addr[12] top.dt_ctl_tb.data_addr[11] top.dt_ctl_tb.data_addr[10] top.dt_ctl_tb.data_addr[9] top.dt_ctl_tb.data_addr[8] top.dt_ctl_tb.data_addr[7] top.dt_ctl_tb.data_addr[6] top.dt_ctl_tb.data_addr[5] top.dt_ctl_tb.data_addr[4] top.dt_ctl_tb.data_addr[3] top.dt_ctl_tb.data_addr[2] top.dt_ctl_tb.data_addr[1] top.dt_ctl_tb.data_addr[0]
+@1401200
+-E0
+@c00200
+-E1
+@28
+top.dt_ctl_tb.dt.o_re_node
+top.dt_ctl_tb.dt.inc_c_node_mem
+@22
+#{top.dt_ctl_tb.node_addr[15:0]} top.dt_ctl_tb.node_addr[15] top.dt_ctl_tb.node_addr[14] top.dt_ctl_tb.node_addr[13] top.dt_ctl_tb.node_addr[12] top.dt_ctl_tb.node_addr[11] top.dt_ctl_tb.node_addr[10] top.dt_ctl_tb.node_addr[9] top.dt_ctl_tb.node_addr[8] top.dt_ctl_tb.node_addr[7] top.dt_ctl_tb.node_addr[6] top.dt_ctl_tb.node_addr[5] top.dt_ctl_tb.node_addr[4] top.dt_ctl_tb.node_addr[3] top.dt_ctl_tb.node_addr[2] top.dt_ctl_tb.node_addr[1] top.dt_ctl_tb.node_addr[0]
+@1401200
+-E1
+@c00200
+-E2
+@28
+top.dt_ctl_tb.dt.ld_feature
+top.dt_ctl_tb.dt.o_re_node
+top.dt_ctl_tb.dt.ld_c_link_mem
+@22
+#{top.dt_ctl_tb.node_out[31:0]} top.dt_ctl_tb.node_out[31] top.dt_ctl_tb.node_out[30] top.dt_ctl_tb.node_out[29] top.dt_ctl_tb.node_out[28] top.dt_ctl_tb.node_out[27] top.dt_ctl_tb.node_out[26] top.dt_ctl_tb.node_out[25] top.dt_ctl_tb.node_out[24] top.dt_ctl_tb.node_out[23] top.dt_ctl_tb.node_out[22] top.dt_ctl_tb.node_out[21] top.dt_ctl_tb.node_out[20] top.dt_ctl_tb.node_out[19] top.dt_ctl_tb.node_out[18] top.dt_ctl_tb.node_out[17] top.dt_ctl_tb.node_out[16] top.dt_ctl_tb.node_out[15] top.dt_ctl_tb.node_out[14] top.dt_ctl_tb.node_out[13] top.dt_ctl_tb.node_out[12] top.dt_ctl_tb.node_out[11] top.dt_ctl_tb.node_out[10] top.dt_ctl_tb.node_out[9] top.dt_ctl_tb.node_out[8] top.dt_ctl_tb.node_out[7] top.dt_ctl_tb.node_out[6] top.dt_ctl_tb.node_out[5] top.dt_ctl_tb.node_out[4] top.dt_ctl_tb.node_out[3] top.dt_ctl_tb.node_out[2] top.dt_ctl_tb.node_out[1] top.dt_ctl_tb.node_out[0]
+@28
+top.dt_ctl_tb.dt.leaf
+@1401200
+-E2
+@c00200
+-E3
+@28
+top.dt_ctl_tb.dt.ld_value
+@22
+#{top.dt_ctl_tb.node_out[31:0]} top.dt_ctl_tb.node_out[31] top.dt_ctl_tb.node_out[30] top.dt_ctl_tb.node_out[29] top.dt_ctl_tb.node_out[28] top.dt_ctl_tb.node_out[27] top.dt_ctl_tb.node_out[26] top.dt_ctl_tb.node_out[25] top.dt_ctl_tb.node_out[24] top.dt_ctl_tb.node_out[23] top.dt_ctl_tb.node_out[22] top.dt_ctl_tb.node_out[21] top.dt_ctl_tb.node_out[20] top.dt_ctl_tb.node_out[19] top.dt_ctl_tb.node_out[18] top.dt_ctl_tb.node_out[17] top.dt_ctl_tb.node_out[16] top.dt_ctl_tb.node_out[15] top.dt_ctl_tb.node_out[14] top.dt_ctl_tb.node_out[13] top.dt_ctl_tb.node_out[12] top.dt_ctl_tb.node_out[11] top.dt_ctl_tb.node_out[10] top.dt_ctl_tb.node_out[9] top.dt_ctl_tb.node_out[8] top.dt_ctl_tb.node_out[7] top.dt_ctl_tb.node_out[6] top.dt_ctl_tb.node_out[5] top.dt_ctl_tb.node_out[4] top.dt_ctl_tb.node_out[3] top.dt_ctl_tb.node_out[2] top.dt_ctl_tb.node_out[1] top.dt_ctl_tb.node_out[0]
+#{top.dt_ctl_tb.dt.r_feature_out[14:0]} top.dt_ctl_tb.dt.r_feature_out[14] top.dt_ctl_tb.dt.r_feature_out[13] top.dt_ctl_tb.dt.r_feature_out[12] top.dt_ctl_tb.dt.r_feature_out[11] top.dt_ctl_tb.dt.r_feature_out[10] top.dt_ctl_tb.dt.r_feature_out[9] top.dt_ctl_tb.dt.r_feature_out[8] top.dt_ctl_tb.dt.r_feature_out[7] top.dt_ctl_tb.dt.r_feature_out[6] top.dt_ctl_tb.dt.r_feature_out[5] top.dt_ctl_tb.dt.r_feature_out[4] top.dt_ctl_tb.dt.r_feature_out[3] top.dt_ctl_tb.dt.r_feature_out[2] top.dt_ctl_tb.dt.r_feature_out[1] top.dt_ctl_tb.dt.r_feature_out[0]
+#{top.dt_ctl_tb.dt.c_link_mem_out[15:0]} top.dt_ctl_tb.dt.c_link_mem_out[15] top.dt_ctl_tb.dt.c_link_mem_out[14] top.dt_ctl_tb.dt.c_link_mem_out[13] top.dt_ctl_tb.dt.c_link_mem_out[12] top.dt_ctl_tb.dt.c_link_mem_out[11] top.dt_ctl_tb.dt.c_link_mem_out[10] top.dt_ctl_tb.dt.c_link_mem_out[9] top.dt_ctl_tb.dt.c_link_mem_out[8] top.dt_ctl_tb.dt.c_link_mem_out[7] top.dt_ctl_tb.dt.c_link_mem_out[6] top.dt_ctl_tb.dt.c_link_mem_out[5] top.dt_ctl_tb.dt.c_link_mem_out[4] top.dt_ctl_tb.dt.c_link_mem_out[3] top.dt_ctl_tb.dt.c_link_mem_out[2] top.dt_ctl_tb.dt.c_link_mem_out[1] top.dt_ctl_tb.dt.c_link_mem_out[0]
+@1401200
+-E3
+@c00200
+-E4
+@28
+top.dt_ctl_tb.dt.o_re_data
+@22
+#{top.dt_ctl_tb.data_addr[15:0]} top.dt_ctl_tb.data_addr[15] top.dt_ctl_tb.data_addr[14] top.dt_ctl_tb.data_addr[13] top.dt_ctl_tb.data_addr[12] top.dt_ctl_tb.data_addr[11] top.dt_ctl_tb.data_addr[10] top.dt_ctl_tb.data_addr[9] top.dt_ctl_tb.data_addr[8] top.dt_ctl_tb.data_addr[7] top.dt_ctl_tb.data_addr[6] top.dt_ctl_tb.data_addr[5] top.dt_ctl_tb.data_addr[4] top.dt_ctl_tb.data_addr[3] top.dt_ctl_tb.data_addr[2] top.dt_ctl_tb.data_addr[1] top.dt_ctl_tb.data_addr[0]
+#{top.dt_ctl_tb.dt.r_feature_out[14:0]} top.dt_ctl_tb.dt.r_feature_out[14] top.dt_ctl_tb.dt.r_feature_out[13] top.dt_ctl_tb.dt.r_feature_out[12] top.dt_ctl_tb.dt.r_feature_out[11] top.dt_ctl_tb.dt.r_feature_out[10] top.dt_ctl_tb.dt.r_feature_out[9] top.dt_ctl_tb.dt.r_feature_out[8] top.dt_ctl_tb.dt.r_feature_out[7] top.dt_ctl_tb.dt.r_feature_out[6] top.dt_ctl_tb.dt.r_feature_out[5] top.dt_ctl_tb.dt.r_feature_out[4] top.dt_ctl_tb.dt.r_feature_out[3] top.dt_ctl_tb.dt.r_feature_out[2] top.dt_ctl_tb.dt.r_feature_out[1] top.dt_ctl_tb.dt.r_feature_out[0]
+#{top.dt_ctl_tb.dt.c_data_mem_out[15:0]} top.dt_ctl_tb.dt.c_data_mem_out[15] top.dt_ctl_tb.dt.c_data_mem_out[14] top.dt_ctl_tb.dt.c_data_mem_out[13] top.dt_ctl_tb.dt.c_data_mem_out[12] top.dt_ctl_tb.dt.c_data_mem_out[11] top.dt_ctl_tb.dt.c_data_mem_out[10] top.dt_ctl_tb.dt.c_data_mem_out[9] top.dt_ctl_tb.dt.c_data_mem_out[8] top.dt_ctl_tb.dt.c_data_mem_out[7] top.dt_ctl_tb.dt.c_data_mem_out[6] top.dt_ctl_tb.dt.c_data_mem_out[5] top.dt_ctl_tb.dt.c_data_mem_out[4] top.dt_ctl_tb.dt.c_data_mem_out[3] top.dt_ctl_tb.dt.c_data_mem_out[2] top.dt_ctl_tb.dt.c_data_mem_out[1] top.dt_ctl_tb.dt.c_data_mem_out[0]
+#{top.dt_ctl_tb.dt.r_value_out[31:0]} top.dt_ctl_tb.dt.r_value_out[31] top.dt_ctl_tb.dt.r_value_out[30] top.dt_ctl_tb.dt.r_value_out[29] top.dt_ctl_tb.dt.r_value_out[28] top.dt_ctl_tb.dt.r_value_out[27] top.dt_ctl_tb.dt.r_value_out[26] top.dt_ctl_tb.dt.r_value_out[25] top.dt_ctl_tb.dt.r_value_out[24] top.dt_ctl_tb.dt.r_value_out[23] top.dt_ctl_tb.dt.r_value_out[22] top.dt_ctl_tb.dt.r_value_out[21] top.dt_ctl_tb.dt.r_value_out[20] top.dt_ctl_tb.dt.r_value_out[19] top.dt_ctl_tb.dt.r_value_out[18] top.dt_ctl_tb.dt.r_value_out[17] top.dt_ctl_tb.dt.r_value_out[16] top.dt_ctl_tb.dt.r_value_out[15] top.dt_ctl_tb.dt.r_value_out[14] top.dt_ctl_tb.dt.r_value_out[13] top.dt_ctl_tb.dt.r_value_out[12] top.dt_ctl_tb.dt.r_value_out[11] top.dt_ctl_tb.dt.r_value_out[10] top.dt_ctl_tb.dt.r_value_out[9] top.dt_ctl_tb.dt.r_value_out[8] top.dt_ctl_tb.dt.r_value_out[7] top.dt_ctl_tb.dt.r_value_out[6] top.dt_ctl_tb.dt.r_value_out[5] top.dt_ctl_tb.dt.r_value_out[4] top.dt_ctl_tb.dt.r_value_out[3] top.dt_ctl_tb.dt.r_value_out[2] top.dt_ctl_tb.dt.r_value_out[1] top.dt_ctl_tb.dt.r_value_out[0]
+@1401200
+-E4
+@c00200
+-E5
+@22
+#{top.dt_ctl_tb.data_out[31:0]} top.dt_ctl_tb.data_out[31] top.dt_ctl_tb.data_out[30] top.dt_ctl_tb.data_out[29] top.dt_ctl_tb.data_out[28] top.dt_ctl_tb.data_out[27] top.dt_ctl_tb.data_out[26] top.dt_ctl_tb.data_out[25] top.dt_ctl_tb.data_out[24] top.dt_ctl_tb.data_out[23] top.dt_ctl_tb.data_out[22] top.dt_ctl_tb.data_out[21] top.dt_ctl_tb.data_out[20] top.dt_ctl_tb.data_out[19] top.dt_ctl_tb.data_out[18] top.dt_ctl_tb.data_out[17] top.dt_ctl_tb.data_out[16] top.dt_ctl_tb.data_out[15] top.dt_ctl_tb.data_out[14] top.dt_ctl_tb.data_out[13] top.dt_ctl_tb.data_out[12] top.dt_ctl_tb.data_out[11] top.dt_ctl_tb.data_out[10] top.dt_ctl_tb.data_out[9] top.dt_ctl_tb.data_out[8] top.dt_ctl_tb.data_out[7] top.dt_ctl_tb.data_out[6] top.dt_ctl_tb.data_out[5] top.dt_ctl_tb.data_out[4] top.dt_ctl_tb.data_out[3] top.dt_ctl_tb.data_out[2] top.dt_ctl_tb.data_out[1] top.dt_ctl_tb.data_out[0]
+#{top.dt_ctl_tb.dt.value[28:0]} top.dt_ctl_tb.dt.value[28] top.dt_ctl_tb.dt.value[27] top.dt_ctl_tb.dt.value[26] top.dt_ctl_tb.dt.value[25] top.dt_ctl_tb.dt.value[24] top.dt_ctl_tb.dt.value[23] top.dt_ctl_tb.dt.value[22] top.dt_ctl_tb.dt.value[21] top.dt_ctl_tb.dt.value[20] top.dt_ctl_tb.dt.value[19] top.dt_ctl_tb.dt.value[18] top.dt_ctl_tb.dt.value[17] top.dt_ctl_tb.dt.value[16] top.dt_ctl_tb.dt.value[15] top.dt_ctl_tb.dt.value[14] top.dt_ctl_tb.dt.value[13] top.dt_ctl_tb.dt.value[12] top.dt_ctl_tb.dt.value[11] top.dt_ctl_tb.dt.value[10] top.dt_ctl_tb.dt.value[9] top.dt_ctl_tb.dt.value[8] top.dt_ctl_tb.dt.value[7] top.dt_ctl_tb.dt.value[6] top.dt_ctl_tb.dt.value[5] top.dt_ctl_tb.dt.value[4] top.dt_ctl_tb.dt.value[3] top.dt_ctl_tb.dt.value[2] top.dt_ctl_tb.dt.value[1] top.dt_ctl_tb.dt.value[0]
+@28
+#{top.dt_ctl_tb.dt.cmd[2:0]} top.dt_ctl_tb.dt.cmd[2] top.dt_ctl_tb.dt.cmd[1] top.dt_ctl_tb.dt.cmd[0]
+top.dt_ctl_tb.dt.gr
+top.dt_ctl_tb.dt.eq
+top.dt_ctl_tb.dt.ls
+top.dt_ctl_tb.dt.node_sel
+@1401200
+-E5
+@28
+top.dt_ctl_tb.dt.o_re_link
+@c00200
+-E7
+@28
+top.dt_ctl_tb.dt.ld_c_node_mem
+@22
+#{top.dt_ctl_tb.link_addr[15:0]} top.dt_ctl_tb.link_addr[15] top.dt_ctl_tb.link_addr[14] top.dt_ctl_tb.link_addr[13] top.dt_ctl_tb.link_addr[12] top.dt_ctl_tb.link_addr[11] top.dt_ctl_tb.link_addr[10] top.dt_ctl_tb.link_addr[9] top.dt_ctl_tb.link_addr[8] top.dt_ctl_tb.link_addr[7] top.dt_ctl_tb.link_addr[6] top.dt_ctl_tb.link_addr[5] top.dt_ctl_tb.link_addr[4] top.dt_ctl_tb.link_addr[3] top.dt_ctl_tb.link_addr[2] top.dt_ctl_tb.link_addr[1] top.dt_ctl_tb.link_addr[0]
+#{top.dt_ctl_tb.link_addr_out[15:0]} top.dt_ctl_tb.link_addr_out[15] top.dt_ctl_tb.link_addr_out[14] top.dt_ctl_tb.link_addr_out[13] top.dt_ctl_tb.link_addr_out[12] top.dt_ctl_tb.link_addr_out[11] top.dt_ctl_tb.link_addr_out[10] top.dt_ctl_tb.link_addr_out[9] top.dt_ctl_tb.link_addr_out[8] top.dt_ctl_tb.link_addr_out[7] top.dt_ctl_tb.link_addr_out[6] top.dt_ctl_tb.link_addr_out[5] top.dt_ctl_tb.link_addr_out[4] top.dt_ctl_tb.link_addr_out[3] top.dt_ctl_tb.link_addr_out[2] top.dt_ctl_tb.link_addr_out[1] top.dt_ctl_tb.link_addr_out[0]
+@1401200
+-E7
+@c00200
+-E8
+@28
+top.dt_ctl_tb.dt.inc_c_link_mem
+top.dt_ctl_tb.dt.inc_c_node_mem
+@1401200
+-E8
+@c00200
+-E9
+@28
+top.dt_ctl_tb.dt.inc_c_data_mem
+top.dt_ctl_tb.dt.cl_c_node_mem
+top.dt_ctl_tb.dt.ld_class
+@22
+#{top.dt_ctl_tb.node_addr[15:0]} top.dt_ctl_tb.node_addr[15] top.dt_ctl_tb.node_addr[14] top.dt_ctl_tb.node_addr[13] top.dt_ctl_tb.node_addr[12] top.dt_ctl_tb.node_addr[11] top.dt_ctl_tb.node_addr[10] top.dt_ctl_tb.node_addr[9] top.dt_ctl_tb.node_addr[8] top.dt_ctl_tb.node_addr[7] top.dt_ctl_tb.node_addr[6] top.dt_ctl_tb.node_addr[5] top.dt_ctl_tb.node_addr[4] top.dt_ctl_tb.node_addr[3] top.dt_ctl_tb.node_addr[2] top.dt_ctl_tb.node_addr[1] top.dt_ctl_tb.node_addr[0]
+#{top.dt_ctl_tb.data_addr[15:0]} top.dt_ctl_tb.data_addr[15] top.dt_ctl_tb.data_addr[14] top.dt_ctl_tb.data_addr[13] top.dt_ctl_tb.data_addr[12] top.dt_ctl_tb.data_addr[11] top.dt_ctl_tb.data_addr[10] top.dt_ctl_tb.data_addr[9] top.dt_ctl_tb.data_addr[8] top.dt_ctl_tb.data_addr[7] top.dt_ctl_tb.data_addr[6] top.dt_ctl_tb.data_addr[5] top.dt_ctl_tb.data_addr[4] top.dt_ctl_tb.data_addr[3] top.dt_ctl_tb.data_addr[2] top.dt_ctl_tb.data_addr[1] top.dt_ctl_tb.data_addr[0]
+#{top.dt_ctl_tb.dt.c_data_mem_out[15:0]} top.dt_ctl_tb.dt.c_data_mem_out[15] top.dt_ctl_tb.dt.c_data_mem_out[14] top.dt_ctl_tb.dt.c_data_mem_out[13] top.dt_ctl_tb.dt.c_data_mem_out[12] top.dt_ctl_tb.dt.c_data_mem_out[11] top.dt_ctl_tb.dt.c_data_mem_out[10] top.dt_ctl_tb.dt.c_data_mem_out[9] top.dt_ctl_tb.dt.c_data_mem_out[8] top.dt_ctl_tb.dt.c_data_mem_out[7] top.dt_ctl_tb.dt.c_data_mem_out[6] top.dt_ctl_tb.dt.c_data_mem_out[5] top.dt_ctl_tb.dt.c_data_mem_out[4] top.dt_ctl_tb.dt.c_data_mem_out[3] top.dt_ctl_tb.dt.c_data_mem_out[2] top.dt_ctl_tb.dt.c_data_mem_out[1] top.dt_ctl_tb.dt.c_data_mem_out[0]
+@1401200
+-E9
+@420
+top.dt_ctl_tb.dt.current_s
+@22
+#{top.dt_ctl_tb.node_out[31:0]} top.dt_ctl_tb.node_out[31] top.dt_ctl_tb.node_out[30] top.dt_ctl_tb.node_out[29] top.dt_ctl_tb.node_out[28] top.dt_ctl_tb.node_out[27] top.dt_ctl_tb.node_out[26] top.dt_ctl_tb.node_out[25] top.dt_ctl_tb.node_out[24] top.dt_ctl_tb.node_out[23] top.dt_ctl_tb.node_out[22] top.dt_ctl_tb.node_out[21] top.dt_ctl_tb.node_out[20] top.dt_ctl_tb.node_out[19] top.dt_ctl_tb.node_out[18] top.dt_ctl_tb.node_out[17] top.dt_ctl_tb.node_out[16] top.dt_ctl_tb.node_out[15] top.dt_ctl_tb.node_out[14] top.dt_ctl_tb.node_out[13] top.dt_ctl_tb.node_out[12] top.dt_ctl_tb.node_out[11] top.dt_ctl_tb.node_out[10] top.dt_ctl_tb.node_out[9] top.dt_ctl_tb.node_out[8] top.dt_ctl_tb.node_out[7] top.dt_ctl_tb.node_out[6] top.dt_ctl_tb.node_out[5] top.dt_ctl_tb.node_out[4] top.dt_ctl_tb.node_out[3] top.dt_ctl_tb.node_out[2] top.dt_ctl_tb.node_out[1] top.dt_ctl_tb.node_out[0]
+@24
+#{top.dt_ctl_tb.data_out[31:0]} top.dt_ctl_tb.data_out[31] top.dt_ctl_tb.data_out[30] top.dt_ctl_tb.data_out[29] top.dt_ctl_tb.data_out[28] top.dt_ctl_tb.data_out[27] top.dt_ctl_tb.data_out[26] top.dt_ctl_tb.data_out[25] top.dt_ctl_tb.data_out[24] top.dt_ctl_tb.data_out[23] top.dt_ctl_tb.data_out[22] top.dt_ctl_tb.data_out[21] top.dt_ctl_tb.data_out[20] top.dt_ctl_tb.data_out[19] top.dt_ctl_tb.data_out[18] top.dt_ctl_tb.data_out[17] top.dt_ctl_tb.data_out[16] top.dt_ctl_tb.data_out[15] top.dt_ctl_tb.data_out[14] top.dt_ctl_tb.data_out[13] top.dt_ctl_tb.data_out[12] top.dt_ctl_tb.data_out[11] top.dt_ctl_tb.data_out[10] top.dt_ctl_tb.data_out[9] top.dt_ctl_tb.data_out[8] top.dt_ctl_tb.data_out[7] top.dt_ctl_tb.data_out[6] top.dt_ctl_tb.data_out[5] top.dt_ctl_tb.data_out[4] top.dt_ctl_tb.data_out[3] top.dt_ctl_tb.data_out[2] top.dt_ctl_tb.data_out[1] top.dt_ctl_tb.data_out[0]
+@22
+#{top.dt_ctl_tb.link_addr_out[15:0]} top.dt_ctl_tb.link_addr_out[15] top.dt_ctl_tb.link_addr_out[14] top.dt_ctl_tb.link_addr_out[13] top.dt_ctl_tb.link_addr_out[12] top.dt_ctl_tb.link_addr_out[11] top.dt_ctl_tb.link_addr_out[10] top.dt_ctl_tb.link_addr_out[9] top.dt_ctl_tb.link_addr_out[8] top.dt_ctl_tb.link_addr_out[7] top.dt_ctl_tb.link_addr_out[6] top.dt_ctl_tb.link_addr_out[5] top.dt_ctl_tb.link_addr_out[4] top.dt_ctl_tb.link_addr_out[3] top.dt_ctl_tb.link_addr_out[2] top.dt_ctl_tb.link_addr_out[1] top.dt_ctl_tb.link_addr_out[0]
+#{top.dt_ctl_tb.dt.r_class_out[14:0]} top.dt_ctl_tb.dt.r_class_out[14] top.dt_ctl_tb.dt.r_class_out[13] top.dt_ctl_tb.dt.r_class_out[12] top.dt_ctl_tb.dt.r_class_out[11] top.dt_ctl_tb.dt.r_class_out[10] top.dt_ctl_tb.dt.r_class_out[9] top.dt_ctl_tb.dt.r_class_out[8] top.dt_ctl_tb.dt.r_class_out[7] top.dt_ctl_tb.dt.r_class_out[6] top.dt_ctl_tb.dt.r_class_out[5] top.dt_ctl_tb.dt.r_class_out[4] top.dt_ctl_tb.dt.r_class_out[3] top.dt_ctl_tb.dt.r_class_out[2] top.dt_ctl_tb.dt.r_class_out[1] top.dt_ctl_tb.dt.r_class_out[0]
+[pattern_trace] 1
+[pattern_trace] 0
