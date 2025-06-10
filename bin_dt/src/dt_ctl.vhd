@@ -8,49 +8,50 @@ use work.dt_ctl_pkg.all;
 
 entity dt_ctl is
     generic(
-	       node_width : integer;
-	       link_width : integer;
-	       data_width : integer;
-	       span : integer
-	   );
+    	g_NODE_WIDTH 		: integer;
+		g_LINK_WIDTH 		: integer;
+		g_DATA_WIDTH 		: integer;
+		g_SPAN 				: integer
+	);
     port(
-	    i_clk		        : in std_logic;
-	    i_reset		        : in std_logic;
-	    i_node_info	        : in std_logic_vector(node_width - 1 downto 0);
-	    i_threshold		    : in std_logic_vector(node_width - 1 downto 0);
-	    i_data_out	        : in std_logic_vector(data_width - 1 downto 0);
+	    i_CLK		        : in std_logic;
+	    i_RESET		        : in std_logic;
+	    i_FIFO_FULL		        : in std_logic;
+	    i_NODE_INFO	        : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
+	    i_THRESHOLD		    : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
+	    i_DATA_OUT	        : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	-----------------------------------------------------
-	    o_RE_node		    : out std_logic;
-	    o_RE_data    	    : out std_logic;
-	    o_RE_thr    	    : out std_logic;
-	    o_node_addr         : out unsigned(link_width - 1 downto 0);
-	    o_thr_addr	        : out unsigned(link_width - 1 downto 0);
-	    o_data_addr	        : out unsigned(link_width - 1 downto 0);
-	    o_wr_fifo		    : out std_logic;
-	    o_class		        : out std_logic_vector(15 downto 0)
+	    o_RE_NODE		    : out std_logic;
+	    o_RE_DATA    	    : out std_logic;
+	    o_RE_THR    	    : out std_logic;
+	    o_NODE_ADDR         : out unsigned(g_LINK_WIDTH - 1 downto 0);
+	    o_THR_ADDR	        : out unsigned(g_LINK_WIDTH - 1 downto 0);
+	    o_DATA_ADDR	        : out unsigned(g_LINK_WIDTH - 1 downto 0);
+	    o_WR_FIFO		    : out std_logic;
+	    o_CLASS		        : out std_logic_vector(15 downto 0)
 	);
 end dt_ctl;
 
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4);
+    type state is (E0, E1, E2, E3, E4, E5);
     signal current_s, next_s: state;
 
 -- C node mem
     signal LD_c_node_mem, INC_c_node_mem, CL_c_node_mem : std_logic;
-    signal c_node_mem_out : std_logic_vector(link_width - 1 downto 0);
-    signal feature, right_node : std_logic_vector(link_width - 1 downto 0);
+    signal c_node_mem_out : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
+    signal feature, right_node : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
     signal threshold : float(8 downto -23);
 
 -- C data mem
     signal CL_c_data_mem, INC_c_data_mem : std_logic;
-    signal c_data_mem_out : std_logic_vector(link_width - 1 downto 0);
+    signal c_data_mem_out : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
     signal data_out : float(8 downto -23);
 
 -- R class
     signal LD_class : std_logic;
-    signal R_class : std_logic_vector(link_width - 1 downto 0);
+    signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
 
     signal leaf, go_right, read_node_info : std_logic;
 
@@ -67,39 +68,42 @@ begin
 		       else next_s <= E4;
 		       end if;
 	    when E3 => next_s <= E1;
-	    when E4 => next_s <= E1;
+	    when E4 => if i_FIFO_FULL = '0' then next_s <= E5;
+		       else next_s <= E4;
+		       end if;
+	    when E5 => next_s <= E1;
 	end case;
     end process;
 
 -- CLK
 
-    process(i_clk, i_reset)
+    process(i_CLK, i_RESET)
     begin
-	if i_reset = '1' then current_s <= E0;
-	elsif rising_edge(i_clk) then current_s <= next_s;
+	if i_RESET = '1' then current_s <= E0;
+	elsif rising_edge(i_CLK) then current_s <= next_s;
 	end if;
     end process;
 
 -- LEAF and NODE_ACT
 
-    leaf <= i_node_info(0);
+    leaf <= i_NODE_INFO(0);
 
 -- RE mem signals
 
-    o_RE_node <= '1' when current_s = E1 else '0';
-    o_RE_thr  <= '1' when current_s = E1 else '0';
-    o_RE_data <= '1' when current_s = E2 else '0';
+    o_RE_NODE <= '1' when current_s = E1 else '0';
+    o_RE_THR  <= '1' when current_s = E1 else '0';
+    o_RE_DATA <= '1' when current_s = E2 else '0';
 
 -- C node mem
 
     LD_c_node_mem <= '1' when current_s = E3 and go_right = '1' else '0';
     INC_c_node_mem <= '1' when current_s = E3 and go_right = '0' else '0';
-    CL_c_node_mem <= '1' when current_s = E0 or current_s = E4 else '0';
+    CL_c_node_mem <= '1' when current_s = E0 or current_s = E5 else '0';
 
-    process(i_clk, CL_c_node_mem)
+    process(i_CLK, CL_c_node_mem)
     begin
 	if CL_c_node_mem = '1' then c_node_mem_out <= x"0000";
-	elsif rising_edge(i_clk) then
+	elsif rising_edge(i_CLK) then
 	    if LD_c_node_mem = '1' then
 		c_node_mem_out <= right_node;
 	    elsif INC_c_node_mem = '1' then
@@ -108,34 +112,34 @@ begin
 	end if;
     end process;
 
-    o_node_addr <= unsigned(c_node_mem_out);
-    threshold <= to_float(i_threshold);
+    o_NODE_ADDR <= unsigned(c_node_mem_out);
+    threshold <= to_float(i_THRESHOLD);
 
 -- C data mem
 
-    INC_c_data_mem <= '1' when current_s = E4 else '0';
+    INC_c_data_mem <= '1' when current_s = E5 else '0';
     CL_c_data_mem <= '1' when current_s = E0 else '0';
 
-    process(i_clk, CL_c_data_mem)
+    process(i_CLK, CL_c_data_mem)
     begin
 	if CL_c_data_mem = '1' then c_data_mem_out <= x"0000";
-	elsif rising_edge(i_clk) then
+	elsif rising_edge(i_CLK) then
 	    if INC_c_data_mem = '1' then
-		c_data_mem_out <= std_logic_vector(unsigned(c_data_mem_out) + span);
+		c_data_mem_out <= std_logic_vector(unsigned(c_data_mem_out) + g_SPAN);
 	    end if;
 	end if;
     end process;
 
-    feature <= '0' & i_node_info(15 downto 1);
-    right_node<= i_node_info(31 downto 16);
-    o_data_addr <= unsigned(c_data_mem_out) + (unsigned(feature));
-    data_out <= to_float(i_data_out);
+    feature <= '0' & i_NODE_INFO(15 downto 1);
+    right_node<= i_NODE_INFO(31 downto 16);
+    o_DATA_ADDR <= unsigned(c_data_mem_out) + (unsigned(feature));
+    data_out <= to_float(i_DATA_OUT);
 
 
 -- R class
 
-    o_class <= feature;
-    o_wr_fifo <= '1' when current_s = E4 else '0';
+    o_CLASS <= feature;
+    o_WR_FIFO <= '1' when current_s = E5 else '0';
 
 -- CMP
 
@@ -151,10 +155,10 @@ begin
     end process;
 
 
-    p_ASSERT : process (i_clk) is
+    p_ASSERT : process (i_CLK) is
     begin
-	if rising_edge(i_clk) then
-	    if o_wr_fifo = '1' and next_s = E1 then
+	if rising_edge(i_CLK) then
+	    if o_WR_FIFO = '1' and next_s = E1 then
 		report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
 	    end if;
 	end if;

@@ -49,10 +49,12 @@ generic map(
 )
 port map(
     i_clk => clk,
-    i_read_en_0 => RE_node,
-    i_read_en_1 => RE_thr,
+    i_RE_0 => RE_node,
+    i_RE_1 => RE_thr,
+    i_WE_1 => '0',
     i_addr_0 => node_addr,
     i_addr_1 => node_addr + 1,
+    i_data_1 => "0",
     o_data_0 => node_info,
     o_data_1 => threshold
 );
@@ -67,24 +69,27 @@ generic map(
 )
 port map(
     i_clk => clk,
-    i_read_en_0 => RE_data,
-    i_read_en_1 => RE_data,
+    i_RE_0 => RE_data,
+    i_RE_1 => RE_data,
+    i_WE_1 => '0',
     i_addr_0 => data_addr,
     i_addr_1 => data_addr,
+    i_data_1 => "0",
     o_data_0 => data_out,
     o_data_1 => data_out
 );
 
 DT: dt_ctl
 generic map(
-    node_width => n_width,
-    link_width => l_width,
-    data_width => n_width,
-    span => 4
+    g_NODE_WIDTH => n_width,
+    g_LINK_WIDTH => l_width,
+    g_DATA_WIDTH => n_width,
+    g_SPAN => 4
 )
 port map(
     i_clk => clk,
     i_reset => reset,
+    i_fifo_full => fifo_full,
     i_node_info => node_info,
     i_threshold	=> threshold,
     i_data_out => data_out,
@@ -102,7 +107,8 @@ port map(
 CLASS_FIFO: fifo
 generic map(
     g_depth => 8,
-    g_width => l_width
+    g_ADDR_WIDTH => l_width,
+    g_DATA_WIDTH => l_width
 )
 port map(
     i_clk => clk,

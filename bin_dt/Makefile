@@ -17,11 +17,9 @@ OBJ = bin/ram_pkg.o \
       bin/testbench/dt_accel_tb.o \
       bin/testbench/ranger_tb.o
 
-all: test/sim_dt.ghw test/sim_bin_dt.ghw
+all: test/sim_dt.ghw
 
-bin: test/sim_bin_dt.ghw
-
-acc: test/sim_bin_dt_accel.ghw
+acc: test/sim_dt_accel.ghw
 
 gen: test/sim_dt.ghw
 
@@ -34,7 +32,7 @@ test/sim_dt.ghw: dt_ctl_tb
 	@ mv $< test
 	@ rm *.o
 
-test/sim_bin_dt_accel.ghw: dt_accel_tb
+test/sim_dt_accel.ghw: dt_accel_tb
 	@ echo "Simulating" $< "..."
 	@ $(GHDL) -r  --std=08 $^ --ieee-asserts=disable-at-0 --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
@@ -51,10 +49,7 @@ test/sim_ranger.ghw: ranger_tb
 dt_ctl_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
 
-bin_dt_ctl_tb: $(OBJ)
-	$(GHDL) -e --std=08 --workdir=bin $@
-
-bin_dt_accel_tb: $(OBJ)
+dt_accel_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
 
 ranger_tb: $(OBJ)

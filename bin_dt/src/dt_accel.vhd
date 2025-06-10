@@ -10,24 +10,27 @@ use work.dt_accel_pkg.all;
 
 entity dt_accel is
     generic(
-	g_data_width: integer;
-	g_addr_width: integer
+	g_DATA_WIDTH: integer;
+	g_ADDR_WIDTH: integer;
+	g_DEPTH: integer
     );    
     port(
-	i_clk : in std_logic;
-	i_reset : in std_logic;
-	i_data : in std_logic_vector;
+	i_CLK : in std_logic;
+	i_RESET : in std_logic;
+	i_DATA : in std_logic_vector;
 	----------------------------------------------------
-	o_RE_data : out std_logic;
-	o_data_addr : out unsigned(g_addr_width - 1 downto 0);
-	o_class : out std_logic_vector(15 downto 0)
+	o_RE_DATA : out std_logic;
+	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
+	o_CLASS : out std_logic_vector(15 downto 0);
+	o_FIFO_EMPTY : out std_logic;
+	o_RE_CLASS : out std_logic
     );
 end dt_accel;
 
 architecture arch_dt_accel of dt_accel is
 
-constant n_width: integer := g_data_width;
-constant l_width: integer := g_addr_width;
+constant n_width: integer := g_DATA_WIDTH;
+constant l_width: integer := g_ADDR_WIDTH;
 
 signal node_info : std_logic_vector(n_width - 1 downto 0);
 signal threshold : std_logic_vector(n_width - 1 downto 0);
@@ -50,33 +53,36 @@ begin
 
 NODE_MEM: ram
 generic map(
-    g_addr_width => l_width,
-    g_data_width => n_width,
-    g_depth => 256,
-    g_init_file => "./memory_content/bin_node_mem_content.txt",
-    g_init => '1'
+    g_ADDR_WIDTH => g_ADDR_WIDTH,
+    g_DATA_WIDTH => g_DATA_WIDTH,
+    g_DEPTH => g_DEPTH,
+    g_INIT_FILE => "./memory_content/bin_node_mem_content.txt",
+    g_INIT => '1'
 )
 port map(
-    i_clk => i_clk,
-    i_read_en_0 => RE_node,
-    i_read_en_1 => RE_thr,
-    i_addr_0 => node_addr,
-    i_addr_1 => node_addr + 1,
-    o_data_0 => node_info,
-    o_data_1 => threshold
+    i_CLK => i_clk,
+    i_RE_0 => RE_node,
+    i_RE_1 => RE_thr,
+    i_WE_1 => '0',
+    i_ADDR_0 => node_addr,
+    i_ADDR_1 => node_addr + 1,
+    i_DATA_1 => (others => '0'),
+    o_DATA_0 => node_info,
+    o_DATA_1 => threshold
 );
 
-
+	
 DT: dt_ctl
 generic map(
-    node_width => n_width,
-    link_width => l_width,
-    data_width => n_width,
-    span => 4
+    g_NODE_WIDTH => n_width,
+    g_LINK_WIDTH => l_width,
+    g_DATA_WIDTH => n_width,
+    g_SPAN => 4
 )
 port map(
     i_clk => i_clk,
     i_reset => i_reset,
+    i_FIFO_FULL => fifo_full,
     i_node_info => node_info,
     i_threshold	=> threshold,
     i_data_out => i_data,
@@ -92,16 +98,17 @@ port map(
 
 CLASS_FIFO: fifo
 generic map(
-    g_depth => 8,
-    g_width => l_width
+    g_DEPTH => 8,
+    g_DATA_WIDTH => g_ADDR_WIDTH,
+    g_ADDR_WIDTH => g_ADDR_WIDTH
 )
 port map(
     i_clk => i_clk,
-    i_re_en => re_en,
+    i_re_en => o_RE_CLASS,
     i_wr_en => wr_en,
     i_wr_data => class,
     o_rd_data => o_class, 
-    o_fifo_empty => fifo_empty,
+    o_fifo_empty => o_FIFO_EMPTY,
     o_fifo_full	=> fifo_full
 );
 

@@ -43,16 +43,19 @@ generic map(
 )
 port map(
     i_clk => clk,
-    i_read_en_0 => RE_data,
-    i_read_en_1 => RE_data,
+    i_RE_0 => RE_data,
+    i_RE_1 => RE_data,
+    i_WE_1 => '0',
     i_addr_0 => data_addr,
     i_addr_1 => data_addr,
+    i_data_1 => (others => '0'),
     o_data_0 => data,
     o_data_1 => data
 );
 
 DT_ACCELERATOR: dt_accel
 generic map(
+    g_depth => 256,
     g_data_width => 32,
     g_addr_width => 16
 )
@@ -62,13 +65,16 @@ port map(
     i_data => data,
     o_RE_data => RE_data,
     o_data_addr => data_addr,
-    o_class => class
+    o_class => class,
+    o_fifo_empty => fifo_empty,
+    o_RE_class => re_en
 );
 
 CLASS_FIFO: fifo
 generic map(
     g_depth => 8,
-    g_width => l_width
+    g_DATA_WIDTH => l_width,
+    g_ADDR_WIDTH => l_width
 )
 port map(
     i_clk => clk,

@@ -6,18 +6,19 @@ use ieee.numeric_std.all;
 package fifo_pkg is
     component fifo is
 	generic(
-    	    g_depth : integer;
-    	    g_width : integer
+	    g_DATA_WIDTH: integer;
+	    g_ADDR_WIDTH: integer;
+	    g_DEPTH: integer
     	);
-    	port(
-    	    i_clk		: in std_logic;
-    	    i_re_en		: in std_logic;
-    	    i_wr_en		: in std_logic;
-    	    i_wr_data	: in std_logic_vector(g_width - 1 downto 0);
+	port(
+    	    i_CLK		: in std_logic;
+    	    i_RE_EN		: in std_logic;
+    	    i_WR_EN		: in std_logic;
+    	    i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     	--------------------------------------------------------
-    	    o_rd_data	: out std_logic_vector(g_width - 1 downto 0);
-    	    o_fifo_empty	: out std_logic;
-    	    o_fifo_full	: out std_logic
+    	    o_RD_DATA	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+    	    o_FIFO_EMPTY	: out std_logic;
+    	    o_FIFO_FULL	: out std_logic
     	);
     end component;
 end fifo_pkg;

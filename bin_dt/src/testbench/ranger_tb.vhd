@@ -52,7 +52,8 @@ port map(
 FIFO_DATA: fifo
 generic map(
     g_depth => 8,
-    g_width => 32
+    g_data_width=> 32,
+    g_addr_width=> 32
 )
 port map(
     i_clk => clk,

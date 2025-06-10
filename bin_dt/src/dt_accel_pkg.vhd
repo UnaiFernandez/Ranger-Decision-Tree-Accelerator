@@ -7,17 +7,20 @@ package dt_accel_pkg is
 
     component dt_accel is
 	generic(
-	    g_data_width: integer;
-	    g_addr_width: integer
-	);    
+    	    g_DATA_WIDTH: integer;
+    	    g_ADDR_WIDTH: integer;
+    	    g_DEPTH: integer
+    	);    
 	port(
-    	    i_clk : in std_logic;
-    	    i_reset : in std_logic;
-    	    i_data : in std_logic_vector;
+    	    i_CLK : in std_logic;
+    	    i_RESET : in std_logic;
+    	    i_DATA : in std_logic_vector;
     	    ----------------------------------------------------
-    	    o_RE_data : out std_logic;
-    	    o_data_addr : out unsigned(g_addr_width - 1 downto 0);
-    	    o_class : out std_logic_vector(15 downto 0)
+    	    o_RE_DATA : out std_logic;
+    	    o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
+    	    o_CLASS : out std_logic_vector(15 downto 0);
+    	    o_FIFO_EMPTY : out std_logic;
+    	    o_RE_CLASS : out std_logic
     	);
     end component;
 

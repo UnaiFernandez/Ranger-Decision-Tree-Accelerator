@@ -77,8 +77,9 @@ en_config <= '1' when current_s = E1 else '0';
 
 CLASS_FIFO: fifo
 generic map(
-    g_depth => 8,
-    g_width => g_addr_width
+    g_DEPTH => 8,
+    g_DATA_WIDTH => g_ADDR_WIDTH,
+    g_ADDR_WIDTH => g_ADDR_WIDTH
 )
 port map(
     i_clk => i_clk,
@@ -95,8 +96,9 @@ DT_ACCELERATOR:
 for I in 0 to g_dt_instances - 1 generate
     DT_ACCEL_X : dt_accel
     generic map(
-        g_data_width => g_data_width,
-        g_addr_width => g_addr_width
+        g_DATA_WIDTH => g_DATA_WIDTH,
+        g_ADDR_WIDTH => g_ADDR_WIDTH,
+	g_DEPTH => 256
     )
     port map(
         i_clk => i_clk,
