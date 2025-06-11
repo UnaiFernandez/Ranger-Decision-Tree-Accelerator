@@ -26,9 +26,6 @@ end fifo;
 architecture arch_fifo of fifo is
 
 
-type t_fifo is array (0 to g_DEPTH-1) of std_logic_vector(g_DATA_WIDTH-1 downto 0);
-signal fifo_data : t_fifo := (others => (others => '0'));
-
 signal rd_addr, wr_addr : unsigned(g_ADDR_WIDTH - 1 downto 0) := (others => '0');
 signal counter : integer range 0 to g_DEPTH - 1 := 0;
 
@@ -108,10 +105,10 @@ begin
     end if;
 end process;
 
-FF <= '1' when Q >= g_depth - 1 else '0';
+FF <= '1' when Q >= g_depth else '0';
 FE <= '1' when Q <= 0 else '0';
 
-o_FIFO_EMPTY <= '1' when Q <= 0 else '0';
+o_FIFO_EMPTY <= FE;
 o_FIFO_FULL <= FF;
 end arch_fifo;
 

@@ -18,12 +18,12 @@ entity dt_accel is
 	i_CLK : in std_logic;
 	i_RESET : in std_logic;
 	i_DATA : in std_logic_vector;
+	i_RE_CLASS : in std_logic;
 	----------------------------------------------------
 	o_RE_DATA : out std_logic;
 	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	o_CLASS : out std_logic_vector(15 downto 0);
-	o_FIFO_EMPTY : out std_logic;
-	o_RE_CLASS : out std_logic
+	o_CLASS_FIFO_EMPTY : out std_logic
     );
 end dt_accel;
 
@@ -104,12 +104,14 @@ generic map(
 )
 port map(
     i_clk => i_clk,
-    i_re_en => o_RE_CLASS,
+    i_re_en => i_RE_CLASS,
     i_wr_en => wr_en,
     i_wr_data => class,
     o_rd_data => o_class, 
-    o_fifo_empty => o_FIFO_EMPTY,
+    o_FIFO_EMPTY => fifo_empty,
     o_fifo_full	=> fifo_full
 );
+
+o_CLASS_FIFO_EMPTY <= fifo_empty;
 
 end arch_dt_accel;

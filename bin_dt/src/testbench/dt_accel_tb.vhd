@@ -66,8 +66,8 @@ port map(
     o_RE_data => RE_data,
     o_data_addr => data_addr,
     o_class => class,
-    o_fifo_empty => fifo_empty,
-    o_RE_class => re_en
+    o_class_fifo_empty => fifo_empty,
+    i_RE_class => re_en
 );
 
 CLASS_FIFO: fifo
@@ -93,6 +93,10 @@ clk <= not clk after 10 ns;
 
 process
 begin
+    re_en <= '0';
+    wait for 420 ns;
+    re_en <= '1';
+    wait for 20 ns;
     re_en <= '0';
     wait for 420 ns;
     re_en <= '1';

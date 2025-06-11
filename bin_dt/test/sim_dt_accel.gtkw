@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Tue Jun 10 14:13:58 2025
+[*] Wed Jun 11 09:52:30 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.ghw"
-[dumpfile_mtime] "Tue Jun 10 13:59:03 2025"
-[dumpfile_size] 65572
+[dumpfile_mtime] "Wed Jun 11 09:51:50 2025"
+[dumpfile_size] 61984
 [savefile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.gtkw"
 [timestart] 0
 [size] 1280 1361
 [pos] -1 -1
-*-29.100000 1301000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-28.200001 920000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.dt_accel_tb.
 [treeopen] top.dt_accel_tb.dt_accelerator.
@@ -51,7 +51,18 @@ top.dt_accel_tb.dt_accelerator.dt.o_wr_fifo
 top.dt_accel_tb.dt_accelerator.class_fifo.o_fifo_full
 top.dt_accel_tb.dt_accelerator.class_fifo.fe
 top.dt_accel_tb.dt_accelerator.class_fifo.ff
-@29
 top.dt_accel_tb.dt_accelerator.class_fifo.inc
+top.dt_accel_tb.dt_accelerator.class_fifo.o_fifo_empty
+@420
+top.dt_accel_tb.dt_accelerator.class_fifo.q
+@28
+top.dt_accel_tb.dt_accelerator.fifo_empty
+top.dt_accel_tb.dt_accelerator.re_en
+top.dt_accel_tb.re_en
+@29
+top.dt_accel_tb.dt_accelerator.o_re_data
+@28
+top.dt_accel_tb.dt_accelerator.class_fifo.i_re_en
+top.dt_accel_tb.dt_accelerator.o_re_class
 [pattern_trace] 1
 [pattern_trace] 0
