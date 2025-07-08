@@ -1,11 +1,12 @@
 from dt_utils import *
 from ram_converter import *
 import pandas as pd
-import time 
+import time
 
 def main():
-   
+
     x_train, x_test, y_train, y_test = create_data("dt_model/datasets/iris_2.data", 80)
+    print(x_test)
     print("[-] Training decision tree")
     tree = create_model(x_train, y_train)
 
@@ -29,10 +30,11 @@ def main():
     data_mem = create_data_mem(x_test)
 
     print("[-] Writing memory layouts to txt files")
-    write_to_file(node_mem, "memory_content/node_mem_content.txt")
-    write_to_file(bin_node_mem, "memory_content/bin_node_mem_content.txt")
-    write_to_file(link_mem, "memory_content/link_mem_content.txt")
-    write_to_file(data_mem, "memory_content/data_mem_content.txt")
+    write_to_file(node_mem, "bin_dt/memory_content/node_mem_content.txt")
+    write_to_file(bin_node_mem, "bin_dt/memory_content/bin_node_mem_content.txt")
+    write_to_file(link_mem, "bin_dt/memory_content/link_mem_content.txt")
+    write_to_file(data_mem, "bin_dt/memory_content/data_mem_content.txt")
+    write_to_file(bin_node_mem + data_mem, "bin_dt/memory_content/mixed.txt")
 
 
 if __name__ == "__main__":

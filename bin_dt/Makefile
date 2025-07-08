@@ -67,4 +67,4 @@ clean:
 
 tree:
 	@ echo "Creating new tree..."
-	python3 dt_model/src/tree.py
+	python3 ../dt_model/src/tree.py

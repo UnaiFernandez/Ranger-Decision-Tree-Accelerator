@@ -93,7 +93,7 @@ generic map(
     g_DATA_WIDTH => g_DATA_WIDTH,
     g_DEPTH => g_DEPTH,
     g_INIT_FILE => "./memory_content/bin_node_mem_content.txt",
-    g_INIT => '1'
+    g_INIT => '0'
 )
 port map(
     i_CLK => i_clk,
