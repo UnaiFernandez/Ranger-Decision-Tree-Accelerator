@@ -19,11 +19,11 @@ OBJ = bin/ram_pkg.o \
 
 all: test/sim_dt.ghw
 
-acc: test/sim_dt_accel.ghw
+accel: test/sim_dt_accel.ghw
 
-gen: test/sim_dt.ghw
+ctl: test/sim_dt.ghw
 
-ran: test/sim_ranger.ghw
+ranger: test/sim_ranger.ghw
 
 
 test/sim_dt.ghw: dt_ctl_tb

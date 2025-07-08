@@ -12,16 +12,17 @@ use work.configurator_pkg.all;
 entity ranger is
     generic(
 	g_dt_instances : integer;
+	g_fifo_depth : integer;
 	g_data_width : integer;
 	g_addr_width : integer
     );
     port(
 	i_clk : in std_logic;
 	i_reset : in std_logic;
+	i_data_mem : in std_logic_vector(g_data_width - 1 downto 0);
 	init : in std_logic;
-	i_ram_data : in std_logic_vector(g_data_width - 1 downto 0);
 	o_RE_data : out std_logic;
-	o_ram_addr : out unsigned(g_addr_width - 1 downto 0);
+	o_addr_data_mem : out unsigned(g_addr_width - 1 downto 0);
 	o_class_fifo : out std_logic_vector(g_addr_width - 1 downto 0)
     );
 end ranger;
@@ -38,13 +39,16 @@ signal fifo_empty	: std_logic;
 signal fifo_full	: std_logic;
 signal class		: std_logic_vector(g_addr_width - 1 downto 0);
 
-signal sel		: bit_vector(g_dt_instances - 1 downto 0);
+signal sel		    : std_logic_vector(g_dt_instances - 1 downto 0);
 
-signal config_done, en_config: std_logic;
+
+signal config_done, en_config, inc_data_addr: std_logic;
 signal re_data : std_logic;
 signal dt_id : std_logic_vector(7 downto 0);
 
 signal inf_done :std_logic;
+
+signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 
 begin
 -- State machine
@@ -75,21 +79,15 @@ end process;
 
 en_config <= '1' when current_s = E1 else '0';
 
-CLASS_FIFO: fifo
-generic map(
-    g_DEPTH => 8,
-    g_DATA_WIDTH => g_ADDR_WIDTH,
-    g_ADDR_WIDTH => g_ADDR_WIDTH
-)
-port map(
-    i_clk => i_clk,
-    i_re_en => re_en,
-    i_wr_en => wr_en,
-    i_wr_data => class,
-    o_rd_data => o_class_fifo, 
-    o_fifo_empty => fifo_empty,
-    o_fifo_full	=> fifo_full
-);
+-- DECODER
+
+process(dt_id)
+begin
+    sel <= (others => '0');
+    if dt_id /= "UUUUUUUU" then
+        sel(to_integer(unsigned(dt_id))) <= '1';
+    end if;
+end process;
 
 -- Generate multiple instances of DT_ACCEL
 DT_ACCELERATOR:
@@ -103,9 +101,13 @@ for I in 0 to g_dt_instances - 1 generate
     port map(
         i_clk => i_clk,
         i_reset => i_reset,
-        i_data => i_ram_data,
+        i_data => i_data_mem,
+        i_RE_CLASS => re_en,
+        i_CONFIG_DONE => config_done,
+        i_SEL => sel(I),
+        i_DATA_ADDR => data_addr,
         o_RE_data => re_data,
-        o_data_addr => o_ram_addr,
+        o_data_addr => o_addr_data_mem,
         o_class => class
     );
 end generate DT_ACCELERATOR;
@@ -114,18 +116,28 @@ end generate DT_ACCELERATOR;
 
 CONFIG: configurator
 generic map(
-    g_dt_number => g_dt_instances
+    g_dt_number => g_dt_instances,
+    g_addr_width => g_addr_width
 )
 port map(
     i_clk => i_clk,
     i_reset => i_reset,
     i_en_config => en_config,
-    i_data => i_ram_data,
+    i_data => i_data_mem,
     o_dt_id => dt_id,
+    o_data_addr => data_addr,
     o_config_done => config_done,
     o_re_data => o_RE_data
 );
 
+p_ASSERT : process (i_CLK) is
+begin
+    if rising_edge(i_CLK) then
+        if config_done = '1' then
+	    report "Configuration done" severity note;
+        end if;
+    end if;
+end process p_ASSERT;
 
 -- Counter
 

@@ -7,7 +7,8 @@ package configurator_pkg is
 
     component  configurator is
 	generic(
-    	    g_dt_number : integer	
+    	    g_dt_number : integer;
+         g_ADDR_WIDTH: integer
     	);
     	port(
     	    i_clk : in std_logic;
@@ -16,6 +17,7 @@ package configurator_pkg is
     	    i_data : in std_logic_vector(31 downto 0);
     	    -----------------------------------------------
     	    o_dt_id : out std_logic_vector(7 downto 0);
+         o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	    o_config_done : out std_logic;
     	    o_re_data : out std_logic
     	);

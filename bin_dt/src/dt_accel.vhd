@@ -13,12 +13,15 @@ entity dt_accel is
 	g_DATA_WIDTH: integer;
 	g_ADDR_WIDTH: integer;
 	g_DEPTH: integer
-    );    
+    );
     port(
 	i_CLK : in std_logic;
 	i_RESET : in std_logic;
 	i_DATA : in std_logic_vector;
 	i_RE_CLASS : in std_logic;
+	i_CONFIG_DONE : in std_logic;
+	i_SEL : in std_logic;
+	i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 	----------------------------------------------------
 	o_RE_DATA : out std_logic;
 	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
@@ -37,7 +40,8 @@ signal threshold : std_logic_vector(n_width - 1 downto 0);
 ---------------------------------------------------------------------
 signal RE_node : std_logic := '0';
 signal RE_thr : std_logic := '0';
-signal node_addr: unsigned(l_width - 1 downto 0);
+signal node_addr_0: unsigned(l_width - 1 downto 0);
+signal node_addr_1: unsigned(l_width - 1 downto 0);
 signal thr_addr: unsigned(l_width - 1 downto 0);
 signal class: std_logic_vector(15 downto 0);
 
@@ -47,9 +51,41 @@ signal rd_data		: std_logic_vector(l_width - 1 downto 0);
 signal fifo_empty	: std_logic;
 signal fifo_full	: std_logic;
 
+type state is (E0, E1, E2);
+signal current_s, next_s: state;
+signal config_done, task_terminated : STD_LOGIC;
+signal cl_data_addr, ld_data_addr, inc_data_addr: STD_LOGIC;
 
 
 begin
+
+-- State machine
+
+config_done <= i_CONFIG_DONE;
+
+process(current_s, next_s, config_done, task_terminated)
+begin
+	case current_s is
+	    when E0 => if config_done = '1' then next_s <= E1;
+		       else next_s <= E0;
+		       end if;
+	    when E1 => if task_terminated = '1' then next_s <= E2;
+		       else next_s <= E1;
+		       end if;
+	    when E2 => next_s <= E0;
+	end case;
+end process;
+
+-- CLK
+
+process(i_clk, i_reset)
+begin
+	if i_reset = '1' then current_s <= E0;
+	elsif rising_edge(i_clk) then current_s <= next_s;
+	end if;
+end process;
+
+node_addr_1 <= node_addr_0 + 1 when current_s = E1 else i_DATA_ADDR;
 
 NODE_MEM: ram
 generic map(
@@ -63,15 +99,15 @@ port map(
     i_CLK => i_clk,
     i_RE_0 => RE_node,
     i_RE_1 => RE_thr,
-    i_WE_1 => '0',
-    i_ADDR_0 => node_addr,
-    i_ADDR_1 => node_addr + 1,
-    i_DATA_1 => (others => '0'),
+    i_WE_1 => i_SEL,
+    i_ADDR_0 => node_addr_0,
+    i_ADDR_1 => node_addr_1,
+    i_DATA_1 => i_DATA,
     o_DATA_0 => node_info,
     o_DATA_1 => threshold
 );
 
-	
+
 DT: dt_ctl
 generic map(
     g_NODE_WIDTH => n_width,
@@ -86,10 +122,11 @@ port map(
     i_node_info => node_info,
     i_threshold	=> threshold,
     i_data_out => i_data,
+    i_CONFIG_DONE => config_done,
     o_RE_node => RE_node,
     o_RE_data => o_RE_data,
     o_RE_thr => RE_thr,
-    o_node_addr => node_addr,
+    o_node_addr => node_addr_0,
     o_thr_addr => thr_addr,
     o_data_addr	=> o_data_addr,
     o_wr_fifo => wr_en,
@@ -107,7 +144,7 @@ port map(
     i_re_en => i_RE_CLASS,
     i_wr_en => wr_en,
     i_wr_data => class,
-    o_rd_data => o_class, 
+    o_rd_data => o_class,
     o_FIFO_EMPTY => fifo_empty,
     o_fifo_full	=> fifo_full
 );

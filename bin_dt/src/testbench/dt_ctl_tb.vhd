@@ -20,6 +20,7 @@ signal reset : std_logic := '0';
 signal node_info : std_logic_vector(n_width - 1 downto 0);
 signal threshold : std_logic_vector(n_width - 1 downto 0);
 signal data_out : std_logic_vector(n_width - 1 downto 0);
+signal init : STD_LOGIC;
 ---------------------------------------------------------------------
 signal RE_node : std_logic := '0';
 signal RE_thr : std_logic := '0';
@@ -93,6 +94,7 @@ port map(
     i_node_info => node_info,
     i_threshold	=> threshold,
     i_data_out => data_out,
+    i_CONFIG_DONE => init,
     -----------------------------------------------------
     o_RE_node => RE_node,
     o_RE_data => RE_data,
@@ -115,7 +117,7 @@ port map(
     i_re_en => re_en,
     i_wr_en => wr_en,
     i_wr_data => class,
-    o_rd_data => rd_data, 
+    o_rd_data => rd_data,
     o_fifo_empty => fifo_empty,
     o_fifo_full	=> fifo_full
 );

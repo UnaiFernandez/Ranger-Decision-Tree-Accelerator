@@ -7,7 +7,8 @@ use work.configurator_pkg.all;
 
 entity configurator is
     generic(
-	g_dt_number : integer	
+	g_dt_number : integer;
+	g_ADDR_WIDTH: integer
     );
     port(
 	i_clk : in std_logic;
@@ -16,6 +17,7 @@ entity configurator is
 	i_data : in std_logic_vector(31 downto 0);
 	-----------------------------------------------
 	o_dt_id : out std_logic_vector(7 downto 0);
+	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	o_config_done : out std_logic;
 	o_re_data : out std_logic
     );
@@ -35,6 +37,7 @@ signal c_dt_out : integer := 0; --range??
 -- Node Counter
 signal cl_c_nodes, ld_c_nodes, dec_c_nodes : std_logic;
 signal c_nodes_out : integer := 0; --range??
+signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 -- Register
 
 signal r_dt_id_out : std_logic_vector(7 downto 0);
@@ -45,10 +48,10 @@ begin
 
 -- State machine
 
-process(current_s, next_s, config, c_end, last_node)
+process(current_s, next_s, i_en_config, c_end, last_node)
 begin
 	case current_s is
-	    when E0 => if config = '1' then next_s <= E1;
+	    when E0 => if i_en_config = '1' then next_s <= E1;
 		       else next_s <= E0;
 		       end if;
 	    when E1 => next_s <= E2;
@@ -69,9 +72,9 @@ begin
 	end if;
 end process;
 
-config <= i_en_config; --'1' when current_s = E0 else '0';
-o_config_done <= '1' when current_s = E3 and last_node = '1' else '0';
-re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0') else '0';
+o_config_done <= '1' when current_s = E3 and last_node = '1' and c_end = '1' else '0';
+re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0'); --or (current_s = E3 and c_end = '1' and last_node = '0') else '0';
+--re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0') or (current_s = E3 and c_end = '1' and last_node = '0') else '0';
 
 o_re_data <= re_en;
 
@@ -84,7 +87,7 @@ process (i_clk, cl_c_dt)
 begin
     if cl_c_dt = '1' then c_dt_out <= g_dt_number - 1;
     elsif rising_edge(i_clk) then
-	if dec_c_dt = '1' then 
+	if dec_c_dt = '1' then
 	    c_dt_out <= c_dt_out - 1;
 	end if;
     end if;
@@ -100,17 +103,21 @@ dec_c_nodes <= '1' when current_s = E3 and c_end = '0' else '0';
 
 process (i_clk, cl_c_nodes)
 begin
-    if cl_c_nodes = '1' then c_nodes_out <= 0;
+    if cl_c_nodes = '1' then
+        c_nodes_out <= 0;
+        data_addr <= (others => '0');
     elsif rising_edge(i_clk) then
 	if ld_c_nodes = '1' then
 	    c_nodes_out <= to_integer(unsigned(i_data(31 downto 8)) - 1);
 	elsif dec_c_nodes = '1' then
 	    c_nodes_out <= c_nodes_out - 1;
+		data_addr <= data_addr + 1;
 	end if;
     end if;
 end process;
 
-c_end <= '1' when current_s = E3 and c_nodes_out <= 0 else '0';
+o_DATA_ADDR <= data_addr;
+c_end <= '1' when current_s = E3 and c_nodes_out = 0 else '0';
 
 -- DT ID Register
 
@@ -123,4 +130,6 @@ begin
 	end if;
     end if;
 end process;
+
+o_dt_id <= r_dt_id_out when current_s = E1 or current_s = E3 else "UUUUUUUU";
 end arch_configurator;

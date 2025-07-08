@@ -16,11 +16,12 @@ entity dt_ctl is
     port(
 	    i_CLK		        : in std_logic;
 	    i_RESET		        : in std_logic;
-	    i_FIFO_FULL		        : in std_logic;
+	    i_FIFO_FULL		    : in std_logic;
 	    i_NODE_INFO	        : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_THRESHOLD		    : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_DATA_OUT	        : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	-----------------------------------------------------
+		i_CONFIG_DONE       : in STD_LOGIC;
+		-----------------------------------------------------
 	    o_RE_NODE		    : out std_logic;
 	    o_RE_DATA    	    : out std_logic;
 	    o_RE_THR    	    : out std_logic;
@@ -35,7 +36,7 @@ end dt_ctl;
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5);
+    type state is (E0, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- C node mem
@@ -53,25 +54,29 @@ architecture arch_dt_ctl of dt_ctl is
     signal LD_class : std_logic;
     signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
 
-    signal leaf, go_right, read_node_info : std_logic;
+    signal leaf, go_right, read_node_info, init : std_logic;
 
 begin
 
+init <= i_CONFIG_DONE;
 -- State machine
 
-    process(current_s, next_s, leaf, go_right)
+    process(current_s, next_s, leaf, go_right, init)
     begin
 	case current_s is
-	    when E0 => next_s <= E1;
+	    when E0 => if init = '1' then next_s <= E1;
+					else next_s <= E0;
+					end if;
 	    when E1 => next_s <= E2;
-	    when E2 => if leaf = '0' then next_s <= E3;
-		       else next_s <= E4;
+	    when E2 => next_s <= E3;
+	    when E3 => if leaf = '0' then next_s <= E4;
+		       else next_s <= E5;
 		       end if;
-	    when E3 => next_s <= E1;
-	    when E4 => if i_FIFO_FULL = '0' then next_s <= E5;
-		       else next_s <= E4;
+	    when E4 => next_s <= E2;
+	    when E5 => if i_FIFO_FULL = '0' then next_s <= E6;
+		       else next_s <= E5;
 		       end if;
-	    when E5 => next_s <= E1;
+	    when E6 => next_s <= E2;
 	end case;
     end process;
 
@@ -90,15 +95,15 @@ begin
 
 -- RE mem signals
 
-    o_RE_NODE <= '1' when current_s = E1 else '0';
-    o_RE_THR  <= '1' when current_s = E1 else '0';
-    o_RE_DATA <= '1' when current_s = E2 else '0';
+    o_RE_NODE <= '1' when current_s = E2 else '0';
+    o_RE_THR  <= '1' when current_s = E2 else '0';
+    o_RE_DATA <= '1' when current_s = E3 else '0';
 
 -- C node mem
 
-    LD_c_node_mem <= '1' when current_s = E3 and go_right = '1' else '0';
-    INC_c_node_mem <= '1' when current_s = E3 and go_right = '0' else '0';
-    CL_c_node_mem <= '1' when current_s = E0 or current_s = E5 else '0';
+    LD_c_node_mem <= '1' when current_s = E4 and go_right = '1' else '0';
+    INC_c_node_mem <= '1' when current_s = E4 and go_right = '0' else '0';
+    CL_c_node_mem <= '1' when current_s = E1 or current_s = E6 else '0';
 
     process(i_CLK, CL_c_node_mem)
     begin
@@ -117,8 +122,8 @@ begin
 
 -- C data mem
 
-    INC_c_data_mem <= '1' when current_s = E5 else '0';
-    CL_c_data_mem <= '1' when current_s = E0 else '0';
+    INC_c_data_mem <= '1' when current_s = E6 else '0';
+    CL_c_data_mem <= '1' when current_s = E1 else '0';
 
     process(i_CLK, CL_c_data_mem)
     begin
@@ -139,7 +144,7 @@ begin
 -- R class
 
     o_CLASS <= feature;
-    o_WR_FIFO <= '1' when current_s = E5 else '0';
+    o_WR_FIFO <= '1' when current_s = E6 else '0';
 
 -- CMP
 
@@ -158,7 +163,7 @@ begin
     p_ASSERT : process (i_CLK) is
     begin
 	if rising_edge(i_CLK) then
-	    if o_WR_FIFO = '1' and next_s = E1 then
+	    if o_WR_FIFO = '1' and next_s = E2 then
 		report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
 	    end if;
 	end if;
