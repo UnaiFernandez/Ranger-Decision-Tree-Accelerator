@@ -46,6 +46,9 @@ signal config_done, en_config, inc_data_addr: std_logic;
 signal re_data : std_logic;
 signal dt_id : std_logic_vector(7 downto 0);
 
+signal sel_re_data: std_logic:= '0';
+signal re_data_config, re_data_ctl : STD_LOGIC;
+
 signal inf_done :std_logic;
 
 signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
@@ -106,7 +109,7 @@ for I in 0 to g_dt_instances - 1 generate
         i_CONFIG_DONE => config_done,
         i_SEL => sel(I),
         i_DATA_ADDR => data_addr,
-        o_RE_data => re_data,
+        o_RE_data => re_data_ctl,
         o_data_addr => o_addr_data_mem,
         o_class => class
     );
@@ -127,8 +130,14 @@ port map(
     o_dt_id => dt_id,
     o_data_addr => data_addr,
     o_config_done => config_done,
-    o_re_data => o_RE_data
+    o_re_data => re_data_config
 );
+
+sel_re_data <= '1' when current_s = E2 else '0';
+
+re_data <= re_data_config when sel_re_data = '0' else re_data_ctl;
+
+o_RE_data <= re_data;
 
 p_ASSERT : process (i_CLK) is
 begin

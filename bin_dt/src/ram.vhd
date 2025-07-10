@@ -34,26 +34,26 @@ architecture arch_ram of ram is
     attribute ram_style: string;
 
     impure function init_mem(mem_depth : in integer) return memory_t is
-	file mem_content : text open read_mode is g_INIT_FILE;
-	variable fline : line;
-	variable temp : memory_t(mem_depth - 1 downto 0);
-	variable data : bit_vector(temp(0)'range);
-    begin
-	--while not endfile(mem_content) loop
-	for i in 0 to mem_depth - 1 loop
-	    if g_INIT = '1' then
-		if not endfile(mem_content) then
-	    	    readline(mem_content, fline);
-	    	    read(fline, data);
-	    	    temp(i) := to_stdlogicvector(data);
-	    	else
-	    	    temp(i) := (others => '0');
-	    	end if;
-	    else
-		temp(i) := (others => '0');
-	    end if;
-	end loop;
-	return temp;
+        file mem_content : text open read_mode is g_INIT_FILE;
+        variable fline : line;
+        variable temp : memory_t(mem_depth - 1 downto 0);
+        variable data : bit_vector(temp(0)'range);
+        begin
+        --while not endfile(mem_content) loop
+        for i in 0 to mem_depth - 1 loop
+	        if g_INIT = '1' then
+				if not endfile(mem_content) then
+	    	        readline(mem_content, fline);
+	    	        read(fline, data);
+	    	        temp(i) := to_stdlogicvector(data);
+	    	    else
+	    	        temp(i) := (others => '0');
+	    	    end if;
+	        else
+				temp(i) := (others => '0');
+	        end if;
+        end loop;
+        return temp;
     end;
 
     --signal ram_mem: memory_t(2**g_addr_width-1 downto 0) := init_mem(2**g_addr_width);
