@@ -18,15 +18,15 @@ entity dt_accel is
 	i_CLK : in std_logic;
 	i_RESET : in std_logic;
 	i_DATA : in std_logic_vector;
-	i_RE_CLASS : in std_logic;
-	i_CONFIG_DONE : in std_logic;
+	--i_RE_CLASS : in std_logic;
+	i_ENABLE : in std_logic;
 	i_SEL : in std_logic;
 	i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 	----------------------------------------------------
 	o_RE_DATA : out std_logic;
 	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
-	o_CLASS : out std_logic_vector(15 downto 0);
-	o_CLASS_FIFO_EMPTY : out std_logic
+	o_CLASS : out std_logic_vector(15 downto 0)
+	--o_CLASS_FIFO_EMPTY : out std_logic
     );
 end dt_accel;
 
@@ -53,7 +53,7 @@ signal fifo_full	: std_logic;
 
 type state is (E0, E1, E2);
 signal current_s, next_s: state;
-signal config_done, task_terminated : STD_LOGIC;
+signal enable, task_terminated : STD_LOGIC;
 signal cl_data_addr, ld_data_addr, inc_data_addr: STD_LOGIC;
 
 
@@ -61,12 +61,12 @@ begin
 
 -- State machine
 
-config_done <= i_CONFIG_DONE;
+enable <= i_enable;
 
-process(current_s, next_s, config_done, task_terminated)
+process(current_s, next_s, enable, task_terminated)
 begin
 	case current_s is
-	    when E0 => if config_done = '1' then next_s <= E1;
+	    when E0 => if enable = '1' then next_s <= E1;
 		       else next_s <= E0;
 		       end if;
 	    when E1 => if task_terminated = '1' then next_s <= E2;
@@ -93,7 +93,7 @@ generic map(
     g_DATA_WIDTH => g_DATA_WIDTH,
     g_DEPTH => g_DEPTH,
     g_INIT_FILE => "./memory_content/bin_node_mem_content.txt",
-    g_INIT => '0'
+    g_INIT => '1'
 )
 port map(
     i_CLK => i_clk,
@@ -118,37 +118,17 @@ generic map(
 port map(
     i_clk => i_clk,
     i_reset => i_reset,
-    i_FIFO_FULL => fifo_full,
+    i_ENABLE => enable,
     i_node_info => node_info,
     i_threshold	=> threshold,
     i_data_out => i_data,
-    i_CONFIG_DONE => config_done,
     o_RE_node => RE_node,
     o_RE_data => o_RE_data,
     o_RE_thr => RE_thr,
     o_node_addr => node_addr_0,
     o_thr_addr => thr_addr,
     o_data_addr	=> o_data_addr,
-    o_wr_fifo => wr_en,
+    o_DONE => wr_en,
     o_class => class
 );
-
-CLASS_FIFO: fifo
-generic map(
-    g_DEPTH => 8,
-    g_DATA_WIDTH => g_ADDR_WIDTH,
-    g_ADDR_WIDTH => g_ADDR_WIDTH
-)
-port map(
-    i_clk => i_clk,
-    i_re_en => i_RE_CLASS,
-    i_wr_en => wr_en,
-    i_wr_data => class,
-    o_rd_data => o_class,
-    o_FIFO_EMPTY => fifo_empty,
-    o_fifo_full	=> fifo_full
-);
-
-o_CLASS_FIFO_EMPTY <= fifo_empty;
-
 end arch_dt_accel;

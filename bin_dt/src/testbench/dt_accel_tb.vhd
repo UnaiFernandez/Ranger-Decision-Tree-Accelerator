@@ -29,7 +29,7 @@ signal rd_data		: std_logic_vector(l_width - 1 downto 0);
 signal fifo_empty	: std_logic;
 signal fifo_full	: std_logic;
 
-signal config_done, sel : std_logic;
+signal enable, sel : std_logic;
 signal o_addr_data_mem : unsigned(16 - 1 downto 0);
 
 
@@ -65,29 +65,13 @@ port map(
     i_clk => clk,
     i_reset => reset,
     i_data => data,
-    i_RE_CLASS => re_en,
-    i_CONFIG_DONE => config_done,
+--    i_RE_CLASS => re_en,
+    i_ENABLE => enable,
     i_SEL => sel,
     i_DATA_ADDR => data_addr,
     o_RE_data => re_data,
     o_data_addr => data_addr,
     o_class => class
-);
-
-CLASS_FIFO: fifo
-generic map(
-    g_depth => 8,
-    g_DATA_WIDTH => l_width,
-    g_ADDR_WIDTH => l_width
-)
-port map(
-    i_clk => clk,
-    i_re_en => re_en,
-    i_wr_en => wr_en,
-    i_wr_data => class,
-    o_rd_data => rd_data,
-    o_fifo_empty => fifo_empty,
-    o_fifo_full	=> fifo_full
 );
 
 
@@ -99,11 +83,14 @@ process
 begin
     re_en <= '0';
     wait for 20 ns;
-    config_done <= '1';
+    enable <= '1';
     wait for 20 ns;
-    config_done <= '0';
+    enable <= '0';
     wait for 400 ns;
     re_en <= '1';
+    enable <= '1';
+    wait for 20 ns;
+    enable <= '0';
     wait for 20 ns;
     re_en <= '0';
     wait for 420 ns;

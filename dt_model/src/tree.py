@@ -29,13 +29,14 @@ def main():
     bin_node_mem = create_mem_bin_layouts("dt.json", t_dict_bin)
     data_mem = create_data_mem(x_test)
     node_count = format(len(bin_node_mem), "0{}b".format(24)) + format(0, "0{}b".format(8))
-    bin_node_mem.insert(0, node_count)
+    
 
     print("[-] Writing memory layouts to txt files")
     write_to_file(node_mem, "bin_dt/memory_content/node_mem_content.txt")
     write_to_file(bin_node_mem, "bin_dt/memory_content/bin_node_mem_content.txt")
     write_to_file(link_mem, "bin_dt/memory_content/link_mem_content.txt")
     write_to_file(data_mem, "bin_dt/memory_content/data_mem_content.txt")
+    bin_node_mem.insert(0, node_count)
     write_to_file(bin_node_mem + data_mem, "bin_dt/memory_content/mixed.txt")
 
 

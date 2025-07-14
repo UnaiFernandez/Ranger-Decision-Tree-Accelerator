@@ -16,11 +16,10 @@ entity dt_ctl is
     port(
 	    i_CLK		        : in std_logic;
 	    i_RESET		        : in std_logic;
-	    i_FIFO_FULL		    : in std_logic;
+	    i_ENABLE		    : in std_logic;
 	    i_NODE_INFO	        : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_THRESHOLD		    : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_DATA_OUT	        : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-		i_CONFIG_DONE       : in STD_LOGIC;
 		-----------------------------------------------------
 	    o_RE_NODE		    : out std_logic;
 	    o_RE_DATA    	    : out std_logic;
@@ -28,7 +27,7 @@ entity dt_ctl is
 	    o_NODE_ADDR         : out unsigned(g_LINK_WIDTH - 1 downto 0);
 	    o_THR_ADDR	        : out unsigned(g_LINK_WIDTH - 1 downto 0);
 	    o_DATA_ADDR	        : out unsigned(g_LINK_WIDTH - 1 downto 0);
-	    o_WR_FIFO		    : out std_logic;
+	    o_DONE		    : out std_logic;
 	    o_CLASS		        : out std_logic_vector(15 downto 0)
 	);
 end dt_ctl;
@@ -54,17 +53,17 @@ architecture arch_dt_ctl of dt_ctl is
     signal LD_class : std_logic;
     signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
 
-    signal leaf, go_right, read_node_info, init : std_logic;
+    signal leaf, go_right, read_node_info, enable : std_logic;
 
 begin
 
-init <= i_CONFIG_DONE;
+enable <= i_ENABLE;
 -- State machine
 
-    process(current_s, next_s, leaf, go_right, init)
+    process(current_s, next_s, leaf, go_right, enable)
     begin
 	case current_s is
-	    when E0 => if init = '1' then next_s <= E1;
+	    when E0 => if enable = '1' then next_s <= E1;
 					else next_s <= E0;
 					end if;
 	    when E1 => next_s <= E2;
@@ -73,7 +72,7 @@ init <= i_CONFIG_DONE;
 		       else next_s <= E5;
 		       end if;
 	    when E4 => next_s <= E2;
-	    when E5 => if i_FIFO_FULL = '0' then next_s <= E6;
+	    when E5 => if enable = '1' then next_s <= E6;
 		       else next_s <= E5;
 		       end if;
 	    when E6 => next_s <= E2;
@@ -143,8 +142,7 @@ init <= i_CONFIG_DONE;
 
 -- R class
 
-    o_CLASS <= feature;
-    o_WR_FIFO <= '1' when current_s = E6 else '0';
+    o_DONE <= '1' when current_s = E5 else '0';
 
 -- CMP
 
@@ -160,10 +158,25 @@ init <= i_CONFIG_DONE;
     end process;
 
 
+
+
+    ld_class <= '1' when current_s = E3 and leaf = '1' else '0';
+    
+    process(i_clk, ld_class)
+    begin
+        if rising_edge(i_clk) then
+    	if ld_class = '1' then
+    	    o_class <= feature;
+    	end if;
+        end if;
+    end process;
+
+
+
     p_ASSERT : process (i_CLK) is
     begin
 	if rising_edge(i_CLK) then
-	    if o_WR_FIFO = '1' and next_s = E2 then
+	    if ld_class = '1' then
 		report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
 	    end if;
 	end if;

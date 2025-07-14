@@ -16,11 +16,10 @@ package dt_ctl_pkg is
         port(
             i_clk		        : in std_logic;
             i_reset		        : in std_logic;
-            i_FIFO_FULL		    : in std_logic;
+            i_ENABLE		    : in std_logic;
             i_node_info		    : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
             i_threshold		    : in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
             i_data_out		    : in std_logic_vector(g_DATA_WIDTH	 - 1 downto 0);
-            i_CONFIG_DONE       : in STD_LOGIC;
             -----------------------------------------------------
             o_RE_node		    : out std_logic;
             o_RE_data		    : out std_logic;
@@ -28,7 +27,7 @@ package dt_ctl_pkg is
             o_node_addr		    : out unsigned(g_LINK_WIDTH - 1 downto 0);
             o_thr_addr		    : out unsigned(g_LINK_WIDTH - 1 downto 0);
             o_data_addr		    : out unsigned(g_LINK_WIDTH - 1 downto 0);
-            o_wr_fifo		    : out std_logic;
+            o_DONE		    : out std_logic;
             o_class		        : out std_logic_vector(15 downto 0)
         );
     end component;
