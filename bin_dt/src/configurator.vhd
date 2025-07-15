@@ -40,7 +40,7 @@ signal c_nodes_out : integer := 0; --range??
 signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 -- Register
 
-signal r_dt_id_out : std_logic_vector(7 downto 0);
+signal r_dt_id_out : std_logic_vector(7 downto 0) := (others => '0');
 signal ld_dt_id : std_logic;
 
 begin
@@ -131,5 +131,8 @@ begin
     end if;
 end process;
 
-o_dt_id <= r_dt_id_out when current_s = E1 or current_s = E3 else "UUUUUUUU";
+--o_dt_id <= r_dt_id_out when current_s = E1 or current_s = E3 else (others => '0');
+--o_dt_id <= r_dt_id_out when current_s = E1 or current_s = E3 else "UUUUUUUU";
+--o_dt_id <= r_dt_id_out when current_s = E3 else "UUUUUUUU";
+o_dt_id <= r_dt_id_out when current_s = E3 else (others => '0');
 end arch_configurator;

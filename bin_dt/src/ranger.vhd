@@ -40,9 +40,11 @@ signal fifo_full	: std_logic;
 signal class		: std_logic_vector(g_addr_width - 1 downto 0);
 
 signal sel		    : std_logic_vector(g_dt_instances - 1 downto 0);
+signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
+signal calc_result : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
 
 
-signal config_done, en_config, inc_data_addr: std_logic;
+signal config_done, enable, enable_next, en_config, inc_data_addr: std_logic;
 signal re_data : std_logic;
 signal dt_id : std_logic_vector(7 downto 0);
 
@@ -56,7 +58,7 @@ signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 begin
 -- State machine
 
-process(current_s, next_s, init, config_done, inf_done)
+process(current_s, next_s, init, enable, inf_done)
 begin
 	case current_s is
 	    when E0 => if init = '1' then next_s <= E1;
@@ -87,8 +89,8 @@ en_config <= '1' when current_s = E1 else '0';
 process(dt_id)
 begin
     sel <= (others => '0');
-    if dt_id /= "UUUUUUUU" then
-        sel(to_integer(unsigned(dt_id))) <= '1';
+    if dt_id /= "00000000" then
+        sel(to_integer(unsigned(dt_id) - 1)) <= '1';
     end if;
 end process;
 
@@ -105,15 +107,19 @@ for I in 0 to g_dt_instances - 1 generate
         i_clk => i_clk,
         i_reset => i_reset,
         i_data => i_data_mem,
-        i_RE_CLASS => re_en,
-        i_CONFIG_DONE => config_done,
+--        i_RE_CLASS => re_en,
+        i_ENABLE => enable,
         i_SEL => sel(I),
         i_DATA_ADDR => data_addr,
         o_RE_data => re_data_ctl,
+	o_DONE => result_ready(I),
         o_data_addr => o_addr_data_mem,
         o_class => class
     );
 end generate DT_ACCELERATOR;
+
+enable_next <= '1' when result_ready = calc_result else '0';
+enable <= enable_next or config_done; 
 
 -- CONFIGURATOR
 
@@ -129,20 +135,26 @@ port map(
     i_data => i_data_mem,
     o_dt_id => dt_id,
     o_data_addr => data_addr,
-    o_config_done => config_done,
+    o_CONFIG_DONE => config_done,
     o_re_data => re_data_config
 );
 
+-- Select who controls RE_DATA signal.
+
 sel_re_data <= '1' when current_s = E2 else '0';
 
-re_data <= re_data_config when sel_re_data = '0' else re_data_ctl;
+o_RE_data <= re_data_config when sel_re_data = '0' else re_data_ctl;
 
-o_RE_data <= re_data;
+--o_RE_data <= re_data;
+
+--result_ready
+
+
 
 p_ASSERT : process (i_CLK) is
 begin
     if rising_edge(i_CLK) then
-        if config_done = '1' then
+        if current_s = E1 and enable = '1' then
 	    report "Configuration done" severity note;
         end if;
     end if;

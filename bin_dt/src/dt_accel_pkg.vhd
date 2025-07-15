@@ -21,6 +21,7 @@ package dt_accel_pkg is
 					i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
     	    ----------------------------------------------------
     	    o_RE_DATA : out std_logic;
+    	    o_DONE : out std_logic;
     	    o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
     	    o_CLASS : out std_logic_vector(15 downto 0)
     	    --o_CLASS_FIFO_EMPTY : out std_logic

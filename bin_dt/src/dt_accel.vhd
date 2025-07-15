@@ -24,6 +24,7 @@ entity dt_accel is
 	i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 	----------------------------------------------------
 	o_RE_DATA : out std_logic;
+	o_DONE : out std_logic;
 	o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	o_CLASS : out std_logic_vector(15 downto 0)
 	--o_CLASS_FIFO_EMPTY : out std_logic
@@ -93,7 +94,7 @@ generic map(
     g_DATA_WIDTH => g_DATA_WIDTH,
     g_DEPTH => g_DEPTH,
     g_INIT_FILE => "./memory_content/bin_node_mem_content.txt",
-    g_INIT => '1'
+    g_INIT => '0'
 )
 port map(
     i_CLK => i_clk,
@@ -128,7 +129,7 @@ port map(
     o_node_addr => node_addr_0,
     o_thr_addr => thr_addr,
     o_data_addr	=> o_data_addr,
-    o_DONE => wr_en,
+    o_DONE => o_DONE,
     o_class => class
 );
 end arch_dt_accel;
