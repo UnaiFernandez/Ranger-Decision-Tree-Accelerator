@@ -12,13 +12,18 @@ package fifo_pkg is
     	);
 	port(
     	    i_CLK		: in std_logic;
-    	    i_RE_EN		: in std_logic;
-    	    i_WR_EN		: in std_logic;
-    	    i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+    	    i_RESET		: in std_logic;
+    	    i_RE_FIFO		: in std_logic;
+    	    i_WR_FIFO		: in std_logic;
+    	    i_WR_DATA		: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+    	    i_MODE		: in std_logic;
+    	    i_ADDR_0		: in unsigned(g_ADDR_WIDTH - 1 downto 0);
+    	    i_ADDR_1		: in unsigned(g_ADDR_WIDTH - 1 downto 0);
     	--------------------------------------------------------
-    	    o_RD_DATA	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+    	    o_DATA_0		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+    	    o_DATA_1		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     	    o_FIFO_EMPTY	: out std_logic;
-    	    o_FIFO_FULL	: out std_logic
+    	    o_FIFO_FULL		: out std_logic
     	);
     end component;
 end fifo_pkg;

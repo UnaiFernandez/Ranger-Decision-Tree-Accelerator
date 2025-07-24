@@ -50,6 +50,7 @@ port map(
     i_WE_1 => '0',
     i_addr_0 => data_addr,
     i_addr_1 => data_addr,
+    i_wr_addr => (others => '0'),
     i_data_1 => (others => '0'),
     o_data_0 => data,
     o_data_1 => data

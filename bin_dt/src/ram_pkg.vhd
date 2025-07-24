@@ -20,6 +20,7 @@ package ram_pkg is
 	i_WE_1 		: in std_logic;
 	i_ADDR_0    : in unsigned(g_addr_width - 1 downto 0);
 	i_ADDR_1    : in unsigned(g_addr_width - 1 downto 0);
+	i_WR_ADDR    : in unsigned(g_addr_width - 1 downto 0);
 	i_DATA_1    : in std_logic_vector(g_data_width - 1 downto 0);
 	--------------------------------------------------------------
 	o_DATA_0    : out std_logic_vector(g_data_width - 1 downto 0);

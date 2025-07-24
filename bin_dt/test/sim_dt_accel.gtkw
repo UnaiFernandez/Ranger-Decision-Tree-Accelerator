@@ -1,21 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Mon Jul 14 15:14:35 2025
+[*] Wed Jul 16 10:53:34 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.ghw"
-[dumpfile_mtime] "Mon Jul 14 15:11:29 2025"
-[dumpfile_size] 56588
+[dumpfile_mtime] "Tue Jul 15 08:31:40 2025"
+[dumpfile_size] 56596
 [savefile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.gtkw"
 [timestart] 420300000
-[size] 1239 1316
+[size] 2504 1316
 [pos] -1 -1
 *-26.100000 390900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.dt_accel_tb.
 [treeopen] top.dt_accel_tb.dt_accelerator.
-[treeopen] top.dt_accel_tb.dt_accelerator.dt.
 [sst_width] 297
-[signals_width] 246
+[signals_width] 240
 [sst_expanded] 1
 [sst_vpaned_height] 420
 @800200
@@ -42,7 +41,7 @@ top.dt_accel_tb.dt_accelerator.dt.o_done
 top.dt_accel_tb.dt_accelerator.dt.ld_class
 @22
 #{top.dt_accel_tb.dt_accelerator.dt.o_class[15:0]} top.dt_accel_tb.dt_accelerator.dt.o_class[15] top.dt_accel_tb.dt_accelerator.dt.o_class[14] top.dt_accel_tb.dt_accelerator.dt.o_class[13] top.dt_accel_tb.dt_accelerator.dt.o_class[12] top.dt_accel_tb.dt_accelerator.dt.o_class[11] top.dt_accel_tb.dt_accelerator.dt.o_class[10] top.dt_accel_tb.dt_accelerator.dt.o_class[9] top.dt_accel_tb.dt_accelerator.dt.o_class[8] top.dt_accel_tb.dt_accelerator.dt.o_class[7] top.dt_accel_tb.dt_accelerator.dt.o_class[6] top.dt_accel_tb.dt_accelerator.dt.o_class[5] top.dt_accel_tb.dt_accelerator.dt.o_class[4] top.dt_accel_tb.dt_accelerator.dt.o_class[3] top.dt_accel_tb.dt_accelerator.dt.o_class[2] top.dt_accel_tb.dt_accelerator.dt.o_class[1] top.dt_accel_tb.dt_accelerator.dt.o_class[0]
-@29
+@28
 top.dt_accel_tb.dt_accelerator.dt.enable
 @c00200
 -FIFO_OUT

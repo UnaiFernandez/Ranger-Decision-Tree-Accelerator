@@ -103,6 +103,7 @@ port map(
     i_WE_1 => i_SEL,
     i_ADDR_0 => node_addr_0,
     i_ADDR_1 => node_addr_1,
+    i_WR_ADDR => node_addr_1,
     i_DATA_1 => i_DATA,
     o_DATA_0 => node_info,
     o_DATA_1 => threshold

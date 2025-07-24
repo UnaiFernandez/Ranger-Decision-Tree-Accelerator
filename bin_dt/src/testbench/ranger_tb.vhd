@@ -35,6 +35,8 @@ signal class_re: std_logic_vector(31 downto 0);
 
 signal init_button	: std_logic := '0';
 
+signal re_fifo_data : std_logic_vector(n_width - 1 downto 0);
+signal wr_fifo_data : std_logic_vector(n_width - 1 downto 0);
 -------------------------------------------------------------------------
 type memory_t is array (natural range <>) of std_logic_vector(g_data_width - 1 downto 0);
 
@@ -60,6 +62,8 @@ end;
 signal pc_data: memory_t(depth - 1 downto 0) := init_mem(depth);
 signal pc_data_addr : UNSIGNED(l_width - 1 downto 0) := (others => '0');
 signal inc_pc_data_addr : STD_LOGIC := '0';
+
+signal mode : std_logic;
 begin
 
 DT_RANGER: ranger
@@ -73,7 +77,8 @@ port map(
     i_clk => clk,
     i_reset => reset,
     init => init_button,
-    i_data_mem => class_re,
+    i_data_mem => re_fifo_data,
+    o_mode => mode,
     o_RE_data => RE_data,
     o_addr_data_mem => data_addr,
     o_class_fifo => class
@@ -83,14 +88,18 @@ FIFO_DATA: fifo
 generic map(
     g_depth => depth,
     g_data_width=> 32,
-    g_addr_width=> 32
+    g_addr_width=> l_width
 )
 port map(
     i_clk => clk,
     i_re_en => RE_data,
     i_wr_en => wr_en,
-    i_wr_data => class_wr,
-    o_rd_data => class_re,
+    i_mode => mode,
+    i_wr_data => wr_fifo_data,
+    i_addr_0 => data_addr,
+    i_addr_1 => data_addr, -- Not Used
+    o_data_0 => re_fifo_data,
+    o_data_1 => re_fifo_data,
     o_fifo_empty => fifo_empty,
     o_fifo_full	=> fifo_full
 );
@@ -114,7 +123,7 @@ begin
 
 
     for index in 0 to depth - 1 loop
-        class_wr <= pc_data(index);
+        wr_fifo_data <= pc_data(index);
         wait for 10 ns;
         wr_en <= '1';
         wait for 10 ns;

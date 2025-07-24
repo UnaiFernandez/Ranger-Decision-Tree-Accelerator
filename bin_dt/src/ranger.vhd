@@ -21,6 +21,7 @@ entity ranger is
 	i_reset : in std_logic;
 	i_data_mem : in std_logic_vector(g_data_width - 1 downto 0);
 	init : in std_logic;
+	o_mode : out std_logic;
 	o_RE_data : out std_logic;
 	o_addr_data_mem : out unsigned(g_addr_width - 1 downto 0);
 	o_class_fifo : out std_logic_vector(g_addr_width - 1 downto 0)
@@ -54,6 +55,8 @@ signal re_data_config, re_data_ctl : STD_LOGIC;
 signal inf_done :std_logic;
 
 signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
+
+signal mode : std_logic := '0';
 
 begin
 -- State machine
@@ -145,6 +148,9 @@ sel_re_data <= '1' when current_s = E2 else '0';
 
 o_RE_data <= re_data_config when sel_re_data = '0' else re_data_ctl;
 
+mode <= '1' when current_s = E2 else '0';
+
+o_mode <= mode;
 --o_RE_data <= re_data;
 
 --result_ready

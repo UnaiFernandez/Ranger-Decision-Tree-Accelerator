@@ -20,6 +20,7 @@ entity ram is
 	i_WE_1 		: in std_logic;
 	i_ADDR_0    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
 	i_ADDR_1    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
+	i_WR_ADDR    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
 	i_DATA_1    : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	--------------------------------------------------------------
 	o_DATA_0    : out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -33,6 +34,7 @@ architecture arch_ram of ram is
 
     attribute ram_style: string;
 
+    -- TODO Borrar la funcion??
     impure function init_mem(mem_depth : in integer) return memory_t is
         file mem_content : text open read_mode is g_INIT_FILE;
         variable fline : line;
@@ -73,7 +75,7 @@ begin
 		o_DATA_1 <= ram_mem(to_integer(i_ADDR_1));
 	    end if;
 	    if i_WE_1 = '1' then
-		ram_mem(to_integer(i_ADDR_1)) <= i_DATA_1;
+		ram_mem(to_integer(i_WR_ADDR)) <= i_DATA_1;
 	    end if;
 	end if;
     end process;
