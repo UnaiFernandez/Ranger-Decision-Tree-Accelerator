@@ -8,12 +8,15 @@ package fifo_pkg is
 	generic(
 	    g_DATA_WIDTH: integer;
 	    g_ADDR_WIDTH: integer;
+	    g_SPAN: integer;
 	    g_DEPTH: integer
     	);
 	port(
     	    i_CLK		: in std_logic;
     	    i_RESET		: in std_logic;
     	    i_RE_FIFO		: in std_logic;
+    	    i_RE_0		: in std_logic;
+    	    i_RE_1		: in std_logic;
     	    i_WR_FIFO		: in std_logic;
     	    i_WR_DATA		: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     	    i_MODE		: in std_logic;

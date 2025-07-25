@@ -9,12 +9,15 @@ entity fifo is
     generic(
 	g_DATA_WIDTH: integer;
 	g_ADDR_WIDTH: integer;
+	g_SPAN: integer;
 	g_DEPTH: integer
     );
     port(
 	i_CLK		: in std_logic;
     	i_RESET		: in std_logic;
 	i_RE_FIFO	: in std_logic;
+	i_RE_0		: in std_logic;
+    	i_RE_1		: in std_logic;
 	i_WR_FIFO	: in std_logic;
 	i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	i_MODE		: in std_logic;
@@ -30,11 +33,11 @@ end fifo;
 
 architecture arch_fifo of fifo is
 
--- Flag logic
+-- Control logic
 signal full, empty: std_logic;
-signal re_en, wr_en : std_logic := '0';
+signal re_en_0, re_en_1, wr_en : std_logic := '0';
 signal c_inc, c_dec : std_logic := '0';
-
+signal span : integer := 0;
 -- Number of elements
 signal mem_elements : integer range 0 to g_DEPTH := 0;
 
@@ -46,9 +49,9 @@ subtype addr_t is integer range 0 to g_DEPTH - 1;
 signal rd_addr, wr_addr : addr_t := 0;
 signal addr_0, addr_1 : unsigned(g_ADDR_WIDTH - 1 downto 0);
 
-procedure inc_addr(signal addr : inout addr_t; span : in  integer) is
+procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
 begin
-    addr <= (addr + span) mod addr_t'high;
+    addr <= (addr + mem_span) mod addr_t'high;
 end procedure;
 
 
@@ -64,8 +67,8 @@ generic map(
 )
 port map(
     i_CLK => i_clk,
-    i_RE_0 => re_en,
-    i_RE_1 => '0', --not used
+    i_RE_0 => re_en_0,
+    i_RE_1 => re_en_1, --not used
     i_WE_1 => wr_en,
     i_ADDR_0 => addr_0, -- to_unsigned(rd_addr, g_ADDR_WIDTH),
     i_ADDR_1 => addr_1,
@@ -78,9 +81,14 @@ port map(
 -- TODO
 -- Cuando este en el modo 1 hay q saber cuantos features hay en una linea, para poder saltarlos todos de golpe, añadir un paramentro.
 -- Faltaria otra señal para saber cuando hay q avanzar addr + span en la memoria y para cuando hay q leer datos de la memoria (enable)
+-- RE_FIFO y WR_FIFO habilitan que lod addr incrementen
+-- RE_0 y RE_1 habilitan la lectura de datos en el modo normal
 
-re_en <= i_RE_FIFO and not empty;
+re_en_0 <= i_RE_FIFO and not empty when i_mode = '0' else i_RE_0;
+re_en_1 <= i_RE_1;
 wr_en <= i_WR_FIFO and not full;
+
+span <= g_SPAN when i_mode = '1' else 1;
 
 addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_0 + to_unsigned(rd_addr, g_ADDR_WIDTH);
 addr_1 <= to_unsigned(wr_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_1 + to_unsigned(rd_addr, g_ADDR_WIDTH);
@@ -92,18 +100,16 @@ begin
 	rd_addr <= 0;
 	wr_addr <= 0;
     elsif rising_edge(i_clk) then
-	if i_mode = '0' then
 	    -- Read
 	    if i_re_fifo = '1' and empty = '0' then
-	        inc_addr(rd_addr, 1);
-	        mem_elements <= mem_elements - 1;
+	        inc_addr(rd_addr, span);
+	        mem_elements <= mem_elements - span;
 	    end if;
 	    -- Write
 	    if i_wr_fifo = '1' and full = '0' then
-	        inc_addr(wr_addr, 1);
-	        mem_elements <= mem_elements + 1;
+	        inc_addr(wr_addr, span);
+	        mem_elements <= mem_elements + span;
 	    end if;
-	end if;
     end if;
 end process;
 
