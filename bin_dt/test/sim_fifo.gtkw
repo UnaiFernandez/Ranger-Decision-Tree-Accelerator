@@ -1,38 +1,40 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Thu Jul 24 10:17:15 2025
+[*] Thu Jul 24 19:55:35 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_fifo.ghw"
-[dumpfile_mtime] "Thu Jul 24 10:03:47 2025"
-[dumpfile_size] 3968
+[dumpfile_mtime] "Thu Jul 24 19:51:19 2025"
+[dumpfile_size] 4533
 [savefile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_fifo.gtkw"
 [timestart] 0
-[size] 2504 1316
+[size] 1864 956
 [pos] -1 -1
-*-24.299999 29400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-25.299999 229400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.fifo_tb.
 [treeopen] top.fifo_tb.class_fifo.
-[treeopen] top.fifo_tb.class_fifo.fifo_mem.
 [sst_width] 297
 [signals_width] 158
 [sst_expanded] 1
-[sst_vpaned_height] 406
+[sst_vpaned_height] 664
 @28
 top.fifo_tb.class_fifo.i_clk
 top.fifo_tb.class_fifo.empty
 top.fifo_tb.class_fifo.full
 top.fifo_tb.class_fifo.re_en
+top.fifo_tb.class_fifo.i_wr_fifo
 top.fifo_tb.class_fifo.wr_en
 @420
 top.fifo_tb.class_fifo.wr_addr
 top.fifo_tb.class_fifo.rd_addr
+@800200
+-fifo_data
+@420
+[color] 5
+top.fifo_tb.class_fifo.wr_addr
 @22
 [color] 5
 #{top.fifo_tb.class_fifo.i_wr_data[15:0]} top.fifo_tb.class_fifo.i_wr_data[15] top.fifo_tb.class_fifo.i_wr_data[14] top.fifo_tb.class_fifo.i_wr_data[13] top.fifo_tb.class_fifo.i_wr_data[12] top.fifo_tb.class_fifo.i_wr_data[11] top.fifo_tb.class_fifo.i_wr_data[10] top.fifo_tb.class_fifo.i_wr_data[9] top.fifo_tb.class_fifo.i_wr_data[8] top.fifo_tb.class_fifo.i_wr_data[7] top.fifo_tb.class_fifo.i_wr_data[6] top.fifo_tb.class_fifo.i_wr_data[5] top.fifo_tb.class_fifo.i_wr_data[4] top.fifo_tb.class_fifo.i_wr_data[3] top.fifo_tb.class_fifo.i_wr_data[2] top.fifo_tb.class_fifo.i_wr_data[1] top.fifo_tb.class_fifo.i_wr_data[0]
-@800200
--fifo_data
-@22
 [color] 2
 #{top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[0][0]
 [color] 2
@@ -41,9 +43,30 @@ top.fifo_tb.class_fifo.rd_addr
 #{top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[2][0]
 [color] 2
 #{top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[3][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[4][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[5][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[6][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[7][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[8][0]
+[color] 2
+#{top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][15:0]} top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][15] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][14] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][13] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][12] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][11] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][10] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][9] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][8] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][7] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][6] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][5] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][4] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][3] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][2] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][1] top.fifo_tb.class_fifo.fifo_mem.ram_mem[9][0]
 @1000200
 -fifo_data
+@420
+top.fifo_tb.class_fifo.rd_addr
 @22
+#{top.fifo_tb.class_fifo.addr_0[15:0]} top.fifo_tb.class_fifo.addr_0[15] top.fifo_tb.class_fifo.addr_0[14] top.fifo_tb.class_fifo.addr_0[13] top.fifo_tb.class_fifo.addr_0[12] top.fifo_tb.class_fifo.addr_0[11] top.fifo_tb.class_fifo.addr_0[10] top.fifo_tb.class_fifo.addr_0[9] top.fifo_tb.class_fifo.addr_0[8] top.fifo_tb.class_fifo.addr_0[7] top.fifo_tb.class_fifo.addr_0[6] top.fifo_tb.class_fifo.addr_0[5] top.fifo_tb.class_fifo.addr_0[4] top.fifo_tb.class_fifo.addr_0[3] top.fifo_tb.class_fifo.addr_0[2] top.fifo_tb.class_fifo.addr_0[1] top.fifo_tb.class_fifo.addr_0[0]
 #{top.fifo_tb.class_fifo.data_0[15:0]} top.fifo_tb.class_fifo.data_0[15] top.fifo_tb.class_fifo.data_0[14] top.fifo_tb.class_fifo.data_0[13] top.fifo_tb.class_fifo.data_0[12] top.fifo_tb.class_fifo.data_0[11] top.fifo_tb.class_fifo.data_0[10] top.fifo_tb.class_fifo.data_0[9] top.fifo_tb.class_fifo.data_0[8] top.fifo_tb.class_fifo.data_0[7] top.fifo_tb.class_fifo.data_0[6] top.fifo_tb.class_fifo.data_0[5] top.fifo_tb.class_fifo.data_0[4] top.fifo_tb.class_fifo.data_0[3] top.fifo_tb.class_fifo.data_0[2] top.fifo_tb.class_fifo.data_0[1] top.fifo_tb.class_fifo.data_0[0]
+#{top.fifo_tb.class_fifo.addr_1[15:0]} top.fifo_tb.class_fifo.addr_1[15] top.fifo_tb.class_fifo.addr_1[14] top.fifo_tb.class_fifo.addr_1[13] top.fifo_tb.class_fifo.addr_1[12] top.fifo_tb.class_fifo.addr_1[11] top.fifo_tb.class_fifo.addr_1[10] top.fifo_tb.class_fifo.addr_1[9] top.fifo_tb.class_fifo.addr_1[8] top.fifo_tb.class_fifo.addr_1[7] top.fifo_tb.class_fifo.addr_1[6] top.fifo_tb.class_fifo.addr_1[5] top.fifo_tb.class_fifo.addr_1[4] top.fifo_tb.class_fifo.addr_1[3] top.fifo_tb.class_fifo.addr_1[2] top.fifo_tb.class_fifo.addr_1[1] top.fifo_tb.class_fifo.addr_1[0]
+#{top.fifo_tb.class_fifo.data_1[15:0]} top.fifo_tb.class_fifo.data_1[15] top.fifo_tb.class_fifo.data_1[14] top.fifo_tb.class_fifo.data_1[13] top.fifo_tb.class_fifo.data_1[12] top.fifo_tb.class_fifo.data_1[11] top.fifo_tb.class_fifo.data_1[10] top.fifo_tb.class_fifo.data_1[9] top.fifo_tb.class_fifo.data_1[8] top.fifo_tb.class_fifo.data_1[7] top.fifo_tb.class_fifo.data_1[6] top.fifo_tb.class_fifo.data_1[5] top.fifo_tb.class_fifo.data_1[4] top.fifo_tb.class_fifo.data_1[3] top.fifo_tb.class_fifo.data_1[2] top.fifo_tb.class_fifo.data_1[1] top.fifo_tb.class_fifo.data_1[0]
+@420
+top.fifo_tb.class_fifo.mem_elements
+@28
+top.fifo_tb.class_fifo.i_mode
 [pattern_trace] 1
 [pattern_trace] 0

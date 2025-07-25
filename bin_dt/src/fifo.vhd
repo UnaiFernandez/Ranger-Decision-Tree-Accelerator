@@ -30,11 +30,13 @@ end fifo;
 
 architecture arch_fifo of fifo is
 
-signal mem_elements : integer range 0 to g_DEPTH := 0;
 -- Flag logic
 signal full, empty: std_logic;
 signal re_en, wr_en : std_logic := '0';
 signal c_inc, c_dec : std_logic := '0';
+
+-- Number of elements
+signal mem_elements : integer range 0 to g_DEPTH := 0;
 
 -- DATA
 signal data_0, data_1 : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -44,14 +46,9 @@ subtype addr_t is integer range 0 to g_DEPTH - 1;
 signal rd_addr, wr_addr : addr_t := 0;
 signal addr_0, addr_1 : unsigned(g_ADDR_WIDTH - 1 downto 0);
 
-procedure inc_addr(signal addr : inout addr_t) is
+procedure inc_addr(signal addr : inout addr_t; span : in  integer) is
 begin
-    if addr = addr_t'high then
-	addr <= addr_t'low;
-    else
-	--report "ADDR2: " & integer'image(addr) severity note;
-	addr <= addr + 1;
-    end if;
+    addr <= (addr + span) mod addr_t'high;
 end procedure;
 
 
@@ -70,7 +67,7 @@ port map(
     i_RE_0 => re_en,
     i_RE_1 => '0', --not used
     i_WE_1 => wr_en,
-    i_ADDR_0 => to_unsigned(rd_addr, g_ADDR_WIDTH), --addr_0,
+    i_ADDR_0 => addr_0, -- to_unsigned(rd_addr, g_ADDR_WIDTH),
     i_ADDR_1 => addr_1,
     i_WR_ADDR => to_unsigned(wr_addr, g_ADDR_WIDTH),
     o_DATA_0 => data_0,
@@ -79,13 +76,14 @@ port map(
 );
 
 -- TODO
--- Los addr del fifo wr_addr y rd_addr, se inicializan a 0.
--- El contador tiene q funcionar bien y activar las señales de FF y FE a tiempo.
 -- Cuando este en el modo 1 hay q saber cuantos features hay en una linea, para poder saltarlos todos de golpe, añadir un paramentro.
--- El codigo funciona, pero se podria hacer de una forma mas sencilla y limpia.
+-- Faltaria otra señal para saber cuando hay q avanzar addr + span en la memoria y para cuando hay q leer datos de la memoria (enable)
 
 re_en <= i_RE_FIFO and not empty;
 wr_en <= i_WR_FIFO and not full;
+
+addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_0 + to_unsigned(rd_addr, g_ADDR_WIDTH);
+addr_1 <= to_unsigned(wr_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_1 + to_unsigned(rd_addr, g_ADDR_WIDTH);
 
 -- READ ADDR update
 process(i_clk, i_RESET)
@@ -94,63 +92,22 @@ begin
 	rd_addr <= 0;
 	wr_addr <= 0;
     elsif rising_edge(i_clk) then
-	c_dec <= '0';
-	if i_re_fifo = '1' and empty = '0' then
-	    inc_addr(rd_addr);
-	    mem_elements <= mem_elements - 1;
-	    c_dec <= '1';
-	    report "RD_ADDR: " & integer'image(rd_addr) severity note;
-	end if;
-	c_inc <= '0';
-	if i_wr_fifo = '1' and full = '0' then
-	    inc_addr(wr_addr);
-	    c_inc <= '1';
-	    mem_elements <= mem_elements + 1;
+	if i_mode = '0' then
+	    -- Read
+	    if i_re_fifo = '1' and empty = '0' then
+	        inc_addr(rd_addr, 1);
+	        mem_elements <= mem_elements - 1;
+	    end if;
+	    -- Write
+	    if i_wr_fifo = '1' and full = '0' then
+	        inc_addr(wr_addr, 1);
+	        mem_elements <= mem_elements + 1;
+	    end if;
 	end if;
     end if;
 end process;
 
--- WRITE ADDR update
---process(i_clk)
---begin
---    if i_RESET = '1' then
---	wr_addr <= 0;
---    elsif rising_edge(i_clk) then
---	c_inc <= '0';
---	if i_wr_fifo = '1' and full = '0' then
---	    inc_addr(wr_addr);
---	    c_inc <= '1';
---	end if;
---    end if;
---end process;
-
-
---process (i_clk, c_inc, c_dec)
---begin
---    if rising_edge(i_clk) then
---	if c_inc = '1' and c_dec = '0'then
---    	    mem_elements <= mem_elements + 1;
---    	end if;
---    	if c_dec = '1' and c_inc = '0' then
---    	    mem_elements <= mem_elements - 1;
---    	end if;
---    end if;
---end process;
-
---process(wr_addr, rd_addr)
---begin
---    if wr_addr >= rd_addr then
---	mem_elements <= wr_addr - rd_addr;
---	report "WR >= RD: " & integer'image(mem_elements) severity note;
---    else
---	mem_elements <= (g_DEPTH - wr_addr + rd_addr);
---	report "WR < RD: " & integer'image(mem_elements) severity note;
---    end if;
---end process;
-
---mem_elements <= (wr_addr - rd_addr + g_DEPTH) when wr_addr < rd_addr else (wr_addr - rd_addr);
-
--- Prueba
+-- Control signals
 empty <= '1' when mem_elements = 0 else '0';
 full <= '1' when mem_elements >= g_DEPTH else '0'; -- No puede ser //Cuando llega al valor maximo ya se queda bloqueado.
 

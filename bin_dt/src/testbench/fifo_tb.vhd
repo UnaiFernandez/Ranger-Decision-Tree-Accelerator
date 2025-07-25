@@ -27,7 +27,7 @@ CLASS_FIFO: fifo
 generic map(
     g_DATA_WIDTH => 16,
     g_ADDR_WIDTH => 16,
-    g_DEPTH => 4
+    g_DEPTH => 10
 )
 port map(
     i_clk => clk,
@@ -77,7 +77,8 @@ begin
 
     -- MODE 1 test
     mode <= '1';
-    addr_0 <= (others => '0');
+    addr_0 <= x"0002";
+    addr_1 <= x"0001";
     wait for 20 ns;
     wr_en <= '0';
     re_en <= '1';
