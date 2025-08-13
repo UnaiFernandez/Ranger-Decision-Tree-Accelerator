@@ -54,35 +54,28 @@ begin
     addr <= (addr + mem_span) mod addr_t'high;
 end procedure;
 
-
 begin
 
 FIFO_MEM: ram
 generic map(
-    g_addr_width => g_ADDR_WIDTH,
-    g_data_width => g_DATA_WIDTH,
-    g_depth => g_DEPTH,
-    g_init_file => "./memory_content/bin_node_mem_content.txt",
-    g_init => '0'
+    g_addr_width    => g_ADDR_WIDTH,
+    g_data_width    => g_DATA_WIDTH,
+    g_depth	    => g_DEPTH,
+    g_init_file	    => "./memory_content/bin_node_mem_content.txt",
+    g_init	    => '0'
 )
 port map(
-    i_CLK => i_clk,
-    i_RE_0 => re_en_0,
-    i_RE_1 => re_en_1, --not used
-    i_WE_1 => wr_en,
-    i_ADDR_0 => addr_0, -- to_unsigned(rd_addr, g_ADDR_WIDTH),
-    i_ADDR_1 => addr_1,
-    i_WR_ADDR => to_unsigned(wr_addr, g_ADDR_WIDTH),
-    o_DATA_0 => data_0,
-    o_DATA_1 => data_1,
-    i_DATA_1 => i_WR_DATA
+    i_CLK	    => i_clk,
+    i_RE_0	    => re_en_0,
+    i_RE_1	    => re_en_1, --not used
+    i_WE_1	    => wr_en,
+    i_ADDR_0	    => addr_0, -- to_unsigned(rd_addr, g_ADDR_WIDTH),
+    i_ADDR_1	    => addr_1,
+    i_WR_ADDR	    => to_unsigned(wr_addr, g_ADDR_WIDTH),
+    o_DATA_0	    => data_0,
+    o_DATA_1	    => data_1,
+    i_DATA_1	    => i_WR_DATA
 );
-
--- TODO
--- Cuando este en el modo 1 hay q saber cuantos features hay en una linea, para poder saltarlos todos de golpe, añadir un paramentro.
--- Faltaria otra señal para saber cuando hay q avanzar addr + span en la memoria y para cuando hay q leer datos de la memoria (enable)
--- RE_FIFO y WR_FIFO habilitan que lod addr incrementen
--- RE_0 y RE_1 habilitan la lectura de datos en el modo normal
 
 re_en_0 <= i_RE_FIFO and not empty when i_mode = '0' else i_RE_0;
 re_en_1 <= i_RE_1;
@@ -92,6 +85,9 @@ span <= g_SPAN when i_mode = '1' else 1;
 
 addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_0 + to_unsigned(rd_addr, g_ADDR_WIDTH);
 addr_1 <= to_unsigned(wr_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_1 + to_unsigned(rd_addr, g_ADDR_WIDTH);
+
+o_DATA_0 <= data_0;
+o_DATA_1 <= data_1;
 
 -- READ ADDR update
 process(i_clk, i_RESET)

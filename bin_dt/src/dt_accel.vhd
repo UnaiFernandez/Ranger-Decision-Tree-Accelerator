@@ -63,6 +63,7 @@ begin
 -- State machine
 
 enable <= i_enable;
+o_DONE <= task_terminated;
 
 process(current_s, next_s, enable, task_terminated)
 begin
@@ -130,7 +131,7 @@ port map(
     o_node_addr => node_addr_0,
     o_thr_addr => thr_addr,
     o_data_addr	=> o_data_addr,
-    o_DONE => o_DONE,
+    o_DONE => task_terminated,
     o_class => class
 );
 end arch_dt_accel;

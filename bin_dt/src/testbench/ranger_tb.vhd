@@ -35,8 +35,13 @@ signal class_re: std_logic_vector(31 downto 0);
 
 signal init_button	: std_logic := '0';
 
-signal re_fifo_data : std_logic_vector(n_width - 1 downto 0);
+-------------------------------------------------------------------------
+signal re_fifo, re_0, re_1 : std_logic;
+signal wr_fifo : std_logic;
+signal mode : std_logic;
 signal wr_fifo_data : std_logic_vector(n_width - 1 downto 0);
+signal fifo_data_0, fifo_data_1 : std_logic_vector(n_width - 1 downto 0);
+signal addr_0, addr_1 : UNSIGNED(l_width - 1 downto 0) := (others => '0');
 -------------------------------------------------------------------------
 type memory_t is array (natural range <>) of std_logic_vector(g_data_width - 1 downto 0);
 
@@ -63,45 +68,48 @@ signal pc_data: memory_t(depth - 1 downto 0) := init_mem(depth);
 signal pc_data_addr : UNSIGNED(l_width - 1 downto 0) := (others => '0');
 signal inc_pc_data_addr : STD_LOGIC := '0';
 
-signal mode : std_logic;
 begin
 
 DT_RANGER: ranger
 generic map(
-    g_dt_instances => 1,
-    g_fifo_depth => 8,
-    g_data_width => 32,
-    g_addr_width => 16
+    g_dt_instances  => 1,
+    g_fifo_depth    => 8,
+    g_data_width    => 32,
+    g_addr_width    => 16
 )
 port map(
-    i_clk => clk,
-    i_reset => reset,
-    init => init_button,
-    i_data_mem => re_fifo_data,
-    o_mode => mode,
-    o_RE_data => RE_data,
-    o_addr_data_mem => data_addr,
-    o_class_fifo => class
+    i_clk	    => clk,
+    i_reset	    => reset,
+    init	    => init_button,
+    i_data_mem	    => fifo_data_0,
+    o_mode	    => mode,
+    o_RE_data	    => re_fifo,
+    o_addr_data_mem => addr_0,
+    o_class_fifo    => class
 );
 
 FIFO_DATA: fifo
 generic map(
-    g_depth => depth,
-    g_data_width=> 32,
-    g_addr_width=> l_width
+    g_depth	    => depth,
+    g_data_width    => 32,
+    g_span	    => 4,  -- TODO: Automatizarlo
+    g_addr_width    => l_width
 )
 port map(
-    i_clk => clk,
-    i_re_en => RE_data,
-    i_wr_en => wr_en,
-    i_mode => mode,
-    i_wr_data => wr_fifo_data,
-    i_addr_0 => data_addr,
-    i_addr_1 => data_addr, -- Not Used
-    o_data_0 => re_fifo_data,
-    o_data_1 => re_fifo_data,
-    o_fifo_empty => fifo_empty,
-    o_fifo_full	=> fifo_full
+    i_clk	    => clk,
+    i_reset	    => reset,
+    i_re_fifo	    => re_fifo,
+    i_re_0	    => re_0,
+    i_re_1	    => re_1,
+    i_wr_fifo	    => wr_fifo,
+    i_wr_data	    => wr_fifo_data,
+    i_mode	    => mode,
+    i_addr_0	    => addr_0,
+    i_addr_1	    => addr_1, -- Not Used
+    o_data_0	    => fifo_data_0,
+    o_data_1	    => fifo_data_1,
+    o_fifo_empty    => fifo_empty,
+    o_fifo_full	    => fifo_full
 );
 
 
@@ -122,19 +130,19 @@ process
 begin
 
 
-    for index in 0 to depth - 1 loop
+    for index in 0 to depth - 6 loop -- Tener en cuenta
         wr_fifo_data <= pc_data(index);
         wait for 10 ns;
-        wr_en <= '1';
+        wr_fifo <= '1';
         wait for 10 ns;
-        wr_en <= '0';
+        wr_fifo <= '0';
     end loop;
 
     wait for 20 ns;
     init_button <= '1';
     wait for 20 ns;
     init_button <= '0';
-    wr_en <= '0';
+    wr_fifo <= '0';
 
     wait;
 end process;

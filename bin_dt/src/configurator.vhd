@@ -29,7 +29,7 @@ architecture arch_configurator of configurator is
 type state is (E0, E1, E2, E3);
 signal current_s, next_s: state;
 
-signal config, c_end, last_node, re_en : std_logic := '0';
+signal config, last_dt, last_node, re_en : std_logic := '0';
 
 -- DT counter
 signal cl_c_dt, ld_c_dt, dec_c_dt : std_logic;
@@ -48,7 +48,7 @@ begin
 
 -- State machine
 
-process(current_s, next_s, i_en_config, c_end, last_node)
+process(current_s, next_s, i_en_config, last_dt, last_node)
 begin
 	case current_s is
 	    when E0 => if i_en_config = '1' then next_s <= E1;
@@ -56,9 +56,9 @@ begin
 		       end if;
 	    when E1 => next_s <= E2;
 	    when E2 => next_s <= E3;
-	    when E3 => if c_end = '1' and last_node = '1' then next_s <= E0;
-		       elsif c_end = '1' and last_node = '0' then next_s <= E1;
-		       elsif c_end = '0' then next_s <= E3;
+	    when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
+		       elsif last_node = '1' and last_dt = '0' then next_s <= E1;
+		       elsif last_node = '0' then next_s <= E3;
 		       end if;
 	end case;
 end process;
@@ -72,8 +72,8 @@ begin
 	end if;
 end process;
 
-o_config_done <= '1' when current_s = E3 and last_node = '1' and c_end = '1' else '0';
-re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0'); --or (current_s = E3 and c_end = '1' and last_node = '0') else '0';
+o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and last_node = '0'); --or (current_s = E3 and c_end = '1' and last_node = '0') else '0';
 --re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and c_end = '0') or (current_s = E3 and c_end = '1' and last_node = '0') else '0';
 
 o_re_data <= re_en;
@@ -81,7 +81,7 @@ o_re_data <= re_en;
 -- DT Counter
 
 cl_c_dt <= '1' when current_s = E0 else '0';
-dec_c_dt <= '1' when current_s = E3 and c_end = '1' and last_node = '0' else '0';
+dec_c_dt <= '1' when current_s = E3 and last_node = '1' and last_dt = '0' else '0';
 
 process (i_clk, cl_c_dt)
 begin
@@ -93,13 +93,13 @@ begin
     end if;
 end process;
 
-last_node <= '1' when c_dt_out <= 0 else '0';
+last_dt <= '1' when c_dt_out <= 0 else '0';
 
 -- Node Counter
 
 cl_c_nodes <= '1' when current_s = E1 else '0';
 ld_c_nodes <= '1' when current_s = E2 else '0';
-dec_c_nodes <= '1' when current_s = E3 and c_end = '0' else '0';
+dec_c_nodes <= '1' when current_s = E3 and last_node = '0' else '0';
 
 process (i_clk, cl_c_nodes)
 begin
@@ -117,7 +117,7 @@ begin
 end process;
 
 o_DATA_ADDR <= data_addr;
-c_end <= '1' when current_s = E3 and c_nodes_out = 0 else '0';
+last_node <= '1' when current_s = E3 and c_nodes_out = 0 else '0';
 
 -- DT ID Register
 
