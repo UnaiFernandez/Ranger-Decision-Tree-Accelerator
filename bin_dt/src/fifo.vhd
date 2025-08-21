@@ -40,6 +40,8 @@ signal c_inc, c_dec : std_logic := '0';
 signal span : integer := 0;
 -- Number of elements
 signal mem_elements : integer range 0 to g_DEPTH := 0;
+signal elem_dec : integer range 0 to g_DEPTH := 0;
+signal elem_inc : integer range 0 to g_DEPTH := 0;
 
 -- DATA
 signal data_0, data_1 : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -96,21 +98,26 @@ begin
 	rd_addr <= 0;
 	wr_addr <= 0;
     elsif rising_edge(i_clk) then
-	    -- Read
-	    if i_re_fifo = '1' and empty = '0' then
-	        inc_addr(rd_addr, span);
-	        mem_elements <= mem_elements - span;
-	    end if;
-	    -- Write
-	    if i_wr_fifo = '1' and full = '0' then
-	        inc_addr(wr_addr, span);
-	        mem_elements <= mem_elements + span;
-	    end if;
+	-- Read
+	if i_re_fifo = '1' and empty = '0' then
+	    inc_addr(rd_addr, span);
+	end if;
+	-- Write
+	if i_wr_fifo = '1' and full = '0' then
+	    inc_addr(wr_addr, span);
+	end if;
+	mem_elements <= mem_elements + (elem_inc - elem_dec);
     end if;
 end process;
+
+elem_dec <= span when i_re_fifo = '1' and empty = '0' else 0;
+elem_inc <= span when i_wr_fifo = '1' and full = '0' else 0;
 
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';
 full <= '1' when mem_elements >= g_DEPTH else '0'; -- No puede ser //Cuando llega al valor maximo ya se queda bloqueado.
+
+o_FIFO_EMPTY <= empty;
+o_FIFO_FULL <= full;
 
 end arch_fifo;

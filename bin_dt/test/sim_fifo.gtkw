@@ -1,22 +1,23 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Fri Jul 25 14:23:50 2025
+[*] Mon Jul 28 15:19:32 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_fifo.ghw"
-[dumpfile_mtime] "Fri Jul 25 14:20:41 2025"
-[dumpfile_size] 4679
+[dumpfile_mtime] "Mon Jul 28 15:18:24 2025"
+[dumpfile_size] 4829
 [savefile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_fifo.gtkw"
 [timestart] 0
-[size] 1864 956
+[size] 2504 1316
 [pos] -1 -1
-*-25.299999 250100000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-25.299999 200100000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.fifo_tb.
 [treeopen] top.fifo_tb.class_fifo.
+[treeopen] top.fifo_tb.class_fifo.fifo_mem.
 [sst_width] 297
 [signals_width] 158
 [sst_expanded] 1
-[sst_vpaned_height] 443
+[sst_vpaned_height] 428
 @28
 top.fifo_tb.class_fifo.i_clk
 top.fifo_tb.class_fifo.empty
@@ -83,5 +84,19 @@ top.fifo_tb.class_fifo.rd_addr
 #{top.fifo_tb.class_fifo.data_1[15:0]} top.fifo_tb.class_fifo.data_1[15] top.fifo_tb.class_fifo.data_1[14] top.fifo_tb.class_fifo.data_1[13] top.fifo_tb.class_fifo.data_1[12] top.fifo_tb.class_fifo.data_1[11] top.fifo_tb.class_fifo.data_1[10] top.fifo_tb.class_fifo.data_1[9] top.fifo_tb.class_fifo.data_1[8] top.fifo_tb.class_fifo.data_1[7] top.fifo_tb.class_fifo.data_1[6] top.fifo_tb.class_fifo.data_1[5] top.fifo_tb.class_fifo.data_1[4] top.fifo_tb.class_fifo.data_1[3] top.fifo_tb.class_fifo.data_1[2] top.fifo_tb.class_fifo.data_1[1] top.fifo_tb.class_fifo.data_1[0]
 @1000200
 -read_1
+@200
+-ram
+@22
+#{top.fifo_tb.class_fifo.fifo_mem.o_data_0[15:0]} top.fifo_tb.class_fifo.fifo_mem.o_data_0[15] top.fifo_tb.class_fifo.fifo_mem.o_data_0[14] top.fifo_tb.class_fifo.fifo_mem.o_data_0[13] top.fifo_tb.class_fifo.fifo_mem.o_data_0[12] top.fifo_tb.class_fifo.fifo_mem.o_data_0[11] top.fifo_tb.class_fifo.fifo_mem.o_data_0[10] top.fifo_tb.class_fifo.fifo_mem.o_data_0[9] top.fifo_tb.class_fifo.fifo_mem.o_data_0[8] top.fifo_tb.class_fifo.fifo_mem.o_data_0[7] top.fifo_tb.class_fifo.fifo_mem.o_data_0[6] top.fifo_tb.class_fifo.fifo_mem.o_data_0[5] top.fifo_tb.class_fifo.fifo_mem.o_data_0[4] top.fifo_tb.class_fifo.fifo_mem.o_data_0[3] top.fifo_tb.class_fifo.fifo_mem.o_data_0[2] top.fifo_tb.class_fifo.fifo_mem.o_data_0[1] top.fifo_tb.class_fifo.fifo_mem.o_data_0[0]
+@200
+-signal
+@22
+#{top.fifo_tb.class_fifo.data_0[15:0]} top.fifo_tb.class_fifo.data_0[15] top.fifo_tb.class_fifo.data_0[14] top.fifo_tb.class_fifo.data_0[13] top.fifo_tb.class_fifo.data_0[12] top.fifo_tb.class_fifo.data_0[11] top.fifo_tb.class_fifo.data_0[10] top.fifo_tb.class_fifo.data_0[9] top.fifo_tb.class_fifo.data_0[8] top.fifo_tb.class_fifo.data_0[7] top.fifo_tb.class_fifo.data_0[6] top.fifo_tb.class_fifo.data_0[5] top.fifo_tb.class_fifo.data_0[4] top.fifo_tb.class_fifo.data_0[3] top.fifo_tb.class_fifo.data_0[2] top.fifo_tb.class_fifo.data_0[1] top.fifo_tb.class_fifo.data_0[0]
+@200
+-out
+@22
+#{top.fifo_tb.class_fifo.o_data_0[15:0]} top.fifo_tb.class_fifo.o_data_0[15] top.fifo_tb.class_fifo.o_data_0[14] top.fifo_tb.class_fifo.o_data_0[13] top.fifo_tb.class_fifo.o_data_0[12] top.fifo_tb.class_fifo.o_data_0[11] top.fifo_tb.class_fifo.o_data_0[10] top.fifo_tb.class_fifo.o_data_0[9] top.fifo_tb.class_fifo.o_data_0[8] top.fifo_tb.class_fifo.o_data_0[7] top.fifo_tb.class_fifo.o_data_0[6] top.fifo_tb.class_fifo.o_data_0[5] top.fifo_tb.class_fifo.o_data_0[4] top.fifo_tb.class_fifo.o_data_0[3] top.fifo_tb.class_fifo.o_data_0[2] top.fifo_tb.class_fifo.o_data_0[1] top.fifo_tb.class_fifo.o_data_0[0]
+@23
+#{top.fifo_tb.rd_data[15:0]} top.fifo_tb.rd_data[15] top.fifo_tb.rd_data[14] top.fifo_tb.rd_data[13] top.fifo_tb.rd_data[12] top.fifo_tb.rd_data[11] top.fifo_tb.rd_data[10] top.fifo_tb.rd_data[9] top.fifo_tb.rd_data[8] top.fifo_tb.rd_data[7] top.fifo_tb.rd_data[6] top.fifo_tb.rd_data[5] top.fifo_tb.rd_data[4] top.fifo_tb.rd_data[3] top.fifo_tb.rd_data[2] top.fifo_tb.rd_data[1] top.fifo_tb.rd_data[0]
 [pattern_trace] 1
 [pattern_trace] 0

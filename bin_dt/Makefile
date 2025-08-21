@@ -13,9 +13,13 @@ OBJ = bin/ram_pkg.o \
       bin/configurator.o \
       bin/ranger_pkg.o \
       bin/ranger.o \
+      bin/sched_ctl_pkg.o \
+      bin/sched_ctl.o \
+      bin/sched_pkg.o \
+      bin/sched.o \
       bin/testbench/dt_accel_tb.o \
       bin/testbench/fifo_tb.o \
-      #bin/testbench/ranger_tb.o
+      bin/testbench/ranger_tb.o
       #bin/testbench/dt_ctl_tb.o \
 
 all: test/sim_dt.ghw
