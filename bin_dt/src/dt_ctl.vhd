@@ -88,6 +88,16 @@ enable <= i_ENABLE;
 	end if;
     end process;
 
+-- HALT
+    process(i_CLK, i_HALT)
+    begin
+	if i_HALT = '1' then
+	    r_state <= current_s;
+	    current_s <= EH;
+	else
+	    current_s <= r_state;
+	end if;
+    end process;
 -- LEAF and NODE_ACT
 
     leaf <= i_NODE_INFO(0);

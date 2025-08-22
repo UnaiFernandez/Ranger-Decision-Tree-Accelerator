@@ -8,6 +8,7 @@ use work.ram_pkg.all;
 use work.fifo_pkg.all;
 use work.ranger_pkg.all;
 use work.configurator_pkg.all;
+use work.bus_master_pkg.all;
 
 entity ranger is
     generic(
@@ -57,6 +58,8 @@ signal inf_done :std_logic;
 signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 
 signal mode : std_logic := '0';
+
+signal req, grant : std_logic_vector(g_dt_instances - 1 downto 0);
 
 begin
 -- State machine
@@ -113,8 +116,8 @@ for I in 0 to g_dt_instances - 1 generate
 --        i_RE_CLASS => re_en,
         i_ENABLE => enable,
         i_SEL => sel(I),
-        i_DATA_ADDR => data_addr,
-        o_RE_data => re_data_ctl,
+        i_DATA_ADDR => data_addr, -- TODO: Remane to avoid confusion
+        o_RE_data => req(I),
 	o_DONE => result_ready(I),
         o_data_addr => o_addr_data_mem,
         o_class => class
@@ -143,17 +146,29 @@ port map(
 );
 
 -- Select who controls RE_DATA signal.
-
 sel_re_data <= '1' when current_s = E2 else '0';
 
-o_RE_data <= re_data_config when sel_re_data = '0' else re_data_ctl;
-
 mode <= '1' when current_s = E2 else '0';
-
 o_mode <= mode;
---o_RE_data <= re_data;
 
---result_ready
+o_RE_data <= re_data_config when sel_re_data = '0' else re_en;
+
+
+-- BUS MASTER
+
+BUSMASTER : bus_master
+generic map(
+g_DATA_WIDTH => g_data_width,
+g_ADDR_WIDTH => g_addr_width,
+g_INSTANCES => g_dt_instances
+)
+port map(
+i_CLK => i_clk,
+i_RESET => i_reset,
+i_REQ => req,
+io_RE_EN => re_en,
+o_GRANT => grant
+);
 
 
 

@@ -3,7 +3,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.fifo_pkg.all;
-use work.sched_pkg.all;
+use work.bus_master_pkg.all;
 
 entity fifo_tb is
 end fifo_tb;
@@ -21,7 +21,7 @@ signal grant		: std_logic_vector(32 - 1 downto 0);
 begin
 
 
-SCHEDULER: sched
+BUSMASTER: bus_master
 generic map(
 g_DATA_WIDTH => 32,
 g_ADDR_WIDTH => 16,
@@ -30,9 +30,7 @@ g_INSTANCES => 32
 port map(
 i_CLK => clk,
 i_RESET => reset,
-i_ADDR => addr,
 i_REQ => req,
-o_DATA => data,
 o_GRANT => grant
 );
 
