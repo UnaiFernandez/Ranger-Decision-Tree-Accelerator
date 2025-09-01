@@ -15,7 +15,7 @@ package bus_master_pkg is
     	    i_RESET		: in std_logic;
     	    i_REQ		: in std_logic_vector(g_INSTANCES - 1 downto 0);
     	--------------------------------------------------------
-	    io_RE_EN		: inout std_logic;
+	    o_RE_EN		: out std_logic;
     	    o_GRANT		: out std_logic_vector(g_INSTANCES - 1 downto 0)
     	);
     end component;

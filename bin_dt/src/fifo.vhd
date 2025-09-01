@@ -14,10 +14,10 @@ entity fifo is
     );
     port(
 	i_CLK		: in std_logic;
-    	i_RESET		: in std_logic;
+    i_RESET		: in std_logic;
 	i_RE_FIFO	: in std_logic;
 	i_RE_0		: in std_logic;
-    	i_RE_1		: in std_logic;
+    i_RE_1		: in std_logic;
 	i_WR_FIFO	: in std_logic;
 	i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	i_MODE		: in std_logic;
@@ -79,7 +79,7 @@ port map(
     i_DATA_1	    => i_WR_DATA
 );
 
-re_en_0 <= i_RE_FIFO and not empty when i_mode = '0' else i_RE_0;
+re_en_0 <= i_RE_FIFO when i_mode = '0' and empty = '0' else i_RE_0;
 re_en_1 <= i_RE_1;
 wr_en <= i_WR_FIFO and not full;
 

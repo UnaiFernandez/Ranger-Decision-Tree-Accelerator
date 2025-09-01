@@ -13,11 +13,15 @@ entity sched is
     port(
 	i_CLK		: in std_logic;
 	i_RESET		: in std_logic;
+	i_INIT		: in std_logic;
 	i_EMPTY		: in std_logic;
     	i_REQ_ID	: in std_logic_vector(g_INSTANCES - 1 downto 0);
 	--------------------------------------------------------
+	o_GRANT_ID	: out integer;
     	o_DEQUEUE	: out std_logic;
+    	o_FLT_EN	: out std_logic;
     	o_RE_EN		: out std_logic;
+    	o_BUSY		: out std_logic;
 	o_GRANT		: out std_logic_vector(g_INSTANCES - 1 downto 0)
     );
 end sched;
@@ -39,14 +43,15 @@ begin
 
 -- State machine
 
-process(current_s, next_s, i_empty, timer_end)
+process(current_s, next_s, i_init, timer_end)
 begin
 	case current_s is
-	    when E0 => if i_empty = '1' then next_s <= E0;
-			else next_s <= E1;
+	    when E0 => if i_init = '0' then next_s <= E0;
+			else next_s <= E2;
 			end if;
 	    when E1 => next_s <= E2;
-	    when E2 => if timer_end = '1' then next_s <= E0;
+	    when E2 => if timer_end = '1' and i_EMPTY = '0' then next_s <= E1;
+					elsif timer_end = '1' and i_EMPTY = '1' then next_s <= E0;
 		       else next_s <= E2;
 		       end if;
 	end case;
@@ -62,7 +67,8 @@ end process;
 
 -- Grant
 
-ld_id <= '1' when current_s = E1 else '0';
+--ld_id <= '1' when (current_s = E0 and i_INIT = '1') or (current_s = E1 and i_EMPTY = '0') else '0';
+ld_id <= '1' when (current_s = E0 and i_INIT = '1') or (current_s = E1) else '0';
 process(i_clk, ld_id)
 begin
     if rising_edge(i_clk) then
@@ -73,25 +79,33 @@ begin
 	end if;
     end if;
 end process;
-  
+
+o_GRANT_ID <= r_id;
+
+--grant <= (others => '0') when current_s = E1 else grant;
 o_GRANT <= grant when current_s = E2 else (others => '0');
 
 -- Timer
-cl_timer <= '1' when current_s = E0 else '0';
+cl_timer <= '1' when current_s = E0 or current_s = E1 else '0';
 en_timer <= '1' when current_s = E2 else '0';
-o_DEQUEUE <= '1' when current_s = E0 and i_empty = '0' else '0';
+--o_DEQUEUE <= '1' when (current_s = E0 and i_INIT = '1') or (current_s = E1 and i_EMPTY = '0') else '0';
+o_DEQUEUE <= '1' when current_s = E2 and timer_end = '1' and i_EMPTY = '0' else '0';
+o_FLT_EN <= '1' when current_s = E2 and timer_end = '1' else '0';
+
+--o_DEQUEUE <= '1' when (current_s = E0 and i_init = '1') or (current_s = E2 and timer_end = '1' and i_EMPTY = '0') else '0';
 
 process(i_clk, cl_timer)
 begin
     if cl_timer = '1' then timer <= 4; -- numero de ciclos
     elsif rising_edge(i_clk) then
-	if en_timer = '1' then    
+	if en_timer = '1' then
 	    timer <= timer - 1;
 	end if;
     end if;
 end process;
 
 o_RE_EN <= '1' when en_timer = '1' else '0';
+o_BUSY <= '1' when en_timer = '1' or current_s = E1 else '0';
 
 timer_end <= '1' when timer <= 0 else '0';
 

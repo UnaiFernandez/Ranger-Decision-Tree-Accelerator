@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Mon Aug 11 17:23:10 2025
+[*] Sat Aug 30 07:54:24 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.ghw"
-[dumpfile_mtime] "Tue Jul 15 08:31:40 2025"
-[dumpfile_size] 56596
+[dumpfile_mtime] "Wed Aug 27 10:32:04 2025"
+[dumpfile_size] 56709
 [savefile] "/home/unai/Projects/dt_vhdl/bin_dt/test/sim_dt_accel.gtkw"
 [timestart] 0
-[size] 1864 956
+[size] 1920 1001
 [pos] -1 -1
-*-26.100000 390900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-26.100000 623200000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.dt_accel_tb.
 [treeopen] top.dt_accel_tb.data_mem.
@@ -18,13 +18,18 @@
 [sst_width] 297
 [signals_width] 240
 [sst_expanded] 1
-[sst_vpaned_height] 420
+[sst_vpaned_height] 598
 @800200
 -DT_ACCEL full simulation
 @28
 top.dt_accel_tb.clk
 @420
 top.dt_accel_tb.dt_accelerator.dt.current_s
+top.dt_accel_tb.dt_accelerator.dt.r_state
+@28
+top.dt_accel_tb.dt_accelerator.dt.halt
+@29
+top.dt_accel_tb.dt_accelerator.dt.i_grant
 @22
 #{top.dt_accel_tb.dt_accelerator.dt.i_node_info[31:0]} top.dt_accel_tb.dt_accelerator.dt.i_node_info[31] top.dt_accel_tb.dt_accelerator.dt.i_node_info[30] top.dt_accel_tb.dt_accelerator.dt.i_node_info[29] top.dt_accel_tb.dt_accelerator.dt.i_node_info[28] top.dt_accel_tb.dt_accelerator.dt.i_node_info[27] top.dt_accel_tb.dt_accelerator.dt.i_node_info[26] top.dt_accel_tb.dt_accelerator.dt.i_node_info[25] top.dt_accel_tb.dt_accelerator.dt.i_node_info[24] top.dt_accel_tb.dt_accelerator.dt.i_node_info[23] top.dt_accel_tb.dt_accelerator.dt.i_node_info[22] top.dt_accel_tb.dt_accelerator.dt.i_node_info[21] top.dt_accel_tb.dt_accelerator.dt.i_node_info[20] top.dt_accel_tb.dt_accelerator.dt.i_node_info[19] top.dt_accel_tb.dt_accelerator.dt.i_node_info[18] top.dt_accel_tb.dt_accelerator.dt.i_node_info[17] top.dt_accel_tb.dt_accelerator.dt.i_node_info[16] top.dt_accel_tb.dt_accelerator.dt.i_node_info[15] top.dt_accel_tb.dt_accelerator.dt.i_node_info[14] top.dt_accel_tb.dt_accelerator.dt.i_node_info[13] top.dt_accel_tb.dt_accelerator.dt.i_node_info[12] top.dt_accel_tb.dt_accelerator.dt.i_node_info[11] top.dt_accel_tb.dt_accelerator.dt.i_node_info[10] top.dt_accel_tb.dt_accelerator.dt.i_node_info[9] top.dt_accel_tb.dt_accelerator.dt.i_node_info[8] top.dt_accel_tb.dt_accelerator.dt.i_node_info[7] top.dt_accel_tb.dt_accelerator.dt.i_node_info[6] top.dt_accel_tb.dt_accelerator.dt.i_node_info[5] top.dt_accel_tb.dt_accelerator.dt.i_node_info[4] top.dt_accel_tb.dt_accelerator.dt.i_node_info[3] top.dt_accel_tb.dt_accelerator.dt.i_node_info[2] top.dt_accel_tb.dt_accelerator.dt.i_node_info[1] top.dt_accel_tb.dt_accelerator.dt.i_node_info[0]
 @28
@@ -53,7 +58,6 @@ top.dt_accel_tb.dt_accelerator.dt.enable
 #{top.dt_accel_tb.data_mem.ram_mem[2][31:0]} top.dt_accel_tb.data_mem.ram_mem[2][31] top.dt_accel_tb.data_mem.ram_mem[2][30] top.dt_accel_tb.data_mem.ram_mem[2][29] top.dt_accel_tb.data_mem.ram_mem[2][28] top.dt_accel_tb.data_mem.ram_mem[2][27] top.dt_accel_tb.data_mem.ram_mem[2][26] top.dt_accel_tb.data_mem.ram_mem[2][25] top.dt_accel_tb.data_mem.ram_mem[2][24] top.dt_accel_tb.data_mem.ram_mem[2][23] top.dt_accel_tb.data_mem.ram_mem[2][22] top.dt_accel_tb.data_mem.ram_mem[2][21] top.dt_accel_tb.data_mem.ram_mem[2][20] top.dt_accel_tb.data_mem.ram_mem[2][19] top.dt_accel_tb.data_mem.ram_mem[2][18] top.dt_accel_tb.data_mem.ram_mem[2][17] top.dt_accel_tb.data_mem.ram_mem[2][16] top.dt_accel_tb.data_mem.ram_mem[2][15] top.dt_accel_tb.data_mem.ram_mem[2][14] top.dt_accel_tb.data_mem.ram_mem[2][13] top.dt_accel_tb.data_mem.ram_mem[2][12] top.dt_accel_tb.data_mem.ram_mem[2][11] top.dt_accel_tb.data_mem.ram_mem[2][10] top.dt_accel_tb.data_mem.ram_mem[2][9] top.dt_accel_tb.data_mem.ram_mem[2][8] top.dt_accel_tb.data_mem.ram_mem[2][7] top.dt_accel_tb.data_mem.ram_mem[2][6] top.dt_accel_tb.data_mem.ram_mem[2][5] top.dt_accel_tb.data_mem.ram_mem[2][4] top.dt_accel_tb.data_mem.ram_mem[2][3] top.dt_accel_tb.data_mem.ram_mem[2][2] top.dt_accel_tb.data_mem.ram_mem[2][1] top.dt_accel_tb.data_mem.ram_mem[2][0]
 #{top.dt_accel_tb.data_mem.ram_mem[3][31:0]} top.dt_accel_tb.data_mem.ram_mem[3][31] top.dt_accel_tb.data_mem.ram_mem[3][30] top.dt_accel_tb.data_mem.ram_mem[3][29] top.dt_accel_tb.data_mem.ram_mem[3][28] top.dt_accel_tb.data_mem.ram_mem[3][27] top.dt_accel_tb.data_mem.ram_mem[3][26] top.dt_accel_tb.data_mem.ram_mem[3][25] top.dt_accel_tb.data_mem.ram_mem[3][24] top.dt_accel_tb.data_mem.ram_mem[3][23] top.dt_accel_tb.data_mem.ram_mem[3][22] top.dt_accel_tb.data_mem.ram_mem[3][21] top.dt_accel_tb.data_mem.ram_mem[3][20] top.dt_accel_tb.data_mem.ram_mem[3][19] top.dt_accel_tb.data_mem.ram_mem[3][18] top.dt_accel_tb.data_mem.ram_mem[3][17] top.dt_accel_tb.data_mem.ram_mem[3][16] top.dt_accel_tb.data_mem.ram_mem[3][15] top.dt_accel_tb.data_mem.ram_mem[3][14] top.dt_accel_tb.data_mem.ram_mem[3][13] top.dt_accel_tb.data_mem.ram_mem[3][12] top.dt_accel_tb.data_mem.ram_mem[3][11] top.dt_accel_tb.data_mem.ram_mem[3][10] top.dt_accel_tb.data_mem.ram_mem[3][9] top.dt_accel_tb.data_mem.ram_mem[3][8] top.dt_accel_tb.data_mem.ram_mem[3][7] top.dt_accel_tb.data_mem.ram_mem[3][6] top.dt_accel_tb.data_mem.ram_mem[3][5] top.dt_accel_tb.data_mem.ram_mem[3][4] top.dt_accel_tb.data_mem.ram_mem[3][3] top.dt_accel_tb.data_mem.ram_mem[3][2] top.dt_accel_tb.data_mem.ram_mem[3][1] top.dt_accel_tb.data_mem.ram_mem[3][0]
 #{top.dt_accel_tb.data_mem.ram_mem[4][31:0]} top.dt_accel_tb.data_mem.ram_mem[4][31] top.dt_accel_tb.data_mem.ram_mem[4][30] top.dt_accel_tb.data_mem.ram_mem[4][29] top.dt_accel_tb.data_mem.ram_mem[4][28] top.dt_accel_tb.data_mem.ram_mem[4][27] top.dt_accel_tb.data_mem.ram_mem[4][26] top.dt_accel_tb.data_mem.ram_mem[4][25] top.dt_accel_tb.data_mem.ram_mem[4][24] top.dt_accel_tb.data_mem.ram_mem[4][23] top.dt_accel_tb.data_mem.ram_mem[4][22] top.dt_accel_tb.data_mem.ram_mem[4][21] top.dt_accel_tb.data_mem.ram_mem[4][20] top.dt_accel_tb.data_mem.ram_mem[4][19] top.dt_accel_tb.data_mem.ram_mem[4][18] top.dt_accel_tb.data_mem.ram_mem[4][17] top.dt_accel_tb.data_mem.ram_mem[4][16] top.dt_accel_tb.data_mem.ram_mem[4][15] top.dt_accel_tb.data_mem.ram_mem[4][14] top.dt_accel_tb.data_mem.ram_mem[4][13] top.dt_accel_tb.data_mem.ram_mem[4][12] top.dt_accel_tb.data_mem.ram_mem[4][11] top.dt_accel_tb.data_mem.ram_mem[4][10] top.dt_accel_tb.data_mem.ram_mem[4][9] top.dt_accel_tb.data_mem.ram_mem[4][8] top.dt_accel_tb.data_mem.ram_mem[4][7] top.dt_accel_tb.data_mem.ram_mem[4][6] top.dt_accel_tb.data_mem.ram_mem[4][5] top.dt_accel_tb.data_mem.ram_mem[4][4] top.dt_accel_tb.data_mem.ram_mem[4][3] top.dt_accel_tb.data_mem.ram_mem[4][2] top.dt_accel_tb.data_mem.ram_mem[4][1] top.dt_accel_tb.data_mem.ram_mem[4][0]
-@23
 #{top.dt_accel_tb.data_mem.ram_mem[5][31:0]} top.dt_accel_tb.data_mem.ram_mem[5][31] top.dt_accel_tb.data_mem.ram_mem[5][30] top.dt_accel_tb.data_mem.ram_mem[5][29] top.dt_accel_tb.data_mem.ram_mem[5][28] top.dt_accel_tb.data_mem.ram_mem[5][27] top.dt_accel_tb.data_mem.ram_mem[5][26] top.dt_accel_tb.data_mem.ram_mem[5][25] top.dt_accel_tb.data_mem.ram_mem[5][24] top.dt_accel_tb.data_mem.ram_mem[5][23] top.dt_accel_tb.data_mem.ram_mem[5][22] top.dt_accel_tb.data_mem.ram_mem[5][21] top.dt_accel_tb.data_mem.ram_mem[5][20] top.dt_accel_tb.data_mem.ram_mem[5][19] top.dt_accel_tb.data_mem.ram_mem[5][18] top.dt_accel_tb.data_mem.ram_mem[5][17] top.dt_accel_tb.data_mem.ram_mem[5][16] top.dt_accel_tb.data_mem.ram_mem[5][15] top.dt_accel_tb.data_mem.ram_mem[5][14] top.dt_accel_tb.data_mem.ram_mem[5][13] top.dt_accel_tb.data_mem.ram_mem[5][12] top.dt_accel_tb.data_mem.ram_mem[5][11] top.dt_accel_tb.data_mem.ram_mem[5][10] top.dt_accel_tb.data_mem.ram_mem[5][9] top.dt_accel_tb.data_mem.ram_mem[5][8] top.dt_accel_tb.data_mem.ram_mem[5][7] top.dt_accel_tb.data_mem.ram_mem[5][6] top.dt_accel_tb.data_mem.ram_mem[5][5] top.dt_accel_tb.data_mem.ram_mem[5][4] top.dt_accel_tb.data_mem.ram_mem[5][3] top.dt_accel_tb.data_mem.ram_mem[5][2] top.dt_accel_tb.data_mem.ram_mem[5][1] top.dt_accel_tb.data_mem.ram_mem[5][0]
 @1000200
 -FIFO_OUT
@@ -72,8 +76,6 @@ top.dt_accel_tb.dt_accelerator.dt.enable
 @22
 #{top.dt_accel_tb.dt_accelerator.dt.i_data_out[31:0]} top.dt_accel_tb.dt_accelerator.dt.i_data_out[31] top.dt_accel_tb.dt_accelerator.dt.i_data_out[30] top.dt_accel_tb.dt_accelerator.dt.i_data_out[29] top.dt_accel_tb.dt_accelerator.dt.i_data_out[28] top.dt_accel_tb.dt_accelerator.dt.i_data_out[27] top.dt_accel_tb.dt_accelerator.dt.i_data_out[26] top.dt_accel_tb.dt_accelerator.dt.i_data_out[25] top.dt_accel_tb.dt_accelerator.dt.i_data_out[24] top.dt_accel_tb.dt_accelerator.dt.i_data_out[23] top.dt_accel_tb.dt_accelerator.dt.i_data_out[22] top.dt_accel_tb.dt_accelerator.dt.i_data_out[21] top.dt_accel_tb.dt_accelerator.dt.i_data_out[20] top.dt_accel_tb.dt_accelerator.dt.i_data_out[19] top.dt_accel_tb.dt_accelerator.dt.i_data_out[18] top.dt_accel_tb.dt_accelerator.dt.i_data_out[17] top.dt_accel_tb.dt_accelerator.dt.i_data_out[16] top.dt_accel_tb.dt_accelerator.dt.i_data_out[15] top.dt_accel_tb.dt_accelerator.dt.i_data_out[14] top.dt_accel_tb.dt_accelerator.dt.i_data_out[13] top.dt_accel_tb.dt_accelerator.dt.i_data_out[12] top.dt_accel_tb.dt_accelerator.dt.i_data_out[11] top.dt_accel_tb.dt_accelerator.dt.i_data_out[10] top.dt_accel_tb.dt_accelerator.dt.i_data_out[9] top.dt_accel_tb.dt_accelerator.dt.i_data_out[8] top.dt_accel_tb.dt_accelerator.dt.i_data_out[7] top.dt_accel_tb.dt_accelerator.dt.i_data_out[6] top.dt_accel_tb.dt_accelerator.dt.i_data_out[5] top.dt_accel_tb.dt_accelerator.dt.i_data_out[4] top.dt_accel_tb.dt_accelerator.dt.i_data_out[3] top.dt_accel_tb.dt_accelerator.dt.i_data_out[2] top.dt_accel_tb.dt_accelerator.dt.i_data_out[1] top.dt_accel_tb.dt_accelerator.dt.i_data_out[0]
 @28
-top.dt_accel_tb.dt_accelerator.fifo_empty
-top.dt_accel_tb.dt_accelerator.re_en
 top.dt_accel_tb.re_en
 top.dt_accel_tb.dt_accelerator.o_re_data
 @1000200

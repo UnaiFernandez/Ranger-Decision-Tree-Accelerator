@@ -18,7 +18,8 @@ package dt_accel_pkg is
     	    --i_RE_CLASS : in std_logic;
 	    i_ENABLE : in std_logic;
 	    i_SEL : in std_logic;
-					i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
+	    i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
+	    i_GRANT : in std_logic;
     	    ----------------------------------------------------
     	    o_RE_DATA : out std_logic;
     	    o_DONE : out std_logic;
