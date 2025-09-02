@@ -73,7 +73,7 @@ begin
 end process;
 
 o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
-re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and last_node = '0'); 
+re_en <= '1' when current_s = E1 or current_s = E2 or (current_s = E3 and last_node = '0') else '0'; 
 
 
 o_re_data <= re_en;

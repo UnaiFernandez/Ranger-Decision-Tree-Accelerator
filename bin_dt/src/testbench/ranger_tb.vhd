@@ -75,7 +75,7 @@ begin
 
 DT_RANGER: ranger
 generic map(
-    g_dt_instances  => 2,
+    g_dt_instances  => 1,
     g_mem_depth    => 64,
     g_data_width    => 32,
     g_addr_width    => 16

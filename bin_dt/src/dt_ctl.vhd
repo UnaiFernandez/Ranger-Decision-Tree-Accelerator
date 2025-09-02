@@ -140,7 +140,8 @@ enable <= i_ENABLE;
 
     feature <= '0' & i_NODE_INFO(15 downto 1);
     right_node<= i_NODE_INFO(31 downto 16);
-    o_DATA_ADDR <= unsigned(c_data_mem_out) + (unsigned(feature));
+    o_DATA_ADDR <= unsigned(feature);
+    --o_DATA_ADDR <= unsigned(c_data_mem_out) + (unsigned(feature));
     data_out <= to_float(i_DATA_OUT);
 
 

@@ -53,6 +53,7 @@ architecture arch_ranger of ranger is
 
     signal sel_re_data: std_logic:= '0';
     signal re_data_config, re_data_ctl : STD_LOGIC;
+    signal re_data_fifo : std_logic;
 
     signal inf_done :std_logic;
 
@@ -163,12 +164,16 @@ begin
     );
 
     -- Select who controls RE_DATA signal.
-    sel_re_data <= '1' when current_s = E2 else '0';
+    --sel_re_data <= '1' when current_s = E2 else '0';
 
     mode <= '1' when current_s = E2 else '0';
     o_mode <= mode;
 
-    rd_mem <= re_data_config when sel_re_data = '0' else re_0;
+    --rd_mem <= '1' when (current_s = E1) or (current_s = E2 and calc_result = '1') else '0';
+    re_data_fifo <= '1' when current_s = E2 and calc_result = '1' else '0';
+    rd_mem <= re_data_config when current_s = E1 else re_data_fifo;
+
+    --rd_mem <= re_data_config when sel_re_data = '0' else re_0;
 
 
 -- BUS MASTER
