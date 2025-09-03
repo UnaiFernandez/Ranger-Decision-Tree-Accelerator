@@ -9,6 +9,7 @@ package fifo_pkg is
 	    g_DATA_WIDTH: integer;
 	    g_ADDR_WIDTH: integer;
 	    g_SPAN: integer;
+	    g_INIT_MEM: std_logic;
 	    g_DEPTH: integer
     	);
 	port(

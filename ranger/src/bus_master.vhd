@@ -127,6 +127,7 @@ generic map(
     g_depth	    => g_INSTANCES,
     g_data_width    => g_INSTANCES,
     g_addr_width    => 16,
+    g_init_mem	    => '0',
     g_span	    => 1
 )
 port map(

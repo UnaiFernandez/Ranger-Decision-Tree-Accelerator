@@ -30,6 +30,7 @@ generic map(
     g_DATA_WIDTH => 16,
     g_ADDR_WIDTH => 16,
     g_SPAN => 4,
+    g_INIT_MEM => '0',
     g_DEPTH => 10
 )
 port map(

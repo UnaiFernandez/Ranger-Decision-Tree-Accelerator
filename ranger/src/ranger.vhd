@@ -199,6 +199,7 @@ begin
         g_depth	        => g_mem_depth,
         g_data_width    => g_data_width,
         g_span	        => 4,  -- TODO: Automatizarlo
+	g_init_mem	=> '0',
         g_addr_width    => g_addr_width
     )
     port map(

@@ -10,6 +10,7 @@ entity fifo is
 	g_DATA_WIDTH: integer;
 	g_ADDR_WIDTH: integer;
 	g_SPAN: integer;
+	g_INIT_MEM: std_logic;
 	g_DEPTH: integer
     );
     port(
@@ -35,6 +36,7 @@ architecture arch_fifo of fifo is
 
 -- Control logic
 signal full, empty: std_logic;
+signal init: std_logic := g_init_mem;
 signal re_en_0, re_en_1, wr_en : std_logic := '0';
 signal c_inc, c_dec : std_logic := '0';
 signal span : integer := 0;
@@ -63,8 +65,8 @@ generic map(
     g_addr_width    => g_ADDR_WIDTH,
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
-    g_init_file	    => "./memory_content/bin_node_mem_content.txt",
-    g_init	    => '0'
+    g_init_file	    => "./memory_content/data_mem_content.txt",
+    g_init	    => g_init_mem
 )
 port map(
     i_CLK	    => i_clk,
@@ -98,15 +100,21 @@ begin
 	rd_addr <= 0;
 	wr_addr <= 0;
     elsif rising_edge(i_clk) then
-	-- Read
-	if i_re_fifo = '1' and empty = '0' then
-	    inc_addr(rd_addr, span);
+	-- init
+	if init = '1' then
+	    mem_elements <= g_DEPTH - 1;
+	    init <= '0';
+	else
+	    -- Read
+	    if i_re_fifo = '1' and empty = '0' then
+	        inc_addr(rd_addr, span);
+	    end if;
+	    -- Write
+	    if i_wr_fifo = '1' and full = '0' then
+	        inc_addr(wr_addr, span);
+	    end if;
+	    mem_elements <= mem_elements + (elem_inc - elem_dec);
 	end if;
-	-- Write
-	if i_wr_fifo = '1' and full = '0' then
-	    inc_addr(wr_addr, span);
-	end if;
-	mem_elements <= mem_elements + (elem_inc - elem_dec);
     end if;
 end process;
 

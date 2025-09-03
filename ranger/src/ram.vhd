@@ -15,12 +15,12 @@ entity ram is
     );
     port(
         i_CLK	    : in std_logic;
-        i_RE_0 		: in std_logic;
-        i_RE_1 		: in std_logic;
-        i_WE_1 		: in std_logic;
+        i_RE_0 	    : in std_logic;
+        i_RE_1 	    : in std_logic;
+        i_WE_1 	    : in std_logic;
         i_ADDR_0    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
         i_ADDR_1    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
-        i_WR_ADDR    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
+        i_WR_ADDR   : in unsigned(g_ADDR_WIDTH - 1 downto 0);
         i_DATA_1    : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
         --------------------------------------------------------------
         o_DATA_0    : out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -43,17 +43,17 @@ architecture arch_ram of ram is
         begin
         --while not endfile(mem_content) loop
         for i in 0 to mem_depth - 1 loop
-	        if g_INIT = '1' then
-				if not endfile(mem_content) then
-	    	        readline(mem_content, fline);
-	    	        read(fline, data);
-	    	        temp(i) := to_stdlogicvector(data);
-	    	    else
-	    	        temp(i) := (others => '0');
-	    	    end if;
+	    if g_INIT = '1' then
+	    		if not endfile(mem_content) then
+	            readline(mem_content, fline);
+	            read(fline, data);
+	            temp(i) := to_stdlogicvector(data);
 	        else
-				temp(i) := (others => '0');
+	            temp(i) := (others => '0');
 	        end if;
+	    else
+	    		temp(i) := (others => '0');
+	    end if;
         end loop;
         return temp;
     end;
