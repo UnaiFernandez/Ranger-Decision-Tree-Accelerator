@@ -20,7 +20,6 @@ entity dt_ctl is
 	    i_NODE_INFO			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_THRESHOLD			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_DATA_OUT			: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	    i_GRANT			: in std_logic;
 		-----------------------------------------------------
 	    o_RE_NODE			: out std_logic;
 	    o_RE_DATA			: out std_logic;
@@ -60,10 +59,10 @@ architecture arch_dt_ctl of dt_ctl is
 
 begin
 
-enable <= i_ENABLE;
+    enable <= i_ENABLE;
 -- State machine
 
-    process(current_s, next_s, leaf, go_right, enable, i_GRANT)
+    process(current_s, next_s, leaf, go_right, enable)
     begin
 	case current_s is
 	    when E0 => if enable = '1' then next_s <= E1;
@@ -71,8 +70,7 @@ enable <= i_ENABLE;
 					end if;
 	    when E1 => next_s <= E2;
 	    when E2 => next_s <= E3;
-	    when E3 => if leaf = '0' and i_grant = '0' then next_s <= E3;
-					elsif leaf = '0' and i_grant = '1' then next_s <= E4;
+	    when E3 => if leaf = '0' then next_s <= E4;
 		       else next_s <= E5;
 		       end if;
 	    when E4 => next_s <= E2;

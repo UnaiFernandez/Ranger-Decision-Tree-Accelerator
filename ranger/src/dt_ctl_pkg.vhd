@@ -20,7 +20,6 @@ package dt_ctl_pkg is
             i_node_info		    	: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
             i_threshold		    	: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
             i_data_out		    	: in std_logic_vector(g_DATA_WIDTH	 - 1 downto 0);
-	    i_GRANT		    	: in std_logic;
             -----------------------------------------------------
             o_RE_node			: out std_logic;
             o_RE_data		    	: out std_logic;

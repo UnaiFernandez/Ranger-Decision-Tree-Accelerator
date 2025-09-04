@@ -17,16 +17,13 @@ entity dt_accel is
     port(
         i_CLK : in std_logic;
         i_RESET : in std_logic;
-        i_DATA : in std_logic_vector;
-        --i_RE_CLASS : in std_logic;
         i_ENABLE : in std_logic;
         i_SEL : in std_logic;
+        i_GET_DATA : in std_logic;
         i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
-        i_GRANT : in std_logic;
+        i_DATA_MEM : in std_logic_vector;
         ----------------------------------------------------
-        o_RE_DATA : out std_logic;
         o_DONE : out std_logic;
-        o_DATA_ADDR : out unsigned(g_ADDR_WIDTH - 1 downto 0);
         o_CLASS : out std_logic_vector(15 downto 0)
         --o_CLASS_FIFO_EMPTY : out std_logic
     );
@@ -41,10 +38,14 @@ architecture arch_dt_accel of dt_accel is
 -- DT_CTL
     signal node_info : std_logic_vector(n_width - 1 downto 0);
     signal threshold : std_logic_vector(n_width - 1 downto 0);
+    signal int_data : std_logic_vector(n_width - 1 downto 0);
     signal RE_node : std_logic := '0';
     signal RE_thr : std_logic := '0';
+    signal RE_int_data : std_logic := '0';
     signal node_addr_0: unsigned(l_width - 1 downto 0);
     signal node_addr_1: unsigned(l_width - 1 downto 0);
+    signal int_data_addr: unsigned(l_width - 1 downto 0);
+    signal wr_data_addr: unsigned(l_width - 1 downto 0);
     signal thr_addr: unsigned(l_width - 1 downto 0);
     signal class: std_logic_vector(15 downto 0);
 
@@ -60,7 +61,6 @@ begin
 
 -- State machine
 
-    enable <= i_enable;
     o_DONE <= task_terminated;
 
     process(current_s, next_s, enable, task_terminated)
@@ -104,10 +104,34 @@ begin
         i_ADDR_0 => node_addr_0,
         i_ADDR_1 => node_addr_1,
         i_WR_ADDR => node_addr_1,
-        i_DATA_1 => i_DATA,
+        i_DATA_1 => i_DATA_MEM,
         o_DATA_0 => node_info,
         o_DATA_1 => threshold
     );
+
+-- INTERNAL DATA MEMORY
+    INT_DATA_MEM: ram
+    generic map(
+        g_ADDR_WIDTH => g_ADDR_WIDTH,
+        g_DATA_WIDTH => g_DATA_WIDTH,
+        g_DEPTH => g_DEPTH,
+        g_INIT_FILE => "./memory_content/data_mem_content.txt",
+        g_INIT => '1'
+    )
+    port map(
+        i_CLK => i_clk,
+        i_RE_0 => RE_int_data,
+        i_RE_1 => RE_int_data,
+        i_WE_1 => i_GET_DATA,
+        i_ADDR_0 => int_data_addr,
+        i_ADDR_1 => int_data_addr,
+        i_WR_ADDR => wr_data_addr,
+        i_DATA_1 => i_DATA_MEM,
+        o_DATA_0 => int_data,
+        o_DATA_1 => int_data
+    );
+
+
 
 -- DT CONTROL
     DT: dt_ctl
@@ -118,20 +142,19 @@ begin
         g_SPAN => 4
     )
     port map(
-        i_clk => i_clk,
-        i_reset => i_reset,
-        i_ENABLE => enable,
-        i_node_info => node_info,
+        i_clk		=> i_clk,
+        i_reset		=> i_reset,
+        i_ENABLE	=> i_enable,
+        i_node_info	=> node_info,
         i_threshold	=> threshold,
-        i_data_out => i_data,
-        i_GRANT => i_GRANT,
-        o_RE_node => RE_node,
-        o_RE_data => o_RE_data,
-        o_RE_thr => RE_thr,
-        o_node_addr => node_addr_0,
-        o_thr_addr => thr_addr,
-        o_data_addr	=> o_data_addr,
-        o_DONE => task_terminated,
-        o_class => class
+        i_data_out	=> int_data,
+        o_RE_node	=> RE_node,
+        o_RE_thr	=> RE_thr,
+        o_RE_data	=> RE_int_data,
+        o_node_addr	=> node_addr_0,
+        o_thr_addr	=> thr_addr,
+        o_data_addr	=> int_data_addr,
+        o_DONE		=> task_terminated,
+        o_class		=> class
     );
 end arch_dt_accel;
