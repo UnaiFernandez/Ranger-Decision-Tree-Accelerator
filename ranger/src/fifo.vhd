@@ -9,7 +9,6 @@ entity fifo is
     generic(
 	g_DATA_WIDTH: integer;
 	g_ADDR_WIDTH: integer;
-	g_SPAN: integer;
 	g_INIT_MEM: std_logic;
 	g_DEPTH: integer
     );
@@ -17,11 +16,8 @@ entity fifo is
 	i_CLK		: in std_logic;
     i_RESET		: in std_logic;
 	i_RE_FIFO	: in std_logic;
-	i_RE_0		: in std_logic;
-    i_RE_1		: in std_logic;
 	i_WR_FIFO	: in std_logic;
 	i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	i_MODE		: in std_logic;
 	i_ADDR_0	: in unsigned(g_ADDR_WIDTH - 1 downto 0);
 	i_ADDR_1	: in unsigned(g_ADDR_WIDTH - 1 downto 0);
     --------------------------------------------------------
@@ -37,9 +33,8 @@ architecture arch_fifo of fifo is
 -- Control logic
 signal full, empty: std_logic;
 signal init: std_logic := g_init_mem;
-signal re_en_0, re_en_1, wr_en : std_logic := '0';
-signal c_inc, c_dec : std_logic := '0';
-signal span : integer := 0;
+signal re_en, wr_en : std_logic := '0';
+
 -- Number of elements
 signal mem_elements : integer range 0 to g_DEPTH := 0;
 signal elem_dec : integer range 0 to g_DEPTH := 0;
@@ -70,25 +65,19 @@ generic map(
 )
 port map(
     i_CLK	    => i_clk,
-    i_RE_0	    => re_en_0,
-    i_RE_1	    => re_en_1, --not used
+    i_RE_0	    => re_en,
+    i_RE_1	    => re_en, -- not used
     i_WE_1	    => wr_en,
-    i_ADDR_0	    => addr_0, -- to_unsigned(rd_addr, g_ADDR_WIDTH),
-    i_ADDR_1	    => addr_1,
+    i_ADDR_0	    => to_unsigned(rd_addr, g_ADDR_WIDTH),
+    i_ADDR_1	    => to_unsigned(rd_addr, g_ADDR_WIDTH), -- not used
     i_WR_ADDR	    => to_unsigned(wr_addr, g_ADDR_WIDTH),
     o_DATA_0	    => data_0,
     o_DATA_1	    => data_1,
     i_DATA_1	    => i_WR_DATA
 );
 
-re_en_0 <= i_RE_FIFO when i_mode = '0' and empty = '0' else i_RE_0;
-re_en_1 <= i_RE_1;
 wr_en <= i_WR_FIFO and not full;
-
-span <= g_SPAN when i_mode = '1' else 1;
-
-addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_0 + to_unsigned(rd_addr, g_ADDR_WIDTH);
-addr_1 <= to_unsigned(wr_addr, g_ADDR_WIDTH) when i_mode = '0' else i_addr_1 + to_unsigned(rd_addr, g_ADDR_WIDTH);
+re_en <= i_RE_FIFO and not empty;
 
 o_DATA_0 <= data_0;
 o_DATA_1 <= data_1;
@@ -107,19 +96,19 @@ begin
 	else
 	    -- Read
 	    if i_re_fifo = '1' and empty = '0' then
-	        inc_addr(rd_addr, span);
+	        inc_addr(rd_addr, 1);
 	    end if;
 	    -- Write
 	    if i_wr_fifo = '1' and full = '0' then
-	        inc_addr(wr_addr, span);
+	        inc_addr(wr_addr, 1);
 	    end if;
 	    mem_elements <= mem_elements + (elem_inc - elem_dec);
 	end if;
     end if;
 end process;
 
-elem_dec <= span when i_re_fifo = '1' and empty = '0' else 0;
-elem_inc <= span when i_wr_fifo = '1' and full = '0' else 0;
+elem_dec <= 1 when i_re_fifo = '1' and empty = '0' else 0;
+elem_inc <= 1 when i_wr_fifo = '1' and full = '0' else 0;
 
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';
