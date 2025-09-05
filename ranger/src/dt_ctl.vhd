@@ -119,6 +119,7 @@ begin
     end process;
 
     o_NODE_ADDR <= unsigned(c_node_mem_out);
+    o_THR_ADDR <= unsigned(c_node_mem_out) + 1;
     threshold <= to_float(i_THRESHOLD);
 
 -- C data mem

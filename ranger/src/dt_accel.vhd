@@ -102,8 +102,8 @@ begin
         i_RE_1 => RE_thr,
         i_WE_1 => i_SEL,
         i_ADDR_0 => node_addr_0,
-        i_ADDR_1 => node_addr_1,
-        i_WR_ADDR => node_addr_1,
+        i_ADDR_1 => thr_addr,
+        i_WR_ADDR => i_DATA_ADDR,
         i_DATA_1 => i_DATA_MEM,
         o_DATA_0 => node_info,
         o_DATA_1 => threshold
@@ -125,7 +125,7 @@ begin
         i_WE_1 => i_GET_DATA,
         i_ADDR_0 => int_data_addr,
         i_ADDR_1 => int_data_addr,
-        i_WR_ADDR => wr_data_addr,
+        i_WR_ADDR => i_data_addr,
         i_DATA_1 => i_DATA_MEM,
         o_DATA_0 => int_data,
         o_DATA_1 => int_data
