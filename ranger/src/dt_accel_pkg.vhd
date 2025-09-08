@@ -9,20 +9,19 @@ package dt_accel_pkg is
 	generic(
     	    g_DATA_WIDTH: integer;
     	    g_ADDR_WIDTH: integer;
-    	    g_DEPTH: integer
+    	    g_DEPTH	: integer
     	);
 	port(
-    	    i_CLK : in std_logic;
-    	    i_RESET : in std_logic;
-	    i_ENABLE : in std_logic;
-	    i_SEL : in std_logic;
-	    i_GET_DATA : in std_logic;
+    	    i_CLK	: in std_logic;
+    	    i_RESET	: in std_logic;
+	    i_ENABLE	: in std_logic;
+	    i_SEL	: in std_logic;
+	    i_GET_DATA	: in std_logic;
 	    i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
-    	    i_DATA_MEM : in std_logic_vector;
+    	    i_DATA_MEM	: in std_logic_vector;
     	    ----------------------------------------------------
-    	    o_DONE : out std_logic;
-    	    o_CLASS : out std_logic_vector(15 downto 0)
-    	    --o_CLASS_FIFO_EMPTY : out std_logic
+    	    o_DONE	: out std_logic;
+    	    o_CLASS	: out std_logic_vector(15 downto 0)
     	);
     end component;
 

@@ -44,18 +44,13 @@ architecture arch_dt_ctl of dt_ctl is
     signal feature, right_node : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
     signal threshold : float(8 downto -23);
 
--- C data mem
-    signal CL_c_data_mem, INC_c_data_mem : std_logic;
-    signal c_data_mem_out : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
-    signal data_out : float(8 downto -23);
-
 -- R class
     signal LD_class : std_logic;
     signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
 
 --
     signal leaf, go_right, read_node_info, enable : std_logic;
-    signal halt : std_logic;
+    signal data_out : float(8 downto -23);
 
 begin
 
@@ -122,25 +117,9 @@ begin
     o_THR_ADDR <= unsigned(c_node_mem_out) + 1;
     threshold <= to_float(i_THRESHOLD);
 
--- C data mem
-
-    INC_c_data_mem <= '1' when current_s = E6 else '0';
-    CL_c_data_mem <= '1' when current_s = E1 else '0';
-
-    process(i_CLK, CL_c_data_mem)
-    begin
-	if CL_c_data_mem = '1' then c_data_mem_out <= x"0000";
-	elsif rising_edge(i_CLK) then
-	    if INC_c_data_mem = '1' then
-		c_data_mem_out <= std_logic_vector(unsigned(c_data_mem_out) + g_SPAN);
-	    end if;
-	end if;
-    end process;
-
     feature <= '0' & i_NODE_INFO(15 downto 1);
     right_node<= i_NODE_INFO(31 downto 16);
     o_DATA_ADDR <= unsigned(feature);
-    --o_DATA_ADDR <= unsigned(c_data_mem_out) + (unsigned(feature));
     data_out <= to_float(i_DATA_OUT);
 
 
