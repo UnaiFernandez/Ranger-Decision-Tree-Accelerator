@@ -27,49 +27,37 @@ end ranger;
 
 architecture arch_ranger of ranger is
 
-    -- State machine
+-- State machine
     type state is (E0, E1, E2, E3, E4);
     signal current_s, next_s: state;
 
-    signal re_en		: std_logic;
-    signal wr_en		: std_logic;
+-- DT_ACCEL
+    signal sel		    : std_logic_vector(g_dt_instances - 1 downto 0);
+    signal enable : std_logic;
+    signal re_data : std_logic;
+    signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
+
+-- Configurator
+    signal re_data_config : STD_LOGIC;
+    signal get_data : std_logic;
+    signal data_loaded : std_logic;
+    signal config_done : std_logic;
+    signal up_int_data : std_logic := '0';
+    signal en_config : std_logic;
+    signal dt_id : std_logic_vector(7 downto 0);
+
+-- Data memory
     signal fifo_empty	: std_logic;
     signal fifo_full	: std_logic;
     signal class		: std_logic_vector(g_addr_width - 1 downto 0);
 
-    signal sel		    : std_logic_vector(g_dt_instances - 1 downto 0);
+-- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
-    signal done_vector : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
     signal ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
     signal calc_result : std_logic;
     signal stop : std_logic := '0';
 
-    signal up_int_data : std_logic := '0';
-    signal config_done, enable, enable_next, en_config, inc_data_addr: std_logic;
-    signal re_data : std_logic;
-    signal dt_id : std_logic_vector(7 downto 0);
-
-    signal sel_re_data: std_logic:= '0';
-    signal re_data_config, re_data_ctl : STD_LOGIC;
-    signal re_data_fifo : std_logic;
-
-    signal inf_done :std_logic;
-
-    signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
-
-    signal mode : std_logic := '0';
-
-    signal req, grant : std_logic_vector(g_dt_instances - 1 downto 0);
-
-    signal get_data : std_logic;
-    signal data_loaded : std_logic;
-
-    -- DATA MEMORY
-
-    signal re_0, re_1: std_logic;
-    signal wr_mem: std_logic;
-    signal rd_mem: std_logic;
-    signal wr_mem_data: std_logic_vector(g_data_width - 1 downto 0);
+-- DATA MEMORY
     signal mem_data_0: std_logic_vector(g_data_width - 1 downto 0);
     signal mem_data_1: std_logic_vector(g_data_width - 1 downto 0);
     signal addr_0: unsigned(g_addr_width - 1 downto 0);
@@ -146,10 +134,6 @@ begin
     calc_result <= '1' when current_s = E3 and result_ready = ready else '0';
     enable <= '1' when current_s = E3 and calc_result = '0' else '0';
 
-    --result_ready <= done_vector when current_s = E3  and else (others => '0');
-
-    --enable <= '1' when (current_s = E2 and data_loaded = '1') or (current_s = E3 and stop = '0') else '0';
-
 -- CONFIGURATOR
 
     en_config <= '1' when current_s = E1 else '0';
@@ -169,8 +153,8 @@ begin
         o_dt_id		=> dt_id,
         o_data_addr	=> data_addr,
         o_CONFIG_DONE   => config_done,
-	o_get_data	=> get_data,
-	o_transfer_done => data_loaded,
+        o_get_data	=> get_data,
+        o_transfer_done => data_loaded,
         o_re_data	=> re_data_config
     );
 

@@ -68,13 +68,17 @@ begin
     begin
         if rising_edge(i_clk) then
 	        if i_RE_0 = '1' then
-				o_DATA_0 <= ram_mem(to_integer(i_ADDR_0));
+		    o_DATA_0 <= ram_mem(to_integer(i_ADDR_0));
+		--else
+		--    o_DATA_0 <= (others => '0');
 	        end if;
 	        if i_RE_1 = '1' then
-				o_DATA_1 <= ram_mem(to_integer(i_ADDR_1));
+		    o_DATA_1 <= ram_mem(to_integer(i_ADDR_1));
+		--else
+		--    o_DATA_1 <= (others => '0');
 	        end if;
 	        if i_WE_1 = '1' then
-				ram_mem(to_integer(i_WR_ADDR)) <= i_DATA_1;
+		      	ram_mem(to_integer(i_WR_ADDR)) <= i_DATA_1;
 	        end if;
         end if;
     end process;

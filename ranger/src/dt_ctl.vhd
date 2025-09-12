@@ -84,7 +84,10 @@ begin
 
     process(i_CLK, i_RESET)
     begin
-        if i_RESET = '1' then current_s <= E0;
+        if i_RESET = '1' then 
+	    current_s <= E0;
+	    --c_node_mem_out <= (others => '0');
+	    --feature <= (others => '0');
         elsif rising_edge(i_CLK) then current_s <= next_s;
         end if;
     end process;
@@ -103,7 +106,7 @@ begin
 
     LD_c_node_mem <= '1' when current_s = E4 and go_right = '1' else '0';
     INC_c_node_mem <= '1' when current_s = E4 and go_right = '0' else '0';
-    CL_c_node_mem <= '1' when current_s = E1 or current_s = E6 else '0';
+    CL_c_node_mem <= '1' when current_s = E1 or current_s = E6 or i_reset = '1'else '0';
 
     process(i_CLK, CL_c_node_mem)
     begin

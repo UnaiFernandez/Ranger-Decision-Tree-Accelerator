@@ -116,7 +116,9 @@ begin
     --    wait for 10 ns;
     --    wr_axi_data <= '0';
     --end loop;
-
+    reset <= '1';
+    wait for 60 ns;
+    reset <= '0';
     wait for 20 ns;
     init_button <= '1';
     wait for 20 ns;

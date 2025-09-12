@@ -1,23 +1,26 @@
 [*]
 [*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
-[*] Fri Sep 12 10:34:05 2025
+[*] Fri Sep 12 13:44:14 2025
 [*]
 [dumpfile] "/home/unai/Projects/dt_vhdl/ranger/test/sim_ranger.ghw"
-[dumpfile_mtime] "Fri Sep 12 10:22:43 2025"
-[dumpfile_size] 160963
+[dumpfile_mtime] "Fri Sep 12 13:37:04 2025"
+[dumpfile_size] 160251
 [savefile] "/home/unai/Projects/dt_vhdl/ranger/test/sim_ranger_2.gtkw"
-[timestart] 0
+[timestart] 331500000
 [size] 2504 1316
 [pos] -1 -1
-*-25.950203 116300000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-25.950203 358000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.ranger_tb.
 [treeopen] top.ranger_tb.dt_ranger.
+[treeopen] top.ranger_tb.dt_ranger.dt_accelerator[0].
+[treeopen] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.
+[treeopen] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.
 [treeopen] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.int_data_mem.ram_mem.
 [treeopen] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.node_mem.ram_mem.
 [treeopen] top.ranger_tb.dt_ranger.dt_accelerator[1].dt_accel_x.node_mem.
 [sst_width] 297
-[signals_width] 198
+[signals_width] 226
 [sst_expanded] 1
 [sst_vpaned_height] 916
 @800200
@@ -34,9 +37,7 @@ top.ranger_tb.dt_ranger.config_done
 @22
 #{top.ranger_tb.dt_ranger.i_data_mem[31:0]} top.ranger_tb.dt_ranger.i_data_mem[31] top.ranger_tb.dt_ranger.i_data_mem[30] top.ranger_tb.dt_ranger.i_data_mem[29] top.ranger_tb.dt_ranger.i_data_mem[28] top.ranger_tb.dt_ranger.i_data_mem[27] top.ranger_tb.dt_ranger.i_data_mem[26] top.ranger_tb.dt_ranger.i_data_mem[25] top.ranger_tb.dt_ranger.i_data_mem[24] top.ranger_tb.dt_ranger.i_data_mem[23] top.ranger_tb.dt_ranger.i_data_mem[22] top.ranger_tb.dt_ranger.i_data_mem[21] top.ranger_tb.dt_ranger.i_data_mem[20] top.ranger_tb.dt_ranger.i_data_mem[19] top.ranger_tb.dt_ranger.i_data_mem[18] top.ranger_tb.dt_ranger.i_data_mem[17] top.ranger_tb.dt_ranger.i_data_mem[16] top.ranger_tb.dt_ranger.i_data_mem[15] top.ranger_tb.dt_ranger.i_data_mem[14] top.ranger_tb.dt_ranger.i_data_mem[13] top.ranger_tb.dt_ranger.i_data_mem[12] top.ranger_tb.dt_ranger.i_data_mem[11] top.ranger_tb.dt_ranger.i_data_mem[10] top.ranger_tb.dt_ranger.i_data_mem[9] top.ranger_tb.dt_ranger.i_data_mem[8] top.ranger_tb.dt_ranger.i_data_mem[7] top.ranger_tb.dt_ranger.i_data_mem[6] top.ranger_tb.dt_ranger.i_data_mem[5] top.ranger_tb.dt_ranger.i_data_mem[4] top.ranger_tb.dt_ranger.i_data_mem[3] top.ranger_tb.dt_ranger.i_data_mem[2] top.ranger_tb.dt_ranger.i_data_mem[1] top.ranger_tb.dt_ranger.i_data_mem[0]
 @28
-#{top.ranger_tb.dt_ranger.done_vector[1:0]} top.ranger_tb.dt_ranger.done_vector[1] top.ranger_tb.dt_ranger.done_vector[0]
 #{top.ranger_tb.dt_ranger.result_ready[1:0]} top.ranger_tb.dt_ranger.result_ready[1] top.ranger_tb.dt_ranger.result_ready[0]
-@29
 top.ranger_tb.dt_ranger.calc_result
 @1000200
 -ranger
@@ -84,6 +85,8 @@ top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.task_terminated
 -dt_accel
 @28
 top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.i_clk
+@23
+#{top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[15:0]} top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[15] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[14] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[13] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[12] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[11] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[10] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[9] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[8] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[7] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[6] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[5] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[4] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[3] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[2] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[1] top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.c_node_mem_out[0]
 @420
 top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.current_s
 @22
@@ -112,7 +115,6 @@ top.ranger_tb.dt_ranger.dt_accelerator[0].dt_accel_x.dt.enable
 @c00200
 -data_mem
 @28
-top.ranger_tb.dt_ranger.sel_re_data
 top.ranger_tb.dt_ranger.data_mem.i_re_fifo
 @22
 #{top.ranger_tb.dt_ranger.data_mem.i_addr_0[15:0]} top.ranger_tb.dt_ranger.data_mem.i_addr_0[15] top.ranger_tb.dt_ranger.data_mem.i_addr_0[14] top.ranger_tb.dt_ranger.data_mem.i_addr_0[13] top.ranger_tb.dt_ranger.data_mem.i_addr_0[12] top.ranger_tb.dt_ranger.data_mem.i_addr_0[11] top.ranger_tb.dt_ranger.data_mem.i_addr_0[10] top.ranger_tb.dt_ranger.data_mem.i_addr_0[9] top.ranger_tb.dt_ranger.data_mem.i_addr_0[8] top.ranger_tb.dt_ranger.data_mem.i_addr_0[7] top.ranger_tb.dt_ranger.data_mem.i_addr_0[6] top.ranger_tb.dt_ranger.data_mem.i_addr_0[5] top.ranger_tb.dt_ranger.data_mem.i_addr_0[4] top.ranger_tb.dt_ranger.data_mem.i_addr_0[3] top.ranger_tb.dt_ranger.data_mem.i_addr_0[2] top.ranger_tb.dt_ranger.data_mem.i_addr_0[1] top.ranger_tb.dt_ranger.data_mem.i_addr_0[0]
@@ -120,9 +122,7 @@ top.ranger_tb.dt_ranger.data_mem.i_re_fifo
 top.ranger_tb.dt_ranger.data_mem.rd_addr
 @28
 top.ranger_tb.dt_ranger.data_mem.i_re_fifo
-top.ranger_tb.dt_ranger.sel_re_data
 top.ranger_tb.dt_ranger.re_data_config
-top.ranger_tb.dt_ranger.re_0
 @22
 #{top.ranger_tb.dt_ranger.data_mem.i_addr_1[15:0]} top.ranger_tb.dt_ranger.data_mem.i_addr_1[15] top.ranger_tb.dt_ranger.data_mem.i_addr_1[14] top.ranger_tb.dt_ranger.data_mem.i_addr_1[13] top.ranger_tb.dt_ranger.data_mem.i_addr_1[12] top.ranger_tb.dt_ranger.data_mem.i_addr_1[11] top.ranger_tb.dt_ranger.data_mem.i_addr_1[10] top.ranger_tb.dt_ranger.data_mem.i_addr_1[9] top.ranger_tb.dt_ranger.data_mem.i_addr_1[8] top.ranger_tb.dt_ranger.data_mem.i_addr_1[7] top.ranger_tb.dt_ranger.data_mem.i_addr_1[6] top.ranger_tb.dt_ranger.data_mem.i_addr_1[5] top.ranger_tb.dt_ranger.data_mem.i_addr_1[4] top.ranger_tb.dt_ranger.data_mem.i_addr_1[3] top.ranger_tb.dt_ranger.data_mem.i_addr_1[2] top.ranger_tb.dt_ranger.data_mem.i_addr_1[1] top.ranger_tb.dt_ranger.data_mem.i_addr_1[0]
 #{top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][31:0]} top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][31] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][30] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][29] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][28] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][27] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][26] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][25] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][24] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][23] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][22] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][21] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][20] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][19] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][18] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][17] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][16] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][15] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][14] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][13] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][12] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][11] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][10] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][9] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][8] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][7] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][6] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][5] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][4] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][3] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][2] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][1] top.ranger_tb.dt_ranger.data_mem.fifo_mem.ram_mem[0][0]
