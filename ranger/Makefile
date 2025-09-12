@@ -11,17 +11,11 @@ OBJ = bin/ram_pkg.o \
       bin/dt_accel.o \
       bin/configurator_pkg.o \
       bin/configurator.o \
-      bin/sched_pkg.o \
-      bin/sched.o \
+      bin/ranger_pkg.o \
+      bin/ranger.o \
       bin/testbench/dt_accel_tb.o \
-      bin/testbench/fifo_tb.o 
-      #bin/bus_master_pkg.o \
-      #bin/bus_master.o \
-      #bin/ranger_pkg.o \
-      #bin/ranger.o \
-      #bin/testbench/dt_accel_tb.o \
-      #bin/testbench/fifo_tb.o \
-      #bin/testbench/ranger_tb.o\
+      bin/testbench/fifo_tb.o \
+      bin/testbench/ranger_tb.o
       #bin/testbench/sched_tb.o
 
 all: test/sim_dt.ghw

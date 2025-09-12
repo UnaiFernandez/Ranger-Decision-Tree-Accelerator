@@ -22,6 +22,7 @@ entity dt_accel is
         i_GET_DATA  : in std_logic;
         i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
         i_DATA_MEM  : in std_logic_vector;
+	i_CALC_RESULT : in std_logic;
         ----------------------------------------------------
         o_DONE	    : out std_logic;
         o_CLASS	    : out std_logic_vector(15 downto 0)
@@ -75,7 +76,9 @@ begin
 
     process(i_clk, i_reset)
     begin
-	    if i_reset = '1' then current_s <= E0;
+	    if i_reset = '1' then 
+		current_s <= E0;
+
 	    elsif rising_edge(i_clk) then current_s <= next_s;
 	    end if;
     end process;
@@ -88,7 +91,7 @@ begin
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
         g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
-        g_INIT		=> '1'
+        g_INIT		=> '0'
     )
     port map(
         i_CLK		=> i_clk,
@@ -112,7 +115,7 @@ begin
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
         g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
-        g_INIT		=> '1'
+        g_INIT		=> '0'
     )
     port map(
         i_CLK		=> i_clk,
@@ -144,6 +147,7 @@ begin
         i_node_info	=> node_info,
         i_threshold	=> threshold,
         i_data_out	=> int_data,
+        i_calc_result	=> i_calc_result,
         o_RE_node	=> RE_node,
         o_RE_thr	=> RE_thr,
         o_RE_data	=> RE_int_data,
@@ -154,6 +158,6 @@ begin
         o_class		=> class
     );
 
-    o_DONE <= task_terminated;
+    o_DONE <= '0' when current_s = E0 and enable = '0' and i_calc_result = '1' else task_terminated;
 
 end arch_dt_accel;

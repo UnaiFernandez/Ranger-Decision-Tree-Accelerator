@@ -86,7 +86,6 @@ port map(
     init	        => init_button,
     i_data_mem	    => axi_data,
     i_wr_data	    => wr_axi_data,
-    o_mode	        => mode,
     o_class_fifo    => class
 );
 
@@ -110,13 +109,13 @@ begin
 
  -- while not full
 
-    for index in 0 to depth - 6 loop -- Tener en cuenta
-        axi_data <= pc_data(index);
-        wait for 10 ns;
-        wr_axi_data <= '1';
-        wait for 10 ns;
-        wr_axi_data <= '0';
-    end loop;
+    --for index in 0 to depth - 6 loop -- Tener en cuenta
+    --    axi_data <= pc_data(index);
+    --    wait for 10 ns;
+    --    wr_axi_data <= '1';
+    --    wait for 10 ns;
+    --    wr_axi_data <= '0';
+    --end loop;
 
     wait for 20 ns;
     init_button <= '1';

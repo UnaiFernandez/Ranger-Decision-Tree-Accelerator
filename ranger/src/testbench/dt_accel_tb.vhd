@@ -134,6 +134,7 @@ begin
         i_SEL => sel,
         i_GET_DATA => get_data,
         i_DATA_ADDR => data_addr,
+        i_calc_result => '0',
 	o_done => done,
         o_class => class
     );

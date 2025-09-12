@@ -18,7 +18,6 @@ package ranger_pkg is
 	    init : in std_logic;
     	    i_data_mem : in std_logic_vector(g_data_width - 1 downto 0);
     	    i_wr_data : in std_logic;
-    	    o_mode : out std_logic;
     	    o_class_fifo : out std_logic_vector(g_addr_width - 1 downto 0)
     	);
     end component;

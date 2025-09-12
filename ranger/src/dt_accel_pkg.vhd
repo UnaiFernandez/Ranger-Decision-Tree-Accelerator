@@ -19,6 +19,7 @@ package dt_accel_pkg is
 	    i_GET_DATA	: in std_logic;
 	    i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
     	    i_DATA_MEM	: in std_logic_vector;
+	    i_CALC_RESULT : in std_logic;
     	    ----------------------------------------------------
     	    o_DONE	: out std_logic;
     	    o_CLASS	: out std_logic_vector(15 downto 0)

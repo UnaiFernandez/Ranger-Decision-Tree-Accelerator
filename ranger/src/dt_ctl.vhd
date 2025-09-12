@@ -20,6 +20,7 @@ entity dt_ctl is
 	    i_NODE_INFO			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_THRESHOLD			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
 	    i_DATA_OUT			: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+	    i_CALC_RESULT		: in std_logic;
 		-----------------------------------------------------
 	    o_RE_NODE			: out std_logic;
 	    o_RE_DATA			: out std_logic;
@@ -35,7 +36,7 @@ end dt_ctl;
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6);
+    type state is (E0, E1, E2, E3, E4, E5, E6, E7);
     signal current_s, next_s, r_state: state;
 
 -- C node mem
@@ -69,10 +70,13 @@ begin
 		       else next_s <= E5;
 		       end if;
 	    when E4 => next_s <= E2;
-	    when E5 => if enable = '1' then next_s <= E6;
+	    when E5 => if i_calc_result = '1' then next_s <= E6;
 		       else next_s <= E5;
 		       end if;
-	    when E6 => next_s <= E2;
+	    when E6 => if enable = '1' then next_s <= E7;
+		       else next_s <= E6;
+		       end if;
+	    when E7 => next_s <= E2;
 	end case;
     end process;
 

@@ -60,7 +60,7 @@ generic map(
     g_addr_width    => g_ADDR_WIDTH,
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
-    g_init_file	    => "./memory_content/data_mem_content.txt",
+    g_init_file	    => "./memory_content/mixed.txt",
     g_init	    => g_init_mem
 )
 port map(
