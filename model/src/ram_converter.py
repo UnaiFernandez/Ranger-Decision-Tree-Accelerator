@@ -18,8 +18,19 @@ def get_code(sign):
 
 def write_to_file(list, filename):
     with open(filename, "w") as f:
-        if f.write('\n'.join(str(i) for i in list)):
-            print("[SUCCESS] Data writen to {}".format(filename))
+        for i in list:
+            f.write("".join(str(i) + "\n"))
+        print("[SUCCESS] Data writen to {}".format(filename))
+
+def mat_to_array(mat):
+    l = []
+    for dt in mat:
+        for i in dt:
+            l.append(i)
+
+    return l
+
+
 
 def find_node(data, id):
     addr = 0
@@ -136,15 +147,12 @@ def create_mem_layouts(filename, t_dict):
 
 
 def create_data_mem(data):
-    feature_list = []
-    col = len(data.columns)
-    row = len(data.index)
+    threshold_list = []
+    col = len(data[0])
+    row = len(data)
     for r in range(0, row):
         for c in range(0, col):
-            feature, *_ = to_floating_point(float(data.iat[r, c]), 8, 23)
-            feature_list.append(feature);
-            #print("{} ---> {}".format(data.iat[r, c], format(feature, "032b")))
+            threshold, *_ = to_floating_point(float(data[r, c]), 8, 23)
+            threshold_list.append(threshold);
 
-    #print(feature_list)
-    return feature_list
-
+    return threshold_list
