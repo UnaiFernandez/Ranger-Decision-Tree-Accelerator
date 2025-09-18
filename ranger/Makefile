@@ -1,6 +1,6 @@
 GHDL=ghdl-gcc
 
-sim_time="3000ns"
+sim_time="15000ns"
 OBJ = bin/ram_pkg.o \
       bin/ram.o \
       bin/fifo_pkg.o \
