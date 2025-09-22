@@ -9,8 +9,8 @@ from dt_utils import *
 
 
 
-#x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.5)
-x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
+x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.5)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/car.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/obesity.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/wdbc.data", train_size=0.8)
