@@ -49,7 +49,7 @@ architecture arch_ranger of ranger is
 -- Data memory
     signal fifo_empty	: std_logic;
     signal fifo_full	: std_logic;
-    signal class		: std_logic_vector(g_addr_width - 1 downto 0);
+    signal class	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
@@ -62,6 +62,25 @@ architecture arch_ranger of ranger is
     signal mem_data_1: std_logic_vector(g_data_width - 1 downto 0);
     signal addr_0: unsigned(g_addr_width - 1 downto 0);
     signal addr_1: unsigned(g_addr_width - 1 downto 0);
+
+-- AGGREGATOR
+    type mat_t is array (natural range <>) of std_logic_vector;
+    signal class_mat : mat_t(0 to g_dt_instances - 1)(15 downto 0);
+    signal t_class_mat : mat_t(0 to 15)(g_dt_instances - 1 downto 0);
+    signal count_arr : mat_t(0 to 15)(g_dt_instances - 1 downto 0);
+
+
+-- Count number of set bits
+    function bit_count(bits : std_logic_vector) return std_logic_vector is
+        variable t: integer := 0;
+    begin
+        for i in bits'range loop
+            if bits(i) = '1' then
+    	   t := t + 1;
+            end if;
+        end loop;
+        return std_logic_vector(to_unsigned(t, bits'length));
+    end bit_count;
 
 begin
 -- State machine
@@ -115,6 +134,7 @@ begin
         generic map(
             g_DATA_WIDTH => g_DATA_WIDTH,
             g_ADDR_WIDTH => g_ADDR_WIDTH,
+	    g_K => 16,
             g_DEPTH	 => 256
         )
         port map(
@@ -126,10 +146,44 @@ begin
             i_GET_DATA	        => get_data,
             i_DATA_ADDR		=> data_addr, -- TODO: Remane to avoid confusion
 	    i_CALC_RESULT	=> calc_result,
-            o_DONE	        => result_ready(I),
-            o_class	        => class
+	    o_class	        => class_mat(I),
+            o_DONE	        => result_ready(I)
         );
     end generate DT_ACCELERATOR;
+
+    -- create traspose matrix of predicted classes
+    process(class_mat)
+    begin
+	for j in t_class_mat'range loop
+	    for i in class_mat'range loop
+		t_class_mat(j)(i) <= class_mat(i)(j);
+	    end loop;
+	end loop;
+    end process;
+
+    -- TODO:
+    -- Activate a signal when calc done
+    -- Count the number of 1's
+    process(t_class_mat)
+    begin
+	for i in t_class_mat'range loop
+	    count_arr(i) <= bit_count(t_class_mat(i)); 
+	end loop;
+    end process;
+
+    -- Find the max
+    process(count_arr)
+	variable max : integer := 0;
+    begin
+	for i in count_arr'range loop
+	    --if to_integer(unsigned(count_arr(i))) >= max then
+	    if count_arr(i) >= count_arr(max) then
+		max := i; --to_integer(unsigned(count_arr(i)));
+	    end if;
+	end loop;
+	class <= std_logic_vector(to_unsigned(max, g_addr_width));
+    end process;
+
 
     calc_result <= '1' when current_s = E3 and result_ready = ready else '0';
     enable <= '1' when current_s = E3 and calc_result = '0' else '0';
@@ -185,12 +239,14 @@ begin
     begin
         if rising_edge(i_CLK) then
             if current_s = E1 and config_done = '1' then
-    	    report "Configuration done" severity note;
+		report "Configuration done" severity note;
             end if;
 	    if current_s = E2 and data_loaded = '1' then
-    	    report "Features loaded" severity note;
+		report "Features loaded" severity note;
             end if;
-
+	    if current_s = E4 then
+		report "Final Class:" & integer'image(to_integer(unsigned(class))) severity note;
+	    end if;
         end if;
     end process p_ASSERT;
 

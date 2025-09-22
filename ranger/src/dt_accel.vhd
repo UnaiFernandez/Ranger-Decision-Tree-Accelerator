@@ -12,6 +12,7 @@ entity dt_accel is
     generic(
         g_DATA_WIDTH: integer;
         g_ADDR_WIDTH: integer;
+	g_K	    : integer;
         g_DEPTH	    : integer
     );
     port(
@@ -24,8 +25,9 @@ entity dt_accel is
         i_DATA_MEM  : in std_logic_vector;
 	i_CALC_RESULT : in std_logic;
         ----------------------------------------------------
-        o_DONE	    : out std_logic;
-        o_CLASS	    : out std_logic_vector(15 downto 0)
+        --o_CLASS	    : out std_logic_vector(g_K - 1 downto 0);
+	o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
+        o_DONE	    : out std_logic
     );
 end dt_accel;
 
@@ -39,7 +41,7 @@ architecture arch_dt_accel of dt_accel is
     signal node_addr_0: unsigned(g_ADDR_WIDTH - 1 downto 0);
     signal node_addr_1: unsigned(g_ADDR_WIDTH - 1 downto 0);
     signal thr_addr: unsigned(g_ADDR_WIDTH - 1 downto 0);
-    
+
 -- DATA MEM
     signal RE_int_data : std_logic := '0';
     signal int_data_addr: unsigned(g_ADDR_WIDTH - 1 downto 0);
@@ -54,7 +56,9 @@ architecture arch_dt_accel of dt_accel is
 
 -- DT ACCEL control signals
     signal enable, task_terminated : STD_LOGIC;
-    signal cl_data_addr, ld_data_addr, inc_data_addr: STD_LOGIC;
+
+-- ONE HOT REPRESENTATION
+    signal one_hot : std_logic_vector(g_K - 1 downto 0) := (others => '0');
 
 begin
 
@@ -76,7 +80,7 @@ begin
 
     process(i_clk, i_reset)
     begin
-	    if i_reset = '1' then 
+	    if i_reset = '1' then
 		current_s <= E0;
 
 	    elsif rising_edge(i_clk) then current_s <= next_s;
@@ -105,7 +109,7 @@ begin
         o_DATA_0	=> node_info,
         o_DATA_1	=> threshold
     );
-    
+
     node_addr_1 <= node_addr_0 + 1 when current_s = E1 else i_DATA_ADDR;
 
 -- INTERNAL DATA MEMORY
@@ -156,8 +160,24 @@ begin
         o_data_addr	=> int_data_addr,
         o_DONE		=> task_terminated,
         o_class		=> class
+        --o_class		=> o_class
     );
 
     o_DONE <= '0' when current_s = E0 and enable = '0' and i_calc_result = '1' else task_terminated;
+    --o_CLASS <= class;
+    
+
+    process(i_CLK, task_terminated, class)
+    begin
+	if rising_edge(i_CLK) then
+	    if task_terminated = '1' then
+                one_hot <= (others => '0');
+                one_hot(to_integer(unsigned(class))) <= '1';
+            end if;
+	end if;
+    end process;
+    
+    o_CLASS <= one_hot;
+
 
 end arch_dt_accel;

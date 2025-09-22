@@ -30,13 +30,13 @@ architecture arch_dt_accel_tb of dt_accel_tb is
     signal fifo_full	: std_logic;
 
     signal rd_mem : std_logic := '0';
-    
+
     signal enable, sel, get_data : std_logic := '0';
     signal o_addr_data_mem : unsigned(16 - 1 downto 0);
 
     signal grant : std_logic;
     signal done : std_logic;
-    
+
     signal config_done, data_copied : std_logic := '0';
 
 -- State machine
@@ -124,6 +124,7 @@ begin
     generic map(
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
+	g_K => 16,
         g_DEPTH => 256
     )
     port map(
@@ -135,8 +136,8 @@ begin
         i_GET_DATA => get_data,
         i_DATA_ADDR => data_addr,
         i_calc_result => '0',
-	o_done => done,
-        o_class => class
+        --o_class => class,
+	o_done => done
     );
 
 
