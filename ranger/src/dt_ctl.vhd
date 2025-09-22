@@ -164,7 +164,7 @@ begin
     begin
 	if rising_edge(i_CLK) then
 	    if ld_class = '1' then
-		report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
+		--report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
 	    end if;
 	end if;
     end process p_ASSERT;

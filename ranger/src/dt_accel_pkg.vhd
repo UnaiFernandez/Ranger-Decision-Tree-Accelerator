@@ -9,6 +9,7 @@ package dt_accel_pkg is
 	generic(
     	    g_DATA_WIDTH: integer;
     	    g_ADDR_WIDTH: integer;
+	    g_K		: integer;
     	    g_DEPTH	: integer
     	);
 	port(
@@ -21,8 +22,9 @@ package dt_accel_pkg is
     	    i_DATA_MEM	: in std_logic_vector;
 	    i_CALC_RESULT : in std_logic;
     	    ----------------------------------------------------
-    	    o_DONE	: out std_logic;
-    	    o_CLASS	: out std_logic_vector(15 downto 0)
+    	    --o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
+	    o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
+    	    o_DONE	: out std_logic
     	);
     end component;
 
