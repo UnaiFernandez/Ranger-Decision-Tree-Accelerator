@@ -38,8 +38,6 @@ port map(
     i_re_fifo => re_en_fifo,
     i_wr_fifo => wr_en_fifo,
     i_wr_data => wr_data,
-    i_addr_0 => addr_0,
-    i_addr_1 => addr_1,
     o_data_0 => rd_data,
     --o_data_1 => rd_data,
     o_fifo_empty => fifo_empty,

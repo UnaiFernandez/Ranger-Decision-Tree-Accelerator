@@ -10,10 +10,10 @@ use work.dt_accel_pkg.all;
 
 entity dt_accel is
     generic(
-        g_DATA_WIDTH: integer;
-        g_ADDR_WIDTH: integer;
-	g_K	    : integer;
-        g_DEPTH	    : integer
+        g_DATA_WIDTH: integer := 32;
+        g_ADDR_WIDTH: integer := 16;
+	g_K	    : integer := 16;
+        g_DEPTH	    : integer := 256
     );
     port(
         i_CLK	    : in std_logic;
@@ -22,8 +22,8 @@ entity dt_accel is
         i_SEL	    : in std_logic;
         i_GET_DATA  : in std_logic;
         i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
-        i_DATA_MEM  : in std_logic_vector;
-	i_CALC_RESULT : in std_logic;
+        i_DATA_MEM  : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+	    i_CALC_RESULT : in std_logic;
         ----------------------------------------------------
         --o_CLASS	    : out std_logic_vector(g_K - 1 downto 0);
 	o_CLASS	: out std_logic_vector(g_K - 1 downto 0);

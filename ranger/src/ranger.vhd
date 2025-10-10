@@ -10,18 +10,19 @@ use work.configurator_pkg.all;
 
 entity ranger is
     generic(
-	g_dt_instances : integer;
-	g_mem_depth : integer;
-	g_data_width : integer;
-	g_addr_width : integer
+	g_dt_instances : integer := 6;
+	g_mem_depth : integer := 1024;
+	g_data_width : integer := 32;
+	g_addr_width : integer := 16
     );
     port(
 	i_clk : in std_logic;
 	i_reset : in std_logic;
-	i_data_mem : in std_logic_vector(g_data_width - 1 downto 0);
-	i_wr_data : in std_logic;
 	init : in std_logic;
-	o_class_fifo : out std_logic_vector(g_addr_width - 1 downto 0)
+	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
+	o_rd_fifo_data : out std_logic;
+	o_wr_fifo_data : out std_logic;
+	o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     );
 end ranger;
 
@@ -47,8 +48,6 @@ architecture arch_ranger of ranger is
     signal dt_id : std_logic_vector(7 downto 0);
 
 -- Data memory
-    signal fifo_empty	: std_logic;
-    signal fifo_full	: std_logic;
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
@@ -56,19 +55,15 @@ architecture arch_ranger of ranger is
     signal ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
     signal calc_result : std_logic;
     signal stop : std_logic := '0';
-
--- DATA MEMORY
-    signal mem_data_0: std_logic_vector(g_data_width - 1 downto 0);
-    signal mem_data_1: std_logic_vector(g_data_width - 1 downto 0);
-    signal addr_0: unsigned(g_addr_width - 1 downto 0);
-    signal addr_1: unsigned(g_addr_width - 1 downto 0);
+    signal inference_number : integer := 5;
+    signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
-    type mat_t is array (natural range <>) of std_logic_vector;
-    signal class_mat : mat_t(0 to g_dt_instances - 1)(15 downto 0);
-    signal t_class_mat : mat_t(0 to 15)(g_dt_instances - 1 downto 0);
-    signal count_arr : mat_t(0 to 15)(g_dt_instances - 1 downto 0);
-
+    type mat is array (natural range <>) of std_logic_vector(15 downto 0);
+    type mat_t is array (natural range <>) of std_logic_vector(g_dt_instances -1 downto 0);
+    signal class_mat : mat(0 to g_dt_instances - 1);
+    signal t_class_mat : mat_t(0 to 15);
+    signal count_arr : mat_t(0 to 15);
 
 -- Count number of set bits
     function bit_count(bits : std_logic_vector) return std_logic_vector is
@@ -140,7 +135,7 @@ begin
         port map(
             i_clk	        => i_clk,
             i_reset	        => i_reset,
-            i_data_mem	        => mem_data_0, -- TODO: revisar tambien
+            i_data_mem	        => i_fifo_data, -- TODO: revisar tambien
             i_ENABLE		=> enable,
             i_SEL	        => sel(I),
             i_GET_DATA	        => get_data,
@@ -161,9 +156,7 @@ begin
 	end loop;
     end process;
 
-    -- TODO:
-    -- Activate a signal when calc done
-    -- Count the number of 1's
+    -- count bits
     process(t_class_mat)
     begin
 	for i in t_class_mat'range loop
@@ -184,6 +177,8 @@ begin
 	class <= std_logic_vector(to_unsigned(max, g_addr_width));
     end process;
 
+    o_fifo_data <= class;
+    o_wr_fifo_data <= '1' when current_s = E3 and calc_result = '1' else '0';
 
     calc_result <= '1' when current_s = E3 and result_ready = ready else '0';
     enable <= '1' when current_s = E3 and calc_result = '0' else '0';
@@ -202,38 +197,30 @@ begin
         i_clk		=> i_clk,
         i_reset		=> i_reset,
         i_en_config	=> en_config,
-        i_data		=> mem_data_0, -- REVISAR
+        i_data		=> i_fifo_data, -- REVISAR
         i_up_int_data	=> up_int_data,
         o_dt_id		=> dt_id,
         o_data_addr	=> data_addr,
         o_CONFIG_DONE   => config_done,
         o_get_data	=> get_data,
         o_transfer_done => data_loaded,
-        o_re_data	=> re_data_config
+        o_re_data	=> o_rd_fifo_data
     );
 
--- DATA MEMORY
+-- INFERENCE COUNTER
+    
+    dec_inf_counter <= '1' when current_s = E3 and calc_result = '1' else '0';
 
-    DATA_MEM: fifo
-    generic map(
-        g_depth	        => g_mem_depth,
-        g_data_width    => g_data_width,
-	g_init_mem	=> '1',
-        g_addr_width    => g_addr_width
-    )
-    port map(
-        i_clk	        => i_clk,
-        i_reset	        => i_reset,
-        i_re_fifo	=> re_data_config,
-        i_wr_fifo	=> i_wr_data,
-        i_wr_data	=> i_data_mem,
-        i_addr_0	=> addr_0,
-        i_addr_1	=> addr_1,
-        o_data_0	=> mem_data_0,
-        o_data_1	=> mem_data_1,
-        o_fifo_empty    => fifo_empty,
-        o_fifo_full	=> fifo_full
-    );
+    process(i_clk)
+    begin
+	if rising_edge(i_clk) then
+	    if dec_inf_counter = '1' and inference_number = 0 then
+		stop <= '1';
+	    elsif dec_inf_counter = '1' and inference_number /= 0 then 
+		inference_number <= inference_number - 1;
+	    end if;
+	end if;
+    end process;
 
     p_ASSERT : process (i_CLK) is
     begin

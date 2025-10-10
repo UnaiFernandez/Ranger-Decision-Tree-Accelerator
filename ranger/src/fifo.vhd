@@ -18,8 +18,6 @@ entity fifo is
 	i_RE_FIFO	: in std_logic;
 	i_WR_FIFO	: in std_logic;
 	i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	i_ADDR_0	: in unsigned(g_ADDR_WIDTH - 1 downto 0);
-	i_ADDR_1	: in unsigned(g_ADDR_WIDTH - 1 downto 0);
     --------------------------------------------------------
 	o_DATA_0	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	o_DATA_1	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);

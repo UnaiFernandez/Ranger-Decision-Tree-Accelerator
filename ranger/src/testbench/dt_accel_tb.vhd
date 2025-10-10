@@ -108,8 +108,6 @@ begin
         i_re_fifo	    => re_en,
         i_wr_fifo	    => '0',
         i_wr_data	    => X"00000000",
-        i_addr_0	    => data_addr,
-        i_addr_1	    => data_addr,
         o_data_0	    => data,
         o_data_1	    => data,
         o_fifo_empty    => fifo_empty,
