@@ -10,23 +10,33 @@
     - **datasets:**
     - **src:**
 ## Dependencies
-The needed libraries are listed in x file.
-- numpy 
-- pandas
-- matplotlib
-- json
-- sklearn (metrics, treem preprocessing, ensemble, model\_selection, datasets)
+
+The needed libraries are listed in [deps.txt](model/deps.txt) file.
+
 ## Datasets
-- Heart attack
-- Diabetes
-- Iris
+All the datasets used for the project can be found in [model/datasets](model/datasets) directory.
+
+> Note: To use custom datasets to train the model, the last column in the dataset has to cointain the target.
 ## Configuration file
 ### Todo:
 add a file to configure the python script. or a prompt.
 ## Ranger (vhdl)
 ## Model (python)
 ## Execution instructions
+
+
 ## Results
+Used FPGA resources:
+
+|      | 16 trees | 32 trees | 64 trees | 128 trees |
+|------|----------|----------|----------|-----------|
+| LUTs |          |          |          |           |
+| FF   |          |          |          |           |
+| I/O  |          |          |          |           |
+| BRAM |          |          |          |           |
+
+Power consumption:
+
 ## Author
 Unai Fernandez
 ## License
@@ -52,14 +62,6 @@ HW accelerator (FPGA):
 
 Training script:
 
-Datasets:
-
-- Iris
-- MNIST
-- Diabetes
-- Heart attack
-- Lung Cancer
-- Anemia
 
 
 ## Build and simulate system
