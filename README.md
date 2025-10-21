@@ -21,49 +21,16 @@ All the datasets used for the project can be found in [model/datasets](model/dat
 ### Todo:
 add a file to configure the python script. or a prompt.
 ## Ranger (vhdl)
-## Model (python)
-## Execution instructions
-
-
-## Results
-Used FPGA resources:
-
-|      | 16 trees | 32 trees | 64 trees | 128 trees |
-|------|----------|----------|----------|-----------|
-| LUTs |          |          |          |           |
-| FF   |          |          |          |           |
-| I/O  |          |          |          |           |
-| BRAM |          |          |          |           |
-
-Power consumption:
-
-## Author
-Unai Fernandez
-## License
-
-
-----------------------------------------------------
-## OLD
-
-Random forest architecture implementation on FPGA. 
-
-## Params
-
-HW accelerator (FPGA):
 
 - Classes: 64
 - Trees: 255
 - Mem nodes depth: 255
 - Internal mem depth: 255
 - data mem depth: 512
-
-------------
 - clock: 125 MHz (8 ns) (*This would be ideal to compare the results*)
 
-Training script:
-
-
-
+## Model (python)
+## Execution instructions
 ## Build and simulate system
 
 Compiles all the VHDL files and simulates the system in the specified time.
@@ -88,4 +55,18 @@ make tree
 $ make clean
 ```
 
+## Results
+Used FPGA resources:
 
+|      | 16 trees | 32 trees | 64 trees | 128 trees |
+|------|----------|----------|----------|-----------|
+| LUTs |          |          |          |           |
+| FF   |          |          |          |           |
+| I/O  |          |          |          |           |
+| BRAM |          |          |          |           |
+
+Power consumption:
+
+## Author
+Unai Fernandez
+## License
