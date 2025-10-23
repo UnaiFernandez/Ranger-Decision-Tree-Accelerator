@@ -2,7 +2,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.fifo_pkg.all;
+use work.axis_fifo_pkg.all;
 
 entity fifo_tb is
 end fifo_tb;
@@ -11,21 +11,44 @@ architecture arch_fifo_tb of fifo_tb is
 
 signal clk		: std_logic := '0';
 signal reset		: std_logic := '0';
-signal re_en_fifo	: std_logic := '0';
-signal re_en_0		: std_logic := '0';
-signal re_en_1		: std_logic := '0';
-signal wr_en_fifo	: std_logic := '0';
-signal wr_data		: std_logic_vector(32 - 1 downto 0);
-signal rd_data		: std_logic_vector(32 - 1 downto 0);
-signal fifo_empty	: std_logic;
-signal fifo_full	: std_logic;
-signal mode		: std_logic;
-signal addr_0, addr_1	: unsigned(16 - 1 downto 0) := (others => '0');
+--signal re_en_fifo	: std_logic := '0';
+--signal re_en_0		: std_logic := '0';
+--signal re_en_1		: std_logic := '0';
+--signal wr_en_fifo	: std_logic := '0';
+--signal wr_data		: std_logic_vector(32 - 1 downto 0);
+--signal rd_data		: std_logic_vector(32 - 1 downto 0);
+--signal fifo_empty	: std_logic;
+--signal fifo_full	: std_logic;
+--signal mode		: std_logic;
+--signal addr_0, addr_1	: unsigned(16 - 1 downto 0) := (others => '0');
+signal wr_fifo, re_fifo: std_logic := '0';
+signal last : std_logic := '0';
+signal wr_data : std_logic_vector(31 downto 0);
 
 
 begin
 
-CLASS_FIFO: fifo
+--CLASS_FIFO: fifo
+--generic map(
+--    g_DATA_WIDTH => 32,
+--    g_ADDR_WIDTH => 16,
+--    g_INIT_MEM => '0',
+--    g_DEPTH => 10
+--)
+--port map(
+--    i_clk => clk,
+--    i_reset => reset,
+--    i_re_fifo => re_en_fifo,
+--    i_wr_fifo => wr_en_fifo,
+--    i_wr_data => wr_data,
+--    o_data_0 => rd_data,
+--    --o_data_1 => rd_data,
+--    o_fifo_empty => fifo_empty,
+--    o_fifo_full	=> fifo_full
+--);
+
+
+AXI_FIFO: axis_fifo
 generic map(
     g_DATA_WIDTH => 32,
     g_ADDR_WIDTH => 16,
@@ -33,15 +56,16 @@ generic map(
     g_DEPTH => 10
 )
 port map(
-    i_clk => clk,
+    i_CLK => clk,
     i_reset => reset,
-    i_re_fifo => re_en_fifo,
-    i_wr_fifo => wr_en_fifo,
-    i_wr_data => wr_data,
-    o_data_0 => rd_data,
-    --o_data_1 => rd_data,
-    o_fifo_empty => fifo_empty,
-    o_fifo_full	=> fifo_full
+    s00_TVALID => wr_fifo,
+    s00_TLAST => last,
+    s00_TDATA => wr_data,
+    m00_TREADY => re_fifo
+    --m00_TVALID =>
+    --m00_TLAST =>
+    --m00_TDATA =>
+    --s00_TREADY =>
 );
 
 clk <= not clk after 10 ns;
@@ -52,47 +76,19 @@ begin
     -- MODE 0 test
     wait for 20 ns;
     wr_data <= x"0000FFFF";
-    wr_en_fifo <= '1';
+    wr_fifo <= '1';
     wait for 20 ns;
     wr_data <= x"00001243";
     wait for 20 ns;
     wr_data <= x"00002346";
-    re_en_fifo <= '1';
+    re_fifo <= '1';
     wait for 20 ns;
     wr_data <= x"00001111";
     wait for 20 ns;
     wr_data <= x"00002222";
     wait for 20 ns;
-    wr_en_fifo <= '0';
-    re_en_fifo <= '0';
-    --wait for 20 ns;
-    --re_en_fifo <= '1';
-    --wait for 20 ns;
-    --re_en_fifo <= '0';
-    --wait for 20 ns;
-    --re_en_fifo <= '1';
-    ----wr_en <= '1';
-    --wait for 20 ns;
-    --re_en_fifo <= '0';
-    --wr_en_fifo <= '1';
-    --wait for 20 ns;
-    --wr_en_fifo <= '0';
-
-    --wait for 60 ns;
-    ---- MODE 1 test
-    --mode <= '1';
-    --addr_0 <= x"0002";
-    --addr_1 <= x"0001";
-    --wait for 20 ns;
-    --re_en_0 <= '1';
-    --wait for 20 ns;
-    --re_en_0 <= '0';
-    --re_en_1 <= '1';
-    --wait for 20 ns;
-    --re_en_1 <= '0';
-    --re_en_fifo <= '1';
-    --wait for 20 ns;
-    --re_en_fifo <= '0';
+    wr_fifo <= '0';
+    re_fifo <= '0';
     wait;
 end process;
 

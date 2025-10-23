@@ -22,6 +22,7 @@ entity ranger is
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
+    	o_last : out std_logic;
 	o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     );
 end ranger;
@@ -221,6 +222,8 @@ begin
 	    end if;
 	end if;
     end process;
+
+    o_last <= '1' when inference_number = 1 else '0';
 
     p_ASSERT : process (i_CLK) is
     begin

@@ -21,6 +21,7 @@ package fifo_pkg is
     	    o_DATA_0		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     	    o_DATA_1		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     	    o_FIFO_EMPTY	: out std_logic;
+    	    o_FIFO_LAST		: out std_logic;
     	    o_FIFO_FULL		: out std_logic
     	);
     end component;
