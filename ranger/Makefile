@@ -5,6 +5,8 @@ OBJ = bin/ram_pkg.o \
       bin/ram.o \
       bin/fifo_pkg.o \
       bin/fifo.o \
+      bin/axis_fifo_pkg.o \
+      bin/axis_fifo.o \
       bin/dt_ctl_pkg.o \
       bin/dt_ctl.o \
       bin/dt_accel_pkg.o \

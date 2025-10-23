@@ -14,7 +14,7 @@ entity fifo is
     );
     port(
 	i_CLK		: in std_logic;
-    i_RESET		: in std_logic;
+	i_RESET		: in std_logic;
 	i_RE_FIFO	: in std_logic;
 	i_WR_FIFO	: in std_logic;
 	i_WR_DATA	: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -22,6 +22,7 @@ entity fifo is
 	o_DATA_0	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	o_DATA_1	: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	o_FIFO_EMPTY	: out std_logic;
+	o_FIFO_LAST	: out std_logic;
 	o_FIFO_FULL	: out std_logic
     );
 end fifo;
@@ -29,7 +30,7 @@ end fifo;
 architecture arch_fifo of fifo is
 
 -- Control logic
-signal full, empty: std_logic;
+signal full, empty, last: std_logic;
 signal init: std_logic := g_init_mem;
 signal re_en, wr_en : std_logic := '0';
 
@@ -111,8 +112,11 @@ elem_inc <= 1 when i_wr_fifo = '1' and full = '0' else 0;
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';
 full <= '1' when mem_elements >= g_DEPTH else '0'; -- No puede ser //Cuando llega al valor maximo ya se queda bloqueado.
+last <= '1' when mem_elements = 1 else '0';
 
 o_FIFO_EMPTY <= empty;
 o_FIFO_FULL <= full;
+o_FIFO_LAST <= last;
 
 end arch_fifo;
+
