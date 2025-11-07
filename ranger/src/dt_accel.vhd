@@ -13,7 +13,7 @@ entity dt_accel is
         g_DATA_WIDTH: integer := 32;
         g_ADDR_WIDTH: integer := 16;
 	g_K	    : integer := 16;
-        g_DEPTH	    : integer := 256
+        g_DEPTH	    : integer := 512
     );
     port(
         i_CLK	    : in std_logic;
@@ -50,43 +50,14 @@ architecture arch_dt_accel of dt_accel is
 -- DT_CTL
     signal class: std_logic_vector(15 downto 0);
 
--- State machine
-    type state is (E0, E1);
-    signal current_s, next_s: state;
-
 -- DT ACCEL control signals
     signal enable, task_terminated : STD_LOGIC;
 
 -- ONE HOT REPRESENTATION
-    signal one_hot : std_logic_vector(g_K - 1 downto 0) := (others => '0');
+    --signal one_hot : std_logic_vector(g_K - 1 downto 0) := (0 => '1', others => '0');
+    signal o_h : std_logic_vector(g_K - 1 downto 0) := (0 => '1', others => '0');
 
 begin
-
--- State machine
-
-    process(current_s, next_s, enable, task_terminated)
-    begin
-	    case current_s is
-	        when E0 => if enable = '1' then next_s <= E1;
-		        else next_s <= E0;
-		        end if;
-	        when E1 => if task_terminated = '1' then next_s <= E0;
-		        else next_s <= E1;
-		        end if;
-	    end case;
-    end process;
-
--- CLK
-
-    process(i_clk, i_reset)
-    begin
-	    if i_reset = '1' then
-		current_s <= E0;
-
-	    elsif rising_edge(i_clk) then current_s <= next_s;
-	    end if;
-    end process;
-
 
 -- NODE MEMORY
     NODE_MEM: ram
@@ -95,7 +66,7 @@ begin
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
         g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
-        g_INIT		=> '0'
+        g_INIT		=> '1'
     )
     port map(
         i_CLK		=> i_clk,
@@ -110,8 +81,6 @@ begin
         o_DATA_1	=> threshold
     );
 
-    node_addr_1 <= node_addr_0 + 1 when current_s = E1 else i_DATA_ADDR;
-
 -- INTERNAL DATA MEMORY
     INT_DATA_MEM: ram
     generic map(
@@ -119,7 +88,7 @@ begin
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
         g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
-        g_INIT		=> '0'
+        g_INIT		=> '1'
     )
     port map(
         i_CLK		=> i_clk,
@@ -133,8 +102,6 @@ begin
         o_DATA_0	=> int_data,
         o_DATA_1	=> int_data
     );
-
-
 
 -- DT CONTROL
     DT: dt_ctl
@@ -163,21 +130,52 @@ begin
         --o_class		=> o_class
     );
 
-    o_DONE <= '0' when current_s = E0 and enable = '0' and i_calc_result = '1' else task_terminated;
-    --o_CLASS <= class;
-    
+    o_DONE <= '1' when task_terminated = '1' else '0';
 
-    process(i_CLK, task_terminated, class)
-    begin
-	if rising_edge(i_CLK) then
-	    if task_terminated = '1' then
-                one_hot <= (others => '0');
-                one_hot(to_integer(unsigned(class))) <= '1';
-            end if;
-	end if;
-    end process;
+    --process(i_CLK, task_terminated, class)
+	--variable index : integer := 0;
+    --begin
+	--if rising_edge(i_CLK) then
+	--    if task_terminated = '1' then
+	--	index := to_integer(unsigned(class));
+                --one_hot <= (index => '1', others => '0');
+		--one_hot <= (others => '0');
+	--	o_h(index) <= '1';
+		
+		-- shift
+		--one_hot <= x"0000" or (1 sll to_integer(unsigned(class)));
+		--one_hot <= one_hot(to_integer(unsigned(class)) downto 0) & std_logic_vector(to_unsigned(0, g_K - to_integer(unsigned(class)) - 1));
+	--    else
+	--	o_h <= (others => '0');
+    --       end if;
+	--end if;
+    --end process;
     
-    o_CLASS <= one_hot;
+    process(i_CLK, class)
+    begin
+    if rising_edge(i_CLK) then 
+    case class is
+        when x"0000" => o_h <= X"0001";
+        when x"0001" => o_h <= X"0002";
+        when x"0002" => o_h <= X"0004";
+        when x"0003" => o_h <= X"0008";
+        when x"0004" => o_h <= X"0020";
+        when x"0005" => o_h <= X"0040";
+        when x"0006" => o_h <= X"0080";
+        when x"0007" => o_h <= X"0100";
+        when x"0008" => o_h <= X"0200";
+        when x"0009" => o_h <= X"0400";
+        when x"000A" => o_h <= X"0800";
+        when x"000B" => o_h <= X"1000";
+        when x"000C" => o_h <= X"2000";
+        when x"000D" => o_h <= X"4000";
+        when x"000E" => o_h <= X"8000";
+        when others => o_h <= x"0000";
+        end case;
+        end if;
+       end process;
+    
+    o_CLASS <= o_h;
 
 
 end arch_dt_accel;

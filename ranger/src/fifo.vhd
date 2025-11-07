@@ -45,7 +45,7 @@ signal data_0, data_1 : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 -- ADDR
 subtype addr_t is integer range 0 to g_DEPTH - 1;
 signal rd_addr, wr_addr : addr_t := 0;
-signal addr_0, addr_1 : unsigned(g_ADDR_WIDTH - 1 downto 0);
+signal addr_0, addr_1, addr_2 : unsigned(g_ADDR_WIDTH - 1 downto 0);
 
 procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
 begin
@@ -67,13 +67,18 @@ port map(
     i_RE_0	    => re_en,
     i_RE_1	    => re_en, -- not used
     i_WE_1	    => wr_en,
-    i_ADDR_0	    => to_unsigned(rd_addr, g_ADDR_WIDTH),
-    i_ADDR_1	    => to_unsigned(rd_addr, g_ADDR_WIDTH), -- not used
-    i_WR_ADDR	    => to_unsigned(wr_addr, g_ADDR_WIDTH),
+    i_ADDR_0	    => addr_0,
+    i_ADDR_1	    => addr_1, -- not used
+    i_WR_ADDR	    => addr_2,
     o_DATA_0	    => data_0,
     o_DATA_1	    => data_1,
     i_DATA_1	    => i_WR_DATA
 );
+
+addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH);
+addr_1 <= to_unsigned(rd_addr, g_ADDR_WIDTH);
+addr_2 <= to_unsigned(wr_addr, g_ADDR_WIDTH);
+
 
 wr_en <= i_WR_FIFO and not full;
 re_en <= i_RE_FIFO and not empty;
