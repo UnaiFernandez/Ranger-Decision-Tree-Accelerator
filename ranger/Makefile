@@ -13,11 +13,15 @@ OBJ = bin/ram_pkg.o \
       bin/dt_accel.o \
       bin/configurator_pkg.o \
       bin/configurator.o \
+	  bin/general_package.o \
       bin/ranger_pkg.o \
       bin/ranger.o \
+      bin/RANGER_MAIN_pkg.o \
+      bin/RANGER_MAIN.o \
       bin/testbench/dt_accel_tb.o \
       bin/testbench/fifo_tb.o \
-      bin/testbench/ranger_tb.o
+      bin/testbench/ranger_tb.o \
+      bin/testbench/RANGER_MAIN_tb.o
       #bin/testbench/sched_tb.o
 
 all: test/sim_dt.ghw
@@ -30,8 +34,7 @@ ranger: test/sim_ranger.ghw
 
 fifo: test/sim_fifo.ghw
 
-sched: test/sim_sched.ghw
-
+main: test/sim_ranger_main.ghw
 
 test/sim_dt.ghw: dt_ctl_tb
 	@ echo "Simulating" $< "..."
@@ -57,11 +60,12 @@ test/sim_fifo.ghw: fifo_tb
 	@ mv $< test
 	@ rm *.o
 
-test/sim_sched.ghw: sched_tb
+test/sim_ranger_main.ghw: ranger_main_tb
 	@ echo "Simulating" $< "..."
 	@ $(GHDL) -r  --std=08 $^ --ieee-asserts=disable-at-0 --wave=$@ --stop-time=${sim_time}
 	@ mv $< test
 	@ rm *.o
+
 
 dt_ctl_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
@@ -75,7 +79,7 @@ ranger_tb: $(OBJ)
 fifo_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
 
-sched_tb: $(OBJ)
+ranger_main_tb: $(OBJ)
 	$(GHDL) -e --std=08 --workdir=bin $@
 
 bin/%.o: src/%.vhd

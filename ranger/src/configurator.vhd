@@ -63,19 +63,19 @@ begin
 
 -- State machine
 
-    process(current_s, next_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data)
+    process(current_s, next_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data, loaded)
     begin
     	case current_s is
     	    when E0 => if i_en_config = '1' then next_s <= E1;
-		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
+		           elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
     		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
-    		       elsif i_en_config = '0' and i_up_int_data = '0' then next_s <= E0;
+    		       else next_s <= E0;
     		       end if;
     	    when E1 => next_s <= E2;
     	    when E2 => next_s <= E3;
     	    when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
     		       elsif last_node = '1' and last_dt = '0' then next_s <= E1;
-    		       elsif last_node = '0' then next_s <= E3;
+    		       else next_s <= E3;
     		       end if;
     	    when E4 => next_s <= E5;
     	    when E5 => if last_feature = '1' then next_s <= E0;

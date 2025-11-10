@@ -4,7 +4,6 @@ import pandas as pd
 import time
 
 def main():
-
     x_train, x_test, y_train, y_test = split_dataset("datasets/iris_2.data", 0.8)
     print(x_test)
     print("[-] Training decision tree")

@@ -30,6 +30,7 @@ end axis_fifo;
 architecture arch_axis_fifo of axis_fifo is
 
     signal fifo_full, fifo_empty, fifo_last : std_logic;
+    signal re_fifo, wr_fifo : std_logic;
 begin
 
     FIFO_MEM: fifo
@@ -42,8 +43,8 @@ begin
     port map(
         i_clk	        => i_clk,
         i_reset	        => i_reset,
-        i_re_fifo	=> m00_TREADY and not fifo_empty,
-        i_wr_fifo	=> s00_TVALID and not fifo_full,
+        i_re_fifo	=> re_fifo,
+        i_wr_fifo	=> wr_fifo,
         i_wr_data	=> s00_TDATA, -- not used
         o_data_0	=> m00_TDATA,
         o_data_1	=> m00_TDATA,
@@ -51,6 +52,9 @@ begin
 	o_fifo_last	=> fifo_last,
         o_fifo_full	=> fifo_full
     );
+    
+    re_fifo <= m00_TREADY and not fifo_empty;
+    wr_fifo <= s00_TVALID and not fifo_full;
 
     m00_TVALID <= '1' when fifo_empty = '0' else '0';
     m00_TLAST <= fifo_last;

@@ -7,6 +7,7 @@ use work.dt_accel_pkg.all;
 use work.fifo_pkg.all;
 use work.ranger_pkg.all;
 use work.configurator_pkg.all;
+use work.general_package.all;
 
 entity ranger is
     generic(
@@ -50,38 +51,25 @@ architecture arch_ranger of ranger is
 
 -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
+    signal class_prueba	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
-    signal ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
-    signal calc_result : std_logic;
+    constant const_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
+    signal ready :std_logic := '0';
+    signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
-    signal inference_number : integer := 5;
+    signal inference_number : integer := 8;
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
-    type mat is array (natural range <>) of std_logic_vector(15 downto 0);
-    type mat_t is array (natural range <>) of std_logic_vector(g_dt_instances -1 downto 0);
-    signal class_mat : mat(0 to g_dt_instances - 1);
-    signal t_class_mat : mat_t(0 to 15);
-    signal count_arr : mat_t(0 to 15);
+    signal class_mat : matr(0 to g_dt_instances - 1);
 
--- Count number of set bits
-    function bit_count(bits : std_logic_vector) return std_logic_vector is
-        variable t: integer := 0;
-    begin
-        for i in bits'range loop
-            if bits(i) = '1' then
-    	   t := t + 1;
-            end if;
-        end loop;
-        return std_logic_vector(to_unsigned(t, bits'length));
-    end bit_count;
 
 begin
 -- State machine
 
-    process(current_s, next_s, init, config_done, data_loaded, calc_result, stop)
+    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop)
     begin
     	case current_s is
     	    when E0 => if init = '1' then next_s <= E1;
@@ -93,7 +81,7 @@ begin
     	    when E2 => if data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
-	    when E3 => if calc_result = '1' then next_s <= E4;
+	    when E3 => if calc_done = '1' and ready = '1' then next_s <= E4;
     		       else next_s <= E3;
     		       end if;
             when E4 => if stop = '1' then next_s <= E0;
@@ -131,7 +119,7 @@ begin
             g_DATA_WIDTH => g_DATA_WIDTH,
             g_ADDR_WIDTH => g_ADDR_WIDTH,
 	    g_K => 16,
-            g_DEPTH	 => 256
+            g_DEPTH	 => 1024
         )
         port map(
             i_clk	        => i_clk,
@@ -141,48 +129,44 @@ begin
             i_SEL	        => sel(I),
             i_GET_DATA	        => get_data,
             i_DATA_ADDR		=> data_addr, -- TODO: Remane to avoid confusion
-	    i_CALC_RESULT	=> calc_result,
+	    i_CALC_RESULT	=> calc_done,
 	    o_class	        => class_mat(I),
             o_DONE	        => result_ready(I)
         );
     end generate DT_ACCELERATOR;
 
-    -- create traspose matrix of predicted classes
-    process(class_mat)
+    process(i_CLK, ready)
     begin
-	for j in t_class_mat'range loop
-	    for i in class_mat'range loop
-		t_class_mat(j)(i) <= class_mat(i)(j);
-	    end loop;
-	end loop;
+		--if rising_edge(i_CLK) then
+				if ready = '1' then
+	    		    --class <= count_bits(class_mat);
+				    class_aggregation(class_mat, class);
+					calc_done <= '1';
+				else
+				    calc_done <= '0';
+	    		end if;
+	    --end if;
     end process;
 
-    -- count bits
-    process(t_class_mat)
-    begin
-	for i in t_class_mat'range loop
-	    count_arr(i) <= bit_count(t_class_mat(i)); 
-	end loop;
-    end process;
 
-    -- Find the max
-    process(count_arr)
-	variable max : integer := 0;
-    begin
-	for i in count_arr'range loop
-	    --if to_integer(unsigned(count_arr(i))) >= max then
-	    if count_arr(i) >= count_arr(max) then
-		max := i; --to_integer(unsigned(count_arr(i)));
-	    end if;
-	end loop;
-	class <= std_logic_vector(to_unsigned(max, g_addr_width));
-    end process;
-
+    --class <= count_bits(class_mat);
     o_fifo_data <= class;
-    o_wr_fifo_data <= '1' when current_s = E3 and calc_result = '1' else '0';
+    o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
+	--o_wr_fifo_data <= '1' when current_s = E4 else '0';
 
-    calc_result <= '1' when current_s = E3 and result_ready = ready else '0';
-    enable <= '1' when current_s = E3 and calc_result = '0' else '0';
+    --calc_done <= '1' when current_s = E3 and ready = '1' else '0';
+    
+    process(i_CLK, result_ready, ready)
+    begin
+        if rising_edge(i_CLK) then
+            if result_ready = const_ready and current_s = E3 then
+                ready <= '1';
+            else 
+                ready <= '0';
+            end if;
+        end if;
+    end process;
+    enable <= '1' when current_s = E3 and calc_done = '0' else '0';
 
 -- CONFIGURATOR
 
@@ -210,20 +194,21 @@ begin
 
 -- INFERENCE COUNTER
     
-    dec_inf_counter <= '1' when current_s = E3 and calc_result = '1' else '0';
+    dec_inf_counter <= '1' when current_s = E3 and calc_done = '1' else '0';
 
     process(i_clk)
     begin
 	if rising_edge(i_clk) then
-	    if dec_inf_counter = '1' and inference_number = 0 then
-		stop <= '1';
-	    elsif dec_inf_counter = '1' and inference_number /= 0 then 
+	    --if dec_inf_counter = '1' and inference_number = 0 then
+		--stop <= '1';
+	    if dec_inf_counter = '1' and inference_number /= 0 then 
 		inference_number <= inference_number - 1;
 	    end if;
 	end if;
     end process;
 
     o_last <= '1' when inference_number = 1 else '0';
+    stop <= '1' when inference_number = 0 else '0';
 
     p_ASSERT : process (i_CLK) is
     begin

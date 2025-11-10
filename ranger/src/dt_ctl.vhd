@@ -61,7 +61,7 @@ begin
     enable <= i_ENABLE;
 -- State machine
 
-    process(current_s, next_s, leaf, go_right, enable)
+    process(current_s, next_s, leaf, go_right, enable, i_calc_result)
     begin
 	case current_s is
 	    when E0 => if enable = '1' then next_s <= E1;

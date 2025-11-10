@@ -22,7 +22,7 @@ x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", t
 #x_train, x_test, y_train, y_test = split_dataset("datasets/tennis.data", train_size=0.8)
 
 print("[-] Training model")
-num_instances = 16
+num_instances = 6
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)
@@ -45,8 +45,8 @@ for i in range(num_instances):
     dt_bin.insert(0, node_number)
     forest.append(dt_bin)
 
-    #print("DT {}".format(i))
-    #print("nodes: {}".format(len(dt_bin) - 1))
+    print("DT {}".format(i))
+    print("nodes: {}".format(len(dt_bin) - 1))
 
 data_mem = create_data_mem(x_test)
 
@@ -73,10 +73,13 @@ data_mem.insert(0, format(num_features, "0{}b".format(32)))
 print("[-] Writing memory layouts to txt files")
 forest = mat_to_array(forest)
 write_to_file(forest + data_mem, "../ranger/memory_content/random_forest.txt")
+#write_to_file(forest[1:], "../ranger/memory_content/bin_node_mem_content.txt")
+#write_to_file(data_mem[1:], "../ranger/memory_content/data_mem_content.txt")
 
 
 print("\nTRAINING")
 print("-------------------------------------------------------")
+print("Number of trees:             {}".format(num_instances))
 print("Total time:                  {} ms".format(round(total_train*1000, 2)))
 # numero de trees
 print("\nTEST RESULTS")
