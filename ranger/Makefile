@@ -13,6 +13,7 @@ OBJ = bin/ram_pkg.o \
       bin/dt_accel.o \
       bin/configurator_pkg.o \
       bin/configurator.o \
+	  bin/general_package.o \
       bin/ranger_pkg.o \
       bin/ranger.o \
       bin/RANGER_MAIN_pkg.o \

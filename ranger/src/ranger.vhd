@@ -7,6 +7,7 @@ use work.dt_accel_pkg.all;
 use work.fifo_pkg.all;
 use work.ranger_pkg.all;
 use work.configurator_pkg.all;
+use work.general_package.all;
 
 entity ranger is
     generic(
@@ -62,55 +63,8 @@ architecture arch_ranger of ranger is
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
-    type mat is array (natural range <>) of std_logic_vector(15 downto 0);
-    type mat_t is array (natural range <>) of std_logic_vector(g_dt_instances -1 downto 0);
-    --signal class_mat : mat(0 to g_dt_instances - 1);
-    signal t_class_mat : mat_t(0 to 15);
-    signal count_arr : mat_t(0 to 15);
-
-    -------------------
-    subtype onehot_class is std_logic_vector(15 downto 0);
-    type matr is array (natural range <>) of onehot_class;
     signal class_mat : matr(0 to g_dt_instances - 1);
 
--- Count number of set bits
-    function bit_count(bits : std_logic_vector) return integer is
-        variable t: integer := 0;
-    begin
-        for i in bits'range loop
-            if bits(i) = '1' then
-				t := t + 1;
-            end if;
-        end loop;
-        return t;
-    end bit_count;
-
-    function count_bits(m: matr) return std_logic_vector is 
-	variable max: integer := 0;
-	variable max_val: integer := 0;
-	variable temp_sum: integer := 0;
-	variable result : std_logic_vector(g_addr_width - 1 downto 0) := (others => '0');
-    begin
-	-- hacer la suma de los elementos de la columna
-	for class_idx in 0 to 15 loop -- cambiar el 15 por max_class
-	    temp_sum := 0;
-	    for i in m'range loop
-		if m(i)(class_idx) = '1' then
-		    temp_sum := temp_sum + 1;
-		end if;
-	    end loop;
-
-	    if temp_sum >= max_val then
-		max := class_idx;
-		max_val := temp_sum;
-	    end if;
-	end loop;
-
-	result := std_logic_vector(to_unsigned(max, result'length)); --15 = length
-
-	return result;
-	
-    end count_bits;
 
 begin
 -- State machine
@@ -181,43 +135,12 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-
-    ---- create traspose matrix of predicted classes
-    --process(class_mat)
-    --begin
-    --    for j in t_class_mat'range loop
-    --        for i in class_mat'range loop
-    --    	t_class_mat(j)(i) <= class_mat(i)(j);
-    --        end loop;
-    --    end loop;
-    --end process;
-
-    ---- count bits
-    --process(t_class_mat)
-    --begin
-    --    for i in t_class_mat'range loop
-    --        count_arr(i) <= bit_count(t_class_mat(i)); 
-    --    end loop;
-    --end process;
-
-    ---- Find the max
-    --process(count_arr)
-    --    variable max : integer := 0;
-    --begin
-    --    for i in count_arr'range loop
-    --        --if to_integer(unsigned(count_arr(i))) >= max then
-    --        if count_arr(i) >= count_arr(max) then
-    --    	max := i; --to_integer(unsigned(count_arr(i)));
-    --        end if;
-    --    end loop;
-    --    class <= std_logic_vector(to_unsigned(max, g_addr_width));
-    --end process;
-
     process(i_CLK, ready)
     begin
 		--if rising_edge(i_CLK) then
 				if ready = '1' then
-	    		    class <= count_bits(class_mat);
+	    		    --class <= count_bits(class_mat);
+				    class_aggregation(class_mat, class);
 					calc_done <= '1';
 				else
 				    calc_done <= '0';
@@ -225,23 +148,7 @@ begin
 	    --end if;
     end process;
 
-	--process(i_CLK, ready)
-	--	variable max: integer := 0;
-	--	variable sum: integer := 0;
-	--begin
-	--	if ready = '1' then
-	--			calc_done <= '0';
-	--			for i in class_mat'range loop
-	--					sum := bit_count(class_mat(i));
-	--					if sum >= max then
-	--							max := i;
-	--					end if;
-	--			end loop;
-	--			class <= std_logic_vector(to_unsigned(max, class'length));
-	--			calc_done <= '1';
-	--	end if;
-    --end process;
-    
+
     --class <= count_bits(class_mat);
     o_fifo_data <= class;
     o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
