@@ -29,7 +29,7 @@ end configurator;
 architecture arch_configurator of configurator is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, En);
+    type state is (E0, E1, E2, E3, E4, E5);
     signal current_s, next_s: state;
 
     signal config, last_dt, last_node, re_en : std_logic := '0';
@@ -66,12 +66,11 @@ begin
     process(current_s, next_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data, loaded)
     begin
     	case current_s is
-    	    when E0 => if i_en_config = '1' then next_s <= En;
+    	    when E0 => if i_en_config = '1' then next_s <= E1;
 		           elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
     		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
     		       else next_s <= E0;
     		       end if;
-				when En => next_s <= E1;
     	    when E1 => next_s <= E2;
     	    when E2 => next_s <= E3;
     	    when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
@@ -98,7 +97,6 @@ begin
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
     
     re_en <= '1' when current_s = E1 
-		or  current_s = En
 		or  current_s = E2
 		or (current_s = E3 and last_node = '0') 
 		or (current_s = E0 and i_up_int_data = '1')

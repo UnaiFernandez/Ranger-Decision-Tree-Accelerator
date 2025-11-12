@@ -16,15 +16,17 @@ OBJ = bin/ram_pkg.o \
 	  bin/general_package.o \
       bin/ranger_pkg.o \
       bin/ranger.o \
+	  bin/data_sender_pkg.o \
+	  bin/data_sender.o \
       bin/RANGER_MAIN_pkg.o \
       bin/RANGER_MAIN.o \
       bin/RANGER_MAIN_DS_pkg.o \
       bin/RANGER_MAIN_DS.o \
       bin/testbench/dt_accel_tb.o \
       bin/testbench/fifo_tb.o \
-      bin/testbench/ranger_tb.o \
       bin/testbench/RANGER_MAIN_tb.o \
       bin/testbench/RANGER_MAIN_DS_tb.o
+      #bin/testbench/ranger_tb.o \
       #bin/testbench/sched_tb.o
 
 all: test/sim_dt.ghw

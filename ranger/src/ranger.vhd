@@ -20,6 +20,7 @@ entity ranger is
 	i_clk : in std_logic;
 	i_reset : in std_logic;
 	init : in std_logic;
+	i_data_valid : in std_logic;
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
@@ -170,7 +171,7 @@ begin
 
 -- CONFIGURATOR
 
-    en_config <= '1' when current_s = E1 else '0';
+    en_config <= '1' when current_s = E1 and i_data_valid = '1' else '0';
     up_int_data <= '1' when current_s = E2 else '0';
 
     CONFIG: configurator

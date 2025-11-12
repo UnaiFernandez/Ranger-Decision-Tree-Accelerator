@@ -7,6 +7,7 @@ use std.textio.all;
 use work.RANGER_MAIN_DS_pkg.all;
 use work.ranger_pkg.all;
 use work.axis_fifo_pkg.all;
+use work.data_sender_pkg.all;
 
 entity RANGER_MAIN_DS is
     generic(
@@ -35,6 +36,7 @@ signal out_fifo_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal rd_fifo_data, wr_fifo_data : std_logic;
 signal in_fifo_empty, in_fifo_full : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
+signal in_fifo_valid : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo, ps_last : std_logic;
 signal in_fifo_ready : std_logic;
@@ -55,6 +57,7 @@ begin
         i_clk	        => clk,
         i_reset	        => reset,
         init	        => init,
+		i_data_valid	=> in_fifo_valid,
         i_fifo_data	=> in_fifo_data,
         o_rd_fifo_data	=> rd_fifo_data,
 	o_wr_fifo_data	=> wr_fifo_data,
@@ -63,23 +66,14 @@ begin
     );
 
 -- DATA SENDER
-    DATA_SENDER: axis_fifo
-    generic map(
-        g_DATA_WIDTH => 32,
-        g_ADDR_WIDTH => 16,
-        g_INIT_MEM => '1',
-        g_DEPTH => 1024
-    )
+    DS: data_sender
     port map(
         i_CLK => clk,
         i_reset => reset,
-        s00_TVALID => '0',
-        s00_TLAST => '0',
-        s00_TDATA => ps_data,
-        m00_TREADY => in_fifo_ready,
-		m00_TVALID => ps_wr_fifo,
-        m00_TLAST => ps_last,
-        m00_TDATA => ps_data
+		init => init, 
+		o_TVALID => ps_wr_fifo,
+		o_TLAST => ps_last,
+		o_TDATA => ps_data 
     );
 
 
@@ -99,6 +93,7 @@ begin
         s00_TDATA => ps_data,
         m00_TREADY => rd_fifo_data,
 		s00_TREADY => in_fifo_ready,
+		m00_TVALID => in_fifo_valid,
 	m00_TDATA => in_fifo_data
     );
 
