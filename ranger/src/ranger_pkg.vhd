@@ -21,6 +21,13 @@ package ranger_pkg is
 	    o_rd_fifo_data : out std_logic;
     	    o_wr_fifo_data : out std_logic;
     	    o_last : out std_logic;
+    	    o_class_mat_0 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_1 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_2 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_3 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_4 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_5 : out std_logic_vector(g_addr_width - 1 downto 0);
+			o_sum : out std_logic_vector(g_addr_width - 1 downto 0);
     	    o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     	);
     end component;

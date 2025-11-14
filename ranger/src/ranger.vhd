@@ -25,6 +25,13 @@ entity ranger is
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
     	o_last : out std_logic;
+    	    o_class_mat_0 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_1 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_2 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_3 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_4 : out std_logic_vector(g_addr_width - 1 downto 0);
+    	    o_class_mat_5 : out std_logic_vector(g_addr_width - 1 downto 0);
+			o_sum : out std_logic_vector(g_addr_width - 1 downto 0);
 	o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     );
 end ranger;
@@ -65,6 +72,7 @@ architecture arch_ranger of ranger is
 
 -- AGGREGATOR
     signal class_mat : matr(0 to g_dt_instances - 1);
+	signal sum : integer := 0;
 
 
 begin
@@ -141,14 +149,15 @@ begin
 		--if rising_edge(i_CLK) then
 				if ready = '1' then
 	    		    --class <= count_bits(class_mat);
-				    class_aggregation(class_mat, class);
+				    class_aggregation(class_mat, class, sum);
 					calc_done <= '1';
 				else
 				    calc_done <= '0';
 	    		end if;
 	    --end if;
     end process;
-
+		
+	o_sum <= std_logic_vector(to_unsigned(sum, o_sum'length));
 
     --class <= count_bits(class_mat);
     o_fifo_data <= class;
@@ -210,6 +219,15 @@ begin
 
     o_last <= '1' when inference_number = 1 else '0';
     stop <= '1' when inference_number = 0 else '0';
+
+
+	o_class_mat_0 <= class_mat(0);
+	o_class_mat_1 <= class_mat(1);
+	o_class_mat_2 <= class_mat(2);
+	o_class_mat_3 <= class_mat(3);
+	o_class_mat_4 <= class_mat(4);
+	o_class_mat_5 <= class_mat(5);
+
 
     p_ASSERT : process (i_CLK) is
     begin

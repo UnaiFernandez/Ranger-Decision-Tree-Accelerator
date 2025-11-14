@@ -23,7 +23,14 @@ entity RANGER_MAIN_DS is
     	o_re_data : out std_logic;
     	o_wr_data : out std_logic;
     	o_in_fifo_data	  : out std_logic_vector(g_data_width - 1 downto 0);
-    	o_out_fifo_data	  : out std_logic_vector(g_addr_width - 1 downto 0)
+    	o_out_fifo_data	  : out std_logic_vector(g_addr_width - 1 downto 0);
+			o_s : out std_logic_vector(g_addr_width - 1 downto 0);
+		o_cl_0 : out std_logic_vector(g_addr_width - 1 downto 0);
+ 		o_cl_1 : out std_logic_vector(g_addr_width - 1 downto 0);
+ 		o_cl_2 : out std_logic_vector(g_addr_width - 1 downto 0);
+ 		o_cl_3 : out std_logic_vector(g_addr_width - 1 downto 0);
+ 		o_cl_4 : out std_logic_vector(g_addr_width - 1 downto 0);
+ 		o_cl_5 : out std_logic_vector(g_addr_width - 1 downto 0)
 	--class_0 : out std_logic;
 	--class_1 : out std_logic
     );
@@ -42,6 +49,12 @@ signal ps_wr_fifo, ps_last : std_logic;
 signal in_fifo_ready : std_logic;
 signal ps_data : std_logic_vector(g_data_width - 1 downto 0) := X"00000000";
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_0 : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_1 : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_2 : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_3 : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_4 : std_logic_vector(g_addr_width - 1 downto 0);
+--signal o_cl_5 : std_logic_vector(g_addr_width - 1 downto 0);
 begin
 
 -- RANGER
@@ -62,6 +75,13 @@ begin
         o_rd_fifo_data	=> rd_fifo_data,
 	o_wr_fifo_data	=> wr_fifo_data,
 	o_last		=> pl_last,
+		o_class_mat_0 => o_cl_0,
+		o_class_mat_1 => o_cl_1,
+		o_class_mat_2 => o_cl_2,
+		o_class_mat_3 => o_cl_3,
+		o_class_mat_4 => o_cl_4,
+		o_class_mat_5 => o_cl_5,
+		o_sum => o_s,
         o_fifo_data    	=> out_fifo_data
     );
 
