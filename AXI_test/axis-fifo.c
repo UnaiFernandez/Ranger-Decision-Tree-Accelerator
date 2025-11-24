@@ -52,24 +52,20 @@ uint32_t * get_mem_layout(char * filename, uint32_t num_inputs){
 	return mem_layout;
 }
 
-int main(){
-    int fd_w, fd_r, i;
-    uint32_t num_inputs;
-    uint32_t * mem_layout;
-	uint32_t * out_buff;
-	ssize_t bytes_rd;
+
+void * read_axis_fifo(void * arg){
+	uint32_t * mem_layout;
+	uint32_t num_inputs;
+	int fd_w, i;
 	ssize_t bytes_wr;
+
+	printf("Thread 1 (read fifo)\n");
 
 	num_inputs = get_num_inputs("./mem_layout.txt");
 	mem_layout = get_mem_layout("./mem_layout.txt", num_inputs);
 
-	out_buff = malloc(num_inputs*sizeof(uint32_t));
 
 	if((fd_w = open("./file", O_WRONLY)) == -1){
-		printf("[ERROR] Opening file: %s", strerror(errno));
-		pthread_exit(NULL);
-	}
-	if((fd_r = open("./file", O_RDONLY)) == -1){
 		printf("[ERROR] Opening file: %s", strerror(errno));
 		pthread_exit(NULL);
 	}
@@ -81,6 +77,25 @@ int main(){
 	}
 	printf("\n");
 
+	free(mem_layout);
+	close(fd_w);
+	pthread_exit(NULL);
+}
+
+void * write_axis_fifo(void * arg){
+	int fd_r, i;
+	uint32_t * out_buff;
+	uint32_t num_inputs;
+	ssize_t bytes_rd;
+
+	num_inputs = get_num_inputs("./mem_layout.txt");
+	out_buff = malloc(num_inputs*sizeof(uint32_t));
+
+	if((fd_r = open("./file2", O_RDONLY)) == -1){
+		printf("[ERROR] Opening file: %s", strerror(errno));
+		pthread_exit(NULL);
+	}
+
 	bytes_rd = read(fd_r, out_buff, num_inputs * sizeof(uint32_t));
 	for(i = 0; i < num_inputs; i++){
 		printf("%X ", out_buff[i]);
@@ -88,8 +103,19 @@ int main(){
 	printf("\n");
 
 	free(out_buff);
-	free(mem_layout);
-	close(fd_w);
-	close(fd_r);
+	pthread_exit(NULL);
+}
+
+int main(){
+
+	pthread_t th1, th2;
+
+	//Create threads
+	pthread_create(&th1, NULL, read_axis_fifo, NULL);
+	pthread_create(&th2, NULL, write_axis_fifo, NULL);
+
+	pthread_join(th1, NULL);
+	pthread_join(th2, NULL);
+
 	return 0;
 }
