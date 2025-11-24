@@ -60,7 +60,7 @@ begin
 
 		FIFO_MEM: fifo
     generic map(
-        g_depth	        => 1024,
+        g_depth	        => 3096,
         g_data_width    => 32,
 	g_init_mem	=> '1',
         g_addr_width    => 16

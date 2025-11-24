@@ -43,7 +43,7 @@ def train_forest(x_train, y_train, num_instances):
     
     classifier = RandomForestClassifier(n_estimators=num_instances, 
                                         random_state=42, 
-                                        min_samples_split=20, 
+                                        min_samples_split=10, 
                                         max_depth=8)
 
     classifier.fit(x_train, y_train)

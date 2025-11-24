@@ -22,7 +22,7 @@ x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", t
 #x_train, x_test, y_train, y_test = split_dataset("datasets/tennis.data", train_size=0.8)
 
 print("[-] Training model")
-num_instances = 6
+num_instances = 32
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)

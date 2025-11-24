@@ -51,8 +51,7 @@ architecture arch_ranger of ranger is
     signal dt_id : std_logic_vector(7 downto 0);
 
 -- Data memory
-    signal class	: std_logic_vector(g_addr_width - 1 downto 0);
-    signal class_prueba	: std_logic_vector(g_addr_width - 1 downto 0);
+    signal class	: std_logic_vector(g_addr_width - 1 downto 0) := (others => '0');
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
@@ -70,7 +69,7 @@ architecture arch_ranger of ranger is
 begin
 -- State machine
 
-    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop)
+    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
     	    when E0 => if init = '1' then next_s <= E1;
@@ -95,8 +94,11 @@ begin
 
     process(i_clk, i_reset)
     begin
+    	if rising_edge(i_clk) then 
     	if i_reset = '1' then current_s <= E0;
-    	elsif rising_edge(i_clk) then current_s <= next_s;
+		else
+		current_s <= next_s;
+		end if;
     	end if;
     end process;
 
@@ -120,7 +122,7 @@ begin
             g_DATA_WIDTH => g_DATA_WIDTH,
             g_ADDR_WIDTH => g_ADDR_WIDTH,
 	    g_K => 16,
-            g_DEPTH	 => 1024
+            g_DEPTH	 => 255
         )
         port map(
             i_clk	        => i_clk,
@@ -136,37 +138,40 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-    process(i_CLK, ready)
-    begin
-		--if rising_edge(i_CLK) then
-				if ready = '1' then
-	    		    --class <= count_bits(class_mat);
-				    class_aggregation(class_mat, class);
-					calc_done <= '1';
-				else
-				    calc_done <= '0';
-	    		end if;
-	    --end if;
-    end process;
+    --process(i_CLK, ready)
+    --begin
+	--	--if rising_edge(i_CLK) then
+	--			if ready = '1' then
+	--			    class_aggregation(class_mat, class);
+	--    		    --class <= count_bits(class_mat);
+	--				calc_done <= '1';
+	--			else
+	--					class <= class;
+	--			    calc_done <= '0';
+	--    		end if;
+	--    --end if;
+    --end process;
+	ready <= '1' when (result_ready = const_ready and current_s = E3) or current_s = E4 else '0';
 
-
+    class_aggregation_2(class_mat, ready, class, calc_done);
     --class <= count_bits(class_mat);
     o_fifo_data <= class;
     o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
 	--o_wr_fifo_data <= '1' when current_s = E4 else '0';
 
     --calc_done <= '1' when current_s = E3 and ready = '1' else '0';
-    
-    process(i_CLK, result_ready, ready)
-    begin
-        if rising_edge(i_CLK) then
-            if result_ready = const_ready and current_s = E3 then
-                ready <= '1';
-            else 
-                ready <= '0';
-            end if;
-        end if;
-    end process;
+   
+
+    --process(i_CLK, result_ready, ready)
+    --begin
+    --    if rising_edge(i_CLK) then
+    --        if result_ready = const_ready and current_s = E3 then
+    --            ready <= '1';
+    --        else 
+    --            ready <= '0';
+    --        end if;
+    --    end if;
+    --end process;
     enable <= '1' when current_s = E3 and calc_done = '0' else '0';
 
 -- CONFIGURATOR

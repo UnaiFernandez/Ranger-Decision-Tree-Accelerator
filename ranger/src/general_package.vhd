@@ -13,8 +13,8 @@ package general_package is
 
 	
 	procedure class_aggregation(signal class_mat : in matr; signal class_ag : inout onehot_class);	
+	procedure class_aggregation_2(signal class_mat : in matr; signal ready : in std_logic; signal class_ag : inout onehot_class; signal calc_done : out std_logic);	
 
-	--TODO definir los tamaños de todo en este archivo
 end package;
 
 package body general_package is
@@ -40,5 +40,34 @@ package body general_package is
 		end loop;
 		class_ag <= std_logic_vector(to_unsigned(max_idx, class_ag'length));
 	end class_aggregation;
+
+	procedure class_aggregation_2(signal class_mat : in matr; signal ready : in std_logic; signal class_ag : inout onehot_class; signal calc_done : out std_logic) is
+		variable max : integer := 0;
+		variable max_idx : integer := 0;
+		variable tmp_sum : integer := 0;
+	begin
+		if ready = '1' then
+		for class_idx in onehot_class'range loop
+			tmp_sum := 0;
+			-- Add columns 
+			for i in class_mat'range loop
+				if class_mat(i)(class_idx) = '1' then
+					tmp_sum := tmp_sum + 1;
+				end if;
+			end loop;
+			-- Find max value
+			if tmp_sum >= max then
+				max := tmp_sum;
+				max_idx := class_idx;
+			end if;
+		end loop;
+		class_ag <= std_logic_vector(to_unsigned(max_idx, class_ag'length));
+		calc_done <= '1';
+		else
+		class_ag <= class_ag;
+		calc_done <= '0';
+end if;
+	end class_aggregation_2;
+
 
 end package body;
