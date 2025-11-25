@@ -53,22 +53,17 @@ uint32_t * get_mem_layout(char * filename, uint32_t num_inputs){
 }
 
 
-void * read_axis_fifo(void * arg){
+void * write_axis_fifo(void * arg){
 	uint32_t * mem_layout;
 	uint32_t num_inputs;
 	int fd_w, i;
 	ssize_t bytes_wr;
 
-	printf("Thread 1 (read fifo)\n");
+	printf("Thread 1 (write fifo)\n");
 
+	fd_w = *(int *)arg;
 	num_inputs = get_num_inputs("./mem_layout.txt");
 	mem_layout = get_mem_layout("./mem_layout.txt", num_inputs);
-
-
-	if((fd_w = open("./file", O_WRONLY)) == -1){
-		printf("[ERROR] Opening file: %s", strerror(errno));
-		pthread_exit(NULL);
-	}
 
 	// Write to file
 	bytes_wr = write(fd_w, mem_layout, num_inputs*sizeof(uint32_t));
@@ -82,24 +77,31 @@ void * read_axis_fifo(void * arg){
 	pthread_exit(NULL);
 }
 
-void * write_axis_fifo(void * arg){
+void * read_axis_fifo(void * arg){
 	int fd_r, i;
 	uint32_t * out_buff;
 	uint32_t num_inputs;
 	ssize_t bytes_rd;
 
+	printf("Thread 2 (read fifo)\n");
+
+	fd_r = *(int*)arg;
 	num_inputs = get_num_inputs("./mem_layout.txt");
 	out_buff = malloc(num_inputs*sizeof(uint32_t));
 
-	if((fd_r = open("./file2", O_RDONLY)) == -1){
-		printf("[ERROR] Opening file: %s", strerror(errno));
-		pthread_exit(NULL);
-	}
-
-	bytes_rd = read(fd_r, out_buff, num_inputs * sizeof(uint32_t));
-	for(i = 0; i < num_inputs; i++){
-		printf("%X ", out_buff[i]);
-	}
+	//// Write to file
+	//bytes_rd = write(fd_r, out_buff, num_inputs*sizeof(uint32_t));
+	//for(i = 0; i < num_inputs; i++){
+	//	printf("%X ", out_buff[i]);
+	//}
+	//printf("\n");
+	while(i < num_inputs){
+		bytes_rd = read(fd_r, &out_buff[i], sizeof(uint32_t));
+		if(bytes_rd > 0){
+			printf("(%X) ", out_buff[i]);
+			i++;
+		}
+	} 
 	printf("\n");
 
 	free(out_buff);
@@ -109,10 +111,19 @@ void * write_axis_fifo(void * arg){
 int main(){
 
 	pthread_t th1, th2;
+	int fd_w, fd_r;
 
+	if((fd_w = open("./file", O_WRONLY)) == -1){
+		printf("[ERROR] Opening file: %s", strerror(errno));
+		pthread_exit(NULL);
+	}
+	if((fd_r = open("./file2", O_RDONLY)) == -1){
+		printf("[ERROR] Opening file: %s", strerror(errno));
+		pthread_exit(NULL);
+	}
 	//Create threads
-	pthread_create(&th1, NULL, read_axis_fifo, NULL);
-	pthread_create(&th2, NULL, write_axis_fifo, NULL);
+	pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
+	pthread_create(&th2, NULL, read_axis_fifo, (void *) &fd_r);
 
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
