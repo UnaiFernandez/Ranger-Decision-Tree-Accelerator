@@ -14,7 +14,8 @@ def get_code(sign):
     elif sign == ">=":
         code = 3
 
-    return f'{code:03b}'
+    #return f'{code:03b}'
+    return code*2
 
 def write_to_file(list, filename):
     with open(filename, "w") as f:
@@ -58,12 +59,12 @@ def create_mem_bin_layouts(filename, t_dict):
             feature = int(node['feature'])
             right_addr = find_node(data, node['right_child'])
             threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
-            node_info = f'{right_addr:016b}'+f'{feature*2:016b}'
+            node_info = f'{right_addr:04x}'+f'{feature*2:04x}'
             node_mem.append(node_info)
             node_mem.append(threshold)
         except:
             c = int(node['class'])
-            hex_info = f'{0:016b}'+f'{(c*2)+1:016b}'
+            hex_info = f'{0:04x}'+f'{(c*2)+1:04x}'
             node_mem.append(hex_info)
             node_addr.append(addr)
 
@@ -76,7 +77,7 @@ def create_mem_bin_layouts(filename, t_dict):
     #print("link_mem: {}".format(l_node_id))
 
     for n in l_node_id:
-        link_mem.append(f'{node_addr[n]:016b}')
+        link_mem.append(f'{node_addr[n]:04x}')
 
     return node_mem
 

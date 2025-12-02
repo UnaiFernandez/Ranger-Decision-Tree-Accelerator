@@ -43,18 +43,23 @@ def get_fraction(number):
 
 
 def to_floating_point(number, exp_bits, m_bits):
-    if number < 0:
-        sign = "1"
-    else:
-        sign = "0"
-
     exponent, num = get_exponent(number, exp_bits)
     #print("Number: {} Exp: {}".format(num, exponent))
 
     mantissa = get_mantissa(num, m_bits)
 
-    formatted_num = sign + format(exponent, "0{}b".format(exp_bits)) \
-            + format(mantissa, "0{}b".format(m_bits))
+    print(str(exponent*(2**m_bits))+" "+str(mantissa))
+    #formatted_num = format(exponent, "0{}x".format(exp_bits)) \
+     #       + format(mantissa*2, "0{}x".format(m_bits))
+
+    if number < 0:
+        num = (1*(2**31)) + (exponent*(2**m_bits)) + mantissa;
+        sign = "1"
+    else:
+        num = ((exponent*(2**m_bits)) + mantissa);
+        sign = "0"
+
+    formatted_num = format(num, "0{}x".format(8))
 
     return formatted_num, sign, exponent, mantissa
 

@@ -41,7 +41,7 @@ for i in range(num_instances):
     clf = rf.estimators_[i]
     dt = export_to_dict_bin(clf)
     dt_bin = create_mem_bin_layouts("filename", dt)
-    node_number = format(len(dt_bin), "0{}b".format(24)) + format(i+1, "0{}b".format(8))
+    node_number = format(len(dt_bin), "0{}x".format(6)) + format(i+1, "0{}x".format(2))
     dt_bin.insert(0, node_number)
     forest.append(dt_bin)
 
@@ -53,7 +53,7 @@ data_mem = create_data_mem(x_test)
 num_features = len(x_test[0])
 #print("Num features: {}".format(num_features))
 
-data_mem.insert(0, format(num_features, "0{}b".format(32)))
+data_mem.insert(0, format(num_features, "0{}x".format(8)))
     
 #forest[0].insert(0, format(num_instances, "0{}b".format(32)))
 
@@ -72,6 +72,8 @@ data_mem.insert(0, format(num_features, "0{}b".format(32)))
 
 print("[-] Writing memory layouts to txt files")
 forest = mat_to_array(forest)
+num_elems = format(len(forest)+len(data_mem), "0{}x".format(8))
+forest.insert(0, num_elems)
 write_to_file(forest + data_mem, "../ranger/memory_content/random_forest.txt")
 #write_to_file(forest[1:], "../ranger/memory_content/bin_node_mem_content.txt")
 #write_to_file(data_mem[1:], "../ranger/memory_content/data_mem_content.txt")
