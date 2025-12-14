@@ -46,14 +46,18 @@ signal data_0, data_1 : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 subtype addr_t is integer range 0 to g_DEPTH - 1;
 signal rd_addr, wr_addr : addr_t := 0;
 signal addr_0, addr_1, addr_2 : unsigned(g_ADDR_WIDTH - 1 downto 0);
+signal prueba : integer;
+
+signal rd_wr_fifo, pruebote : std_logic;
 
 procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
 begin
-    addr <= (addr + mem_span) mod addr_t'high;
+    addr <= (addr + mem_span) mod (addr_t'high + 1);
 end procedure;
 
 begin
 
+prueba <= addr_t'high;
 FIFO_MEM: ram
 generic map(
     g_addr_width    => g_ADDR_WIDTH,
@@ -113,6 +117,20 @@ end process;
 
 elem_dec <= 1 when i_re_fifo = '1' and empty = '0' else 0;
 elem_inc <= 1 when i_wr_fifo = '1' and full = '0' else 0;
+
+rd_wr_fifo <= '1' when elem_dec = 1 and elem_inc = 1 else '0';
+
+process(rd_wr_fifo, last, empty)
+begin
+	pruebote <= '1';
+
+	if empty = '1' or last = '1' then
+	   	pruebote <= '0';
+   	end if;
+	if rd_wr_fifo = '1' then
+		pruebote <= '0';
+	end if;	
+end process;
 
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';

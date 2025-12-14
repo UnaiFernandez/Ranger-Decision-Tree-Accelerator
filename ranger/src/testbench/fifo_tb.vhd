@@ -53,7 +53,7 @@ generic map(
     g_DATA_WIDTH => 32,
     g_ADDR_WIDTH => 16,
     g_INIT_MEM => '0',
-    g_DEPTH => 10
+    g_DEPTH => 5
 )
 port map(
     i_CLK => clk,
@@ -73,22 +73,37 @@ clk <= not clk after 10 ns;
 process
 begin
 
-    -- MODE 0 test
+	wait for 30 ns;
+
+	wr_fifo <= '1'; --tvalid
+	wr_data <= X"00000001";
     wait for 20 ns;
-    wr_data <= x"0000FFFF";
-    wr_fifo <= '1';
+	wr_data <= X"00000002";
     wait for 20 ns;
-    wr_data <= x"00001243";
+	wr_data <= X"00000003";
     wait for 20 ns;
-    wr_data <= x"00002346";
-    re_fifo <= '1';
+	wr_data <= X"00000004";
     wait for 20 ns;
-    wr_data <= x"00001111";
+	wr_data <= X"00000005";
     wait for 20 ns;
-    wr_data <= x"00002222";
+	wr_data <= X"00000006";
     wait for 20 ns;
-    wr_fifo <= '0';
-    re_fifo <= '0';
+	wr_data <= X"00000007";
+    wait for 20 ns;
+	wr_data <= X"00000008";
+    wait for 20 ns;
+    wr_fifo <= '0'; --tvalid
+
+
+	--wait for 5 ns;
+	re_fifo <= '1'; --tready
+	wait for 60 ns;
+	re_fifo <= '0'; --tready
+	wait for 60 ns;
+	re_fifo <= '1'; --tready
+	wait for 60 ns;
+	re_fifo <= '0'; --tready
+
     wait;
 end process;
 
