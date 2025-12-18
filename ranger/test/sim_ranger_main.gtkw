@@ -1,0 +1,51 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Sun Dec 14 19:17:50 2025
+[*]
+[dumpfile] "/home/unai/Projects/dt_vhdl/ranger/test/sim_ranger_main.ghw"
+[dumpfile_mtime] "Sun Dec 14 19:07:46 2025"
+[dumpfile_size] 1816147
+[savefile] "/home/unai/Projects/dt_vhdl/ranger/test/sim_ranger_main.gtkw"
+[timestart] 0
+[size] 1864 956
+[pos] -1 -1
+*-30.900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.ranger_main_tb.
+[treeopen] top.ranger_main_tb.main.
+[treeopen] top.ranger_main_tb.main.dt_ranger.
+[treeopen] top.ranger_main_tb.main.dt_ranger.config.
+[treeopen] top.ranger_main_tb.main.in_axis_fifo.
+[treeopen] top.ranger_main_tb.main.out_axis_fifo.
+[sst_width] 297
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 267
+@28
+top.ranger_main_tb.clk
+top.ranger_main_tb.reset
+top.ranger_main_tb.init
+@420
+top.ranger_main_tb.main.dt_ranger.config.current_s
+@22
+#{top.ranger_main_tb.main.dt_ranger.config.i_data[31:0]} top.ranger_main_tb.main.dt_ranger.config.i_data[31] top.ranger_main_tb.main.dt_ranger.config.i_data[30] top.ranger_main_tb.main.dt_ranger.config.i_data[29] top.ranger_main_tb.main.dt_ranger.config.i_data[28] top.ranger_main_tb.main.dt_ranger.config.i_data[27] top.ranger_main_tb.main.dt_ranger.config.i_data[26] top.ranger_main_tb.main.dt_ranger.config.i_data[25] top.ranger_main_tb.main.dt_ranger.config.i_data[24] top.ranger_main_tb.main.dt_ranger.config.i_data[23] top.ranger_main_tb.main.dt_ranger.config.i_data[22] top.ranger_main_tb.main.dt_ranger.config.i_data[21] top.ranger_main_tb.main.dt_ranger.config.i_data[20] top.ranger_main_tb.main.dt_ranger.config.i_data[19] top.ranger_main_tb.main.dt_ranger.config.i_data[18] top.ranger_main_tb.main.dt_ranger.config.i_data[17] top.ranger_main_tb.main.dt_ranger.config.i_data[16] top.ranger_main_tb.main.dt_ranger.config.i_data[15] top.ranger_main_tb.main.dt_ranger.config.i_data[14] top.ranger_main_tb.main.dt_ranger.config.i_data[13] top.ranger_main_tb.main.dt_ranger.config.i_data[12] top.ranger_main_tb.main.dt_ranger.config.i_data[11] top.ranger_main_tb.main.dt_ranger.config.i_data[10] top.ranger_main_tb.main.dt_ranger.config.i_data[9] top.ranger_main_tb.main.dt_ranger.config.i_data[8] top.ranger_main_tb.main.dt_ranger.config.i_data[7] top.ranger_main_tb.main.dt_ranger.config.i_data[6] top.ranger_main_tb.main.dt_ranger.config.i_data[5] top.ranger_main_tb.main.dt_ranger.config.i_data[4] top.ranger_main_tb.main.dt_ranger.config.i_data[3] top.ranger_main_tb.main.dt_ranger.config.i_data[2] top.ranger_main_tb.main.dt_ranger.config.i_data[1] top.ranger_main_tb.main.dt_ranger.config.i_data[0]
+#{top.ranger_main_tb.main.dt_ranger.config.o_dt_id[7:0]} top.ranger_main_tb.main.dt_ranger.config.o_dt_id[7] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[6] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[5] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[4] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[3] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[2] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[1] top.ranger_main_tb.main.dt_ranger.config.o_dt_id[0]
+#{top.ranger_main_tb.main.dt_ranger.config.o_data_addr[15:0]} top.ranger_main_tb.main.dt_ranger.config.o_data_addr[15] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[14] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[13] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[12] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[11] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[10] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[9] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[8] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[7] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[6] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[5] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[4] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[3] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[2] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[1] top.ranger_main_tb.main.dt_ranger.config.o_data_addr[0]
+@28
+top.ranger_main_tb.main.in_axis_fifo.m00_tvalid
+top.ranger_main_tb.main.in_axis_fifo.m00_tlast
+top.ranger_main_tb.main.in_axis_fifo.m00_tready
+top.ranger_main_tb.main.out_axis_fifo.s00_tlast
+top.ranger_main_tb.main.out_axis_fifo.s00_tready
+@29
+top.ranger_main_tb.main.out_axis_fifo.s00_tvalid
+@22
+#{top.ranger_main_tb.main.out_axis_fifo.s00_tdata[15:0]} top.ranger_main_tb.main.out_axis_fifo.s00_tdata[15] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[14] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[13] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[12] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[11] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[10] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[9] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[8] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[7] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[6] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[5] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[4] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[3] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[2] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[1] top.ranger_main_tb.main.out_axis_fifo.s00_tdata[0]
+@28
+top.ranger_main_tb.main.out_axis_fifo.m00_tvalid
+top.ranger_main_tb.main.out_axis_fifo.m00_tlast
+top.ranger_main_tb.main.out_axis_fifo.m00_tready
+@22
+#{top.ranger_main_tb.main.out_axis_fifo.m00_tdata[15:0]} top.ranger_main_tb.main.out_axis_fifo.m00_tdata[15] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[14] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[13] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[12] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[11] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[10] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[9] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[8] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[7] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[6] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[5] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[4] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[3] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[2] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[1] top.ranger_main_tb.main.out_axis_fifo.m00_tdata[0]
+[pattern_trace] 1
+[pattern_trace] 0

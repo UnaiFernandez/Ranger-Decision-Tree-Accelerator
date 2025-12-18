@@ -1,12 +1,12 @@
 library ieee;
---library ieee_proposed;
+library ieee_proposed;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.fixed_pkg.all;
-use ieee.float_pkg.all;
---use ieee_proposed.fixed_pkg.all;
---use ieee_proposed.float_pkg.all;
+--use ieee.fixed_pkg.all;
+--use ieee.float_pkg.all;
+use ieee_proposed.fixed_pkg.all;
+use ieee_proposed.float_pkg.all;
 use work.dt_ctl_pkg.all;
 
 entity dt_ctl is
@@ -87,11 +87,13 @@ begin
 
     process(i_CLK, i_RESET)
     begin
-        if i_RESET = '1' then 
-	    current_s <= E0;
-	    --c_node_mem_out <= (others => '0');
-	    --feature <= (others => '0');
-        elsif rising_edge(i_CLK) then current_s <= next_s;
+        if rising_edge(i_CLK) then 
+			current_s <= next_s;
+        	if i_RESET = '1' then 
+	    		current_s <= E0;
+	    		--c_node_mem_out <= (others => '0');
+	    		--feature <= (others => '0');
+        	end if;
         end if;
     end process;
 
@@ -116,9 +118,9 @@ begin
 	if CL_c_node_mem = '1' then c_node_mem_out <= x"0000";
 	elsif rising_edge(i_CLK) then
 	    if LD_c_node_mem = '1' then
-		c_node_mem_out <= right_node;
+			c_node_mem_out <= right_node;
 	    elsif INC_c_node_mem = '1' then
-		c_node_mem_out <= std_logic_vector(unsigned(c_node_mem_out) + 2);
+			c_node_mem_out <= std_logic_vector(unsigned(c_node_mem_out) + 2);
 	    end if;
 	end if;
     end process;

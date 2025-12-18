@@ -10,21 +10,30 @@ use work.axis_fifo_pkg.all;
 
 entity RANGER_MAIN is
     generic(
-	g_data_width: integer := 32;
-	g_addr_width: integer := 16
+		g_data_width: integer := 32;
+		g_addr_width: integer := 16
     );
     port(
-	clk : in std_logic;
-	reset : in std_logic;
-	init : in std_logic;
-    	i_ps_ready : in std_logic;
-	-----------------------------
-    	o_re_data : out std_logic;
-    	o_wr_data : out std_logic;
-    	o_in_fifo_data	  : out std_logic_vector(g_data_width - 1 downto 0);
-    	o_out_fifo_data	  : out std_logic_vector(g_addr_width - 1 downto 0)
-	--class_0 : out std_logic;
-	--class_1 : out std_logic
+		clk : in std_logic;
+		reset : in std_logic;
+		init : in std_logic;
+    	s00_ps_tvalid : in std_logic;	
+    	s00_ps_tlast : in std_logic;	
+    	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
+    	s00_ps_tready : out std_logic;
+			
+    	m00_ps_tvalid : out std_logic;	
+    	m00_ps_tlast : out std_logic;	
+    	m00_ps_tdata : out std_logic_vector(g_data_width - 1 downto 0);	
+    	m00_ps_tready : in std_logic	
+		--i_ps_ready : in std_logic;
+		-------------------------------
+    	--o_re_data : out std_logic;
+    	--o_wr_data : out std_logic;
+    	--o_in_fifo_data	  : out std_logic_vector(g_data_width - 1 downto 0);
+    	--o_out_fifo_data	  : out std_logic_vector(g_addr_width - 1 downto 0)
+		----class_0 : out std_logic;
+		----class_1 : out std_logic
     );
 end RANGER_MAIN;
 
@@ -37,7 +46,7 @@ signal in_fifo_empty, in_fifo_full : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo, ps_last : std_logic := '0';
-signal ps_data : std_logic_vector(g_data_width - 1 downto 0) := X"00000000";
+signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 begin
 
@@ -72,11 +81,11 @@ begin
     port map(
         i_CLK => clk,
         i_reset => reset,
-        s00_TVALID => ps_wr_fifo,
-        s00_TLAST => ps_last,
-        s00_TDATA => ps_data,
+        s00_TVALID => s00_ps_tvalid,
+        s00_TLAST => s00_ps_tlast,
+        s00_TDATA => s00_ps_tdata,
         m00_TREADY => rd_fifo_data,
-	m00_TDATA => in_fifo_data
+		m00_TDATA => in_fifo_data
     );
 
 -- OUT FIFO
@@ -93,12 +102,16 @@ begin
         s00_TVALID => wr_fifo_data,
         s00_TLAST => pl_last,
         s00_TDATA => out_fifo_data,
-        m00_TREADY => i_ps_ready,
-	m00_TDATA => out_data
+        s00_TREADY => s00_ps_tready,
+		m00_TVALID => m00_ps_tvalid,
+		m00_TLAST => m00_ps_tlast,
+		m00_TDATA => ps_data,
+        m00_TREADY => m00_ps_tready
     );
 
-    o_re_data <= rd_fifo_data;
-    o_wr_data <= wr_fifo_data;
-    o_in_fifo_data <= in_fifo_data;
-    o_out_fifo_data <= out_data;
+    m00_ps_tdata <= X"0000" & ps_data;
+    --o_re_data <= rd_fifo_data;
+    --o_wr_data <= wr_fifo_data;
+    --o_in_fifo_data <= in_fifo_data;
+    --o_out_fifo_data <= out_data;
 end arch_RANGER_MAIN;
