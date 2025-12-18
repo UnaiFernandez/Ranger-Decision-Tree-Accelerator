@@ -88,8 +88,11 @@ begin
 
     process(i_clk, i_reset)
     begin
-    	if i_reset = '1' then current_s <= E0;
-    	elsif rising_edge(i_clk) then current_s <= next_s;
+    	if rising_edge(i_clk) then 
+			current_s <= next_s;
+			if i_reset = '1' then 
+				current_s <= E0;
+			end if;
     	end if;
     end process;
 

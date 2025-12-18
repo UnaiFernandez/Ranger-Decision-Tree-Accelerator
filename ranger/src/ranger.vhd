@@ -51,7 +51,7 @@ architecture arch_ranger of ranger is
 
 -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
-    signal class_prueba	: std_logic_vector(g_addr_width - 1 downto 0);
+    signal class_temp	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
@@ -81,7 +81,7 @@ begin
     	    when E2 => if data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
-	    when E3 => if calc_done = '1' and ready = '1' then next_s <= E4;
+	    when E3 => if ready = '1' then next_s <= E4;
     		       else next_s <= E3;
     		       end if;
             when E4 => if stop = '1' then next_s <= E0;
@@ -139,26 +139,32 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-    process(i_CLK, ready)
-    begin
-		--if rising_edge(i_CLK) then
-				if ready = '1' then
-	    		    --class <= count_bits(class_mat);
-				    class_aggregation(class_mat, class);
-					calc_done <= '1'; --TODO revisar
-				else
-				    calc_done <= '0';
-	    		end if;
-	    --end if;
-    end process;
+    --process(i_CLK, ready)
+    --begin
+	--	--if rising_edge(i_CLK) then
+	--			if ready = '1' then
+	--    		    --class <= count_bits(class_mat);
+	--			    class_aggregation(class_mat, class);
+	--				calc_done <= '1'; --TODO revisar
+	--			else
+	--			    calc_done <= '0';
+	--    		end if;
+	--    --end if;
+    --end process;
 
+	class_aggregation(class_mat, class_temp);	
+	class <= class_temp when calc_done = '1' else (others => '0');
 
-    --class <= count_bits(class_mat);
-    o_fifo_data <= class;
+	calc_done <= '1' when current_s = E3 and ready = '1' else '0';
+	--process(i_CLK)
+	--begin
+	--		if rising_edge(i_CLK) then
+	--				calc_done <= ready;
+	--		end if;
+	--end process;
+
+	o_fifo_data <= class;
     o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
-	--o_wr_fifo_data <= '1' when current_s = E4 else '0';
-
-    --calc_done <= '1' when current_s = E3 and ready = '1' else '0';
     
     process(i_CLK, result_ready, ready)
     begin

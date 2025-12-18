@@ -127,8 +127,6 @@ rd_wr_fifo <= '1' when elem_dec = 1 and elem_inc = 1 else '0';
 
 process(rd_wr_fifo, mem_elements_old, mem_elements)
 begin
-	
-
 	if mem_elements	= 0 or mem_elements_old = 0 then
 	--if mem_elements	<= 1 then
 	   	valid_i <= '0';
