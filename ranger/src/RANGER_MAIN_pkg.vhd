@@ -20,7 +20,7 @@ package RANGER_MAIN_pkg is
 			
     	m00_ps_tvalid : out std_logic;	
     	m00_ps_tlast : out std_logic;	
-    	m00_ps_tdata : out std_logic_vector(g_addr_width - 1 downto 0);	
+    	m00_ps_tdata : out std_logic_vector(g_data_width - 1 downto 0);	
     	m00_ps_tready : in std_logic	
 	    --clk : in std_logic;
 	    --reset : in std_logic;

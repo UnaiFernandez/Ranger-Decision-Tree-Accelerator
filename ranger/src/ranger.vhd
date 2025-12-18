@@ -94,8 +94,11 @@ begin
 
     process(i_clk, i_reset)
     begin
-    	if i_reset = '1' then current_s <= E0;
-    	elsif rising_edge(i_clk) then current_s <= next_s;
+    	if rising_edge(i_clk) then 
+			current_s <= next_s;
+    		if i_reset = '1' then 
+				current_s <= E0;
+			end if;
     	end if;
     end process;
 
@@ -104,9 +107,10 @@ begin
 
     process(dt_id)
     begin
-        sel <= (others => '0');
         if dt_id /= "00000000" then
             sel(to_integer(unsigned(dt_id) - 1)) <= '1';
+		else
+        	sel <= (others => '0');
         end if;
     end process;
 
@@ -141,7 +145,7 @@ begin
 				if ready = '1' then
 	    		    --class <= count_bits(class_mat);
 				    class_aggregation(class_mat, class);
-					calc_done <= '1';
+					calc_done <= '1'; --TODO revisar
 				else
 				    calc_done <= '0';
 	    		end if;

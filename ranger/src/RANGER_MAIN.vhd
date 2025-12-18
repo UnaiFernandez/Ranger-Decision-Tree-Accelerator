@@ -24,7 +24,7 @@ entity RANGER_MAIN is
 			
     	m00_ps_tvalid : out std_logic;	
     	m00_ps_tlast : out std_logic;	
-    	m00_ps_tdata : out std_logic_vector(g_addr_width - 1 downto 0);	
+    	m00_ps_tdata : out std_logic_vector(g_data_width - 1 downto 0);	
     	m00_ps_tready : in std_logic	
 		--i_ps_ready : in std_logic;
 		-------------------------------
@@ -46,7 +46,7 @@ signal in_fifo_empty, in_fifo_full : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo, ps_last : std_logic := '0';
-signal ps_data : std_logic_vector(g_data_width - 1 downto 0) := X"00000000";
+signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 begin
 
@@ -105,10 +105,11 @@ begin
         s00_TREADY => s00_ps_tready,
 		m00_TVALID => m00_ps_tvalid,
 		m00_TLAST => m00_ps_tlast,
-		m00_TDATA => m00_ps_tdata,
+		m00_TDATA => ps_data,
         m00_TREADY => m00_ps_tready
     );
 
+    m00_ps_tdata <= X"0000" & ps_data;
     --o_re_data <= rd_fifo_data;
     --o_wr_data <= wr_fifo_data;
     --o_in_fifo_data <= in_fifo_data;
