@@ -22,6 +22,7 @@ package body general_package is
 	procedure class_aggregation(signal class_mat : in matr; signal class_ag : inout onehot_class) is
 		variable max : integer := 0;
 		variable tmp_sum : integer := 0;
+		--variable temp_class_ag: onehot_class := (others => '0');
 	begin
 		for class_idx in 0 to 15 loop
 			tmp_sum := 0;
@@ -34,10 +35,10 @@ package body general_package is
 			-- Find max value
 			if tmp_sum >= max then
 				max := tmp_sum;
+				--temp_class_ag := std_logic_vector(to_unsigned(class_idx, temp_class_ag'length));
 				class_ag <= std_logic_vector(to_unsigned(class_idx, class_ag'length));
-			--else
-			--	class_ag <= class_ag; -- TODO: No se si esto esta muy bien
 			end if;
+			--class_ag <= temp_class_ag;
 		end loop;
 	end class_aggregation;
 

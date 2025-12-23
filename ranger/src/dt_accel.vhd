@@ -39,7 +39,6 @@ architecture arch_dt_accel of dt_accel is
     signal RE_node : std_logic := '0';
     signal RE_thr : std_logic := '0';
     signal node_addr_0: unsigned(g_ADDR_WIDTH - 1 downto 0);
-    signal node_addr_1: unsigned(g_ADDR_WIDTH - 1 downto 0);
     signal thr_addr: unsigned(g_ADDR_WIDTH - 1 downto 0);
 
 -- DATA MEM
@@ -48,14 +47,14 @@ architecture arch_dt_accel of dt_accel is
     signal int_data : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 
 -- DT_CTL
-    signal class: std_logic_vector(15 downto 0);
+    signal class: std_logic_vector(g_K - 1 downto 0);
 
 -- DT ACCEL control signals
-    signal enable, task_terminated : STD_LOGIC;
+    signal task_terminated : STD_LOGIC;
 
 -- ONE HOT REPRESENTATION
     --signal one_hot : std_logic_vector(g_K - 1 downto 0) := (0 => '1', others => '0');
-    signal o_h : std_logic_vector(g_K - 1 downto 0) := (0 => '1', others => '0');
+    --signal o_h : std_logic_vector(g_K - 1 downto 0) := (0 => '1', others => '0');
 
 begin
 
@@ -134,16 +133,30 @@ begin
 
     o_DONE <= '1' when task_terminated = '1' else '0';
 
+	--process(i_CLK, task_terminated, class)
+	--	variable index : integer := 0;
+	--begin
+	--	if rising_edge(i_CLK) then
+	--		if task_terminated = '1' then
+	--			index := to_integer(unsigned(class));
+	--			o_h(index) <= '1';
+	--		else
+	--			o_h <= (others => '0');
+	--		end if;
+	--	end if;
+	--end process;
+
 	process(i_CLK, task_terminated, class)
-		variable index : integer := 0;
+		variable o_h_v : std_logic_vector(g_K - 1 downto 0) := (others => '0');
+		variable idx : integer;
 	begin
 		if rising_edge(i_CLK) then
+			o_h_v := (others => '0');
 			if task_terminated = '1' then
-				index := to_integer(unsigned(class));
-				o_h(index) <= '1';
-			else
-				o_h <= (others => '0');
+				idx := to_integer(unsigned(class));
+				o_h_v(idx) := '1';
 			end if;
+			o_CLASS <= o_h_v;
 		end if;
 	end process;
 
@@ -171,8 +184,6 @@ begin
     --    end if;
     --   end process;
 
-
-    o_CLASS <= o_h;
 
 
 end arch_dt_accel;

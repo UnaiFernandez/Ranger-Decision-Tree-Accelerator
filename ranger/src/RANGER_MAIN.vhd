@@ -46,6 +46,7 @@ signal in_fifo_empty, in_fifo_full : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo, ps_last : std_logic := '0';
+signal ps_tvalid, ps_tlast, ps_tready : std_logic;
 signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 begin
@@ -65,8 +66,8 @@ begin
         init	        => init,
         i_fifo_data	=> in_fifo_data,
         o_rd_fifo_data	=> rd_fifo_data,
-	o_wr_fifo_data	=> wr_fifo_data,
-	o_last		=> pl_last,
+		o_wr_fifo_data	=> wr_fifo_data,
+		o_last		=> pl_last,
         o_fifo_data    	=> out_fifo_data
     );
 
@@ -102,14 +103,17 @@ begin
         s00_TVALID => wr_fifo_data,
         s00_TLAST => pl_last,
         s00_TDATA => out_fifo_data,
-        s00_TREADY => s00_ps_tready,
-		m00_TVALID => m00_ps_tvalid,
-		m00_TLAST => m00_ps_tlast,
+        s00_TREADY => ps_tready,
+		m00_TVALID => ps_tvalid,
+		m00_TLAST => ps_tlast,
 		m00_TDATA => ps_data,
         m00_TREADY => m00_ps_tready
     );
 
     m00_ps_tdata <= X"0000" & ps_data;
+    m00_ps_tvalid <= ps_tvalid;
+    m00_ps_tlast <= ps_tlast;
+    s00_ps_tready <= ps_tready;
     --o_re_data <= rd_fifo_data;
     --o_wr_data <= wr_fifo_data;
     --o_in_fifo_data <= in_fifo_data;

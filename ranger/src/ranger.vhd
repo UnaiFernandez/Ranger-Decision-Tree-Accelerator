@@ -41,7 +41,6 @@ architecture arch_ranger of ranger is
     signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 
 -- Configurator
-    signal re_data_config : STD_LOGIC;
     signal get_data : std_logic;
     signal data_loaded : std_logic;
     signal config_done : std_logic;
@@ -52,6 +51,7 @@ architecture arch_ranger of ranger is
 -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
     signal class_temp	: std_logic_vector(g_addr_width - 1 downto 0);
+    signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
@@ -69,7 +69,7 @@ architecture arch_ranger of ranger is
 begin
 -- State machine
 
-    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop)
+    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
     	    when E0 => if init = '1' then next_s <= E1;
@@ -95,9 +95,10 @@ begin
     process(i_clk, i_reset)
     begin
     	if rising_edge(i_clk) then 
-			current_s <= next_s;
     		if i_reset = '1' then 
 				current_s <= E0;
+			else
+				current_s <= next_s;
 			end if;
     	end if;
     end process;
@@ -106,12 +107,17 @@ begin
 -- DECODER
 
     process(dt_id)
+		variable sel_v :std_logic_vector(sel'range);
+		variable idx : integer;	
     begin
+		sel_v := (others => '0');
         if dt_id /= "00000000" then
-            sel(to_integer(unsigned(dt_id) - 1)) <= '1';
-		else
-        	sel <= (others => '0');
+			idx := to_integer(unsigned(dt_id)) - 1;
+			if idx >= sel_v'low and idx <= sel_v'high then
+				sel_v(idx) := '1';
+			end if;
         end if;
+		sel <= sel_v;
     end process;
 
 -- DT_ACCELERATOR instances
@@ -153,7 +159,15 @@ begin
     --end process;
 
 	class_aggregation(class_mat, class_temp);	
-	class <= class_temp when calc_done = '1' else (others => '0');
+	class <= class_temp when calc_done = '1' else class_old;
+
+
+	process(i_CLK)
+	begin
+		if rising_edge(i_CLK) then
+			class_old <= class;
+		end if;	
+	end process;
 
 	calc_done <= '1' when current_s = E3 and ready = '1' else '0';
 	--process(i_CLK)
@@ -206,7 +220,7 @@ begin
     
     dec_inf_counter <= '1' when current_s = E3 and calc_done = '1' else '0';
 
-    process(i_clk)
+    process(i_clk, dec_inf_counter, inference_number)
     begin
 	if rising_edge(i_clk) then
 	    --if dec_inf_counter = '1' and inference_number = 0 then
@@ -220,7 +234,7 @@ begin
     o_last <= '1' when inference_number = 1 else '0';
     stop <= '1' when inference_number = 0 else '0';
 
-    p_ASSERT : process (i_CLK) is
+    p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin
         if rising_edge(i_CLK) then
             if current_s = E1 and config_done = '1' then
