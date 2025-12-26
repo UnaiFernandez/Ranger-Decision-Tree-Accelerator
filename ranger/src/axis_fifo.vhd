@@ -31,7 +31,8 @@ architecture arch_axis_fifo of axis_fifo is
 
 -- Control logic
 signal full, empty, last: std_logic;
-signal init: std_logic := g_init_mem;
+signal init_mem: std_logic := g_init_mem;
+signal init_done: std_logic_vector(1 downto 0) := "00";
 signal re_en, wr_en : std_logic := '0';
 
 -- Number of elements
@@ -90,40 +91,91 @@ wr_en <= s00_TVALID and not full;
 re_en <= m00_TREADY and valid_i;
 
 
--- READ ADDR update
-process(i_clk, i_RESET, init, re_en, empty, wr_en, full, elem_dec, elem_inc)
+-- READ & WRITE address update
+process(i_clk, i_RESET, init_mem, re_en, empty, wr_en, full)
 begin
 
     if rising_edge(i_clk) then
         if i_RESET = '1' then
-	       rd_addr <= 0;
-	       wr_addr <= 0;
-	    else  
-	       -- init
-	       if init = '1' then
-	           mem_elements_old <= g_DEPTH - 1;
-	           mem_elements <= g_DEPTH - 1;
-	           init <= '0';
-	       else
-	           -- Read
-	           if re_en = '1' and empty = '0' then
-	               inc_addr(rd_addr, 1);
-	           end if;
-	           -- Write
-	           if wr_en = '1' and full = '0' then
-	               inc_addr(wr_addr, 1);
-	           end if;
-		       mem_elements_old <= mem_elements;
-	           mem_elements <= mem_elements + (elem_inc - elem_dec);
-	       end if;
+	       	rd_addr <= 0;
+	       	wr_addr <= 0;
+	   		if init_mem = '1' then
+				wr_addr <= addr_t'high;
+			end if;
+	    else
+	        -- Read
+	        if re_en = '1' and empty = '0' then
+	            inc_addr(rd_addr, 1);
+	        end if;
+	        -- Write
+	        if wr_en = '1' and full = '0' then
+	            inc_addr(wr_addr, 1);
+	        end if;
         end if;
     end if;
 end process;
 
-elem_dec <= 1 when re_en = '1' and empty = '0' else 0;
-elem_inc <= 1 when wr_en = '1' and full = '0' else 0;
+process(rd_addr, wr_addr)
+begin
+	if wr_addr < rd_addr then
+		mem_elements <= wr_addr - rd_addr + g_DEPTH;
+	else
+		mem_elements <= wr_addr - rd_addr;
+	end if;
+end process;
 
-rd_wr_fifo <= '1' when elem_dec = 1 and elem_inc = 1 else '0';
+process(i_CLK, i_RESET, mem_elements)
+begin
+	if rising_edge(i_CLK) then
+		if i_RESET = '1' then
+			mem_elements_old <= 0;
+		else
+			mem_elements_old <= mem_elements;
+		end if;
+	end if;
+end process;
+
+--elem_dec <= 1 when re_en = '1' and empty = '0' else 0;
+--elem_inc <= 1 when wr_en = '1' and full = '0' else 0;
+--
+--process(init_mem, init_done)
+--begin
+--	if init_mem = '1' and init_done = "00" then
+--		mem_elements <= g_DEPTH - 1;
+--		init_done(1) <= '1';
+--	else
+--		mem_elements <= mem_elements + (elem_inc - elem_dec);
+--	end if;
+--end process;
+--
+--process(i_CLK, init_mem, mem_elements)
+--begin
+--	if rising_edge(i_CLK) then
+--		if init_mem = '1' and init_done = "00" then
+--			mem_elements_old <= g_DEPTH - 1;
+--			init_done(0) <= '1';
+--		else
+--			mem_elements_old <= mem_elements;
+--		end if;
+--	end if;
+--end process;
+--
+--rd_wr_fifo <= '1' when elem_dec = 1 and elem_inc = 1 else '0';
+process(i_CLK, i_RESET, s00_TVALID, full, valid_i, m00_TREADY)
+begin
+	if rising_edge(i_CLK) then
+		if i_RESET = '1' then
+			rd_wr_fifo <= '0';
+		else
+			if s00_TVALID = '1' and full = '0' and valid_i = '1' and m00_TREADY = '1' then
+				rd_wr_fifo <= '1';
+			else
+				rd_wr_fifo <= '0';
+			end if;
+		end if;
+	end if;
+end process;
+
 
 process(rd_wr_fifo, mem_elements_old, mem_elements)
 begin
@@ -148,4 +200,3 @@ last <= '1' when mem_elements = 1 else '0';
     s00_TREADY <= '1' when full = '0' else '0';
 
 end arch_axis_fifo;
-

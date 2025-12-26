@@ -159,7 +159,7 @@ begin
     --end process;
 
 	class_aggregation(class_mat, class_temp);	
-	class <= class_temp when calc_done = '1' else class_old;
+	class <= class_temp when calc_done = '1' else (others=>'0');
 
 
 	process(i_CLK)
@@ -190,7 +190,7 @@ begin
             end if;
         end if;
     end process;
-    enable <= '1' when current_s = E3 and calc_done = '0' else '0';
+    enable <= '1' when current_s = E2 and data_loaded = '1' else '0';
 
 -- CONFIGURATOR
 
