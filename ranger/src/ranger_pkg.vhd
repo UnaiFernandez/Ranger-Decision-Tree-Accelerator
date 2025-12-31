@@ -20,6 +20,8 @@ package ranger_pkg is
 	    o_rd_fifo_data : out std_logic;
     	    o_wr_fifo_data : out std_logic;
     	    o_last : out std_logic;
+    	    o_stop : out std_logic;
+			o_idle : out std_logic;
     	    o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     	);
     end component;

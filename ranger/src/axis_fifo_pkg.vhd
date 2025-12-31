@@ -8,6 +8,7 @@ package axis_fifo_pkg is
 	generic(
 	    g_DATA_WIDTH: integer;
 	    g_ADDR_WIDTH: integer;
+	    g_EMPTY_THRESHOLD: integer;
 	    g_INIT_MEM: std_logic;
 	    g_DEPTH: integer
     	);

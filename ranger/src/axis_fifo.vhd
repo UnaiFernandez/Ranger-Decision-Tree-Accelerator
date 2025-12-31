@@ -9,6 +9,7 @@ entity axis_fifo is
     generic(
 	g_DATA_WIDTH: integer;
 	g_ADDR_WIDTH: integer;
+	g_EMPTY_THRESHOLD: integer;
 	g_INIT_MEM: std_logic;
 	g_DEPTH: integer
     );
@@ -179,10 +180,10 @@ end process;
 
 process(rd_wr_fifo, mem_elements_old, mem_elements)
 begin
-	if mem_elements	= 0 or mem_elements_old = 0 then
+	if mem_elements	<= g_EMPTY_THRESHOLD -1  or mem_elements_old <= g_EMPTY_THRESHOLD - 1 then
 	--if mem_elements	<= 1 then
 	   	valid_i <= '0';
-	elsif mem_elements = 1 and rd_wr_fifo = '1' then
+	elsif mem_elements = g_EMPTY_THRESHOLD and rd_wr_fifo = '1' then
 		valid_i <= '0';
 	else
 		valid_i <= '1';

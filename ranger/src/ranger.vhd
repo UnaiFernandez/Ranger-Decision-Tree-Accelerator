@@ -23,7 +23,9 @@ entity ranger is
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
-    	o_last : out std_logic;
+	o_last : out std_logic;
+	o_stop: out std_logic;
+	o_idle : out std_logic;
 	o_fifo_data : out std_logic_vector(g_addr_width - 1 downto 0)
     );
 end ranger;
@@ -51,7 +53,7 @@ architecture arch_ranger of ranger is
 -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
     signal class_temp	: std_logic_vector(g_addr_width - 1 downto 0);
-    signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
+    --signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
     signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
@@ -145,39 +147,12 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-    --process(i_CLK, ready)
-    --begin
-	--	--if rising_edge(i_CLK) then
-	--			if ready = '1' then
-	--    		    --class <= count_bits(class_mat);
-	--			    class_aggregation(class_mat, class);
-	--				calc_done <= '1'; --TODO revisar
-	--			else
-	--			    calc_done <= '0';
-	--    		end if;
-	--    --end if;
-    --end process;
-
-	class_aggregation(class_mat, class_temp);	
-	class <= class_temp when calc_done = '1' else (others=>'0');
-
-
-	process(i_CLK)
-	begin
-		if rising_edge(i_CLK) then
-			class_old <= class;
-		end if;	
-	end process;
+	--class_aggregation(class_mat, class_temp);	
+	--class <= class_temp when calc_done = '1' else (others=>'0');
 
 	calc_done <= '1' when current_s = E3 and ready = '1' else '0';
-	--process(i_CLK)
-	--begin
-	--		if rising_edge(i_CLK) then
-	--				calc_done <= ready;
-	--		end if;
-	--end process;
 
-	o_fifo_data <= class;
+	o_fifo_data <= class_mat(0);
     o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
     
     process(i_CLK, result_ready, ready)
@@ -233,6 +208,9 @@ begin
 
     o_last <= '1' when inference_number = 1 else '0';
     stop <= '1' when inference_number = 0 else '0';
+
+	o_stop <= stop;
+	o_idle <= '1' when current_s = E0 else '0';
 
     p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin

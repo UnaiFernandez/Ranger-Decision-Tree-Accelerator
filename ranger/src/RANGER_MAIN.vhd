@@ -17,6 +17,9 @@ entity RANGER_MAIN is
 		clk : in std_logic;
 		reset : in std_logic;
 		init : in std_logic;
+
+		stop_ranger : out std_logic;
+		idle_ranger : out std_logic;
     	s00_ps_tvalid : in std_logic;	
     	s00_ps_tlast : in std_logic;	
     	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
@@ -68,6 +71,8 @@ begin
         o_rd_fifo_data	=> rd_fifo_data,
 		o_wr_fifo_data	=> wr_fifo_data,
 		o_last		=> pl_last,
+		o_stop => stop_ranger,
+		o_idle => idle_ranger,
         o_fifo_data    	=> out_fifo_data
     );
 
@@ -76,6 +81,7 @@ begin
     generic map(
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
+		g_EMPTY_THRESHOLD => 1,
         g_INIT_MEM => '1',
         g_DEPTH => 1024
     )
@@ -94,6 +100,7 @@ begin
     generic map(
         g_DATA_WIDTH => 16,
         g_ADDR_WIDTH => 16,
+		g_EMPTY_THRESHOLD => 8,
         g_INIT_MEM => '0',
         g_DEPTH => 20
     )
