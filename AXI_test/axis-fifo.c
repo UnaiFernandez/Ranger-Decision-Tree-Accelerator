@@ -6,7 +6,26 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <pthread.h>
+#include <sys/wait.h>
+#include <time.h>
+#include <signal.h>
+#include <poll.h>
+#include <sys/ioctl.h>
 
+static volatile int running = 1;
+
+static void signal_handler(int signal) {
+    switch (signal) {
+        case SIGINT:
+        case SIGTERM:
+        case SIGQUIT:
+            running = 0;
+            break;
+
+        default:
+            break;
+    }
+}
 
 uint32_t get_num_inputs(char * filename){
 	FILE * fd_mem;
@@ -80,28 +99,24 @@ void * write_axis_fifo(void * arg){
 void * read_axis_fifo(void * arg){
 	int fd_r, i, j;
 	uint32_t * out_buff;
-	uint32_t num_inputs;
+	uint32_t output_size;
 	ssize_t bytes_rd;
 
 	printf("Thread 2 (read fifo)\n");
 
 	fd_r = *(int*)arg;
-	num_inputs = get_num_inputs("./mem_layout.txt");
-	out_buff = malloc(num_inputs*sizeof(uint32_t));
+	output_size = 1;
+	out_buff = malloc(output_size*sizeof(uint32_t));
 
-	//// Write to file
-	//bytes_rd = write(fd_r, out_buff, num_inputs*sizeof(uint32_t));
-	//for(i = 0; i < num_inputs; i++){
-	//	printf("%X ", out_buff[i]);
-	//}
-	//printf("\n");
-	while(i < num_inputs){
-		bytes_rd = read(fd_r, out_buff, num_inputs*sizeof(uint32_t));
+	//while(i < num_inputs){
+	while(running){
+		bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
 		if(bytes_rd > 0){
-			for(j = 0; j < num_inputs; j++){
+			printf("Receiving data!\n");
+			for(j = 0; j < output_size; j++){
 				printf("(%X) ", out_buff[j]);
 			}
-			i+=num_inputs;
+			printf("Bytes read: %d\n", bytes_rd);
 		}
 	} 
 	printf("\n");
@@ -129,6 +144,11 @@ int main(){
 	pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
 	pthread_create(&th2, NULL, read_axis_fifo, (void *) &fd_r);
 
+	while(running){
+		sleep(1);
+	}
+
+	printf("Bye bye ...\n");
 	pthread_join(th1, NULL);
 	pthread_join(th2, NULL);
 
