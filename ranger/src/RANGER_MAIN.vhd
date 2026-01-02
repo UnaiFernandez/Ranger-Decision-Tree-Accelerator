@@ -52,6 +52,8 @@ signal ps_wr_fifo, ps_last : std_logic := '0';
 signal ps_tvalid, ps_tlast, ps_tready : std_logic;
 signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
+
+signal last_inf : std_logic;
 begin
 
 -- RANGER
@@ -117,10 +119,22 @@ begin
         m00_TREADY => m00_ps_tready
     );
 
+	--last_inf <= '1' when wr_fifo_data = '1' and pl_last = '1' else '0';
+	process(clk, pl_last, wr_fifo_data)
+	begin
+		if rising_edge(clk) then
+			if pl_last = '1' and wr_fifo_data = '1' then
+				last_inf <= '1';
+			elsif ps_tvalid = '1' then
+				last_inf <= '0';
+			else
+				last_inf <= last_inf;
+			end if;
+		end if;
+	end process;
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
-    --m00_ps_tlast <= ps_tlast;
-	m00_ps_tlast <= '1' when ps_tlast = '1' and pl_last = '1' else '0';
+	m00_ps_tlast <= '1' when ps_tlast = '1' and last_inf = '1' else '0';
     s00_ps_tready <= ps_tready;
     --o_re_data <= rd_fifo_data;
     --o_wr_data <= wr_fifo_data;

@@ -53,8 +53,7 @@ signal prueba : integer;
 
 signal rd_wr_fifo, valid_i : std_logic;
 
-signal thr, m00_tready_i: std_logic;
-signal en_ready : std_logic := '0';
+signal m00_tready_i: std_logic;
 
 procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
 begin
@@ -95,7 +94,6 @@ wr_en <= s00_TVALID and not full;
 re_en <= m00_tready_i and valid_i;
 
 m00_tready_i <= m00_TREADY;
---m00_tready_i <= m00_TREADY when en_ready = '1' else '0';
 
 -- READ & WRITE address update
 process(i_clk, i_RESET, init_mem, re_en, empty, wr_en, full)
@@ -168,22 +166,6 @@ begin
 		valid_i <= '1';
 	end if;	
 end process;
-
-process(i_CLK, thr, empty)
-begin
-	if rising_edge(i_CLK) then
-		if thr = '0' and empty = '0' and g_INIT_MEM = '0' then en_ready <= en_ready;
-		elsif thr = '0' and empty = '0' and g_INIT_MEM = '1' then en_ready <= '1';
-		elsif thr = '0' and empty = '1' then en_ready <= '0';
-		elsif thr = '1' and empty = '0' then en_ready <= '1';
-		--elsif thr = '1' and empty = '1' then en_ready <= (not en_ready);
-		else
-			en_ready <= en_ready;
-		end if;
-	end if;
-end process;
-
-thr <= '1' when mem_elements >= g_EMPTY_THRESHOLD else '0';
 
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';
