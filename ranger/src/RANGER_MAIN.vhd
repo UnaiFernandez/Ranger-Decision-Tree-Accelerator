@@ -81,7 +81,7 @@ begin
     generic map(
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
-		g_EMPTY_THRESHOLD => 1,
+		g_EMPTY_THRESHOLD => 0,
         g_INIT_MEM => '1',
         g_DEPTH => 1024
     )
@@ -119,7 +119,8 @@ begin
 
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
-    m00_ps_tlast <= ps_tlast;
+    --m00_ps_tlast <= ps_tlast;
+	m00_ps_tlast <= '1' when ps_tlast = '1' and pl_last = '1' else '0';
     s00_ps_tready <= ps_tready;
     --o_re_data <= rd_fifo_data;
     --o_wr_data <= wr_fifo_data;

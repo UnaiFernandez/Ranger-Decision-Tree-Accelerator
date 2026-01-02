@@ -53,6 +53,9 @@ signal prueba : integer;
 
 signal rd_wr_fifo, valid_i : std_logic;
 
+signal thr, m00_tready_i: std_logic;
+signal en_ready : std_logic := '0';
+
 procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
 begin
     addr <= (addr + mem_span) mod (addr_t'high + 1);
@@ -66,8 +69,8 @@ generic map(
     g_addr_width    => g_ADDR_WIDTH,
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
-    g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
-    --g_init_file	    => "./memory_content/random_forest.txt",
+    --g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
+    g_init_file	    => "./memory_content/random_forest.txt",
     g_init	    => g_init_mem
 )
 port map(
@@ -89,8 +92,10 @@ addr_2 <= to_unsigned(wr_addr, g_ADDR_WIDTH);
 
 
 wr_en <= s00_TVALID and not full;
-re_en <= m00_TREADY and valid_i;
+re_en <= m00_tready_i and valid_i;
 
+m00_tready_i <= m00_TREADY;
+--m00_tready_i <= m00_TREADY when en_ready = '1' else '0';
 
 -- READ & WRITE address update
 process(i_clk, i_RESET, init_mem, re_en, empty, wr_en, full)
@@ -136,39 +141,13 @@ begin
 	end if;
 end process;
 
---elem_dec <= 1 when re_en = '1' and empty = '0' else 0;
---elem_inc <= 1 when wr_en = '1' and full = '0' else 0;
---
---process(init_mem, init_done)
---begin
---	if init_mem = '1' and init_done = "00" then
---		mem_elements <= g_DEPTH - 1;
---		init_done(1) <= '1';
---	else
---		mem_elements <= mem_elements + (elem_inc - elem_dec);
---	end if;
---end process;
---
---process(i_CLK, init_mem, mem_elements)
---begin
---	if rising_edge(i_CLK) then
---		if init_mem = '1' and init_done = "00" then
---			mem_elements_old <= g_DEPTH - 1;
---			init_done(0) <= '1';
---		else
---			mem_elements_old <= mem_elements;
---		end if;
---	end if;
---end process;
---
---rd_wr_fifo <= '1' when elem_dec = 1 and elem_inc = 1 else '0';
-process(i_CLK, i_RESET, s00_TVALID, full, valid_i, m00_TREADY)
+process(i_CLK, i_RESET, s00_TVALID, full, valid_i, m00_tready_i)
 begin
 	if rising_edge(i_CLK) then
 		if i_RESET = '1' then
 			rd_wr_fifo <= '0';
 		else
-			if s00_TVALID = '1' and full = '0' and valid_i = '1' and m00_TREADY = '1' then
+			if s00_TVALID = '1' and full = '0' and valid_i = '1' and m00_tready_i = '1' then
 				rd_wr_fifo <= '1';
 			else
 				rd_wr_fifo <= '0';
@@ -180,15 +159,31 @@ end process;
 
 process(rd_wr_fifo, mem_elements_old, mem_elements)
 begin
-	if mem_elements	<= g_EMPTY_THRESHOLD -1  or mem_elements_old <= g_EMPTY_THRESHOLD - 1 then
+	if mem_elements = 0  or mem_elements_old = 0 then
 	--if mem_elements	<= 1 then
 	   	valid_i <= '0';
-	elsif mem_elements = g_EMPTY_THRESHOLD and rd_wr_fifo = '1' then
+	elsif mem_elements = 1 and rd_wr_fifo = '1' then
 		valid_i <= '0';
 	else
 		valid_i <= '1';
 	end if;	
 end process;
+
+process(i_CLK, thr, empty)
+begin
+	if rising_edge(i_CLK) then
+		if thr = '0' and empty = '0' and g_INIT_MEM = '0' then en_ready <= en_ready;
+		elsif thr = '0' and empty = '0' and g_INIT_MEM = '1' then en_ready <= '1';
+		elsif thr = '0' and empty = '1' then en_ready <= '0';
+		elsif thr = '1' and empty = '0' then en_ready <= '1';
+		--elsif thr = '1' and empty = '1' then en_ready <= (not en_ready);
+		else
+			en_ready <= en_ready;
+		end if;
+	end if;
+end process;
+
+thr <= '1' when mem_elements >= g_EMPTY_THRESHOLD else '0';
 
 -- Control signals
 empty <= '1' when mem_elements = 0 else '0';

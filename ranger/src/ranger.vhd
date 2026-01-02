@@ -221,8 +221,8 @@ begin
 	    if current_s = E2 and data_loaded = '1' then
 		report "Features loaded" severity note;
             end if;
-	    if current_s = E4 then
-		report "Final Class:" & integer'image(to_integer(unsigned(class))) severity note;
+	    if current_s = E3 and calc_done = '1' then
+		report "Final Class:" & integer'image(to_integer(unsigned(o_fifo_data))) severity note;
 	    end if;
         end if;
     end process p_ASSERT;
