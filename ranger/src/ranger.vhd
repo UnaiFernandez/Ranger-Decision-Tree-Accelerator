@@ -66,6 +66,8 @@ architecture arch_ranger of ranger is
 
 -- AGGREGATOR
     signal class_mat : matr(0 to g_dt_instances - 1);
+	signal class_mat_t : matr(0 to g_dt_instances - 1) := (others => (others => '0'));
+	signal sum_mat : s_matr(0 to 15);
 
 
 begin
@@ -147,12 +149,30 @@ begin
         );
     end generate DT_ACCELERATOR;
 
+	add_set_bits(i_CLK, class_mat, sum_mat);
+	find_max(i_CLK, sum_mat, class);
+
 	--class_aggregation(class_mat, class_temp);	
 	--class <= class_temp when calc_done = '1' else (others=>'0');
+	--process(i_CLK)
+	--	variable class_mat_v : matr(0 to g_dt_instances - 1) := (others => (others => '0'));
+	--begin
+	--	if rising_edge(i_CLK) then
+	--		class_mat_v := (others => (others => '0'));
+	--		if ready = '1' then
+	--			for i in 0 to g_dt_instances - 1 loop
+	--			   class_mat_v(to_integer(unsigned(class_mat(I))))(I) := '1';	
+	--		   end loop;
+	--		end if;
+	--		class_mat_t <= class_mat_v;
+	--	end if;	
+	--end process;
 
 	calc_done <= '1' when current_s = E3 and ready = '1' else '0';
+	--class_mat_t(0,I) <= '1';
 
-	o_fifo_data <= class_mat(0);
+
+	o_fifo_data <= class;
     o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
     
     process(i_CLK, result_ready, ready)
