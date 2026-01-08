@@ -11,7 +11,7 @@ use work.general_package.all;
 
 entity ranger is
     generic(
-	g_dt_instances : integer := 6;
+	--g_dt_instances : integer := instances;
 	g_mem_depth : integer := 1024;
 	g_data_width : integer := 32;
 	g_addr_width : integer := 16
@@ -33,11 +33,11 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5);
+    type state is (E0, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
-    signal sel		    : std_logic_vector(g_dt_instances - 1 downto 0);
+    signal sel		    : std_logic_vector(instances - 1 downto 0);
     signal enable : std_logic;
     signal re_data : std_logic;
     signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
@@ -57,10 +57,11 @@ architecture arch_ranger of ranger is
     --signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
 -- Ranger
-    signal result_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '0');
-    constant const_ready : std_logic_vector(g_dt_instances - 1 downto 0) := (others => '1');
+    signal result_ready : std_logic_vector(instances - 1 downto 0) := (others => '0');
+    constant const_ready : std_logic_vector(instances - 1 downto 0) := (others => '1');
     signal ready :std_logic := '0';
     signal calc_done : std_logic := '0';
+	signal en_find_max : std_logic := '0';
     signal stop : std_logic := '0';
     signal inference_number : integer := 8;
     signal dec_inf_counter : std_logic;
@@ -68,6 +69,7 @@ architecture arch_ranger of ranger is
 -- AGGREGATOR
     signal class_mat : mat_t(0 to instances - 1);
 	signal sum_mat : cols_t(0 to 15);
+	signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
 
 
 begin
@@ -89,7 +91,8 @@ begin
     		       else next_s <= E3;
     		       end if;
 			when E4 => next_s <= E5;
-            when E5 => if stop = '1' then next_s <= E0;
+			when E5 => next_s <= E6;
+            when E6 => if stop = '1' then next_s <= E0;
                     else next_s <= E2;
                     end if;
     	end case;
@@ -152,21 +155,32 @@ begin
 
 
 	calculate_cols: for I in 0 to 15 generate
-		add_set_bits(class_mat, I, sum_mat(I));
+		add_set_bits(class_mat, I, sum_mat_tmp(I));
 	end generate;
+
 
 	process(i_CLK)
 	begin
 		if rising_edge(i_CLK) then
-			find_max(sum_mat, max_class);
+			sum_mat <= sum_mat_tmp;
 		end if;
 	end process;
 
 
-	calc_done <= '1' when current_s = E4 else '0';
+	en_find_max <= '1' when current_s = E4 else '0';
+	process(i_CLK)
+	begin
+		if rising_edge(i_CLK) then
+			if en_find_max = '1' then
+				find_max(sum_mat, max_class);
+			end if;
+		end if;
+	end process;
+
+
+	calc_done <= '1' when current_s = E5 else '0';
 
 	o_fifo_data <= std_logic_vector(to_unsigned(max_class, class'length));
-
 	o_wr_fifo_data <= calc_done;
     --o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
     
@@ -189,7 +203,7 @@ begin
 
     CONFIG: configurator
     generic map(
-        g_dt_number	=> g_dt_instances,
+        g_dt_number	=> instances,
         g_addr_width    => g_addr_width
     )
     port map(
