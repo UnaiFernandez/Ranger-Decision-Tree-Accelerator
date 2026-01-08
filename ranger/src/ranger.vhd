@@ -33,7 +33,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4);
+    type state is (E0, E1, E2, E3, E4, E5);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
@@ -52,6 +52,7 @@ architecture arch_ranger of ranger is
 
 -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
+	signal max_class : integer range 0 to 15;
     signal class_temp	: std_logic_vector(g_addr_width - 1 downto 0);
     --signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
@@ -65,9 +66,8 @@ architecture arch_ranger of ranger is
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
-    signal class_mat : matr(0 to g_dt_instances - 1);
-	signal class_mat_t : matr(0 to g_dt_instances - 1) := (others => (others => '0'));
-	signal sum_mat : s_matr(0 to 15);
+    signal class_mat : mat_t(0 to instances - 1);
+	signal sum_mat : cols_t(0 to 15);
 
 
 begin
@@ -85,10 +85,11 @@ begin
     	    when E2 => if data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
-	    when E3 => if ready = '1' then next_s <= E4;
+	    	when E3 => if ready = '1' then next_s <= E4;
     		       else next_s <= E3;
     		       end if;
-            when E4 => if stop = '1' then next_s <= E0;
+			when E4 => next_s <= E5;
+            when E5 => if stop = '1' then next_s <= E0;
                     else next_s <= E2;
                     end if;
     	end case;
@@ -127,7 +128,7 @@ begin
 -- DT_ACCELERATOR instances
 
     DT_ACCELERATOR:
-    for I in 0 to g_dt_instances - 1 generate
+    for I in 0 to instances - 1 generate
         DT_ACCEL_X : dt_accel
         generic map(
             g_DATA_WIDTH => g_DATA_WIDTH,
@@ -149,31 +150,25 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-	add_set_bits(i_CLK, class_mat, sum_mat);
-	find_max(i_CLK, sum_mat, class);
 
-	--class_aggregation(class_mat, class_temp);	
-	--class <= class_temp when calc_done = '1' else (others=>'0');
-	--process(i_CLK)
-	--	variable class_mat_v : matr(0 to g_dt_instances - 1) := (others => (others => '0'));
-	--begin
-	--	if rising_edge(i_CLK) then
-	--		class_mat_v := (others => (others => '0'));
-	--		if ready = '1' then
-	--			for i in 0 to g_dt_instances - 1 loop
-	--			   class_mat_v(to_integer(unsigned(class_mat(I))))(I) := '1';	
-	--		   end loop;
-	--		end if;
-	--		class_mat_t <= class_mat_v;
-	--	end if;	
-	--end process;
+	calculate_cols: for I in 0 to 15 generate
+		add_set_bits(class_mat, I, sum_mat(I));
+	end generate;
 
-	calc_done <= '1' when current_s = E3 and ready = '1' else '0';
-	--class_mat_t(0,I) <= '1';
+	process(i_CLK)
+	begin
+		if rising_edge(i_CLK) then
+			find_max(sum_mat, max_class);
+		end if;
+	end process;
 
 
-	o_fifo_data <= class;
-    o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
+	calc_done <= '1' when current_s = E4 else '0';
+
+	o_fifo_data <= std_logic_vector(to_unsigned(max_class, class'length));
+
+	o_wr_fifo_data <= calc_done;
+    --o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
     
     process(i_CLK, result_ready, ready)
     begin
@@ -213,7 +208,7 @@ begin
 
 -- INFERENCE COUNTER
     
-    dec_inf_counter <= '1' when current_s = E3 and calc_done = '1' else '0';
+    dec_inf_counter <= '1' when calc_done = '1' else '0';
 
     process(i_clk, dec_inf_counter, inference_number)
     begin
@@ -241,7 +236,7 @@ begin
 	    if current_s = E2 and data_loaded = '1' then
 		report "Features loaded" severity note;
             end if;
-	    if current_s = E3 and calc_done = '1' then
+	    if calc_done = '1' then
 		report "Final Class:" & integer'image(to_integer(unsigned(o_fifo_data))) severity note;
 	    end if;
         end if;

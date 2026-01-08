@@ -8,16 +8,21 @@ use ieee.numeric_std.all;
 package general_package is
 
 	-- Data types
- 	subtype onehot_class is std_logic_vector(15 downto 0);
-    type matr is array (natural range <>) of onehot_class;
-    type s_matr is array (natural range <>) of integer;
-
-	constant c_max : onehot_class := (15 => '0', others => '1');
-	constant c_min : onehot_class := (15 => '1', others => '0');
+ 	--subtype onehot_class is std_logic_vector(15 downto 0);
+    --type matr is array (natural range <>) of onehot_class;
+    --type s_matr is array (natural range <>) of integer;
 	
-	procedure class_aggregation(signal class_mat : in matr; signal class_ag : out onehot_class);	
-	procedure add_set_bits(signal clk : in std_logic; signal class_mat : in matr; signal sum_mat : out s_matr);	
-	procedure find_max(signal clk : in std_logic; signal sum_mat : in s_matr; signal class : out std_logic_vector);	
+	constant instances : integer := 6;
+
+	type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
+	type cols_t is array (natural range <>) of unsigned(instances - 1 downto 0);
+
+	--constant c_max : onehot_class := (15 => '0', others => '1');
+	--constant c_min : onehot_class := (15 => '1', others => '0');
+	
+	--procedure class_aggregation(signal class_mat : in matr; signal class_ag : out onehot_class);	
+	procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(instances - 1 downto 0));	
+	procedure find_max(signal sum_mat : in cols_t; signal class : out integer);	
 
 	--procedure class_aggregation_tree(constant n_inputs : in natural; signal class_mat : in matr; signal class_ag : out onehot_class);	
 
@@ -26,59 +31,54 @@ end package;
 
 package body general_package is
 
-	procedure add_set_bits(signal clk : in std_logic; signal class_mat : in matr; signal sum_mat : out s_matr) is
-		variable tmp_sum : integer := 0;
+	procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(instances - 1 downto 0)) is
+		variable tmp_sum : unsigned(instances - 1 downto 0);
 	begin
-		if rising_edge(clk) then
-			for class_idx in 0 to 15 loop
-				tmp_sum := 0;
-				for i in class_mat'range loop
-					if class_mat(i)(class_idx) = '1' then
+				tmp_sum := (others => '0');
+				for i in 0 to instances - 1 loop
+					if class_mat(i)(col) = '1' then
 						tmp_sum := tmp_sum + 1;
 					end if;
 				end loop;
-				sum_mat(class_idx) <= tmp_sum;
-			end loop;
-		end if;
+				sum <= tmp_sum;
 	end add_set_bits;
 
-	procedure find_max(signal clk : in std_logic; signal sum_mat : in s_matr; signal class : out std_logic_vector) is	
-		variable tmp_class : integer;
-		variable max : integer;
+	procedure find_max(signal sum_mat : in cols_t; signal class : out integer) is	
+		variable tmp_class : integer:= 0;
+		variable max : unsigned(instances - 1 downto 0);
 	begin
-		if rising_edge(clk) then
+			max := (others => '0');
 			for i in sum_mat'range loop
-				if sum_mat(i) >= max then
+				if sum_mat(i) > max then
 					max := sum_mat(i);
 					tmp_class := i;
 				end if;
 			end loop;
-			class <= std_logic_vector(to_unsigned(tmp_class, class'length));
-		end if;
+			class <= tmp_class;
 	end find_max;
 
-	procedure class_aggregation(signal class_mat : in matr; signal class_ag : out onehot_class) is
-		variable max : integer := 0;
-		variable tmp_sum : integer := 0;
-		variable temp_class_ag: onehot_class := (others => '0');
-	begin
-		for class_idx in 0 to 15 loop
-			tmp_sum := 0;
-			-- Add columns 
-			for i in class_mat'range loop
-				if class_mat(i)(class_idx) = '1' then
-					tmp_sum := tmp_sum + 1;
-				end if;
-			end loop;
-			-- Find max value
-			if tmp_sum >= max then
-				max := tmp_sum;
-				temp_class_ag := std_logic_vector(to_unsigned(class_idx, temp_class_ag'length));
-				--class_ag <= std_logic_vector(to_unsigned(class_idx, class_ag'length));
-			end if;
-			class_ag <= temp_class_ag;
-		end loop;
-	end class_aggregation;
+	--procedure class_aggregation(signal class_mat : in matr; signal class_ag : out onehot_class) is
+	--	variable max : integer := 0;
+	--	variable tmp_sum : integer := 0;
+	--	variable temp_class_ag: onehot_class := (others => '0');
+	--begin
+	--	for class_idx in 0 to 15 loop
+	--		tmp_sum := 0;
+	--		-- Add columns 
+	--		for i in class_mat'range loop
+	--			if class_mat(i)(class_idx) = '1' then
+	--				tmp_sum := tmp_sum + 1;
+	--			end if;
+	--		end loop;
+	--		-- Find max value
+	--		if tmp_sum >= max then
+	--			max := tmp_sum;
+	--			temp_class_ag := std_logic_vector(to_unsigned(class_idx, temp_class_ag'length));
+	--			--class_ag <= std_logic_vector(to_unsigned(class_idx, class_ag'length));
+	--		end if;
+	--		class_ag <= temp_class_ag;
+	--	end loop;
+	--end class_aggregation;
 
 
 
