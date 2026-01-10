@@ -15,14 +15,14 @@ from dt_utils import *
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
 #x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
-x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/car.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/obesity.data", train_size=0.8)
+x_train, x_test, y_train, y_test = split_dataset("datasets/obesity.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/wdbc.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/tennis.data", train_size=0.8)
 
 print("[-] Training model")
-num_instances = 6
+num_instances = 32
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)
@@ -36,24 +36,30 @@ stop = time.time()
 total = stop - start
 
 print("[-] Exporting data to files")
-forest = []
+forest_bin = []
+forest_hex = []
 for i in range(num_instances):
     clf = rf.estimators_[i]
     dt = export_to_dict_bin(clf)
-    dt_bin = create_mem_bin_layouts("filename", dt)
-    node_number = format(len(dt_bin), "0{}x".format(6)) + format(i+1, "0{}x".format(2))
-    dt_bin.insert(0, node_number)
-    forest.append(dt_bin)
+    dt_bin = create_mem_bin_layouts(dt)
+    dt_hex = create_mem_hex_layouts(dt)
+    node_number_hex = format(len(dt_hex), "0{}x".format(6)) + format(i+1, "0{}x".format(2))
+    node_number_bin = format(len(dt_bin), "0{}b".format(24)) + format(i+1, "0{}b".format(8))
+    dt_bin.insert(0, node_number_bin)
+    dt_hex.insert(0, node_number_hex)
+    forest_bin.append(dt_bin)
+    forest_hex.append(dt_hex)
 
     print("DT {}".format(i))
     print("nodes: {}".format(len(dt_bin) - 1))
 
-data_mem = create_data_mem(x_test)
+data_mem, data_mem_bin = create_data_mem(x_test)
 
 num_features = len(x_test[0])
 #print("Num features: {}".format(num_features))
 
 data_mem.insert(0, format(num_features, "0{}x".format(8)))
+data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
     
 #forest[0].insert(0, format(num_instances, "0{}b".format(32)))
 
@@ -71,10 +77,12 @@ data_mem.insert(0, format(num_features, "0{}x".format(8)))
 # ...
 
 print("[-] Writing memory layouts to txt files")
-forest = mat_to_array(forest)
-num_elems = format(len(forest)+len(data_mem), "0{}x".format(8))
-forest.insert(0, num_elems)
-write_to_file(forest + data_mem, "../ranger/memory_content/random_forest.txt")
+forest_bin = mat_to_array(forest_bin)
+forest_hex = mat_to_array(forest_hex)
+num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
+forest_hex.insert(0, num_elems_hex)
+write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")
+write_to_file(forest_hex + data_mem, "../ranger/memory_content/random_forest_hex.txt")
 #write_to_file(forest[1:], "../ranger/memory_content/bin_node_mem_content.txt")
 #write_to_file(data_mem[1:], "../ranger/memory_content/data_mem_content.txt")
 
