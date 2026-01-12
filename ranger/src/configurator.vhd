@@ -56,19 +56,19 @@ architecture arch_configurator of configurator is
     signal loaded : std_logic := '0';
     signal rst_c_features : std_logic;
 
-
+	signal config_done_i : std_logic := '0';
 
 begin
 
 
 -- State machine
 
-    process(current_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data, loaded)
+    process(current_s, config_done_i, last_dt, last_node, last_feature, i_up_int_data, loaded)
     begin
     	case current_s is
-    	    when E0 => if i_en_config = '1' then next_s <= E1;
-		           elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
-    		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
+    	    when E0 => if config_done_i = '0' then next_s <= E1;
+		           elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
+    		       elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
     		       else next_s <= E0;
     		       end if;
     	    when E1 => next_s <= E2;
@@ -97,7 +97,18 @@ begin
     	end if;
     end process;
 
-    o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+	process(i_CLK, i_reset, last_node, last_dt, current_s, i_en_config)
+	begin
+		if rising_edge(i_CLk) then
+			if i_reset = '1' or i_en_config = '1' then
+				config_done_i <= '0';
+			elsif current_s = E3 and last_node = '1' and last_dt = '1' then
+				config_done_i <= '1';
+			end if;
+		end if;
+	end process;
+    --o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+    o_config_done <= config_done_i;
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
     
     o_re_data <= '1' when current_s = E1 
@@ -170,7 +181,7 @@ begin
 
 -- Feature Counter
 
-    rst_c_features <= '1' when (current_s = E0 and i_en_config = '0' and i_up_int_data = '1' and loaded = '1') else '0';
+    rst_c_features <= '1' when (current_s = E0 and config_done_i = '1' and i_up_int_data = '1' and loaded = '1') else '0';
     ld_num_features <= '1' when current_s = E4 else '0';
     dec_num_features <= '1' when current_s = E5 and last_feature = '0' else '0';
 

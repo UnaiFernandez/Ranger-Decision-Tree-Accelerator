@@ -20,6 +20,8 @@ entity ranger is
 	i_clk : in std_logic;
 	i_reset : in std_logic;
 	init : in std_logic;
+	    fifo_empty : in std_logic;
+	    fifo_last : in std_logic;
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
@@ -63,7 +65,7 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
 	signal en_find_max : std_logic := '0';
     signal stop : std_logic := '0';
-    signal inference_number : integer := 8;
+    signal inference_number : integer := 32;
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
@@ -78,7 +80,8 @@ begin
     process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
-    	    when E0 => if init = '1' then next_s <= E1;
+    	    when E0 => if init = '1' and config_done = '0' then next_s <= E1;
+						elsif init = '1' and config_done = '1' then next_s <= E2;
     		       else next_s <= E0;
     		       end if;
     	    when E1 => if config_done = '1' then next_s <= E2;
@@ -198,7 +201,8 @@ begin
 
 -- CONFIGURATOR
 
-    en_config <= '1' when current_s = E1 else '0';
+    --en_config <= '1' when current_s = E1 else '0';
+    en_config <= init;
     up_int_data <= '1' when current_s = E2 else '0';
 
     CONFIG: configurator
@@ -235,8 +239,9 @@ begin
 	end if;
     end process;
 
-    o_last <= '1' when inference_number = 1 else '0';
-    stop <= '1' when inference_number = 0 else '0';
+    o_last <= '1' when fifo_last = '1' else '0';
+    stop <= '1' when fifo_empty = '1' else '0';
+    --stop <= '1' when inference_number = 0 else '0';
 
 	o_stop <= stop;
 	o_idle <= '1' when current_s = E0 else '0';
@@ -247,9 +252,9 @@ begin
             if current_s = E1 and config_done = '1' then
 		report "Configuration done" severity note;
             end if;
-	    if current_s = E2 and data_loaded = '1' then
-		report "Features loaded" severity note;
-            end if;
+	    --if current_s = E2 and data_loaded = '1' then
+		--report "Features loaded" severity note;
+        --    end if;
 	    if calc_done = '1' then
 		report "Final Class:" & integer'image(to_integer(unsigned(o_fifo_data))) severity note;
 	    end if;

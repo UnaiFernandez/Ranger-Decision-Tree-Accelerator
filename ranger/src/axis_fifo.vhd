@@ -24,7 +24,9 @@ entity axis_fifo is
     	m00_TVALID		: out std_logic;
     	m00_TLAST		: out std_logic;
     	m00_TDATA		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-    	s00_TREADY		: out std_logic
+    	s00_TREADY		: out std_logic;
+    	FIFO_LAST		: out std_logic;
+    	FIFO_EMPTY		: out std_logic
     );
 end axis_fifo;
 
@@ -69,7 +71,7 @@ generic map(
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
     --g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
-    g_init_file	    => "./memory_content/random_forest.txt",
+    g_init_file	    => "./memory_content/random_forest_bin.txt",
     g_init	    => g_init_mem
 )
 port map(
@@ -176,5 +178,7 @@ last <= '1' when mem_elements = 1 else '0';
 	m00_TVALID <= valid_i;
 	m00_TLAST <= '1' when last = '1' and valid_i = '1' else '0';
     s00_TREADY <= '1' when full = '0' else '0';
+	FIFO_EMPTY <= empty;
+	FIFO_LAST <= last;
 
 end arch_axis_fifo;

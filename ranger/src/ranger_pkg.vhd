@@ -7,7 +7,7 @@ package ranger_pkg is
 
     component  ranger is
 	generic(
-    	    g_dt_instances : integer;
+    	    --g_dt_instances : integer;
             g_mem_depth : integer;
     	    g_data_width : integer;
     	    g_addr_width : integer
@@ -16,6 +16,8 @@ package ranger_pkg is
     	    i_clk : in std_logic;
     	    i_reset : in std_logic;
 	    init : in std_logic;
+	    fifo_empty : in std_logic;
+	    fifo_last : in std_logic;
     	    i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	    o_rd_fifo_data : out std_logic;
     	    o_wr_fifo_data : out std_logic;

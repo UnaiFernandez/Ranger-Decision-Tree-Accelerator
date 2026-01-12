@@ -45,7 +45,7 @@ architecture arch_RANGER_MAIN of RANGER_MAIN is
 signal in_fifo_data : std_logic_vector(g_data_width - 1 downto 0);
 signal out_fifo_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal rd_fifo_data, wr_fifo_data : std_logic;
-signal in_fifo_empty, in_fifo_full : std_logic;
+signal in_fifo_empty, in_fifo_last : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo, ps_last : std_logic := '0';
@@ -60,7 +60,7 @@ begin
 
     DT_RANGER: ranger
     generic map(
-        g_dt_instances  => 6,
+        --g_dt_instances  => 6,
         g_mem_depth    => 1024,
         g_data_width    => 32,
         g_addr_width    => 16
@@ -69,6 +69,8 @@ begin
         i_clk	        => clk,
         i_reset	        => reset,
         init	        => init,
+		fifo_empty		=> in_fifo_empty,
+		fifo_last		=> in_fifo_last,
         i_fifo_data	=> in_fifo_data,
         o_rd_fifo_data	=> rd_fifo_data,
 		o_wr_fifo_data	=> wr_fifo_data,
@@ -85,7 +87,7 @@ begin
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
         g_INIT_MEM => '1',
-        g_DEPTH => 1024
+        g_DEPTH => 1016
     )
     port map(
         i_CLK => clk,
@@ -94,7 +96,9 @@ begin
         s00_TLAST => s00_ps_tlast,
         s00_TDATA => s00_ps_tdata,
         m00_TREADY => rd_fifo_data,
-		m00_TDATA => in_fifo_data
+		m00_TDATA => in_fifo_data,
+		FIFO_LAST => in_fifo_last,
+		FIFO_EMPTY => in_fifo_empty
     );
 
 -- OUT FIFO
