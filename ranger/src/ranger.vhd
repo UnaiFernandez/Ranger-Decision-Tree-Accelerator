@@ -77,11 +77,11 @@ architecture arch_ranger of ranger is
 begin
 -- State machine
 
-    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
+    process(current_s, next_s, fifo_empty, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
-    	    when E0 => if init = '1' and config_done = '0' then next_s <= E1;
-						elsif init = '1' and config_done = '1' then next_s <= E2;
+    	    when E0 => if fifo_empty = '0' and config_done = '0' then next_s <= E1;
+						elsif fifo_empty = '0' and config_done = '1' then next_s <= E2;
     		       else next_s <= E0;
     		       end if;
     	    when E1 => if config_done = '1' then next_s <= E2;
@@ -256,7 +256,7 @@ begin
 		--report "Features loaded" severity note;
         --    end if;
 	    if calc_done = '1' then
-		report "Final Class:" & integer'image(to_integer(unsigned(o_fifo_data))) severity note;
+		report "Final Class:" & integer'image(max_class) severity note;
 	    end if;
         end if;
     end process p_ASSERT;
