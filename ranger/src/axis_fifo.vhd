@@ -2,6 +2,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 use work.fifo_pkg.all;
 use work.ram_pkg.all;
 
@@ -11,6 +12,7 @@ entity axis_fifo is
 	g_ADDR_WIDTH: integer;
 	g_EMPTY_THRESHOLD: integer;
 	g_INIT_MEM: std_logic;
+    g_init_file:string;
 	g_DEPTH: integer
     );
     port(
@@ -34,7 +36,7 @@ architecture arch_axis_fifo of axis_fifo is
 
 -- Control logic
 signal full, empty, last: std_logic;
-signal init_mem: std_logic := g_init_mem;
+signal init : std_logic := g_INIT_MEM;
 signal init_done: std_logic_vector(1 downto 0) := "00";
 signal re_en, wr_en : std_logic := '0';
 
@@ -51,46 +53,65 @@ signal data_0, data_1 : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 subtype addr_t is integer range 0 to g_DEPTH - 1;
 signal rd_addr, wr_addr : addr_t := 0;
 signal addr_0, addr_1, addr_2 : unsigned(g_ADDR_WIDTH - 1 downto 0);
-signal prueba : integer;
 
-signal rd_wr_fifo, valid_i : std_logic;
+signal rd_wr_fifo, valid_i, ready_i : std_logic;
 
 signal m00_tready_i: std_logic;
 
-procedure inc_addr(signal addr : inout addr_t; mem_span : in  integer) is
+type memory_t is array (natural range <>) of std_logic_vector(g_data_width - 1 downto 0);
+attribute ram_style: string;
+
+
+impure function init_mem(mem_depth : in integer) return memory_t is
+    file mem_content : text open read_mode is g_INIT_FILE;
+    variable fline : line;
+    variable temp : memory_t(mem_depth - 1 downto 0);
+    variable data : bit_vector(temp(0)'range);
 begin
-    addr <= (addr + mem_span) mod (addr_t'high + 1);
-end procedure;
+    --while not endfile(mem_content) loop
+    for i in 0 to mem_depth - 1 loop
+    	if g_INIT_MEM = '1' then
+    		if not endfile(mem_content) then
+            	readline(mem_content, fline);
+            	read(fline, data);
+            	temp(i) := to_stdlogicvector(data);
+        	else
+            	temp(i) := (others => '0');
+        end if;
+    else
+    		temp(i) := (others => '0');
+    end if;
+    end loop;
+    return temp;
+end;
+
+signal ram_mem: memory_t(g_DEPTH - 1 downto 0) := init_mem(g_DEPTH);
+attribute ram_style of ram_mem: signal is "block";
+
+function next_addr(addr : addr_t; ready : std_logic; valid : std_logic) return addr_t is
+begin
+  if ready = '1' and valid = '1' then
+    if addr = addr_t'high then
+      return addr_t'low;
+    else
+      return addr + 1;
+    end if;
+  end if;
+  
+  return addr;
+end function;
 
 begin
 
-prueba <= addr_t'high;
-FIFO_MEM: ram
-generic map(
-    g_addr_width    => g_ADDR_WIDTH,
-    g_data_width    => g_DATA_WIDTH,
-    g_depth	    => g_DEPTH,
-    g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
-    --g_init_file	    => "./memory_content/random_forest_bin.txt",
-    g_init	    => g_init_mem
-)
-port map(
-    i_CLK	    => i_clk,
-    i_RE_0	    => '1',
-    i_RE_1	    => '1', -- not used
-    i_WE_1	    => wr_en,
-    i_ADDR_0	    => addr_0,
-    i_ADDR_1	    => addr_1, -- not used
-    i_WR_ADDR	    => addr_2,
-    o_DATA_0	    => m00_TDATA,
-    o_DATA_1	    => m00_TDATA,
-    i_DATA_1	    => s00_TDATA
-);
-
-addr_0 <= to_unsigned(rd_addr, g_ADDR_WIDTH);
-addr_1 <= to_unsigned(rd_addr, g_ADDR_WIDTH);
-addr_2 <= to_unsigned(wr_addr, g_ADDR_WIDTH);
-
+process(i_CLK)
+begin
+	if rising_edge(i_CLK) then
+		if init = '0' then
+			ram_mem(wr_addr) <= s00_TDATA;
+		end if;
+		m00_TDATA <= ram_mem(next_addr(rd_addr, m00_tready_i, valid_i));
+	end if;
+end process;
 
 wr_en <= s00_TVALID and not full;
 re_en <= m00_tready_i and valid_i;
@@ -98,25 +119,19 @@ re_en <= m00_tready_i and valid_i;
 m00_tready_i <= m00_TREADY;
 
 -- READ & WRITE address update
-process(i_clk, i_RESET, init_mem, re_en, empty, wr_en, full)
+process(i_clk, i_RESET, init, re_en, empty, wr_en, full)
 begin
 
     if rising_edge(i_clk) then
         if i_RESET = '1' then
 	       	rd_addr <= 0;
 	       	wr_addr <= 0;
-	   		if init_mem = '1' then
+	   		if init = '1' then
 				wr_addr <= addr_t'high;
 			end if;
 	    else
-	        -- Read
-	        if re_en = '1' and empty = '0' then
-	            inc_addr(rd_addr, 1);
-	        end if;
-	        -- Write
-	        if wr_en = '1' and full = '0' then
-	            inc_addr(wr_addr, 1);
-	        end if;
+			wr_addr <= next_addr(wr_addr, ready_i, s00_TVALID);
+			rd_addr <= next_addr(rd_addr, m00_tready_i, valid_i);
         end if;
     end if;
 end process;
@@ -159,7 +174,7 @@ end process;
 
 process(rd_wr_fifo, mem_elements_old, mem_elements)
 begin
-	if mem_elements = 0  or mem_elements_old = 0 then
+	if mem_elements = 0 or mem_elements_old = 0 then
 	--if mem_elements	<= 1 then
 	   	valid_i <= '0';
 	elsif mem_elements = 1 and rd_wr_fifo = '1' then
@@ -167,6 +182,15 @@ begin
 	else
 		valid_i <= '1';
 	end if;	
+end process;
+
+process(mem_elements)
+begin
+	if mem_elements < g_DEPTH - 1 then
+		ready_i <= '1';
+	else
+		ready_i <= '0';
+	end if;
 end process;
 
 -- Control signals

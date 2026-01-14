@@ -49,7 +49,7 @@ signal in_fifo_empty, in_fifo_last : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
 signal ps_wr_fifo : std_logic := '0';
-signal ps_tvalid, ps_tlast, ps_tready : std_logic;
+signal ps_tvalid, ps_tlast, ps_tready, pl_tready : std_logic;
 signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 
@@ -87,8 +87,9 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '0',
-        g_DEPTH => 512
+        g_INIT_MEM => '1',
+    g_init_file	    => "./memory_content/random_forest_bin.txt",
+        g_DEPTH => 202
     )
     port map(
         i_CLK => clk,
@@ -96,6 +97,7 @@ begin
         s00_TVALID => s00_ps_tvalid,
         s00_TLAST => s00_ps_tlast,
         s00_TDATA => s00_ps_tdata,
+		s00_TREADY => pl_tready,
         m00_TREADY => rd_fifo_data,
 		m00_TDATA => in_fifo_data,
 		FIFO_LAST => in_fifo_last,
@@ -109,6 +111,7 @@ begin
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 8,
         g_INIT_MEM => '0',
+    g_init_file	    => "./memory_content/random_forest_bin.txt",
         g_DEPTH => 20
     )
     port map(
@@ -143,7 +146,7 @@ begin
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
 	m00_ps_tlast <= '1' when ps_tlast = '1' and last_inf = '1' else '0';
-    s00_ps_tready <= ps_tready;
+    s00_ps_tready <= pl_tready;
 
 	idle_ranger <= idle;
     --o_re_data <= rd_fifo_data;

@@ -2,6 +2,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 
 package axis_fifo_pkg is
     component axis_fifo is
@@ -10,6 +11,7 @@ package axis_fifo_pkg is
 	    g_ADDR_WIDTH: integer;
 	    g_EMPTY_THRESHOLD: integer;
 	    g_INIT_MEM: std_logic;
+    	g_init_file:string;
 	    g_DEPTH: integer
     	);
 	port(

@@ -29,7 +29,7 @@ end configurator;
 architecture arch_configurator of configurator is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5);
+    type state is (E0, E1, E3, E4, E5, E3b);
     signal current_s, next_s: state;
 
     signal config, last_dt, last_node : std_logic := '0';
@@ -63,20 +63,21 @@ begin
 
 -- State machine
 
-    process(current_s, config_done_i, last_dt, last_node, last_feature, i_up_int_data, loaded)
+    process(current_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data, loaded)
     begin
     	case current_s is
-    	    when E0 => if config_done_i = '0' then next_s <= E1;
-		           elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
-    		       elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
+    	    when E0 => if i_en_config = '1' then next_s <= E1;
+		           elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
+    		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
     		       else next_s <= E0;
     		       end if;
-    	    when E1 => next_s <= E2;
-    	    when E2 => next_s <= E3;
+    	    when E1 => next_s <= E3;
+    	    --when E2 => next_s <= E3;
     	    when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
-    		       elsif last_node = '1' and last_dt = '0' then next_s <= E1;
+    		       elsif last_node = '1' and last_dt = '0' then next_s <= E3b;
     		       else next_s <= E3;
     		       end if;
+			   when E3b => next_s <= E1;
     	    when E4 => next_s <= E5;
     	    when E5 => if last_feature = '1' then next_s <= E0;
     			else next_s <= E5;
@@ -112,11 +113,12 @@ begin
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
     
     o_re_data <= '1' when current_s = E1 
-		or  current_s = E2
+		--or  current_s = E2
 		or (current_s = E3 and last_node = '0') 
-		or (current_s = E0 and i_up_int_data = '1')
+		--or (current_s = E0 and i_up_int_data = '1')
 		or current_s = E4
-		or (current_s = E5 and last_feature = '0') else '0'; 
+		or current_s = E5 else '0';
+		--or (current_s = E5 and last_feature = '0') else '0'; 
 
 
 
@@ -142,8 +144,9 @@ begin
 
 -- Node Counter
 
-    cl_c_nodes <= '1' when current_s = E1 else '0';
-    ld_c_nodes <= '1' when current_s = E2 else '0';
+	cl_c_nodes <= '1' when current_s = E0 or current_s = E3b else '0';
+    --ld_c_nodes <= '1' when current_s = E2 else '0';
+    ld_c_nodes <= '1' when current_s = E1 else '0';
     dec_c_nodes <= '1' when current_s = E3 and last_node = '0' else '0';
     
     process (i_clk, cl_c_nodes)
@@ -153,7 +156,7 @@ begin
             	c_nodes_out <= 0;
             	node_addr <= (others => '0');
 			elsif ld_c_nodes = '1' then
-    	    	c_nodes_out <= to_integer(unsigned(i_data(31 downto 8)) - 1);
+    	    	c_nodes_out <= to_integer(unsigned(i_data(31 downto 8)));
     		elsif dec_c_nodes = '1' then
     	    	c_nodes_out <= c_nodes_out - 1;
     			node_addr <= node_addr + 1;
@@ -166,7 +169,8 @@ begin
 
 -- DT ID Register
 
-    ld_dt_id <= '1' when current_s = E2 else '0';
+    --ld_dt_id <= '1' when current_s = E2 else '0';
+    ld_dt_id <= '1' when current_s = E1 else '0';
     process (i_clk, ld_dt_id)
     begin
         if rising_edge(i_clk) then
