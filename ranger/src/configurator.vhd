@@ -16,6 +16,7 @@ entity configurator is
 	i_en_config	: in std_logic;
 	i_data		: in std_logic_vector(31 downto 0);
 	i_up_int_data	: in std_logic;
+	i_empty_fifo : in std_logic;
 	-----------------------------------------------
 	o_dt_id		: out std_logic_vector(7 downto 0);
 	o_DATA_ADDR	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
@@ -58,6 +59,8 @@ architecture arch_configurator of configurator is
 
 	signal config_done_i : std_logic := '0';
 
+	signal empty_fifo : std_logic := '0';
+
 begin
 
 
@@ -98,6 +101,15 @@ begin
     	end if;
     end process;
 
+	
+	process(i_CLK)
+	begin
+		if rising_edge(i_CLK) then
+			empty_fifo <= i_empty_fifo;
+		end if;
+	end process;
+	
+
 	process(i_CLK, i_reset, last_node, last_dt, current_s, i_en_config)
 	begin
 		if rising_edge(i_CLk) then
@@ -114,10 +126,10 @@ begin
     
     o_re_data <= '1' when current_s = E1 
 		--or  current_s = E2
-		or (current_s = E3 and last_node = '0') 
+		or (current_s = E3 and last_node = '0' and i_empty_fifo = '0') 
 		--or (current_s = E0 and i_up_int_data = '1')
 		or current_s = E4
-		or current_s = E5 else '0';
+		or (current_s = E5 and empty_fifo = '0') else '0';
 		--or (current_s = E5 and last_feature = '0') else '0'; 
 
 
@@ -147,7 +159,7 @@ begin
 	cl_c_nodes <= '1' when current_s = E0 or current_s = E3b else '0';
     --ld_c_nodes <= '1' when current_s = E2 else '0';
     ld_c_nodes <= '1' when current_s = E1 else '0';
-    dec_c_nodes <= '1' when current_s = E3 and last_node = '0' else '0';
+    dec_c_nodes <= '1' when current_s = E3 and last_node = '0' and i_empty_fifo = '0' else '0';
     
     process (i_clk, cl_c_nodes)
     begin

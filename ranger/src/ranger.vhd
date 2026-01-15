@@ -35,7 +35,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6);
+    type state is (EI, E0, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
@@ -65,8 +65,9 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
 	signal en_find_max : std_logic := '0';
     signal stop : std_logic := '0';
-    signal inference_number : integer := 32;
+    signal inference_number : integer := 8;
     signal dec_inf_counter : std_logic;
+    signal ld_inf_counter : std_logic;
 
 -- AGGREGATOR
     signal class_mat : mat_t(0 to instances - 1);
@@ -77,10 +78,13 @@ architecture arch_ranger of ranger is
 begin
 -- State machine
 
-    process(current_s, next_s, fifo_empty, config_done, data_loaded, calc_done, stop, ready)
+    process(current_s, next_s, init, fifo_empty, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
-    	    when E0 => if fifo_empty = '0' and config_done = '0' then next_s <= E1;
+			when EI => if init = '1' then next_s <= E0;
+						else next_s <= EI;
+						end if;
+			when E0 => if fifo_empty = '0' and config_done = '0' then next_s <= E1;
 						elsif fifo_empty = '0' and config_done = '1' then next_s <= E2;
     		       else next_s <= E0;
     		       end if;
@@ -107,7 +111,7 @@ begin
     begin
     	if rising_edge(i_clk) then 
     		if i_reset = '1' then 
-				current_s <= E0;
+				current_s <= EI;
 			else
 				current_s <= next_s;
 			end if;
@@ -216,6 +220,7 @@ begin
         i_en_config	=> en_config,
         i_data		=> i_fifo_data, -- REVISAR
         i_up_int_data	=> up_int_data,
+		i_empty_fifo => fifo_last,
         o_dt_id		=> dt_id,
         o_data_addr	=> data_addr,
         o_CONFIG_DONE   => config_done,
@@ -227,24 +232,26 @@ begin
 -- INFERENCE COUNTER
     
     dec_inf_counter <= '1' when calc_done = '1' else '0';
+	ld_inf_counter <= '1' when current_s = E0 else '0';
 
     process(i_clk, dec_inf_counter, inference_number)
     begin
 	if rising_edge(i_clk) then
-	    --if dec_inf_counter = '1' and inference_number = 0 then
-		--stop <= '1';
-	    if dec_inf_counter = '1' and inference_number /= 0 then 
+		if ld_inf_counter = '1' then
+			inference_number <= 8;
+	    elsif dec_inf_counter = '1' and inference_number /= 0 then 
 		inference_number <= inference_number - 1;
 	    end if;
 	end if;
     end process;
 
-    o_last <= '1' when fifo_last = '1' else '0';
-    stop <= '1' when fifo_empty = '1' else '0';
-    --stop <= '1' when inference_number = 0 else '0';
+    --o_last <= '1' when fifo_last = '1' else '0';
+    o_last <= '1' when inference_number = 1 else '0';
+    --stop <= '1' when fifo_empty = '1' else '0';
+    stop <= '1' when inference_number = 0 else '0';
 
 	o_stop <= stop;
-	o_idle <= '1' when current_s = E0 else '0';
+	o_idle <= '1' when current_s = E0 or current_s = EI else '0';
 
     p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin
