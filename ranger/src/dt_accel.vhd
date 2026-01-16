@@ -64,8 +64,8 @@ begin
         g_ADDR_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
-        g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/bin_node_mem_content.txt",
-        --g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
+        --g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/bin_node_mem_content.txt",
+        g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
         g_INIT		=> '0'
     )
     port map(
@@ -87,8 +87,8 @@ begin
         g_ADDR_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
         g_DEPTH		=> g_DEPTH,
-        g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/data_mem_content.txt",
-        --g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
+        --g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/data_mem_content.txt",
+        g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
         g_INIT		=> '0'
     )
     port map(

@@ -20,6 +20,7 @@ entity RANGER_MAIN is
 
 		stop_ranger : out std_logic;
 		idle_ranger : out std_logic;
+		i_test_empty : in std_logic;
     	s00_ps_tvalid : in std_logic;	
     	s00_ps_tlast : in std_logic;	
     	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
@@ -87,7 +88,7 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '0',
+        g_INIT_MEM => '1',
         g_DEPTH => 512
     )
     port map(
