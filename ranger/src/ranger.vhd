@@ -21,6 +21,7 @@ entity ranger is
 	i_reset : in std_logic;
 	init : in std_logic;
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
+	i_fifo_empty : in std_logic;
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
 	o_last : out std_logic;
@@ -33,7 +34,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6);
+    type state is (E0, E01, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
@@ -78,13 +79,19 @@ begin
     process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
-    	    when E0 => if init = '1' then next_s <= E1;
+    	    when E0 => if init = '1' then next_s <= E01;
     		       else next_s <= E0;
     		       end if;
-    	    when E1 => if config_done = '1' then next_s <= E2;
+		    when E01 => if i_fifo_empty = '0' and config_done = '0' then next_s <= E1;
+						elsif i_fifo_empty = '0' and config_done = '1' then next_s <= E2;
+						else next_s <= E01;
+						end if;
+				when E1 => if i_fifo_empty = '1' then next_s <= E01;
+				   elsif config_done = '1' then next_s <= E2;
     		       else next_s <= E1;
     		       end if;
-    	    when E2 => if data_loaded = '1' then next_s <= E3;
+		   when E2 => if i_fifo_empty = '1' then next_s <= E01; 
+				   elsif data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
 	    when E3 => if ready = '1' then next_s <= E4;
@@ -92,7 +99,7 @@ begin
     		       end if;
 		when E4 => next_s <= E5;
 		when E5 => next_s <= E6;
-            when E6 => if stop = '1' then next_s <= E0;
+            when E6 => if stop = '1' then next_s <= E01;
                     else next_s <= E2;
                     end if;
     	end case;
@@ -197,7 +204,7 @@ end process;
 
 -- CONFIGURATOR
 
-    en_config <= '1' when current_s = E1 else '0';
+    en_config <= '1' when current_s = E1 and config_done = '0' else '0';
     up_int_data <= '1' when current_s = E2 else '0';
 
     CONFIG: configurator
@@ -211,6 +218,7 @@ end process;
         i_en_config	=> en_config,
         i_data		=> i_fifo_data, -- REVISAR
         i_up_int_data	=> up_int_data,
+		i_empty_fifo => i_fifo_empty,
         o_dt_id		=> dt_id,
         o_data_addr	=> data_addr,
         o_CONFIG_DONE   => config_done,
@@ -238,7 +246,7 @@ end process;
     stop <= '1' when inference_number = 0 else '0';
 
 	o_stop <= stop;
-	o_idle <= '1' when current_s = E0 else '0';
+	o_idle <= '1' when current_s = E0 or current_s = E01 else '0';
 
     p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin

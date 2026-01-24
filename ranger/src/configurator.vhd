@@ -16,6 +16,7 @@ entity configurator is
 	i_en_config	: in std_logic;
 	i_data		: in std_logic_vector(31 downto 0);
 	i_up_int_data	: in std_logic;
+	i_empty_fifo	: in std_logic; 
 	-----------------------------------------------
 	o_dt_id		: out std_logic_vector(7 downto 0);
 	o_DATA_ADDR	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
@@ -56,7 +57,7 @@ architecture arch_configurator of configurator is
     signal loaded : std_logic := '0';
     signal rst_c_features : std_logic;
 
-
+signal ld_config_done, config_done : std_logic := '0';
 
 begin
 
@@ -97,7 +98,21 @@ begin
     	end if;
     end process;
 
-    o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+
+    ld_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+
+	process(i_CLK, ld_config_done)
+	begin
+			if rising_edge(i_CLK) then
+				    if ld_config_done = '1' then
+						config_done <= '1';
+				    end if;
+		    end if;
+	end process;
+
+    --o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+    o_config_done <= config_done;
+
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
     
     o_re_data <= '1' when current_s = E1 
