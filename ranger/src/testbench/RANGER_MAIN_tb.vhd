@@ -47,6 +47,7 @@ begin
     reset <= '1';
     wait for 200 ns;
     reset <= '0';
+    wait for 1000 ns;
     init <= '1';
     wait for 60 ns;
     init <= '0';

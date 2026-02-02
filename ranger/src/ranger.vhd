@@ -76,7 +76,7 @@ signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
 begin
 -- State machine
 
-    process(current_s, next_s, init, config_done, data_loaded, calc_done, stop, ready)
+    process(current_s, next_s, init, i_fifo_empty, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
     	    when E0 => if init = '1' then next_s <= E01;
