@@ -16,7 +16,7 @@ entity configurator is
 	i_en_config	: in std_logic;
 	i_data		: in std_logic_vector(31 downto 0);
 	i_up_int_data	: in std_logic;
-	i_empty_fifo	: in std_logic; 
+	i_empty_fifo	: in std_logic;
 	-----------------------------------------------
 	o_dt_id		: out std_logic_vector(7 downto 0);
 	o_DATA_ADDR	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
@@ -30,7 +30,7 @@ end configurator;
 architecture arch_configurator of configurator is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E3b, E3c, E4, E5);
+    type state is (E0, E1, E2, E3, E4, E5);
     signal current_s, next_s: state;
 
     signal config, last_dt, last_node : std_logic := '0';
@@ -57,7 +57,9 @@ architecture arch_configurator of configurator is
     signal loaded : std_logic := '0';
     signal rst_c_features : std_logic;
 
-signal ld_config_done, config_done : std_logic := '0';
+	signal config_done_i : std_logic := '0';
+
+	signal empty_fifo : std_logic := '0';
 
 begin
 
@@ -72,33 +74,16 @@ begin
     		       elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
     		       else next_s <= E0;
     		       end if;
-		    when E1 => if i_en_config = '1' then next_s <= E2;
-						else next_s <= E0;
-						end if;
-				when E2 =>  next_s <= E3;
-				when E3 => if i_en_config = '0' then next_s <= E3b;
-				   elsif last_node = '1' and last_dt = '1' then next_s <= E0;
+    	    when E1 => next_s <= E2;
+    	    when E2 => next_s <= E3;
+    	    when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
     		       elsif last_node = '1' and last_dt = '0' then next_s <= E1;
     		       else next_s <= E3;
     		       end if;
-		when E3c => next_s <= E3;
-		when E3b => if i_en_config = '0' then next_s <= E3b;
-				else next_s <= E3c;
-				end if;
     	    when E4 => next_s <= E5;
-		when E5 => if last_feature = '1' then next_s <= E0;
+    	    when E5 => if last_feature = '1' then next_s <= E0;
     			else next_s <= E5;
     			end if;
-    	    --when E1 => next_s <= E2;
-    	    --when E2 => next_s <= E3;
-    	    --when E3 => if last_node = '1' and last_dt = '1' then next_s <= E0;
-    		--       elsif last_node = '1' and last_dt = '0' then next_s <= E1;
-    		--       else next_s <= E3;
-    		--       end if;
-    	    --when E4 => next_s <= E5;
-    	    --when E5 => if last_feature = '1' then next_s <= E0;
-    		--	else next_s <= E5;
-    		--	end if;
     	end case;
     end process;
 
@@ -116,27 +101,32 @@ begin
     end process;
 
 
-    ld_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
-
-	process(i_CLK, ld_config_done)
+	process(i_CLK)
 	begin
-			if rising_edge(i_CLK) then
-				    if ld_config_done = '1' then
-						config_done <= '1';
-				    end if;
-		    end if;
+		if rising_edge(i_CLK) then
+			empty_fifo <= i_empty_fifo;
+		end if;
 	end process;
 
-    --o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
-    o_config_done <= config_done;
 
+	process(i_CLK, i_reset, last_node, last_dt, current_s, i_en_config)
+	begin
+		if rising_edge(i_CLk) then
+			if i_reset = '1' or i_en_config = '1' then
+				config_done_i <= '0';
+			elsif current_s = E3 and last_node = '1' and last_dt = '1' then
+				config_done_i <= '1';
+			end if;
+		end if;
+	end process;
+    --o_config_done <= '1' when current_s = E3 and last_node = '1' and last_dt = '1' else '0';
+    o_config_done <= config_done_i;
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
     
     o_re_data <= '1' when current_s = E1 
 		or  current_s = E2
-		or (current_s = E3 and last_node = '0' and i_en_config = '1') 
-		or current_s = E3c
-		or (current_s = E0 and i_up_int_data = '1')
+		or (current_s = E3 and last_node = '0' and i_empty_fifo = '0') 
+		or (current_s = E0 and i_up_int_data = '1' and i_empty_fifo = '0')
 		or current_s = E4
 		or (current_s = E5 and last_feature = '0' and i_empty_fifo = '0') else '0'; 
 
@@ -147,7 +137,7 @@ begin
 -- DT Counter
 
     cl_c_dt <= '1' when current_s = E0 else '0';
-    dec_c_dt <= '1' when current_s = E3 and last_node = '1' and last_dt = '0' and i_en_config = '1' else '0';
+    dec_c_dt <= '1' when current_s = E3 and last_node = '1' and last_dt = '0' else '0';
     
     process (i_clk, cl_c_dt)
     begin
@@ -166,7 +156,7 @@ begin
 
     cl_c_nodes <= '1' when current_s = E1 else '0';
     ld_c_nodes <= '1' when current_s = E2 else '0';
-    dec_c_nodes <= '1' when (current_s = E3 and last_node = '0' and i_en_config = '1') or current_s = E3c else '0';
+    dec_c_nodes <= '1' when current_s = E3 and last_node = '0' and i_empty_fifo = '0' else '0';
     
     process (i_clk, cl_c_nodes)
     begin
@@ -205,7 +195,7 @@ begin
 
     rst_c_features <= '1' when (current_s = E0 and config_done_i = '1' and i_up_int_data = '1' and loaded = '1') else '0';
     ld_num_features <= '1' when current_s = E4 else '0';
-    dec_num_features <= '1' when current_s = E5 and last_feature = '0' and i_empty_fifo = '0' else '0';
+    dec_num_features <= '1' when current_s = E5 and last_feature = '0' else '0';
 
     process(i_clk, rst_c_features, ld_num_features, dec_num_features)
     begin

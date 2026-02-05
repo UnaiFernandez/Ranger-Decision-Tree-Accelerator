@@ -20,7 +20,7 @@ entity RANGER_MAIN is
 
 		stop_ranger : out std_logic;
 		idle_ranger : out std_logic;
-		empty_fifo	: out std_logic;
+		i_test_empty : in std_logic;
     	s00_ps_tvalid : in std_logic;	
     	s00_ps_tlast : in std_logic;	
     	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
@@ -55,7 +55,7 @@ signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 
 signal last_inf : std_logic;
-
+signal idle : std_logic;
 begin
 
 -- RANGER
@@ -74,7 +74,6 @@ begin
 		fifo_empty		=> in_fifo_empty,
 		fifo_last		=> in_fifo_last,
         i_fifo_data	=> in_fifo_data,
-		i_fifo_empty => in_fifo_empty,
         o_rd_fifo_data	=> rd_fifo_data,
 		o_wr_fifo_data	=> wr_fifo_data,
 		o_last		=> pl_last,
@@ -89,8 +88,8 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '0',
-        g_DEPTH => 254
+        g_INIT_MEM => '1',
+        g_DEPTH => 512
     )
     port map(
         i_CLK => clk,
@@ -100,7 +99,8 @@ begin
         s00_TDATA => s00_ps_tdata,
         m00_TREADY => rd_fifo_data,
 		m00_TDATA => in_fifo_data,
-		fifo_empty => in_fifo_empty
+		FIFO_LAST => in_fifo_last,
+		FIFO_EMPTY => in_fifo_empty
     );
 
 -- OUT FIFO
@@ -125,23 +125,30 @@ begin
         m00_TREADY => m00_ps_tready
     );
 
-	--last_inf <= '1' when wr_fifo_data = '1' and pl_last = '1' else '0';
-	process(clk, pl_last, wr_fifo_data)
-	begin
-		if rising_edge(clk) then
-			if pl_last = '1' and wr_fifo_data = '1' then
-				last_inf <= '1';
-			elsif ps_tvalid = '1' then
-				last_inf <= '0';
-			else
-				last_inf <= last_inf;
-			end if;
-		end if;
-	end process;
-
+	last_inf <= '1' when idle = '1' and ps_tlast = '1' else '0';
+	--process(clk, ps_tlast, idle)
+	--begin
+	--	if rising_edge(clk) then
+	--		if ps_tlast = '1' and idle = '1' then
+	--			last_inf <= '1';
+	--	else
+	--			last_inf <= '0';
+	--	end if;
+	--		--elsif ps_tvalid = '1' then
+	--		--	last_inf <= '0';
+	--		--else
+	--		--	last_inf <= last_inf;
+	--		--end if;
+	--	end if;
+	--end process;
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
 	m00_ps_tlast <= '1' when ps_tlast = '1' and last_inf = '1' else '0';
     s00_ps_tready <= ps_tready;
-	empty_fifo <= in_fifo_empty;
+
+	idle_ranger <= idle;
+    --o_re_data <= rd_fifo_data;
+    --o_wr_data <= wr_fifo_data;
+    --o_in_fifo_data <= in_fifo_data;
+    --o_out_fifo_data <= out_data;
 end arch_RANGER_MAIN;
