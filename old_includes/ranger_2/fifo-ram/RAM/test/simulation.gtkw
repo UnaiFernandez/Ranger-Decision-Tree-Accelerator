@@ -1,0 +1,30 @@
+[*]
+[*] GTKWave Analyzer v3.3.118 (w)1999-2023 BSI
+[*] Tue Feb 25 09:15:09 2025
+[*]
+[dumpfile] "/home/makinarias/Documentos/snn-orlax/src/RAM/test/sim_ram.ghw"
+[dumpfile_mtime] "Mon Feb 24 10:28:39 2025"
+[dumpfile_size] 509211
+[savefile] "/home/makinarias/Documentos/snn-orlax/src/RAM/test/simulation.gtkw"
+[timestart] 0
+[size] 2508 1313
+[pos] -1 -1
+*-25.200001 59500000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.ram_tb.
+[treeopen] top.ram_tb.mem.
+[sst_width] 286
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 471
+@25
+top.ram_tb.clk
+#{top.ram_tb.mem.ram_mem[0][31:0]} top.ram_tb.mem.ram_mem[0][31] top.ram_tb.mem.ram_mem[0][30] top.ram_tb.mem.ram_mem[0][29] top.ram_tb.mem.ram_mem[0][28] top.ram_tb.mem.ram_mem[0][27] top.ram_tb.mem.ram_mem[0][26] top.ram_tb.mem.ram_mem[0][25] top.ram_tb.mem.ram_mem[0][24] top.ram_tb.mem.ram_mem[0][23] top.ram_tb.mem.ram_mem[0][22] top.ram_tb.mem.ram_mem[0][21] top.ram_tb.mem.ram_mem[0][20] top.ram_tb.mem.ram_mem[0][19] top.ram_tb.mem.ram_mem[0][18] top.ram_tb.mem.ram_mem[0][17] top.ram_tb.mem.ram_mem[0][16] top.ram_tb.mem.ram_mem[0][15] top.ram_tb.mem.ram_mem[0][14] top.ram_tb.mem.ram_mem[0][13] top.ram_tb.mem.ram_mem[0][12] top.ram_tb.mem.ram_mem[0][11] top.ram_tb.mem.ram_mem[0][10] top.ram_tb.mem.ram_mem[0][9] top.ram_tb.mem.ram_mem[0][8] top.ram_tb.mem.ram_mem[0][7] top.ram_tb.mem.ram_mem[0][6] top.ram_tb.mem.ram_mem[0][5] top.ram_tb.mem.ram_mem[0][4] top.ram_tb.mem.ram_mem[0][3] top.ram_tb.mem.ram_mem[0][2] top.ram_tb.mem.ram_mem[0][1] top.ram_tb.mem.ram_mem[0][0]
+#{top.ram_tb.mem.ram_mem[5][31:0]} top.ram_tb.mem.ram_mem[5][31] top.ram_tb.mem.ram_mem[5][30] top.ram_tb.mem.ram_mem[5][29] top.ram_tb.mem.ram_mem[5][28] top.ram_tb.mem.ram_mem[5][27] top.ram_tb.mem.ram_mem[5][26] top.ram_tb.mem.ram_mem[5][25] top.ram_tb.mem.ram_mem[5][24] top.ram_tb.mem.ram_mem[5][23] top.ram_tb.mem.ram_mem[5][22] top.ram_tb.mem.ram_mem[5][21] top.ram_tb.mem.ram_mem[5][20] top.ram_tb.mem.ram_mem[5][19] top.ram_tb.mem.ram_mem[5][18] top.ram_tb.mem.ram_mem[5][17] top.ram_tb.mem.ram_mem[5][16] top.ram_tb.mem.ram_mem[5][15] top.ram_tb.mem.ram_mem[5][14] top.ram_tb.mem.ram_mem[5][13] top.ram_tb.mem.ram_mem[5][12] top.ram_tb.mem.ram_mem[5][11] top.ram_tb.mem.ram_mem[5][10] top.ram_tb.mem.ram_mem[5][9] top.ram_tb.mem.ram_mem[5][8] top.ram_tb.mem.ram_mem[5][7] top.ram_tb.mem.ram_mem[5][6] top.ram_tb.mem.ram_mem[5][5] top.ram_tb.mem.ram_mem[5][4] top.ram_tb.mem.ram_mem[5][3] top.ram_tb.mem.ram_mem[5][2] top.ram_tb.mem.ram_mem[5][1] top.ram_tb.mem.ram_mem[5][0]
+#{top.ram_tb.addr_a[15:0]} top.ram_tb.addr_a[5] top.ram_tb.addr_a[4] top.ram_tb.addr_a[3] top.ram_tb.addr_a[2] top.ram_tb.addr_a[1] top.ram_tb.addr_a[0]
+#{top.ram_tb.word_out[31:0]} top.ram_tb.word_out[31] top.ram_tb.word_out[30] top.ram_tb.word_out[29] top.ram_tb.word_out[28] top.ram_tb.word_out[27] top.ram_tb.word_out[26] top.ram_tb.word_out[25] top.ram_tb.word_out[24] top.ram_tb.word_out[23] top.ram_tb.word_out[22] top.ram_tb.word_out[21] top.ram_tb.word_out[20] top.ram_tb.word_out[19] top.ram_tb.word_out[18] top.ram_tb.word_out[17] top.ram_tb.word_out[16] top.ram_tb.word_out[15] top.ram_tb.word_out[14] top.ram_tb.word_out[13] top.ram_tb.word_out[12] top.ram_tb.word_out[11] top.ram_tb.word_out[10] top.ram_tb.word_out[9] top.ram_tb.word_out[8] top.ram_tb.word_out[7] top.ram_tb.word_out[6] top.ram_tb.word_out[5] top.ram_tb.word_out[4] top.ram_tb.word_out[3] top.ram_tb.word_out[2] top.ram_tb.word_out[1] top.ram_tb.word_out[0]
+#{top.ram_tb.addr_b[15:0]} top.ram_tb.addr_b[5] top.ram_tb.addr_b[4] top.ram_tb.addr_b[3] top.ram_tb.addr_b[2] top.ram_tb.addr_b[1] top.ram_tb.addr_b[0]
+#{top.ram_tb.word_in[31:0]} top.ram_tb.word_in[31] top.ram_tb.word_in[30] top.ram_tb.word_in[29] top.ram_tb.word_in[28] top.ram_tb.word_in[27] top.ram_tb.word_in[26] top.ram_tb.word_in[25] top.ram_tb.word_in[24] top.ram_tb.word_in[23] top.ram_tb.word_in[22] top.ram_tb.word_in[21] top.ram_tb.word_in[20] top.ram_tb.word_in[19] top.ram_tb.word_in[18] top.ram_tb.word_in[17] top.ram_tb.word_in[16] top.ram_tb.word_in[15] top.ram_tb.word_in[14] top.ram_tb.word_in[13] top.ram_tb.word_in[12] top.ram_tb.word_in[11] top.ram_tb.word_in[10] top.ram_tb.word_in[9] top.ram_tb.word_in[8] top.ram_tb.word_in[7] top.ram_tb.word_in[6] top.ram_tb.word_in[5] top.ram_tb.word_in[4] top.ram_tb.word_in[3] top.ram_tb.word_in[2] top.ram_tb.word_in[1] top.ram_tb.word_in[0]
+top.ram_tb.wr_en
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,0 +1,34 @@
+\begin{thebibliography}{1}
+
+\bibitem{olmosoptimized}
+R.~Olmos and A.~Otero, ``Optimized xgboost architecture on fpga for
+  high-performance and seamless deployment,''
+
+\bibitem{owaida2017scalable}
+M.~Owaida, H.~Zhang, C.~Zhang, and G.~Alonso, ``Scalable inference of decision
+  tree ensembles: Flexible design for cpu-fpga platforms,'' in {\em 2017 27th
+  International Conference on Field Programmable Logic and Applications (FPL)},
+  pp.~1--8, IEEE, 2017.
+
+\bibitem{10969767}
+B.~B. Shabarinath and M.~Pullakandam, ``Embedded hardware-efficient fpga
+  architecture for svm learning and inference,'' {\em IEEE Access}, vol.~13,
+  pp.~68930--68947, 2025.
+
+\bibitem{10.5555/299094.299105}
+J.~C. Platt, {\em Fast training of support vector machines using sequential
+  minimal optimization}, p.~185–208.
+\newblock Cambridge, MA, USA: MIT Press, 1999.
+
+\bibitem{YACOUB2024100115}
+M.~H. Yacoub, S.~M. Ismail, L.~A. Said, A.~H. Madian, and A.~G. Radwan,
+  ``Support vector machine reconfigurable hardware implementation on fpga,''
+  {\em Franklin Open}, vol.~7, p.~100115, 2024.
+
+\bibitem{7490869}
+Y.~Zhou and J.~Jiang, ``An fpga-based accelerator implementation for deep
+  convolutional neural networks,'' in {\em 2015 4th International Conference on
+  Computer Science and Network Technology (ICCSNT)}, vol.~01, pp.~829--832,
+  2015.
+
+\end{thebibliography}
