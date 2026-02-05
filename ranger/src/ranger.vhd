@@ -11,7 +11,7 @@ use work.general_package.all;
 
 entity ranger is
     generic(
-	--g_dt_instances : integer := instances;
+	g_dt_instances : integer := instances;
 	g_mem_depth : integer := 1024;
 	g_data_width : integer := 32;
 	g_addr_width : integer := 16
@@ -23,6 +23,7 @@ entity ranger is
 	    fifo_empty : in std_logic;
 	    fifo_last : in std_logic;
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
+	i_fifo_empty : in std_logic;
 	o_rd_fifo_data : out std_logic;
 	o_wr_fifo_data : out std_logic;
 	o_last : out std_logic;
@@ -35,7 +36,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (EI, E0, E1, E2, E3, E4, E5, E6);
+    type state is (E0, E01, E1, E2, E3, E4, E5, E6);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
@@ -65,41 +66,46 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
 	signal en_find_max : std_logic := '0';
     signal stop : std_logic := '0';
-    signal inference_number : integer := 8;
+    signal en_find_max : std_logic := '0';
+    signal inference_number : integer := 20;
     signal dec_inf_counter : std_logic;
     signal ld_inf_counter : std_logic;
 
 -- AGGREGATOR
-    signal class_mat : mat_t(0 to instances - 1);
-	signal sum_mat : cols_t(0 to 15);
-	signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
+signal class_mat : mat_t(0 to instances - 1);
+--signal sum_mat : cols_t(0 to 15);
+signal sum_mat : cols_t(0 to 3);
+--signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
+signal sum_mat_tmp : cols_t(0 to 3) := (others => (others => '0'));
 
 
 begin
 -- State machine
 
-    process(current_s, next_s, init, fifo_empty, config_done, data_loaded, calc_done, stop, ready)
+    process(current_s, next_s, init, i_fifo_empty, config_done, data_loaded, calc_done, stop, ready)
     begin
     	case current_s is
-			when EI => if init = '1' then next_s <= E0;
-						else next_s <= EI;
-						end if;
-    	    when E0 => if fifo_empty = '0' and config_done = '0' then next_s <= E1;
-						elsif fifo_empty = '0' and config_done = '1' then next_s <= E2;
+    	    when E0 => if init = '1' then next_s <= E01;
     		       else next_s <= E0;
     		       end if;
-    	    when E1 => if config_done = '1' then next_s <= E2;
+		    when E01 => if i_fifo_empty = '0' and config_done = '0' then next_s <= E1;
+						elsif i_fifo_empty = '0' and config_done = '1' then next_s <= E2;
+						else next_s <= E01;
+						end if;
+				when E1 => if i_fifo_empty = '1' then next_s <= E01;
+				   elsif config_done = '1' then next_s <= E2;
     		       else next_s <= E1;
     		       end if;
-    	    when E2 => if data_loaded = '1' then next_s <= E3;
+		   when E2 => if i_fifo_empty = '1' then next_s <= E01; 
+				   elsif data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
 	    	when E3 => if ready = '1' then next_s <= E4;
     		       else next_s <= E3;
     		       end if;
-			when E4 => next_s <= E5;
-			when E5 => next_s <= E6;
-            when E6 => if stop = '1' then next_s <= E0;
+		when E4 => next_s <= E5;
+		when E5 => next_s <= E6;
+            when E6 => if stop = '1' then next_s <= E01;
                     else next_s <= E2;
                     end if;
     	end case;
@@ -143,7 +149,7 @@ begin
         generic map(
             g_DATA_WIDTH => g_DATA_WIDTH,
             g_ADDR_WIDTH => g_ADDR_WIDTH,
-	    g_K => 16,
+	    g_K => 4,
             g_DEPTH	 => 1024
         )
         port map(
@@ -160,11 +166,9 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-
-	calculate_cols: for I in 0 to 15 generate
-		add_set_bits(class_mat, I, sum_mat_tmp(I));
-	end generate;
-
+	calculate_cols: for I in 0 to 3 generate
+			add_set_bits(class_mat, I, sum_mat_tmp(I));
+end generate;
 
 	process(i_CLK)
 	begin
@@ -173,23 +177,24 @@ begin
 		end if;
 	end process;
 
-
 	en_find_max <= '1' when current_s = E4 else '0';
-	process(i_CLK)
+
+process(i_CLK)
 	begin
 		if rising_edge(i_CLK) then
 			if en_find_max = '1' then
 				find_max(sum_mat, max_class);
 			end if;
 		end if;
-	end process;
+end process;
 
+	--class_aggregation(class_mat, class_temp);	
+	--class <= class_temp when calc_done = '1' else (others=>'0');
 
 	calc_done <= '1' when current_s = E5 else '0';
 
 	o_fifo_data <= std_logic_vector(to_unsigned(max_class, class'length));
-	o_wr_fifo_data <= calc_done;
-    --o_wr_fifo_data <= '1' when current_s = E3 and calc_done = '1' else '0';
+    o_wr_fifo_data <= calc_done;
     
     process(i_CLK, result_ready, ready)
     begin
@@ -205,8 +210,7 @@ begin
 
 -- CONFIGURATOR
 
-    --en_config <= '1' when current_s = E1 else '0';
-    en_config <= init;
+    en_config <= '1' when current_s = E1 and config_done = '0' else '0';
     up_int_data <= '1' when current_s = E2 else '0';
 
     CONFIG: configurator
@@ -220,8 +224,7 @@ begin
         i_en_config	=> en_config,
         i_data		=> i_fifo_data, -- REVISAR
         i_up_int_data	=> up_int_data,
-		--i_empty_fifo => fifo_last,
-		i_empty_fifo => fifo_empty,
+		i_empty_fifo => i_fifo_empty,
         o_dt_id		=> dt_id,
         o_data_addr	=> data_addr,
         o_CONFIG_DONE   => config_done,
@@ -233,7 +236,6 @@ begin
 -- INFERENCE COUNTER
     
     dec_inf_counter <= '1' when calc_done = '1' else '0';
-	ld_inf_counter <= '1' when current_s = E0 else '0';
 
     process(i_clk, dec_inf_counter, inference_number)
     begin
@@ -254,7 +256,7 @@ begin
     stop <= '1' when inference_number = 0 else '0';
 
 	o_stop <= stop;
-	o_idle <= '1' when current_s = E0 or current_s = EI else '0';
+	o_idle <= '1' when current_s = E0 or current_s = E01 else '0';
 
     p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin
@@ -262,9 +264,9 @@ begin
             if current_s = E1 and config_done = '1' then
 		report "Configuration done" severity note;
             end if;
-	    --if current_s = E2 and data_loaded = '1' then
-		--report "Features loaded" severity note;
-        --    end if;
+	    if current_s = E2 and data_loaded = '1' then
+		report "Features loaded" severity note;
+            end if;
 	    if calc_done = '1' then
 		report "Final Class:" & integer'image(max_class) severity note;
 	    end if;

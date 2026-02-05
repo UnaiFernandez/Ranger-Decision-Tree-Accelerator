@@ -42,7 +42,7 @@ port map(
     --	o_out_fifo_data => c	
 );
 
-clk <= not clk after 8 ns;
+clk <= not clk after 4 ns;
 
 process
 begin 
@@ -50,6 +50,7 @@ begin
 	test_empty <= '0';
     wait for 200 ns;
     reset <= '0';
+    wait for 1000 ns;
     init <= '1';
     wait for 60 ns;
     init <= '0';

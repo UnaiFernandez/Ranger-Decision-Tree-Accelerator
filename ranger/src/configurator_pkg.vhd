@@ -15,7 +15,7 @@ package configurator_pkg is
     	    i_en_config : in std_logic;
     	    i_data : in std_logic_vector(31 downto 0);
     	    i_up_int_data : in std_logic;
-    	    i_empty_fifo : in std_logic;
+				i_empty_fifo	: in std_logic; 
     	    -----------------------------------------------
     	    o_dt_id : out std_logic_vector(7 downto 0);
 	    o_data_addr : out unsigned(g_ADDR_WIDTH - 1 downto 0);

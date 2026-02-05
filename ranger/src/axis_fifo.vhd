@@ -21,6 +21,7 @@ entity axis_fifo is
     	s00_TDATA		: in std_logic_vector(g_data_width - 1 downto 0); 
     	m00_TREADY		: in std_logic; 
     	----------------------------------------------------
+		fifo_empty		:out std_logic;
     	m00_TVALID		: out std_logic;
     	m00_TLAST		: out std_logic;
     	m00_TDATA		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
@@ -70,8 +71,8 @@ generic map(
     g_addr_width    => g_ADDR_WIDTH,
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
-    --g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
-    g_init_file	    => "./memory_content/random_forest_bin.txt",
+    g_init_file	    => "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/random_forest.txt",
+    --g_init_file	    => "./memory_content/random_forest.txt",
     g_init	    => g_init_mem
 )
 port map(
@@ -174,7 +175,7 @@ empty <= '1' when mem_elements = 0 else '0';
 full <= '1' when mem_elements >= g_DEPTH else '0'; -- No puede ser //Cuando llega al valor maximo ya se queda bloqueado.
 last <= '1' when mem_elements = 1 else '0';
 
-
+fifo_empty <= '1' when mem_elements <= 4 else '0';
 	m00_TVALID <= valid_i;
 	m00_TLAST <= '1' when last = '1' and valid_i = '1' else '0';
     s00_TREADY <= '1' when full = '0' else '0';
