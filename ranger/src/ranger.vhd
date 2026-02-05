@@ -64,13 +64,15 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
     signal en_find_max : std_logic := '0';
-    signal inference_number : integer := 8;
+    signal inference_number : integer := 20;
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
 signal class_mat : mat_t(0 to instances - 1);
-signal sum_mat : cols_t(0 to 15);
-signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
+--signal sum_mat : cols_t(0 to 15);
+signal sum_mat : cols_t(0 to 3);
+--signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
+signal sum_mat_tmp : cols_t(0 to 3) := (others => (others => '0'));
 
 
 begin
@@ -143,7 +145,7 @@ begin
         generic map(
             g_DATA_WIDTH => g_DATA_WIDTH,
             g_ADDR_WIDTH => g_ADDR_WIDTH,
-	    g_K => 16,
+	    g_K => 4,
             g_DEPTH	 => 1024
         )
         port map(
@@ -160,7 +162,7 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-	calculate_cols: for I in 0 to 15 generate
+	calculate_cols: for I in 0 to 3 generate
 			add_set_bits(class_mat, I, sum_mat_tmp(I));
 end generate;
 

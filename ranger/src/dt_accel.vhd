@@ -12,7 +12,7 @@ entity dt_accel is
     generic(
         g_DATA_WIDTH: integer := 32;
         g_ADDR_WIDTH: integer := 16;
-	g_K	    : integer := 16;
+	g_K	    : integer := 4;
         g_DEPTH	    : integer := 512
     );
     port(
@@ -47,7 +47,8 @@ architecture arch_dt_accel of dt_accel is
     signal int_data : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 
 -- DT_CTL
-    signal class: std_logic_vector(g_K - 1 downto 0);
+    --signal class: std_logic_vector(g_K - 1 downto 0);
+    signal class: std_logic_vector(15 downto 0);
 
 -- DT ACCEL control signals
     signal task_terminated : STD_LOGIC;
@@ -63,7 +64,8 @@ begin
     generic map(
         g_ADDR_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
-        g_DEPTH		=> g_DEPTH,
+        --g_DEPTH		=> g_DEPTH,
+        g_DEPTH		=> 254,
         g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/bin_node_mem_content.txt",
         --g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
         g_INIT		=> '0'
@@ -86,7 +88,8 @@ begin
     generic map(
         g_ADDR_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
-        g_DEPTH		=> g_DEPTH,
+        --g_DEPTH		=> g_DEPTH,
+        g_DEPTH		=> 64,
         g_INIT_FILE	=> "/home/makinote/Project/vivado/dt_vhdl/ranger/memory_content/data_mem_content.txt",
         --g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
         g_INIT		=> '0'

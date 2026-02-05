@@ -60,7 +60,7 @@ architecture arch_ram of ram is
 
     signal ram_mem: memory_t(g_DEPTH - 1 downto 0) := init_mem(g_DEPTH);
 
-    attribute ram_style of ram_mem: signal is "block";
+    attribute ram_style of ram_mem: signal is "auto";
 
 begin
 

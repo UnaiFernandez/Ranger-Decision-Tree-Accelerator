@@ -8,9 +8,10 @@ use ieee.numeric_std.all;
 package general_package is
 
 	-- Data types
-		constant instances : integer := 6;
+		constant instances : integer := 32;
 
-	type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
+	--type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
+	type mat_t is array (natural range <>) of std_logic_vector(3 downto 0);
 	type cols_t is array (natural range <>) of unsigned(instances - 1 downto 0);
 
 	procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(instances - 1 downto 0));	
