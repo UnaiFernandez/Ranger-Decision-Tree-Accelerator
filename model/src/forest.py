@@ -16,23 +16,22 @@ from dt_utils import *
 
 #x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/car.data", train_size=0.8)
-x_train, x_test, y_train, y_test = split_dataset("datasets/obesity.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/wdbc.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/tennis.data", train_size=0.8)
+x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
 
 print("[-] Training model")
 num_instances = 32
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)
-stop_train = time.time()  
+stop_train = time.time()
 total_train = stop_train - start_train
 print("[-] Testing Random Forest")
 
 start = time.time()
 y_pred = rf.predict(x_test)
-stop = time.time()  
+stop = time.time()
 total = stop - start
 
 print("[-] Exporting data to files")
@@ -60,11 +59,11 @@ num_features = len(x_test[0])
 
 data_mem.insert(0, format(num_features, "0{}x".format(8)))
 data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
-    
+
 #forest[0].insert(0, format(num_instances, "0{}b".format(32)))
 
 # File layout
-# 
+#
 # Num instances
 # Node number
 # node
@@ -104,5 +103,6 @@ print(f'Accuracy:                    {accuracy * 100:.2f}%')
 conf_matrix = confusion_matrix(y_test, y_pred)
 print(f'\nConfusion matrix:\n {conf_matrix}')
 
+print(len(x_test))
 print("y test: {}".format(y_test.to_numpy()[0:15]))
 print("y pred: {}".format(y_pred[0:15]))
