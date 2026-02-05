@@ -48,7 +48,7 @@ def to_floating_point(number, exp_bits, m_bits):
 
     mantissa = get_mantissa(num, m_bits)
 
-    print(str(exponent*(2**m_bits))+" "+str(mantissa))
+    #print(str(exponent*(2**m_bits))+" "+str(mantissa))
     #formatted_num = format(exponent, "0{}x".format(exp_bits)) \
      #       + format(mantissa*2, "0{}x".format(m_bits))
 
@@ -60,8 +60,9 @@ def to_floating_point(number, exp_bits, m_bits):
         sign = "0"
 
     formatted_num = format(num, "0{}x".format(8))
+    formatted_num_bin = format(num, "0{}b".format(32))
 
-    return formatted_num, sign, exponent, mantissa
+    return formatted_num, formatted_num_bin, sign, exponent, mantissa
 
 
 def get_exponent(number, exp_bits):

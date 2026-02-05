@@ -20,6 +20,8 @@ entity ranger is
 	i_clk : in std_logic;
 	i_reset : in std_logic;
 	init : in std_logic;
+	    fifo_empty : in std_logic;
+	    fifo_last : in std_logic;
 	i_fifo_data : in std_logic_vector(g_data_width - 1 downto 0);
 	i_fifo_empty : in std_logic;
 	o_rd_fifo_data : out std_logic;
@@ -62,10 +64,12 @@ architecture arch_ranger of ranger is
     constant const_ready : std_logic_vector(instances - 1 downto 0) := (others => '1');
     signal ready :std_logic := '0';
     signal calc_done : std_logic := '0';
+	signal en_find_max : std_logic := '0';
     signal stop : std_logic := '0';
     signal en_find_max : std_logic := '0';
     signal inference_number : integer := 20;
     signal dec_inf_counter : std_logic;
+    signal ld_inf_counter : std_logic;
 
 -- AGGREGATOR
 signal class_mat : mat_t(0 to instances - 1);
@@ -96,7 +100,7 @@ begin
 				   elsif data_loaded = '1' then next_s <= E3;
     		       else next_s <= E2;
     		       end if;
-	    when E3 => if ready = '1' then next_s <= E4;
+	    	when E3 => if ready = '1' then next_s <= E4;
     		       else next_s <= E3;
     		       end if;
 		when E4 => next_s <= E5;
@@ -113,7 +117,7 @@ begin
     begin
     	if rising_edge(i_clk) then 
     		if i_reset = '1' then 
-				current_s <= E0;
+				current_s <= EI;
 			else
 				current_s <= next_s;
 			end if;
@@ -238,13 +242,17 @@ end process;
 	if rising_edge(i_clk) then
 	    --if dec_inf_counter = '1' and inference_number = 0 then
 		--stop <= '1';
-	    if dec_inf_counter = '1' and inference_number /= 0 then 
-		inference_number <= inference_number - 1;
+		if ld_inf_counter = '1' then
+			inference_number <= 8;
+	    elsif dec_inf_counter = '1' and inference_number /= 0 then 
+			inference_number <= inference_number - 1;
 	    end if;
 	end if;
     end process;
 
+    --o_last <= '1' when fifo_last = '1' else '0';
     o_last <= '1' when inference_number = 1 else '0';
+    --stop <= '1' when fifo_empty = '1' else '0';
     stop <= '1' when inference_number = 0 else '0';
 
 	o_stop <= stop;

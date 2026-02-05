@@ -22,12 +22,13 @@ OBJ = bin/ram_pkg.o \
       bin/test_comb.o \
       bin/RANGER_MAIN_pkg.o \
       bin/RANGER_MAIN.o \
-      bin/testbench/dt_accel_tb.o \
-      bin/testbench/fifo_tb.o \
-      bin/testbench/ranger_tb.o \
-      bin/testbench/test_tb.o \
-      bin/testbench/test_comb_tb.o \
       bin/testbench/RANGER_MAIN_tb.o
+      #bin/testbench/dt_accel_tb.o \
+      #bin/testbench/fifo_tb.o \
+      #bin/testbench/ranger_tb.o \
+      #bin/testbench/test_tb.o \
+      #bin/testbench/test_comb_tb.o \
+      #bin/testbench/RANGER_MAIN_tb.o
       #bin/testbench/sched_tb.o
 
 all: test/sim_dt.ghw

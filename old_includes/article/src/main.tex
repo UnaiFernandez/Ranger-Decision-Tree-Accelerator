@@ -1,0 +1,101 @@
+%\documentclass[conference, 10pt]{llncs}
+\documentclass[conference, 10pt]{IEEEtran}
+\usepackage{graphicx} % Required for inserting images
+
+%\title{Hacia una Inteligencia Artificial Eficiente: Uso de FPGAs para la Sostenibilidad Energética}
+%\title{Towards an efficient Artificial Inteligence: Use of FPGAs for energetic sustainabiity}
+\title{Towards a efficient Artificial inteligence: Use of FPGAs for energetic sustainavility}
+\author{Unai Fernandez Urroz}
+\date{December 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+La creciente complejidad de las técnicas de Inteligencia Artificial y el uso de conjuntos de 
+datos cada vez más grandes, ha llevado a un aumento significativo en cuanto al consumo 
+energético en implementaciones en hardware convencional como CPU y GPU.  
+
+%%Este desafío resalta la necesidad de enfoques más sostenibles, como la Green AI, que busca optimizar el uso de recursos y reducir el impacto ambiental.
+
+El uso de FPGAs (Field Programable Gate Arrays) en este contexto surge como una alternativa prometedora, debido a las
+ventajas que ofrecen. La capacidad de diseñar aceleradores personalizados permite mejorar tanto la latencia como el
+rendimiento del sistema, manteniendo una eficiencia energética excelente en todo momento. Esta eficiencia energética
+obtenida, facilita la implementación de algoritmos de aprendizaje automático en sistemas embebidos con recursos
+limitados.
+
+El principal objetivo de este trabajo es implementar la inferencia de conjuntos de arboles de 
+decisión utilizando el algoritmo XGBoost en FPGA buscando una mejor eficiencia energética, 
+manteniendo un buen rendimiento, comparada con otras implementaciones en FPGA y hardware convencional.
+
+%El principal objetivo de la tesis es implementar el entrenamiento y la inferencia de algoritmos clásicos de aprendizaje automático en FPGA buscando una mejor eficiencia energética manteniendo un buen rendimiento. Las arquitecturas desarrolladas se compararán con otras propuestas en FPGA y con los resultados obtenidos en hardware convencional. Finalmente se buscará integrar los diseños de hardware implementados en un sistema embebido para evaluar su efectividad en un entorno real.
+
+\end{abstract}
+\section{Introduction}
+
+%todo%
+\begin{itemize}
+	\item Hacer una pequeña introducción sobre IA y su impacto en los ultimos años. Hacer mas incapie en arboles de decision.
+	\item Mecionar por que es viable usar FPGA para acelerar inferencia y entrenamiento de algoritmos de ML
+	\item Estado del arte sobre el tema. Comentar varios trabajos sobre arboles de decisiones y algun otro acelerador para otro algoritmo que pueda ser interesante.
+	\item Las partes que tiene el documento.
+\end{itemize}
+
+The area of artificial Intelligence (AI) focuses on the development of systems capable of \textbf{imitating} the human brain ability of decision taking and resolution of problems.In recent years the popularity of AI ahs risen considerably ampliando su presencia a muchos ambitos como la industria, a medicina o incluso la educacion.      
+
+
+\section{Background}
+\section{Design and implemtentation of the hardware accelerator}
+\subsection{Decision tree accelerator}
+\subsection{Main structure}
+\section{Training procedure}
+\subsection{Python app}
+\section{Evaluation of the designed accelerator}
+\section{Conclusions}
+
+La Inteligencia Artificial (IA) es un área de la informática que se enfoca en el diseño de sistemas que pueden imitar
+la capacidad de toma de decisiones y resolución de problemas del cerebro humano. Los últimos años la popularidad
+de la IA ha aumentado considerablemente y está presente en muchos ámbitos, como la industria, la medicina o
+incluso la educación. Una de las ramas dentro de la IA es el aprendizaje automático (Machine Learning, ML), cuyo
+propósito es que los sistemas informáticos aprendan a realizar una tarea especifica basándose en una serie de datos
+analizados. Desde hace varias décadas se han desarrollado diversos algoritmos, con varios niveles de complejidad e
+idoneidad para diferentes aplicaciones dentro de esta área. Algunos de los algoritmos más conocidos son los árboles
+de decisión (Decision Tree, DT), Random Forest (RF), Support Vector Machine (SVM) y las redes neuronales
+convolucionales (CNN).
+
+La creciente complejidad de estas técnicas junto con el uso de conjuntos de datos más cada vez grandes aumenta el
+consumo energético al implementarlas en harware convencional como CPUs o GPUs. A lo largo de los años, el
+hardware ha experimentado una notable evolución, lo que ha permitido mejorar diversos aspectos de rendimiento
+y eficiencia. Sin embargo, aún existen oportunidades para seguir optimizando estas áreas. En este contexto, las
+FPGAs (Field Programmable Gate Array) emergen como una alternativa que reduce tanto el consumo energético
+como la latencia del sistema. Además, permiten la creación de sistemas digitales totalmente personalizados, lo que
+permite optimizar el uso de los recursos disponibles. Esta característica y el bajo consumo energético abre la puerta
+a la integración de algoritmos de ML en sistemas embebidos, lo que posibilita el desarrollo de una amplia variedad
+de nuevas aplicaciones.
+
+El estado del arte actual presenta una gran variedad de propuestas utilizando diferentes modelos de ML, y con
+aplicaciones específicas en diversos campos. Olmos et al. \cite{olmosoptimized} proponen la implementación de una arquitectura en
+una FPGA, para optimizar el rendimiento del algoritmo XGBoost. Por otro lado, Owaida y colaboradores \cite{owaida2017scalable}
+presentan una arquitectura para procesar varios árboles de decisión, en la que se tiene en cuenta el mapeo en
+memoria de los datos y el acceso a ellos.
+
+Shabarinath et al. \cite{10969767} por su parte, presentan una arquitectura para entrenar un modelo SVM usando el algoritmo
+SMO (Secuential Minimal Optimization) \cite{10.5555/299094.299105}. Además, la arquitectura también incluye una función para hacer
+inferencia. En otros trabajos como el de Yacoub y su equipo \cite{YACOUB2024100115} se implementan dos técnicas de generalización (OvA
+y OvO) para el algoritmo SVM, para lidiar con los problemas de multi-class. La representación de los datos juega un
+papel importante para aprovechar los recursos de memoria, Zhou et al. \cite{7490869} proponen una solución para acelerar el
+reconocimiento de imágenes con redes neuronales profundas, en la que se usa fixed-point con 11 bits de precisión
+para representar los números reales.
+
+La implementación de algoritmos de IA en FPGA puede ser compleja, y muchas de las veces se opta por realizar el
+entrenamiento con herramientas ya conocidas, e implementar los aceleradores en FPGA para la inferencia. Otro
+aspecto importante para considerar es la gestión de la memoria. Almacenar los datos necesarios para la ejecución
+del modelo y aprovechar al máximo el espacio de almacenamiento puede resultar complejo. Además, la
+representación de los datos tiene un impacto significativo en la eficiencia del uso de la memoria, lo que puede afectar el rendimiento general del sistema.
+
+\bibliographystyle{ieeetr}
+\bibliography{references.bib}
+
+\end{document}

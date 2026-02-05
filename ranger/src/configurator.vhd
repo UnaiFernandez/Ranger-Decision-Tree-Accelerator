@@ -64,12 +64,12 @@ begin
 
 -- State machine
 
-    process(current_s, i_en_config, last_dt, last_node, last_feature, i_up_int_data, loaded)
+    process(current_s, config_done_i, last_dt, last_node, last_feature, i_up_int_data, loaded, i_empty_fifo)
     begin
     	case current_s is
-    	    when E0 => if i_en_config = '1' then next_s <= E1;
-		           elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
-    		       elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
+    	    when E0 => if config_done_i = '0' then next_s <= E1;
+		           elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '1' and i_empty_fifo = '0' then next_s <= E5;
+    		       elsif config_done_i = '1' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
     		       else next_s <= E0;
     		       end if;
 		    when E1 => if i_en_config = '1' then next_s <= E2;
@@ -203,7 +203,7 @@ begin
 
 -- Feature Counter
 
-    rst_c_features <= '1' when (current_s = E0 and i_en_config = '0' and i_up_int_data = '1' and loaded = '1') else '0';
+    rst_c_features <= '1' when (current_s = E0 and config_done_i = '1' and i_up_int_data = '1' and loaded = '1') else '0';
     ld_num_features <= '1' when current_s = E4 else '0';
     dec_num_features <= '1' when current_s = E5 and last_feature = '0' and i_empty_fifo = '0' else '0';
 

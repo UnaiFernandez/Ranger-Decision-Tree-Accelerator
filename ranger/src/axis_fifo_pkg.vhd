@@ -24,7 +24,9 @@ package axis_fifo_pkg is
 	    m00_TVALID		: out std_logic;
 	    m00_TLAST		: out std_logic;
 	    m00_TDATA		: out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	    s00_TREADY		: out std_logic
+	    s00_TREADY		: out std_logic;
+    	FIFO_LAST		: out std_logic;
+    	FIFO_EMPTY		: out std_logic
     	);		
     end component;
 end axis_fifo_pkg;
