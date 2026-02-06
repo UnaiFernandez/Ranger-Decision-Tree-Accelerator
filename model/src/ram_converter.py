@@ -40,7 +40,45 @@ def find_node(data, id):
             addr = node['addr']
     return addr
 
-def create_mem_bin_layouts(filename, t_dict):
+def create_mem_bin_layouts(t_dict):
+    node_mem = []
+    l_node_id = []
+    node_addr = []
+
+    addr = 0
+    data = t_dict
+
+
+
+    for node in data:
+        node_id = int(node['node_id'])
+        try:
+            feature = int(node['feature'])
+            right_addr = find_node(data, node['right_child'])
+            threshold, threshold_bin, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            node_info = f'{right_addr:016b}'+f'{feature*2:016b}'
+            node_mem.append(node_info)
+            node_mem.append(threshold_bin)
+        except:
+            c = int(node['class'])
+            hex_info = f'{0:016b}'+f'{(c*2)+1:016b}'
+            node_mem.append(hex_info)
+            node_addr.append(addr)
+
+            #print("Node ID: {} link_base: {} class: {} leaf: {}".format(
+            #        node_id, link_addr_base, c, 1))
+
+        addr += 1
+
+    #print("link_mem: {}".format(node_addr))
+    #print("link_mem: {}".format(l_node_id))
+
+    for n in l_node_id:
+        link_mem.append(f'{node_addr[n]:016b}')
+
+    return node_mem
+
+def create_mem_hex_layouts( t_dict):
     node_mem = []
     l_node_id = []
     node_addr = []
@@ -80,7 +118,6 @@ def create_mem_bin_layouts(filename, t_dict):
         link_mem.append(f'{node_addr[n]:04x}')
 
     return node_mem
-
 
 
 
@@ -149,11 +186,13 @@ def create_mem_layouts(filename, t_dict):
 
 def create_data_mem(data):
     threshold_list = []
+    threshold_list_bin = []
     col = len(data[0])
     row = len(data)
     for r in range(0, row):
         for c in range(0, col):
-            threshold, *_ = to_floating_point(float(data[r, c]), 8, 23)
+            threshold, threshold_bin, *_ = to_floating_point(float(data[r, c]), 8, 23)
             threshold_list.append(threshold);
+            threshold_list_bin.append(threshold_bin);
 
-    return threshold_list
+    return threshold_list, threshold_list_bin

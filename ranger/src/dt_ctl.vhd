@@ -39,7 +39,7 @@ end dt_ctl;
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E5, E6, E7);
+    type state is (E0, E1, E2, E3, E4, E6, E7);
     signal current_s, next_s, r_state: state;
 
 -- C node mem
@@ -52,31 +52,34 @@ architecture arch_dt_ctl of dt_ctl is
     signal LD_class : std_logic;
     signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
 
+-- JK
+	signal done_j, done_k : std_logic := '0';
+	signal done_i: std_logic;
+
 --
-    signal leaf, go_right, read_node_info, enable : std_logic;
+    signal leaf, go_right, read_node_info : std_logic;
     signal data_out : float(8 downto -23);
 
 begin
 
-    enable <= i_ENABLE;
 -- State machine
 
-    process(current_s, next_s, leaf, go_right, enable, i_calc_result)
+    process(current_s, leaf, go_right, i_enable, i_calc_result)
     begin
 	case current_s is
-	    when E0 => if enable = '1' then next_s <= E1;
+	    when E0 => if i_enable = '1' then next_s <= E1;
 					else next_s <= E0;
 					end if;
 	    when E1 => next_s <= E2;
 	    when E2 => next_s <= E3;
 	    when E3 => if leaf = '0' then next_s <= E4;
-		       else next_s <= E5;
+		       else next_s <= E6;
 		       end if;
 	    when E4 => next_s <= E2;
-	    when E5 => if i_calc_result = '1' then next_s <= E6;
-		       else next_s <= E5;
-		       end if;
-	    when E6 => if enable = '1' then next_s <= E7;
+	    --when E5 => if i_calc_result = '1' then next_s <= E6;
+		--       else next_s <= E5;
+		--       end if;
+	    when E6 => if i_enable = '1' then next_s <= E7;
 		       else next_s <= E6;
 		       end if;
 	    when E7 => next_s <= E2;
@@ -88,11 +91,12 @@ begin
     process(i_CLK, i_RESET)
     begin
         if rising_edge(i_CLK) then 
-			current_s <= next_s;
         	if i_RESET = '1' then 
 	    		current_s <= E0;
 	    		--c_node_mem_out <= (others => '0');
-	    		--feature <= (others => '0');
+				--feature <= (others => '0');
+			else
+				current_s <= next_s;
         	end if;
         end if;
     end process;
@@ -115,9 +119,10 @@ begin
 
     process(i_CLK, CL_c_node_mem)
     begin
-	if CL_c_node_mem = '1' then c_node_mem_out <= x"0000";
-	elsif rising_edge(i_CLK) then
-	    if LD_c_node_mem = '1' then
+	if rising_edge(i_CLK) then
+		if CL_c_node_mem = '1' then 
+			c_node_mem_out <= (others => '0');
+	    elsif LD_c_node_mem = '1' then
 			c_node_mem_out <= right_node;
 	    elsif INC_c_node_mem = '1' then
 			c_node_mem_out <= std_logic_vector(unsigned(c_node_mem_out) + 2);
@@ -137,7 +142,30 @@ begin
 
 -- R class
 
-    o_DONE <= '1' when current_s = E5 else '0';
+    --o_DONE <= '1' when current_s = E5 else '0';
+    o_DONE <= done_i;
+
+	done_j <= '1' when current_s = E3 and leaf = '1' else '0';
+	process(current_s, i_CALC_RESULT)
+	begin
+		if current_s = E1 or current_s = E0 or i_CALC_RESULT = '1' then
+			done_k <= '1';
+		else 
+			done_k <= '0';
+		end if;
+	end process;
+
+	process(i_CLK, done_j, done_k)
+	begin
+		if rising_edge(i_CLK) then
+			if done_j = '0' and done_k = '0' then done_i <= done_i;
+			elsif done_j = '0' and done_k = '1' then done_i <= '0';
+			elsif done_j = '1' and done_k = '0' then done_i <= '1';
+			elsif done_j = '1' and done_k = '1' then done_i <= not done_i;
+			else done_i <= done_i;
+			end if;
+		end if;
+	end process;	
 
 -- CMP
 
@@ -162,18 +190,5 @@ begin
     	end if;
         end if;
     end process;
-
-
-
-    p_ASSERT : process (i_CLK) is
-    begin
-	if rising_edge(i_CLK) then
-	    if ld_class = '1' then
-		--report "Class: " & integer'image(to_integer(unsigned(feature))) severity note;
-	    end if;
-	end if;
-    end process p_ASSERT;
-
-
 
 end arch_dt_ctl;

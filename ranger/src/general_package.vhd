@@ -8,37 +8,42 @@ use ieee.numeric_std.all;
 package general_package is
 
 	-- Data types
- 	subtype onehot_class is std_logic_vector(15 downto 0);
-    type matr is array (natural range <>) of onehot_class;
+		constant instances : integer := 32;
 
+	--type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
+	type mat_t is array (natural range <>) of std_logic_vector(3 downto 0);
+	type cols_t is array (natural range <>) of unsigned(instances - 1 downto 0);
+
+	procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(instances - 1 downto 0));	
+	procedure find_max(signal sum_mat : in cols_t; signal class : out integer);	
 	
-	procedure class_aggregation(signal class_mat : in matr; signal class_ag : inout onehot_class);	
-
-	--TODO definir los tamaños de todo en este archivo
 end package;
 
 package body general_package is
-
-	procedure class_aggregation(signal class_mat : in matr; signal class_ag : inout onehot_class) is
-		variable max : integer := 0;
-		variable tmp_sum : integer := 0;
+procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(instances - 1 downto 0)) is
+		variable tmp_sum : unsigned(instances - 1 downto 0);
 	begin
-		for class_idx in 0 to 15 loop
-			tmp_sum := 0;
-			-- Add columns 
-			for i in class_mat'range loop
-				if class_mat(i)(class_idx) = '1' then
-					tmp_sum := tmp_sum + 1;
+				tmp_sum := (others => '0');
+				for i in 0 to instances - 1 loop
+					if class_mat(i)(col) = '1' then
+						tmp_sum := tmp_sum + 1;
+					end if;
+				end loop;
+				sum <= tmp_sum;
+	end add_set_bits;
+
+	procedure find_max(signal sum_mat : in cols_t; signal class : out integer) is	
+		variable tmp_class : integer:= 0;
+		variable max : unsigned(instances - 1 downto 0);
+	begin
+			max := (others => '0');
+			for i in sum_mat'range loop
+				if sum_mat(i) > max then
+					max := sum_mat(i);
+					tmp_class := i;
 				end if;
 			end loop;
-			-- Find max value
-			if tmp_sum >= max then
-				max := tmp_sum;
-				class_ag <= std_logic_vector(to_unsigned(class_idx, class_ag'length));
-			--else
-			--	class_ag <= class_ag; -- TODO: No se si esto esta muy bien
-			end if;
-		end loop;
-	end class_aggregation;
+			class <= tmp_class;
+	end find_max;
 
 end package body;

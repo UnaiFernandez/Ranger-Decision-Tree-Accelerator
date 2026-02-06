@@ -14,7 +14,7 @@ def split_dataset(fname, train_size):
     print("     - Testing size: {}%".format(100 - (100 * train_size)))
 
     data = pd.read_csv(fname, sep = ",", header=None)
-    
+
     str_to_int = preprocessing.LabelEncoder()
     for column in data:
         if pd.api.types.is_string_dtype(data[column]):
@@ -40,14 +40,14 @@ def split_dataset(fname, train_size):
 
 
 def train_forest(x_train, y_train, num_instances):
-    
-    classifier = RandomForestClassifier(n_estimators=num_instances, 
-                                        random_state=42, 
-                                        min_samples_split=20, 
+
+    classifier = RandomForestClassifier(n_estimators=num_instances,
+                                        random_state=42,
+                                        min_samples_split=20,
                                         max_depth=8)
 
     classifier.fit(x_train, y_train)
-        
+
     #print(forest[-1])
     #print(create_mem_bin_layouts("prueba.txt", forest[-1]))
     return classifier
@@ -200,4 +200,3 @@ def export_to_json(filename, tree_dict):
             print("[SUCCESS] Exported to {filename}".format(filename=filename))
         else:
             print("[ERROR] Exporting to JSON.")
-
