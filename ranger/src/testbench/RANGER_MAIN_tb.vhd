@@ -16,7 +16,6 @@ signal ps_ready : std_logic := '0';
 signal c 		: std_logic_vector(15 downto 0);
 signal ps_data		: std_logic_vector(31 downto 0);
 signal re, wr, ps_last, ps_valid		: std_logic;
-signal test_empty :std_logic;
 --signal c0, c1		: std_logic := '0';
 
 begin
@@ -30,7 +29,6 @@ port map(
     clk => clk,
     reset => reset,
     init => init,
-	i_test_empty => test_empty,
 	s00_ps_tvalid => ps_valid,
    	s00_ps_tlast => ps_last,
    	s00_ps_tdata =>	ps_data,
@@ -47,21 +45,13 @@ clk <= not clk after 4 ns;
 process
 begin 
     reset <= '1';
-	test_empty <= '0';
     wait for 200 ns;
     reset <= '0';
     wait for 1000 ns;
     init <= '1';
     wait for 60 ns;
     init <= '0';
-	wait for 400 ns;
-	test_empty <= '1';
-	wait for 200 ns;
-	test_empty <= '0';
-    wait for 2 us;
-	test_empty <= '1';
-	wait for 1 us;
-	test_empty <= '0';
+    wait for 3 us;
     ps_ready <= '1';
     wait;
 end process;

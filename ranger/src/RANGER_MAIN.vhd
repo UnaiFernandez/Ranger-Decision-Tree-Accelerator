@@ -46,10 +46,10 @@ architecture arch_RANGER_MAIN of RANGER_MAIN is
 signal in_fifo_data : std_logic_vector(g_data_width - 1 downto 0);
 signal out_fifo_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal rd_fifo_data, wr_fifo_data : std_logic;
-signal in_fifo_empty, in_fifo_last : std_logic;
+signal in_fifo_empty, in_fifo_full : std_logic;
 signal out_fifo_empty, out_fifo_full : std_logic;
 signal pl_last : std_logic;
-signal ps_wr_fifo : std_logic := '0';
+signal ps_wr_fifo, ps_last : std_logic := '0';
 signal ps_tvalid, ps_tlast, ps_tready : std_logic;
 signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
@@ -62,7 +62,7 @@ begin
 
     DT_RANGER: ranger
     generic map(
-        --g_dt_instances  => 6,
+        g_dt_instances  => 6,
         g_mem_depth    => 1024,
         g_data_width    => 32,
         g_addr_width    => 16
@@ -71,15 +71,13 @@ begin
         i_clk	        => clk,
         i_reset	        => reset,
         init	        => init,
-		fifo_empty		=> in_fifo_empty,
-		fifo_last		=> in_fifo_last,
         i_fifo_data	=> in_fifo_data,
 		i_fifo_empty => in_fifo_empty,
         o_rd_fifo_data	=> rd_fifo_data,
 		o_wr_fifo_data	=> wr_fifo_data,
 		o_last		=> pl_last,
 		o_stop => stop_ranger,
-		o_idle => idle,
+		o_idle => idle_ranger,
         o_fifo_data    	=> out_fifo_data
     );
 

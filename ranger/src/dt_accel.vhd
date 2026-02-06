@@ -149,6 +149,5 @@ begin
 			o_CLASS <= o_h_v;
 		end if;
 	end process;
-	--o_CLASS <= class;
 
 end arch_dt_accel;
