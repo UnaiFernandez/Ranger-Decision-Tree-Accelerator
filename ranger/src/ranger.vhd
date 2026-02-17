@@ -34,7 +34,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
 -- State machine
-    type state is (E0, E01, E1, E2, E3, E4, E5, E6);
+    type state is (E0, E01, E1, E2, E3, E4, E5, E6, E7);
     signal current_s, next_s: state;
 
 -- DT_ACCEL
@@ -64,7 +64,7 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
     signal en_find_max : std_logic := '0';
-    signal inference_number : integer := 20;
+    signal inference_number : integer := 19;
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
@@ -74,6 +74,9 @@ signal sum_mat : cols_t(0 to 3);
 --signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
 signal sum_mat_tmp : cols_t(0 to 3) := (others => (others => '0'));
 
+	signal inc_c, ld_cycles : std_logic;
+	signal cycle_count : integer := 0;
+  signal sel_cycles : std_logic := '0';
 
 begin
 -- State machine
@@ -84,8 +87,8 @@ begin
     	    when E0 => if init = '1' then next_s <= E01;
     		       else next_s <= E0;
     		       end if;
-		    when E01 => if i_fifo_empty = '0' and config_done = '0' then next_s <= E1;
-						elsif i_fifo_empty = '0' and config_done = '1' then next_s <= E2;
+		    when E01 => if i_fifo_empty = '0' and config_done = '0' and stop = '0' then next_s <= E1;
+						elsif i_fifo_empty = '0' and config_done = '1' and stop = '0' then next_s <= E2;
 						else next_s <= E01;
 						end if;
 				when E1 => if i_fifo_empty = '1' then next_s <= E01;
@@ -101,9 +104,10 @@ begin
     		       end if;
 		when E4 => next_s <= E5;
 		when E5 => next_s <= E6;
-            when E6 => if stop = '1' then next_s <= E01;
+            when E6 => if stop = '1' then next_s <= E7;
                     else next_s <= E2;
                     end if;
+            when E7 => next_s <= E01; 
     	end case;
     end process;
 
@@ -189,8 +193,8 @@ end process;
 
 	calc_done <= '1' when current_s = E5 else '0';
 
-	o_fifo_data <= std_logic_vector(to_unsigned(max_class, class'length));
-    o_wr_fifo_data <= calc_done;
+  o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(to_unsigned(max_class, class'length));
+  o_wr_fifo_data <= '1' when calc_done = '1' or (current_s = E6 and stop = '1') else '0';
     
     process(i_CLK, result_ready, ready)
     begin
@@ -236,8 +240,6 @@ end process;
     process(i_clk, dec_inf_counter, inference_number)
     begin
 	if rising_edge(i_clk) then
-	    --if dec_inf_counter = '1' and inference_number = 0 then
-		--stop <= '1';
 	    if dec_inf_counter = '1' and inference_number /= 0 then 
 		inference_number <= inference_number - 1;
 	    end if;
@@ -249,6 +251,20 @@ end process;
 
 	o_stop <= stop;
 	o_idle <= '1' when current_s = E0 or current_s = E01 else '0';
+
+-- CLYCLE COUNTER
+    inc_c <= '1' when config_done = '1' and stop = '0' else '0';
+	ld_cycles <= '1' when config_done = '1' and stop = '1' else '0';
+
+  sel_cycles <= '1' when current_s = E6 and stop = '1' else '0';
+	process(i_clk, inc_c)
+    begin
+	if rising_edge(i_clk) then
+	    if inc_c = '1' then 
+		cycle_count <= cycle_count + 1;
+	    end if;
+	end if;
+    end process;
 
     p_ASSERT : process (i_CLK, current_s, config_done, data_loaded) is
     begin

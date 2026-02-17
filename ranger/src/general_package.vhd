@@ -8,7 +8,7 @@ use ieee.numeric_std.all;
 package general_package is
 
 	-- Data types
-		constant instances : integer := 32;
+		constant instances : integer := 6;
 
 	--type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
 	type mat_t is array (natural range <>) of std_logic_vector(3 downto 0);
