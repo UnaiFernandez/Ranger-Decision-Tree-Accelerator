@@ -12,6 +12,7 @@ architecture arch_RANGER_MAIN_tb of RANGER_MAIN_tb is
 signal clk		: std_logic := '0';
 signal reset		: std_logic := '0';
 signal init		: std_logic := '0';
+signal start		: std_logic := '0';
 signal ps_ready : std_logic := '0';
 signal c 		: std_logic_vector(15 downto 0);
 signal ps_data		: std_logic_vector(31 downto 0);
@@ -29,6 +30,7 @@ port map(
     clk => clk,
     reset => reset,
     init => init,
+    start => start,
 	s00_ps_tvalid => ps_valid,
    	s00_ps_tlast => ps_last,
    	s00_ps_tdata =>	ps_data,
@@ -53,6 +55,21 @@ begin
     init <= '0';
     wait for 3 us;
     ps_ready <= '1';
+    wait for 2 us;
+    start <= '1';
+    wait for 8 ns;
+    start <= '0';
+    wait for 1000 ns;
+    reset <= '1';
+    wait for 200 ns;
+    reset <= '0';
+    wait for 1000 ns;
+    init <= '1';
+    wait for 60 ns;
+    init <= '0';
+    wait for 3 us;
+    ps_ready <= '1';
+    wait for 2 us;
     wait;
 end process;
 

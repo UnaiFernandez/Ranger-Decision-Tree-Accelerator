@@ -17,10 +17,12 @@ entity RANGER_MAIN is
 		clk : in std_logic;
 		reset : in std_logic;
 		init : in std_logic;
+    start : in std_logic;
 
 		stop_ranger : out std_logic;
 		idle_ranger : out std_logic;
 		empty_fifo	: out std_logic;
+		config_done	: out std_logic;
     	s00_ps_tvalid : in std_logic;	
     	s00_ps_tlast : in std_logic;	
     	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
@@ -71,6 +73,7 @@ begin
         i_clk	        => clk,
         i_reset	        => reset,
         init	        => init,
+        start         => start,
         i_fifo_data	=> in_fifo_data,
 		i_fifo_empty => in_fifo_empty,
         o_rd_fifo_data	=> rd_fifo_data,
@@ -78,6 +81,7 @@ begin
 		o_last		=> pl_last,
 		o_stop => stop_ranger,
 		o_idle => idle_ranger,
+    o_config_done => config_done,
         o_fifo_data    	=> out_fifo_data
     );
 
@@ -87,7 +91,7 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '1',
+        g_INIT_MEM => '0',
         g_DEPTH => 254
     )
     port map(
@@ -139,7 +143,8 @@ begin
 
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
-	m00_ps_tlast <= '1' when ps_tlast = '1' and last_inf = '1' else '0';
+	--m00_ps_tlast <= '1' when ps_tlast = '1' and last_inf = '1' else '0';
+	m00_ps_tlast <= '1' when ps_tlast = '1' and pl_last = '1' else '0';
     s00_ps_tready <= ps_tready;
 	empty_fifo <= in_fifo_empty;
 end arch_RANGER_MAIN;

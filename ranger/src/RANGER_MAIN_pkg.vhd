@@ -13,9 +13,11 @@ package RANGER_MAIN_pkg is
 		clk : in std_logic;
 		reset : in std_logic;
 		init : in std_logic;
+    start : in std_logic;
 		stop_ranger : out std_logic;
 		idle_ranger : out std_logic;
 		empty_fifo	: out std_logic;
+		config_done	: out std_logic;
     	s00_ps_tvalid : in std_logic;	
     	s00_ps_tlast : in std_logic;	
     	s00_ps_tdata : in std_logic_vector(g_data_width - 1 downto 0);	
