@@ -13,8 +13,14 @@
 #include <sys/ioctl.h>
 
 #define MAX_BUF_SIZE 508
+#define NUM_INFERENCES 20
+
 #define DIV 2
 static volatile int running = 1;
+
+uint32_t * mem_layout = NULL;                                         
+uint32_t num_inputs = 0;                        
+uint32_t num_labels = 0;                        
 
 static void signal_handler(int signal) {
     switch (signal) {
@@ -27,22 +33,6 @@ static void signal_handler(int signal) {
         default:
             break;
     }
-}
-
-uint32_t get_num_inputs(char * filename){
-    FILE * fd_mem;
-    uint32_t num_inputs;
-
-    if((fd_mem = fopen(filename, "r")) == NULL){
-        printf("[ERROR] Mem layout file: %s", strerror(errno));
-    }
-
-    fscanf(fd_mem, "%X", &num_inputs);
-    //printf("Num inputs: %d (%X)\n", num_inputs, num_inputs);
-
-    fclose(fd_mem);
-
-    return num_inputs;
 }
 
 uint32_t * divide_data(uint32_t full_size, uint32_t divided_in) {
@@ -64,44 +54,46 @@ uint32_t * divide_data(uint32_t full_size, uint32_t divided_in) {
 }  
 
 
-uint32_t * get_mem_layout(char * filename, uint32_t num_inputs){
+void get_mem_layout(char * filename){
     FILE * fd_mem;
     uint32_t data, i = 0;
-    uint32_t * mem_layout;
 
-    mem_layout = malloc(num_inputs * sizeof(uint32_t));
 
     if((fd_mem = fopen(filename, "r")) == NULL){
         printf("[ERROR] Opening mem layout file: %s", strerror(errno));
     }
 
-    fscanf(fd_mem, "%X", &num_inputs); // Read and ignore the first
-    while(!feof(fd_mem) && i < num_inputs){
+    fscanf(fd_mem, "%X", &data);
+    num_inputs = data;
+
+    fscanf(fd_mem, "%X", &data);
+    num_labels = data;
+    
+    mem_layout = malloc((num_inputs + num_labels) * sizeof(uint32_t));
+    
+    while(!feof(fd_mem) && i < num_inputs + num_labels){
         fscanf(fd_mem, "%X", &data);
         mem_layout[i] = data;
         i++;
     }
-
+    
     fclose(fd_mem);
-
-    return mem_layout;
 }
 
 
 void * write_axis_fifo(void * arg){                                    
-    uint32_t * mem_layout;                                         
-    uint32_t num_inputs;                        
     int fd_w, i, j;                                                        
-    int start_addr;                   
+    int start_addr = 0;                   
     ssize_t bytes_wr;                                       
     uint32_t * sizes;                                              
 
     printf("[INFO] Thread 1 (write fifo)\n");          
+    
+ 
 
     fd_w = *(int *)arg;               
 
-    num_inputs = get_num_inputs("./mem_layout.txt");               
-    mem_layout = get_mem_layout("./mem_layout.txt", num_inputs);   
+
 
     sizes = divide_data(num_inputs, DIV);                                  
 
@@ -123,7 +115,6 @@ void * write_axis_fifo(void * arg){
     }                                                              
     printf("\n");                                                          
 
-    free(mem_layout);                             
     close(fd_w);                                                           
     pthread_exit(NULL);                                       
 }
@@ -137,7 +128,7 @@ void * read_axis_fifo(void * arg){
     printf("[INFO] Thread 2 (read fifo)\n");                                                  
 
     fd_r = *(int*)arg;                                                     
-    output_size = 20;                                         
+    output_size = NUM_INFERENCES;                                         
     out_buff = malloc(output_size*sizeof(uint32_t));             
 
     //while(i < num_inputs){                                                           
@@ -157,6 +148,15 @@ void * read_axis_fifo(void * arg){
     printf("--------------------------------------\n");
     printf("[*] Total cycles: %d\n", out_buff[19]);
     printf("[*] Average inference time: %0.2f ns\n", avg_c_time);
+
+    int c = 0;
+    for(int j = 0; j < num_labels; j++){
+        if(out_buff[j] == mem_layout[num_inputs + j]){
+            c++;
+        }
+    }
+    float acc = (c * 100.0)/(float)num_labels;
+    printf("[*] Accuracy: %0.2f \% (%d/%d)\n", acc, num_labels, c);
 
     free(out_buff);                                           
     pthread_exit(NULL);                                                   
@@ -182,6 +182,9 @@ int main(){
         printf("[ERROR] Opening file: %s", strerror(errno));
         pthread_exit(NULL);
     }
+
+    get_mem_layout("./mem_layout.txt");   
+
     //Create threads
     pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
     pthread_create(&th2, NULL, read_axis_fifo, (void *) &fd_r);
@@ -191,6 +194,7 @@ int main(){
     //}
 
     //printf("Bye bye ...\n");
+    free(mem_layout);                             
     pthread_join(th1, NULL);
     pthread_join(th2, NULL);
 
