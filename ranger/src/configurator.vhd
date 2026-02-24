@@ -19,10 +19,13 @@ entity configurator is
             i_empty_fifo	: in std_logic; 
             -----------------------------------------------
             o_dt_id		: out std_logic_vector(7 downto 0);
+            o_inferences		: out std_logic_vector(23 downto 0);
             o_DATA_ADDR	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
             o_config_done	: out std_logic;
             o_re_data	: out std_logic;
             o_transfer_done : out std_logic;
+            o_stop : out std_logic;
+            o_last : out std_logic;
             o_get_data	: out std_logic
         );
 end configurator;
@@ -30,7 +33,7 @@ end configurator;
 architecture arch_configurator of configurator is
 
     -- State machine
-    type state is (E0, E1, E2, E3, E3b, E3c, E4, E5);
+    type state is (E0, E1, E2, E3, E3b, E3c, E4, E4b, E5);
     signal current_s, next_s: state;
 
     signal config, last_dt, last_node : std_logic := '0';
@@ -41,12 +44,13 @@ architecture arch_configurator of configurator is
 
     -- Node Counter
     signal cl_c_nodes, ld_c_nodes, dec_c_nodes : std_logic;
-    signal c_nodes_out : integer := 0; --range??
+    signal c_nodes_out : integer := 0;
     signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
     signal node_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
 
     -- Register
     signal r_dt_id_out : std_logic_vector(7 downto 0) := (others => '0');
+    signal r_infer : std_logic_vector(23 downto 0) := (others => '1');
     signal ld_dt_id : std_logic;
 
     -- Load data
@@ -59,6 +63,13 @@ architecture arch_configurator of configurator is
 
     signal ld_config_done, config_done : std_logic := '0';
     signal cl_config_done : std_logic := '0';
+
+    -- Infer counter
+    signal ld_inference_number : std_logic := '0';
+    signal dec_inf_counter : std_logic := '0';
+    signal inference_number : integer := 1;
+    signal stop : std_logic := '0';
+    signal last : std_logic := '0';
 
 begin
 
@@ -86,7 +97,8 @@ when E3c => next_s <= E3;
 when E3b => if i_en_config = '0' then next_s <= E3b;
         else next_s <= E3c;
         end if;
-    when E4 => next_s <= E5;
+    when E4 => next_s <= E4b;
+    when E4b => next_s <= E5;
     when E5 => if last_feature = '1' then next_s <= E0;
 else next_s <= E5;
 end if;
@@ -180,7 +192,7 @@ end case;
                 c_nodes_out <= 0;
                 node_addr <= (others => '0');
             elsif ld_c_nodes = '1' then
-                c_nodes_out <= to_integer(unsigned(i_data(31 downto 8)) - 1);
+                c_nodes_out <= to_integer(unsigned(i_data(20 downto 8)) - 1);
             elsif dec_c_nodes = '1' then
                 c_nodes_out <= c_nodes_out - 1;
                 node_addr <= node_addr + 1;
@@ -204,6 +216,7 @@ end case;
     end process;
 
     o_dt_id <= r_dt_id_out when current_s = E3 else (others => '0');
+    o_inferences <= r_infer;
 
 
     -- Feature Counter
@@ -220,8 +233,9 @@ end case;
                 num_features <= r_num_features;
             elsif ld_num_features = '1' then
                 data_addr <= (others => '0');
-                r_num_features <= to_integer(unsigned(i_data) - 1);
-                num_features <= to_integer(unsigned(i_data) - 1);
+                r_num_features <= to_integer(unsigned(i_data(7 downto 0)) - 1);
+                num_features <= to_integer(unsigned(i_data(7 downto 0)) - 1);
+                r_infer <= i_data(31 downto 8);
             elsif dec_num_features = '1' then
                 num_features <= num_features - 1;
                 data_addr <= data_addr + 1;
@@ -243,4 +257,27 @@ end case;
             end if;
         end if;
     end process;
+
+    -- INFERENCE COUNTER
+
+    dec_inf_counter <= '1' when current_s = E0 and i_up_int_data = '1' and loaded = '1' else '0';
+    --ld_inference_number <= '1' when current_s = E0 and i_up_int_data = '1' and loaded = '0' else '0';
+    ld_inference_number <= '1' when current_s = E4b else '0';
+
+    process(i_clk, dec_inf_counter, inference_number)
+    begin
+        if rising_edge(i_clk) then
+            if ld_inference_number = '1' then
+                inference_number <= to_integer(unsigned(r_infer));
+                --inference_number <= 19;
+            elsif dec_inf_counter = '1' and inference_number /= 0 then 
+                inference_number <= inference_number - 1;
+            end if;
+        end if;
+    end process;
+    
+    o_last <= '1' when inference_number = 0 else '0';
+    o_stop <= '1' when inference_number = 0 else '0';
+
+
 end arch_configurator;

@@ -14,14 +14,14 @@ from dt_utils import *
 #y = iris.target
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
-#x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
+x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
-x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
 
 print("[-] Training model")
-num_instances = 32
+num_instances = 6
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)
@@ -57,8 +57,12 @@ data_mem, data_mem_bin = create_data_mem(x_test)
 num_features = len(x_test[0])
 #print("Num features: {}".format(num_features))
 
-data_mem.insert(0, format(num_features, "0{}x".format(8)))
-data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
+y_test = y_test.to_numpy()
+num_labels = len(y_test)
+print(num_labels)
+
+data_mem.insert(0, format(num_labels, "0{}x".format(6)) + format(num_features, "0{}x".format(2)))
+data_mem_bin.insert(0, format(num_labels, "0{}b".format(24)) + format(num_features, "0{}b".format(8)))
 
 #forest[0].insert(0, format(num_instances, "0{}b".format(32)))
 
@@ -76,10 +80,25 @@ data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
 # ...
 
 print("[-] Writing memory layouts to txt files")
+
 forest_bin = mat_to_array(forest_bin)
 forest_hex = mat_to_array(forest_hex)
 num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
 forest_hex.insert(0, num_elems_hex)
+
+accuracy = accuracy_score(y_test, y_pred)
+
+
+forest_hex.insert(1, format(num_labels, "0{}x".format(8)))
+
+
+#for i in range(19):
+for i in range(len(y_test)):
+    data_mem.append(format(y_test[i], "0{}x".format(8)))
+
+
+
+
 write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")
 write_to_file(forest_hex + data_mem, "../ranger/memory_content/random_forest_hex.txt")
 #write_to_file(forest[1:], "../ranger/memory_content/bin_node_mem_content.txt")
@@ -97,12 +116,12 @@ print("Total time:                  {} ms".format(round(total*1000, 2)))
 time_to_process = round((total * 1000000) / len(x_test), 2)
 print("Average inference time:      {} us".format(time_to_process))
 
-accuracy = accuracy_score(y_test, y_pred)
 print(f'Accuracy:                    {accuracy * 100:.2f}%')
 
 conf_matrix = confusion_matrix(y_test, y_pred)
 print(f'\nConfusion matrix:\n {conf_matrix}')
 
-print(len(x_test))
-print("y test: {}".format(y_test.to_numpy()[0:15]))
-print("y pred: {}".format(y_pred[0:15]))
+print(y_test)
+print(len(y_test))
+print("y test: {}".format(y_test[0:19]))
+print("y pred: {}".format(y_pred[0:19]))

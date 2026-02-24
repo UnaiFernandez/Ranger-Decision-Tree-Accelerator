@@ -48,6 +48,7 @@ architecture arch_ranger of ranger is
     -- Configurator
     signal get_data : std_logic;
     signal data_loaded : std_logic;
+    signal loaded : std_logic := '0';
     signal config_done : std_logic;
     signal up_int_data : std_logic := '0';
     signal en_config : std_logic;
@@ -66,7 +67,9 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
     signal en_find_max : std_logic := '0';
-    signal inference_number : integer := 19;
+    signal inference_number : integer := 0;
+    signal ld_inference_number : std_logic := '0';
+    signal o_conf_infer : std_logic_vector(23 downto 0) := (others => '0');
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
@@ -230,21 +233,26 @@ end if;
                 i_up_int_data	=> up_int_data,
                 i_empty_fifo => i_fifo_empty,
                 o_dt_id		=> dt_id,
+                o_inferences => o_conf_infer,
                 o_data_addr	=> data_addr,
                 o_CONFIG_DONE   => config_done,
                 o_get_data	=> get_data,
                 o_transfer_done => data_loaded,
+                --o_stop => stop,
+                --o_last => last,
                 o_re_data	=> o_rd_fifo_data
             );
 
     -- INFERENCE COUNTER
 
     dec_inf_counter <= '1' when calc_done = '1' else '0';
+    ld_inference_number <= '1' when current_s = E2 and loaded = '0' else '0';
 
     process(i_clk, dec_inf_counter, inference_number, start, i_reset)
     begin
         if rising_edge(i_clk) then
-            if i_reset = '1' or start = '1' then
+            if i_reset = '1' or start = '1' or ld_inference_number = '1' then
+                --inference_number <= to_integer(unsigned(o_conf_infer) - 1);
                 inference_number <= 19;
             elsif dec_inf_counter = '1' and inference_number /= 0 then 
                 inference_number <= inference_number - 1;
@@ -267,6 +275,7 @@ end if;
     end process;
     
 
+    --o_last <= '1' when last = '1' and current_s = E7 else '0';
     o_last <= last;
     stop <= '1' when inference_number = 0 else '0';
 
