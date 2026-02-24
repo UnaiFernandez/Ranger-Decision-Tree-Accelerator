@@ -13,14 +13,14 @@
 #include <sys/ioctl.h>
 
 #define MAX_BUF_SIZE 508
-#define NUM_INFERENCES 20
+#define NUM_INFERENCES 60
 
 #define DIV 2
 static volatile int running = 1;
 
 uint32_t * mem_layout = NULL;                                         
 uint32_t num_inputs = 0;                        
-uint32_t num_labels = 0;                        
+uint32_t num_labels = NUM_INFERENCES;                        
 
 static void signal_handler(int signal) {
     switch (signal) {
@@ -128,12 +128,14 @@ void * read_axis_fifo(void * arg){
     printf("[INFO] Thread 2 (read fifo)\n");                                                  
 
     fd_r = *(int*)arg;                                                     
-    output_size = NUM_INFERENCES;                                         
+    sleep(1);                                                              
+
+    output_size = num_labels;                                         
     out_buff = malloc(output_size*sizeof(uint32_t));             
 
+    printf("Output size: %d\n", output_size);
     //while(i < num_inputs){                                                           
     //while(running){                             
-    sleep(1);                                                              
 
     bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
     if(bytes_rd > 0){                                      
@@ -144,9 +146,9 @@ void * read_axis_fifo(void * arg){
         printf("Bytes read: %d\n", bytes_rd);                 
     }                                                      
     //}                                                                                
-    float avg_c_time = (out_buff[19]/19.0)*10.0;
+    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*10.0;
     printf("--------------------------------------\n");
-    printf("[*] Total cycles: %d\n", out_buff[19]);
+    printf("[*] Total cycles: %d\n", out_buff[num_labels]);
     printf("[*] Average inference time: %0.2f ns\n", avg_c_time);
 
     int c = 0;
@@ -184,6 +186,8 @@ int main(){
     }
 
     get_mem_layout("./mem_layout.txt");   
+
+    usleep(500);
 
     //Create threads
     pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
