@@ -16,9 +16,9 @@ from dt_utils import *
 
 #x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
-x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
+x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
 
 print("[-] Training model")
 num_instances = 6
@@ -86,6 +86,7 @@ print("[-] Writing memory layouts to txt files")
 forest_bin = mat_to_array(forest_bin)
 forest_hex = mat_to_array(forest_hex)
 forest_hex.insert(0, format(num_labels, "0{}x".format(8)))
+forest_bin.insert(0, format(num_labels, "0{}b".format(32)))
 num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
 forest_hex.insert(0, num_elems_hex)
 write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")

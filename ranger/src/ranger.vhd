@@ -83,6 +83,7 @@ architecture arch_ranger of ranger is
     signal last : std_logic := '0';
 
     signal infer : std_logic_vector(31 downto 0);
+    signal idle : std_logic;
 
 begin
     -- State machine
@@ -276,11 +277,12 @@ end if;
     stop <= '1' when inference_number = 0 else '0';
 
     o_stop <= stop;
-    o_idle <= '1' when current_s = E0 or current_s = E01 else '0';
+    idle <= '1' when current_s = E0 or current_s = E01 else '0';
+    o_idle <= idle;
     o_config_done <= config_done;
 
     -- CLYCLE COUNTER
-    inc_c <= '1' when config_done = '1' and stop = '0' else '0';
+    inc_c <= '1' when config_done = '1' and stop = '0' and idle = '0' else '0';
     ld_cycles <= '1' when config_done = '1' and stop = '1' else '0';
 
     sel_cycles <= '1' when current_s = E6 and stop = '1' else '0';

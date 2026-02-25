@@ -82,7 +82,6 @@ void get_mem_layout(char * filename){
     num_labels = mem_layout[0];
     
     labels_base = num_inputs - num_labels;
-    printf("[INFO] num labels: %d\n", num_labels);
     
     fclose(fd_mem);
 }
@@ -105,14 +104,14 @@ void * write_axis_fifo(void * arg){
     sizes = divide_data(num_inputs, divisor);                                  
 
     i = 0;
-    printf("[*] Sending data");
+    printf("[*] Sending data ...");
     while(i < divisor){                                         
         // Write to file                                       
         bytes_wr = write(fd_w, mem_layout + start_addr, sizes[i]*sizeof(uint32_t));
         //printf("start_adr: %d\n", start_addr);
         for(j = 0; j < 10; j++){     
             //printf("%X ", mem_layout[j + start_addr]);
-            printf(".");
+            //printf(".");
             //printf("addr =  %d + %d\n", start_addr, j);
         }                                                
         usleep(100);                          
@@ -145,9 +144,10 @@ void * read_axis_fifo(void * arg){
     bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
     if(bytes_rd > 0){                                      
         printf("[*] Receiving data: ");                                       
-        for(j = 0; j < output_size; j++){
+        for(j = 0; j < 10; j++){
             printf("(%X) ", out_buff[j]);                  
-        }                                         
+        }                 
+        printf("... ");
         printf("Bytes read: %d\n", bytes_rd);                 
     }                                                      
     //}                                                                                
@@ -159,13 +159,12 @@ void * read_axis_fifo(void * arg){
     int c = 0;
 
     for(int j = 0; j < num_labels; j++){
-        //printf("%d ", mem_layout[labels_base + j]);
         if(out_buff[j] == mem_layout[labels_base + j]){
             c++;
         }
     }
     float acc = (c * 100.0)/(float)num_labels;
-    printf("[*] Accuracy: %0.2f \% (%d/%d)\n", acc, num_labels, c);
+    printf("[*] Accuracy: %0.2f \% (%d/%d)\n", acc, c, num_labels);
 
     free(out_buff);                                           
     pthread_exit(NULL);                                                   
@@ -197,7 +196,6 @@ int main(int argc, char ** argv){
     //get_mem_layout("./mem_layout.txt");   
     get_mem_layout(argv[1]);   
     divisor = atoi(argv[2]);
-    printf("%d\n", divisor);
 
     //Create threads
     pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
