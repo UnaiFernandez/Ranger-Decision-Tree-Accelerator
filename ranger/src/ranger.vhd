@@ -67,9 +67,7 @@ architecture arch_ranger of ranger is
     signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
     signal en_find_max : std_logic := '0';
-    signal inference_number : integer := 0;
-    signal ld_inference_number : std_logic := '0';
-    signal o_conf_infer : std_logic_vector(23 downto 0) := (others => '0');
+    signal inference_number : integer := 1;
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
@@ -84,6 +82,9 @@ architecture arch_ranger of ranger is
     signal sel_cycles : std_logic := '0';
     signal ld_last : std_logic := '0';
     signal last : std_logic := '0';
+
+    signal infer : std_logic_vector(31 downto 0);
+    signal idle : std_logic;
 
 begin
     -- State machine
@@ -233,7 +234,7 @@ end if;
                 i_up_int_data	=> up_int_data,
                 i_empty_fifo => i_fifo_empty,
                 o_dt_id		=> dt_id,
-                o_inferences => o_conf_infer,
+                o_infer => infer,
                 o_data_addr	=> data_addr,
                 o_CONFIG_DONE   => config_done,
                 o_get_data	=> get_data,
@@ -251,9 +252,10 @@ end if;
     process(i_clk, dec_inf_counter, inference_number, start, i_reset)
     begin
         if rising_edge(i_clk) then
-            if i_reset = '1' or start = '1' or ld_inference_number = '1' then
-                --inference_number <= to_integer(unsigned(o_conf_infer) - 1);
-                inference_number <= 19;
+            --if i_reset = '1' or start = '1' or init = '1' then
+            if start = '1' or (config_done = '1' and current_s = E1) then
+                inference_number <= to_integer(unsigned(infer));
+                --inference_number <= 19;
             elsif dec_inf_counter = '1' and inference_number /= 0 then 
                 inference_number <= inference_number - 1;
             end if;
@@ -280,11 +282,12 @@ end if;
     stop <= '1' when inference_number = 0 else '0';
 
     o_stop <= stop;
-    o_idle <= '1' when current_s = E0 or current_s = E01 else '0';
+    idle <= '1' when current_s = E0 or current_s = E01 else '0';
+    o_idle <= idle;
     o_config_done <= config_done;
 
     -- CLYCLE COUNTER
-    inc_c <= '1' when config_done = '1' and stop = '0' else '0';
+    inc_c <= '1' when config_done = '1' and stop = '0' and idle = '0' else '0';
     ld_cycles <= '1' when config_done = '1' and stop = '1' else '0';
 
     sel_cycles <= '1' when current_s = E6 and stop = '1' else '0';

@@ -14,11 +14,11 @@ from dt_utils import *
 #y = iris.target
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
-x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
+x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
 
 print("[-] Training model")
 num_instances = 6
@@ -61,8 +61,11 @@ y_test = y_test.to_numpy()
 num_labels = len(y_test)
 print(num_labels)
 
-data_mem.insert(0, format(num_labels, "0{}x".format(6)) + format(num_features, "0{}x".format(2)))
-data_mem_bin.insert(0, format(num_labels, "0{}b".format(24)) + format(num_features, "0{}b".format(8)))
+data_mem.insert(0, format(num_features, "0{}x".format(8)))
+data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
+
+for i in range(len(y_test)):
+    data_mem.append(format(y_test[i], "0{}x".format(8)))
 
 #forest[0].insert(0, format(num_instances, "0{}b".format(32)))
 
@@ -83,6 +86,8 @@ print("[-] Writing memory layouts to txt files")
 
 forest_bin = mat_to_array(forest_bin)
 forest_hex = mat_to_array(forest_hex)
+forest_hex.insert(0, format(num_labels, "0{}x".format(8)))
+forest_bin.insert(0, format(num_labels, "0{}b".format(32)))
 num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
 forest_hex.insert(0, num_elems_hex)
 
@@ -121,7 +126,6 @@ print(f'Accuracy:                    {accuracy * 100:.2f}%')
 conf_matrix = confusion_matrix(y_test, y_pred)
 print(f'\nConfusion matrix:\n {conf_matrix}')
 
-print(y_test)
-print(len(y_test))
-print("y test: {}".format(y_test[0:19]))
-print("y pred: {}".format(y_pred[0:19]))
+print(len(x_test))
+print("y test: {}".format(y_test[0:15]))
+print("y pred: {}".format(y_pred[0:15]))
