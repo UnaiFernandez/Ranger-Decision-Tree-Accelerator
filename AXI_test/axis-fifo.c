@@ -109,6 +109,7 @@ void * write_axis_fifo(void * arg){
         // Write to file                                       
         bytes_wr = write(fd_w, mem_layout + start_addr, sizes[i]*sizeof(uint32_t));
         //printf("start_adr: %d\n", start_addr);
+        printf("%8X [%d]\n", mem_layout[start_addr], start_addr);
         for(j = 0; j < 10; j++){     
             //printf("%X ", mem_layout[j + start_addr]);
             //printf(".");
@@ -137,7 +138,7 @@ void * read_axis_fifo(void * arg){
     output_size = num_labels + 1;                                         
     out_buff = malloc(output_size*sizeof(uint32_t));             
 
-    printf("Output size: %d\n", output_size);
+    //printf("Output size: %d\n", output_size);
     //while(i < num_inputs){                                                           
     //while(running){                             
 

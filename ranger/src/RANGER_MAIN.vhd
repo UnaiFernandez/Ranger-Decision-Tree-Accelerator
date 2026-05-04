@@ -56,7 +56,7 @@ signal ps_tvalid, ps_tlast, ps_tready : std_logic;
 signal ps_data : std_logic_vector(g_addr_width - 1 downto 0);
 signal out_data : std_logic_vector(g_addr_width - 1 downto 0);
 
-signal last_inf : std_logic;
+--signal last_inf : std_logic;
 
 begin
 
@@ -64,7 +64,7 @@ begin
 
     DT_RANGER: ranger
     generic map(
-        g_dt_instances  => 6,
+        g_dt_instances  => 64,
         g_mem_depth    => 1024,
         g_data_width    => 32,
         g_addr_width    => 16
@@ -91,8 +91,8 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '1',
-        g_DEPTH => 254
+        g_INIT_MEM => '0',
+        g_DEPTH => 1024
     )
     port map(
         i_CLK => clk,
@@ -128,18 +128,18 @@ begin
     );
 
 	--last_inf <= '1' when wr_fifo_data = '1' and pl_last = '1' else '0';
-	process(clk, pl_last, wr_fifo_data)
-	begin
-		if rising_edge(clk) then
-			if pl_last = '1' and wr_fifo_data = '1' then
-				last_inf <= '1';
-			elsif ps_tvalid = '1' then
-				last_inf <= '0';
-			else
-				last_inf <= last_inf;
-			end if;
-		end if;
-	end process;
+	--process(clk, pl_last, wr_fifo_data)
+	--begin
+	--	if rising_edge(clk) then
+	--		if pl_last = '1' and wr_fifo_data = '1' then
+	--			last_inf <= '1';
+	--		elsif ps_tvalid = '1' then
+	--			last_inf <= '0';
+	--		else
+	--			last_inf <= last_inf;
+	--		end if;
+	--	end if;
+	--end process;
 
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;

@@ -14,14 +14,14 @@ from dt_utils import *
 #y = iris.target
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
-#x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
+x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
-x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
+#x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
 
 print("[-] Training model")
-num_instances = 6
+num_instances = 64
 
 start_train = time.time()
 rf = train_forest(x_train, y_train, num_instances)
@@ -88,20 +88,12 @@ forest_bin = mat_to_array(forest_bin)
 forest_hex = mat_to_array(forest_hex)
 forest_hex.insert(0, format(num_labels, "0{}x".format(8)))
 forest_bin.insert(0, format(num_labels, "0{}b".format(32)))
-num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
-forest_hex.insert(0, num_elems_hex)
 
 accuracy = accuracy_score(y_test, y_pred)
 
 
-forest_hex.insert(1, format(num_labels, "0{}x".format(8)))
-
-
-#for i in range(19):
-for i in range(len(y_test)):
-    data_mem.append(format(y_test[i], "0{}x".format(8)))
-
-
+num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
+forest_hex.insert(0, num_elems_hex)
 
 
 write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")

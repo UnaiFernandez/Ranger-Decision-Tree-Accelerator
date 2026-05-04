@@ -7,6 +7,7 @@ use work.dt_accel_pkg.all;
 use work.fifo_pkg.all;
 use work.ranger_pkg.all;
 use work.configurator_pkg.all;
+use work.configurat_pkg.all;
 use work.general_package.all;
 
 entity ranger is
@@ -93,28 +94,29 @@ begin
     begin
         case current_s is
             when E0 => if init = '1' then next_s <= E01;
-        else next_s <= E0;
-        end if;
-    when E01 => if i_fifo_empty = '0' and config_done = '0' and stop = '0' then next_s <= E1;
-elsif i_fifo_empty = '0' and config_done = '1' and stop = '0' then next_s <= E2;
-else next_s <= E01;
-end if;
-        when E1 => if i_fifo_empty = '1' then next_s <= E01;
-    elsif config_done = '1' then next_s <= E2;
-    else next_s <= E1;
-    end if;
-when E2 => if i_fifo_empty = '1' then next_s <= E01; 
-           elsif data_loaded = '1' then next_s <= E3;
-           else next_s <= E2;
-           end if;
-       when E3 => if ready = '1' then next_s <= E4;
-   else next_s <= E3;
-   end if;
-    when E4 => next_s <= E5;
-    when E5 => next_s <= E6;
-    when E6 => if stop = '1' then next_s <= E7;
-else next_s <= E2;
-end if;
+                else next_s <= E0;
+                end if;
+            when E01 => if i_fifo_empty = '0' and config_done = '0' and stop = '0' then next_s <= E1;
+                elsif i_fifo_empty = '0' and config_done = '1' and stop = '0' then next_s <= E2;
+                else next_s <= E01;
+                end if;
+            when E1 => if i_fifo_empty = '1' then next_s <= E01;
+                elsif config_done = '1' then next_s <= E2;
+                else next_s <= E1;
+                end if;
+            when E2 => if i_fifo_empty = '1' and data_loaded = '0' then next_s <= E01; 
+                elsif data_loaded = '1' then next_s <= E3;
+                else next_s <= E2;
+                end if;
+            when E3 => if ready = '1' then next_s <= E4;
+                else next_s <= E3;
+                end if;
+            when E4 => next_s <= E5;
+            when E5 => next_s <= E6;
+            when E6 => if stop = '1' then next_s <= E7;
+                elsif i_fifo_empty = '0' then next_s <= E2;
+                else next_s <= E6;
+                end if;
             when E7 => next_s <= E01; 
         end case;
     end process;
@@ -218,10 +220,27 @@ end if;
 
     -- CONFIGURATOR
 
-    en_config <= '1' when current_s = E1 and config_done = '0' else '0';
-    up_int_data <= '1' when current_s = E2 else '0';
+    en_config <= '1' when (current_s = E1 and config_done = '0') else '0';
+    up_int_data <= '1' when current_s = E2 and i_fifo_empty = '0' else '0';
 
-    CONFIG: configurator
+    --CONFIG: configurator
+    --generic map(
+    --               g_dt_number	=> instances,
+    --               g_addr_width    => g_addr_width
+    --           )
+    --port map(
+    --            i_clk		=> i_clk,
+    --            i_reset		=> i_reset,
+    --            i_en_config	=> en_config,
+    --            i_data		=> i_fifo_data, -- REVISAR
+    --            i_up_int_data	=> up_int_data,
+    --            i_empty_fifo => i_fifo_empty
+    --            ----o_stop => stop,
+    --            ----o_last => last,
+    --            --o_re_data	=> o_rd_fifo_data
+    --        );
+
+    CONFIG2: configurat
     generic map(
                    g_dt_number	=> instances,
                    g_addr_width    => g_addr_width
@@ -233,21 +252,19 @@ end if;
                 i_data		=> i_fifo_data, -- REVISAR
                 i_up_int_data	=> up_int_data,
                 i_empty_fifo => i_fifo_empty,
-                o_dt_id		=> dt_id,
                 o_infer => infer,
+                o_get_data	=> get_data,
+                o_dt_id		=> dt_id,
                 o_data_addr	=> data_addr,
                 o_CONFIG_DONE   => config_done,
-                o_get_data	=> get_data,
                 o_transfer_done => data_loaded,
-                --o_stop => stop,
-                --o_last => last,
                 o_re_data	=> o_rd_fifo_data
             );
+
 
     -- INFERENCE COUNTER
 
     dec_inf_counter <= '1' when calc_done = '1' else '0';
-    ld_inference_number <= '1' when current_s = E2 and loaded = '0' else '0';
 
     process(i_clk, dec_inf_counter, inference_number, start, i_reset)
     begin

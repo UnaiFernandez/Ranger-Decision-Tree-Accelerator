@@ -24,8 +24,6 @@ entity configurator is
             o_config_done	: out std_logic;
             o_re_data	: out std_logic;
             o_transfer_done : out std_logic;
-            o_stop : out std_logic;
-            o_last : out std_logic;
             o_get_data	: out std_logic
         );
 end configurator;
@@ -50,7 +48,6 @@ architecture arch_configurator of configurator is
 
     -- Register
     signal r_dt_id_out : std_logic_vector(7 downto 0) := (others => '0');
-    signal r_infer : std_logic_vector(23 downto 0) := (others => '1');
     signal ld_dt_id : std_logic;
 
     -- Load data
@@ -83,17 +80,26 @@ begin
                 elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
                 else next_s <= E0;
                 end if;
-            when EC => next_s <= E1;
+            when EC => if i_en_config = '1' then next_s <= E1;
+                    else next_s <= EC;
+                    end if;
             when E1 => if i_en_config = '1' then next_s <= E2;
-                else next_s <= E0;
-                end if;
-            when E2 =>  next_s <= E3;
+                    else next_s <= E1;
+                    end if;
+            --when E1 => if i_en_config = '1' then next_s <= E2;
+                --else next_s <= E0;
+                --end if;
+            when E2 => if i_en_config = '1' then next_s <= E3;
+                    else next_s <= E2;
+                    end if;
             when E3 => if i_en_config = '0' then next_s <= E3b;
-                elsif last_node = '1' and last_dt = '1' then next_s <= E0;
-                elsif last_node = '1' and last_dt = '0' then next_s <= E1;
+                elsif i_en_config = '1' and last_node = '1' and last_dt = '1' then next_s <= E0;
+                elsif i_en_config = '1' and last_node = '1' and last_dt = '0' then next_s <= E1;
                 else next_s <= E3;
                 end if;
-            when E3c => next_s <= E3;
+            when E3c => if i_en_config = '1' then next_s <= E3;
+                        else next_s <= E3c;
+                        end if;
             when E3b => if i_en_config = '0' then next_s <= E3b;
                 else next_s <= E3c;
                 end if;
@@ -138,9 +144,9 @@ begin
 
     o_transfer_done <= '1' when current_s = E5 and last_feature = '1' else '0';
 
-    o_re_data <= '1' when current_s = E1 
-                 or current_s = EC
-                 or  current_s = E2
+    o_re_data <= '1' when (current_s = E1 and i_en_config = '1') 
+                 or (current_s = EC and i_en_config = '1')
+                 or (current_s = E2 and i_en_config = '1')
                  or (current_s = E3 and last_node = '0' and i_en_config = '1') 
                  or current_s = E3c
                  or (current_s = E0 and i_up_int_data = '1')
@@ -162,7 +168,7 @@ begin
     --    end if;
     --end process;
 
-    ld_labels <= '1' when current_s = EC else '0';
+    ld_labels <= '1' when current_s = EC and i_en_config = '1' else '0';
 
     process(i_CLk, ld_labels)
     begin
@@ -195,9 +201,9 @@ begin
 
     -- Node Counter
 
-    cl_c_nodes <= '1' when current_s = E1 else '0';
-    ld_c_nodes <= '1' when current_s = E2 else '0';
-    dec_c_nodes <= '1' when (current_s = E3 and last_node = '0' and i_en_config = '1') or current_s = E3c else '0';
+    cl_c_nodes <= '1' when current_s = E1 and i_en_config = '1' else '0';
+    ld_c_nodes <= '1' when current_s = E2 and i_en_config = '1' else '0';
+    dec_c_nodes <= '1' when (current_s = E3 and last_node = '0' and i_en_config = '1') or (current_s = E3c and i_en_config = '1') else '0';
 
     process (i_clk, cl_c_nodes)
     begin
@@ -219,7 +225,7 @@ begin
 
     -- DT ID Register
 
-    ld_dt_id <= '1' when current_s = E2 else '0';
+    ld_dt_id <= '1' when current_s = E2 and i_en_config = '1' else '0';
     process (i_clk, ld_dt_id)
     begin
         if rising_edge(i_clk) then
@@ -230,7 +236,6 @@ begin
     end process;
 
     o_dt_id <= r_dt_id_out when current_s = E3 else (others => '0');
-    o_inferences <= r_infer;
 
 
     -- Feature Counter
@@ -249,7 +254,6 @@ begin
                 data_addr <= (others => '0');
                 r_num_features <= to_integer(unsigned(i_data(7 downto 0)) - 1);
                 num_features <= to_integer(unsigned(i_data(7 downto 0)) - 1);
-                r_infer <= i_data(31 downto 8);
             elsif dec_num_features = '1' then
                 num_features <= num_features - 1;
                 data_addr <= data_addr + 1;
@@ -271,27 +275,4 @@ begin
             end if;
         end if;
     end process;
-
-    -- INFERENCE COUNTER
-
-    dec_inf_counter <= '1' when current_s = E0 and i_up_int_data = '1' and loaded = '1' else '0';
-    --ld_inference_number <= '1' when current_s = E0 and i_up_int_data = '1' and loaded = '0' else '0';
-    ld_inference_number <= '1' when current_s = E4b else '0';
-
-    process(i_clk, dec_inf_counter, inference_number)
-    begin
-        if rising_edge(i_clk) then
-            if ld_inference_number = '1' then
-                inference_number <= to_integer(unsigned(r_infer));
-                --inference_number <= 19;
-            elsif dec_inf_counter = '1' and inference_number /= 0 then 
-                inference_number <= inference_number - 1;
-            end if;
-        end if;
-    end process;
-    
-    o_last <= '1' when inference_number = 0 else '0';
-    o_stop <= '1' when inference_number = 0 else '0';
-
-
 end arch_configurator;
