@@ -91,8 +91,8 @@ begin
         g_DATA_WIDTH => 32,
         g_ADDR_WIDTH => 16,
 		g_EMPTY_THRESHOLD => 0,
-        g_INIT_MEM => '0',
-        g_DEPTH => 1024
+        g_INIT_MEM => '1',
+        g_DEPTH => 2000
     )
     port map(
         i_CLK => clk,

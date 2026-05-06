@@ -63,7 +63,7 @@ generic map(
     g_addr_width    => g_ADDR_WIDTH,
     g_data_width    => g_DATA_WIDTH,
     g_depth	    => g_DEPTH,
-    g_init_file	    => "./memory_content/random_forest.txt",
+    g_init_file	    => "/home/unai/Projects/dt_vhdl/ranger/memory_content/dt_accel_test.txt",
     g_init	    => g_init_mem
 )
 port map(

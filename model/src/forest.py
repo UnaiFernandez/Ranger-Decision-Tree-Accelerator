@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sklearn
 import time
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_iris, load_digits
 
 from ram_converter import *
 from dt_utils import *
@@ -13,6 +13,13 @@ from dt_utils import *
 #X = iris.data
 #y = iris.target
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
+
+#digits = load_digits()
+#X = digits.data
+#y = digits.target
+#x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+
 
 x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
 #x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
@@ -40,8 +47,11 @@ forest_hex = []
 for i in range(num_instances):
     clf = rf.estimators_[i]
     dt = export_to_dict_bin(clf)
-    dt_bin = create_mem_bin_layouts(dt)
-    dt_hex = create_mem_hex_layouts(dt)
+    dt_hex_ram = export_to_hex_ram(clf)
+    #dt_bin = create_mem_bin_layouts(dt)
+    #dt_hex = create_mem_hex_layouts(dt)
+    dt_bin = create_mem_bin_layouts_new_format(dt_hex_ram)
+    dt_hex = create_mem_hex_layouts_new_format(dt_hex_ram)
     node_number_hex = format(len(dt_hex), "0{}x".format(6)) + format(i+1, "0{}x".format(2))
     node_number_bin = format(len(dt_bin), "0{}b".format(24)) + format(i+1, "0{}b".format(8))
     dt_bin.insert(0, node_number_bin)
