@@ -39,7 +39,7 @@ end dt_ctl;
 architecture arch_dt_ctl of dt_ctl is
 
 -- State machine
-    type state is (E0, E1, E2, E3, E4, E6, E7);
+    type state is (E0, E1, E2, E3, E4);
     signal current_s, next_s, r_state: state;
 
 -- C node mem
@@ -74,14 +74,12 @@ begin
 					  end if;
 	    when E1 => next_s <= E2;
 	    when E2 => next_s <= E3;
-	    when E3 => next_s <= E4;
-      when E4 => if leaf = '1' then next_s <= E6;
+      when E3 => if leaf = '1' then next_s <= E4;
             else next_s <= E2;
             end if;
-	    when E6 => if i_enable = '1' then next_s <= E2;
-		       else next_s <= E6;
+	    when E4 => if i_enable = '1' then next_s <= E2;
+		       else next_s <= E4;
 		       end if;
-	    when E7 => next_s <= E2;
 	end case;
     end process;
 
@@ -106,23 +104,27 @@ begin
 
 -- RE mem signals
 
-    o_RE_NODE <= '1' when current_s = E2 else '0';
-    o_RE_THR  <= '1' when current_s = E2 else '0';
-    o_RE_DATA <= '1' when current_s = E3 else '0';
+    o_RE_NODE <= '1' when (current_s = E1) 
+                    or (current_s = E3 and leaf = '0') 
+                    or (current_s = E4 and i_ENABLE = '1') else '0';
+    o_RE_THR  <= '1' when (current_s = E1) 
+                    or (current_s = E3 and leaf = '0') 
+                    or (current_s = E4 and i_ENABLE = '1') else '0';
+    o_RE_DATA <= '1' when current_s = E2 else '0';
 
 -- C node mem
 
-    LD_c_node_mem <= '1' when current_s = E4 else '0';
+    LD_c_node_mem <= '1' when current_s = E3 else '0'; -- TODO: check
     --INC_c_node_mem <= '1' when current_s = E4 and go_right = '0' else '0';
-    CL_c_node_mem <= '1' when current_s = E1 or current_s = E6 or i_reset = '1'else '0';
+    CL_c_node_mem <= '1' when (current_s = E0 and i_ENABLE = '1') or current_s = E4 or i_reset = '1' else '0';
 
     process(i_CLK, CL_c_node_mem)
     begin
-	  if rising_edge(i_CLK) then
+	  if LD_c_node_mem = '1' then
+			  c_node_mem_out <=  '0' & next_node(15 downto 1);
+	  elsif rising_edge(i_CLK) then
 		    if CL_c_node_mem = '1' then 
 			      c_node_mem_out <= (others => '0');
-	      elsif LD_c_node_mem = '1' then
-			      c_node_mem_out <=  '0' & next_node(15 downto 1);
 	      --elsif INC_c_node_mem = '1' then
 			      --c_node_mem_out <= std_logic_vector(unsigned(c_node_mem_out) + 2);
 	      end if;
@@ -147,7 +149,7 @@ begin
     --o_DONE <= '1' when current_s = E5 else '0';
     o_DONE <= done_i;
 
-	done_j <= '1' when current_s = E4 and leaf = '1' else '0';
+	done_j <= '1' when current_s = E3 and leaf = '1' else '0';
 	process(current_s, i_CALC_RESULT)
 	begin
 		if current_s = E1 or current_s = E0 or i_CALC_RESULT = '1' then
@@ -182,9 +184,9 @@ begin
 	  end if;
     end process;
 
-    en_right <= '1' when current_s = E4 and go_right = '1' else '0';
+    en_right <= '1' when current_s = E3 and go_right = '1' else '0';
 
-    ld_class <= '1' when current_s = E4 and leaf = '1' else '0';
+    ld_class <= '1' when current_s = E3 and leaf = '1' else '0';
 
     process(i_clk, ld_class)
     begin

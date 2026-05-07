@@ -299,7 +299,7 @@ begin
     stop <= '1' when inference_number = 0 else '0';
 
     o_stop <= stop;
-    idle <= '1' when current_s = E0 or current_s = E01 else '0';
+    idle <= '1' when current_s = E0 or current_s = E01 or (current_s = E6 and i_fifo_empty = '1') else '0';
     o_idle <= idle;
     o_config_done <= config_done;
 
