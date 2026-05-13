@@ -7,12 +7,13 @@ use work.dt_ctl_pkg.all;
 use work.ram_pkg.all;
 use work.fifo_pkg.all;
 use work.dt_accel_pkg.all;
+use work.general_package.all;
 
 entity dt_accel is
     generic(
         g_DATA_WIDTH: integer := 32;
         g_ADDR_WIDTH: integer := 16;
-	g_K	    : integer := 4;
+	      g_K	    : integer := 4;
         g_DEPTH	    : integer := 512
     );
     port(
@@ -23,10 +24,10 @@ entity dt_accel is
         i_GET_DATA  : in std_logic;
         i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
         i_DATA_MEM  : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-	    i_CALC_RESULT : in std_logic;
+	      i_CALC_RESULT : in std_logic;
         ----------------------------------------------------
         --o_CLASS	    : out std_logic_vector(g_K - 1 downto 0);
-	o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
+	      o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
         o_DONE	    : out std_logic
     );
 end dt_accel;
@@ -64,56 +65,52 @@ begin
     generic map(
         g_ADDR_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
-        --g_DEPTH		=> g_DEPTH,
-        g_DEPTH		=> 254,
+        g_DEPTH		=> node_mem_size,
         g_INIT_FILE	=> "/home/unai/Projects/dt_vhdl/ranger/memory_content/bin_node_mem_content_new.txt",
-        --g_INIT_FILE	=> "./memory_content/bin_node_mem_content.txt",
         g_INIT		=> '0'
     )
     port map(
         i_CLK		=> i_clk,
         i_RE_0		=> RE_node,
-        i_RE_1		=> RE_thr,
+        i_RE_1		=> RE_int_data,
         i_WE_1		=> i_SEL,
         i_ADDR_0	=> node_addr_0,
-        i_ADDR_1	=> thr_addr,
+        i_ADDR_1	=> int_data_addr,
         i_WR_ADDR	=> i_DATA_ADDR,
         i_DATA_1	=> i_DATA_MEM,
         o_DATA_0	=> node_info,
-        o_DATA_1	=> threshold
-    );
-
--- INTERNAL DATA MEMORY
-    INT_DATA_MEM: ram
-    generic map(
-        g_ADDR_WIDTH	=> g_ADDR_WIDTH,
-        g_DATA_WIDTH	=> g_DATA_WIDTH,
-        --g_DEPTH		=> g_DEPTH,
-        g_DEPTH		=> 64,
-        g_INIT_FILE	=> "/home/unai/Projects/dt_vhdl/ranger/memory_content/data_mem_content.txt",
-        --g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
-        g_INIT		=> '0'
-    )
-    port map(
-        i_CLK		=> i_clk,
-        i_RE_0		=> RE_int_data,
-        i_RE_1		=> RE_int_data,
-        i_WE_1		=> i_GET_DATA,
-        i_ADDR_0	=> int_data_addr,
-        i_ADDR_1	=> int_data_addr,
-        i_WR_ADDR	=> i_data_addr,
-        i_DATA_1	=> i_DATA_MEM,
-        o_DATA_0	=> int_data,
         o_DATA_1	=> int_data
     );
+
+---- INTERNAL DATA MEMORY
+--    INT_DATA_MEM: ram
+--    generic map(
+--        g_ADDR_WIDTH	=> g_ADDR_WIDTH,
+--        g_DATA_WIDTH	=> g_DATA_WIDTH,
+--        --g_DEPTH		=> g_DEPTH,
+--        g_DEPTH		=> 254,
+--        g_INIT_FILE	=> "/home/unai/Projects/dt_vhdl/ranger/memory_content/data_mem_content.txt",
+--        --g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
+--        g_INIT		=> '0'
+--    )
+--    port map(
+--        i_CLK		=> i_clk,
+--        i_RE_0		=> RE_int_data,
+--        i_RE_1		=> RE_int_data,
+--        i_WE_1		=> i_GET_DATA,
+--        i_ADDR_0	=> int_data_addr,
+--        i_ADDR_1	=> int_data_addr,
+--        i_WR_ADDR	=> i_data_addr,
+--        i_DATA_1	=> i_DATA_MEM,
+--        o_DATA_0	=> int_data,
+--        o_DATA_1	=> int_data
+--    );
 
 -- DT CONTROL
     DT: dt_ctl
     generic map(
-        g_NODE_WIDTH	=> g_DATA_WIDTH,
-        g_LINK_WIDTH	=> g_ADDR_WIDTH,
         g_DATA_WIDTH	=> g_DATA_WIDTH,
-        g_SPAN		=> 4
+        g_ADDR_WIDTH	=> g_ADDR_WIDTH
     )
     port map(
         i_clk		=> i_clk,
@@ -136,18 +133,17 @@ begin
     o_DONE <= '1' when task_terminated = '1' else '0';
 
 
-	process(i_CLK, task_terminated, class)
-		variable o_h_v : std_logic_vector(g_K - 1 downto 0) := (others => '0');
-		variable idx : integer;
-	begin
-		if rising_edge(i_CLK) then
-			o_h_v := (others => '0');
-			if task_terminated = '1' then
-				idx := to_integer(unsigned(class));
-				o_h_v(idx) := '1';
-			end if;
-			o_CLASS <= o_h_v;
-		end if;
-	end process;
-
+	  process(i_CLK, task_terminated, class)
+		    variable o_h_v : std_logic_vector(g_K - 1 downto 0) := (others => '0');
+		    variable idx : integer;
+	  begin
+		    if rising_edge(i_CLK) then
+			      o_h_v := (others => '0');
+			      if task_terminated = '1' then
+				        idx := to_integer(unsigned(class));
+				        o_h_v(idx) := '1';
+			      end if;
+			      o_CLASS <= o_h_v;
+		    end if;
+	  end process;
 end arch_dt_accel;

@@ -11,26 +11,24 @@ use work.dt_ctl_pkg.all;
 
 entity dt_ctl is
     generic(
-	    g_NODE_WIDTH 		: integer;
-	    g_LINK_WIDTH 		: integer;
 	    g_DATA_WIDTH 		: integer;
-	    g_SPAN 			: integer
+	    g_ADDR_WIDTH 		: integer
 	);
     port(
 	    i_CLK		        : in std_logic;
 	    i_RESET		        : in std_logic;
 	    i_ENABLE			: in std_logic;
-	    i_NODE_INFO			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
-	    i_THRESHOLD			: in std_logic_vector(g_NODE_WIDTH - 1 downto 0);
+	    i_NODE_INFO			: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
+	    i_THRESHOLD			: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	    i_DATA_OUT			: in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	    i_CALC_RESULT		: in std_logic;
 		-----------------------------------------------------
 	    o_RE_NODE			: out std_logic;
 	    o_RE_DATA			: out std_logic;
 	    o_RE_THR			: out std_logic;
-	    o_NODE_ADDR			: out unsigned(g_LINK_WIDTH - 1 downto 0);
-	    o_THR_ADDR			: out unsigned(g_LINK_WIDTH - 1 downto 0);
-	    o_DATA_ADDR			: out unsigned(g_LINK_WIDTH - 1 downto 0);
+	    o_NODE_ADDR			: out unsigned(g_ADDR_WIDTH - 1 downto 0);
+	    o_THR_ADDR			: out unsigned(g_ADDR_WIDTH - 1 downto 0);
+	    o_DATA_ADDR			: out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	    o_DONE			: out std_logic;
 	    o_CLASS		        : out std_logic_vector(15 downto 0)
 	);
@@ -44,13 +42,13 @@ architecture arch_dt_ctl of dt_ctl is
 
 -- C node mem
     signal LD_c_node_mem, INC_c_node_mem, CL_c_node_mem : std_logic;
-    signal c_node_mem_out : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
-    signal feature, right_node, left_node, next_node : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
+    signal c_node_mem_out : std_logic_vector(g_ADDR_WIDTH - 1 downto 0);
+    signal feature, right_node, left_node, next_node : std_logic_vector(g_ADDR_WIDTH - 1 downto 0);
     signal threshold : float(8 downto -23);
 
 -- R class
     signal LD_class : std_logic;
-    signal R_class : std_logic_vector(g_LINK_WIDTH - 1 downto 0);
+    signal R_class : std_logic_vector(g_ADDR_WIDTH - 1 downto 0);
 
 -- JK
 	signal done_j, done_k : std_logic := '0';
@@ -61,6 +59,9 @@ architecture arch_dt_ctl of dt_ctl is
     signal data_out : float(8 downto -23);
 
     signal en_right : std_logic := '0';
+
+    signal ld_node_info: std_logic := '0';
+    signal base_data_addr: unsigned(g_ADDR_WIDTH - 1 downto 0) := to_unsigned(511, g_ADDR_WIDTH);
 
 begin
 
@@ -105,11 +106,12 @@ begin
 -- RE mem signals
 
     o_RE_NODE <= '1' when (current_s = E1) 
+                    or (current_s = E2)
                     or (current_s = E3 and leaf = '0') 
                     or (current_s = E4 and i_ENABLE = '1') else '0';
-    o_RE_THR  <= '1' when (current_s = E1) 
-                    or (current_s = E3 and leaf = '0') 
-                    or (current_s = E4 and i_ENABLE = '1') else '0';
+    --o_RE_THR  <= '1' when (current_s = E1) 
+    --                or (current_s = E3 and leaf = '0') 
+    --                or (current_s = E4 and i_ENABLE = '1') else '0';
     o_RE_DATA <= '1' when current_s = E2 else '0';
 
 -- C node mem
@@ -131,14 +133,24 @@ begin
 	  end if;
     end process;
 
-    o_NODE_ADDR <= unsigned(c_node_mem_out);
-    o_THR_ADDR <= unsigned(c_node_mem_out) + 1;
-    threshold <= to_float(i_THRESHOLD);
+    o_NODE_ADDR <= unsigned(c_node_mem_out) + 1 when current_s = E2 else unsigned(c_node_mem_out);
+    o_THR_ADDR <= base_data_addr - unsigned(feature);
+    
+    threshold <= to_float(i_NODE_INFO);
 
+    ld_node_info <= '1' when current_s = E2 else '0';
+
+    process(i_clk, ld_node_info)
+    begin
+        if rising_edge(i_clk) then
+            if ld_node_info = '1' then
+                right_node<= "00000" & i_NODE_INFO(20 downto 10);
+                left_node<= "00000" & i_NODE_INFO(31 downto 21);
+            end if;
+        end if;
+    end process;
     feature <= "000000" & i_NODE_INFO(9 downto 0);
-    right_node<= "00000" & i_NODE_INFO(20 downto 10);
-    left_node<= "00000" & i_NODE_INFO(31 downto 21);
-    o_DATA_ADDR <= unsigned(feature);
+    o_DATA_ADDR <= base_data_addr - unsigned(feature);
     data_out <= to_float(i_DATA_OUT);
 
     --next_node <= '0' & right_node(15 downto 1) when go_right = '1' else '0' & left_node(15 downto 1);

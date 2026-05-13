@@ -10,7 +10,7 @@ entity ram is
         g_ADDR_WIDTH : integer;
         g_DATA_WIDTH : integer;
         g_DEPTH	     : integer;
-        g_INIT_FILE  : string;
+        g_INIT_FILE  : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/bin_node_mem_content_new.txt";
         g_INIT	     : std_logic
     );
     port(
@@ -60,7 +60,7 @@ architecture arch_ram of ram is
 
     signal ram_mem: memory_t(g_DEPTH - 1 downto 0) := init_mem(g_DEPTH);
 
-    attribute ram_style of ram_mem: signal is "auto";
+    attribute ram_style of ram_mem: signal is "bram";
 
 begin
 

@@ -12,11 +12,10 @@ use work.general_package.all;
 
 entity ranger is
     generic(
-               g_dt_instances : integer := instances;
-               g_mem_depth : integer := 1024;
-               g_data_width : integer := 32;
-               g_addr_width : integer := 16
-           );
+    	      g_n_estimators : integer;
+    	      g_data_width : integer := 32;
+    	      g_addr_width : integer := 16
+    );
     port(
             i_clk : in std_logic;
             i_reset : in std_logic;
@@ -41,10 +40,10 @@ architecture arch_ranger of ranger is
     signal current_s, next_s: state;
 
     -- DT_ACCEL
-    signal sel		    : std_logic_vector(instances - 1 downto 0);
+    signal sel		    : std_logic_vector(g_n_estimators - 1 downto 0);
     signal enable : std_logic;
     signal re_data : std_logic;
-    signal data_addr : UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
+    signal data_addr : UNSIGNED(g_addr_width - 1 downto 0);
 
     -- Configurator
     signal get_data : std_logic;
@@ -62,8 +61,8 @@ architecture arch_ranger of ranger is
     --signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
     -- Ranger
-    signal result_ready : std_logic_vector(instances - 1 downto 0) := (others => '0');
-    constant const_ready : std_logic_vector(instances - 1 downto 0) := (others => '1');
+    signal result_ready : std_logic_vector(g_n_estimators - 1 downto 0) := (others => '0');
+    constant const_ready : std_logic_vector(g_n_estimators - 1 downto 0) := (others => '1');
     signal ready :std_logic := '0';
     signal calc_done : std_logic := '0';
     signal stop : std_logic := '0';
@@ -72,7 +71,7 @@ architecture arch_ranger of ranger is
     signal dec_inf_counter : std_logic;
 
 -- AGGREGATOR
-    signal class_mat : mat_t(0 to instances - 1);
+    signal class_mat : mat_t(0 to g_n_estimators - 1);
 --signal sum_mat : cols_t(0 to 15);
     signal sum_mat : cols_t(0 to 3);
 --signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
@@ -137,12 +136,14 @@ begin
 
     -- DECODER
 
-    process(dt_id)
+    process(dt_id, get_data)
         variable sel_v :std_logic_vector(sel'range);
         variable idx : integer;	
     begin
         sel_v := (others => '0');
-        if dt_id /= "00000000" then
+        if get_data = '1' then
+            sel_v := (others => '1');
+        elsif dt_id /= "00000000" then
             idx := to_integer(unsigned(dt_id)) - 1;
             if idx >= sel_v'low and idx <= sel_v'high then
                 sel_v(idx) := '1';
@@ -151,29 +152,29 @@ begin
         sel <= sel_v;
     end process;
 
-    -- DT_ACCELERATOR instances
+    -- DT_ACCELERATOR g_n_estimators
 
     DT_ACCELERATOR:
-    for I in 0 to instances - 1 generate
+    for I in 0 to g_n_estimators - 1 generate
         DT_ACCEL_X : dt_accel
         generic map(
-                       g_DATA_WIDTH => g_DATA_WIDTH,
-                       g_ADDR_WIDTH => g_ADDR_WIDTH,
-                       g_K => 4,
-                       g_DEPTH	 => 1024
-                   )
+            g_data_width => g_data_width,
+            g_addr_width => g_addr_width,
+            g_K => 4,
+            g_DEPTH	 => 1024
+        )
         port map(
-                    i_clk	        => i_clk,
-                    i_reset	        => i_reset,
-                    i_data_mem	        => i_fifo_data, -- TODO: revisar tambien
-                    i_ENABLE		=> enable,
-                    i_SEL	        => sel(I),
-                    i_GET_DATA	        => get_data,
-                    i_DATA_ADDR		=> data_addr, -- TODO: Remane to avoid confusion
-                    i_CALC_RESULT	=> calc_done,
-                    o_class	        => class_mat(I),
-                    o_DONE	        => result_ready(I)
-                );
+            i_clk	        => i_clk,
+            i_reset	        => i_reset,
+            i_data_mem	        => i_fifo_data, -- TODO: revisar tambien
+            i_ENABLE		=> enable,
+            i_SEL	        => sel(I),
+            i_GET_DATA	        => get_data,
+            i_DATA_ADDR		=> data_addr, -- TODO: Remane to avoid confusion
+            i_CALC_RESULT	=> calc_done,
+            o_class	        => class_mat(I),
+            o_DONE	        => result_ready(I)
+        );
     end generate DT_ACCELERATOR;
 
     calculate_cols: for I in 0 to 3 generate
@@ -225,8 +226,8 @@ begin
 
     --CONFIG: configurator
     --generic map(
-    --               g_dt_number	=> instances,
-    --               g_addr_width    => g_addr_width
+    --               g_dt_number	=> g_n_estimators,
+    --               addr_width    => addr_width
     --           )
     --port map(
     --            i_clk		=> i_clk,
@@ -242,7 +243,7 @@ begin
 
     CONFIG2: configurat
     generic map(
-                   g_dt_number	=> instances,
+                   g_dt_number	=> g_n_estimators,
                    g_addr_width    => g_addr_width
                )
     port map(

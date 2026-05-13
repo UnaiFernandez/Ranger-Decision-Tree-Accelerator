@@ -72,6 +72,7 @@ architecture arch_configurat of configurat is
     signal num_features : integer := 0;
     signal r_num_features : integer := 0;
     signal data_addr : unsigned(g_ADDR_WIDTH -1 downto 0);
+    signal base_data_addr : unsigned(g_ADDR_WIDTH -1 downto 0) := to_unsigned(511, g_ADDR_WIDTH);
     -- re_en counter
     signal cl_re_en_counter : std_logic := '0';
     signal dec_re_en_counter : std_logic := '0';
@@ -238,7 +239,7 @@ begin
     end process;
 
     last_node <= '1' when current_s = E3 and node_counter = 0 else '0';
-    o_DATA_ADDR <= data_addr when current_s = E5 else node_addr;
+    o_DATA_ADDR <= (base_data_addr - data_addr) when current_s = E5 else node_addr;
 
     -- DT counter
 
