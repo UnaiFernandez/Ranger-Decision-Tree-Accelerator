@@ -2,17 +2,13 @@ from sklearn import tree, metrics, preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import json
 
 def split_dataset(fname, train_size):
-    print("[-] Reading data from {}".format(fname))
-    print("     - Training size: {}%".format(train_size * 100))
-    print("     - Testing size: {}%".format(100 - (100 * train_size)))
-
     data = pd.read_csv(fname, sep = ",", header=None)
 
     str_to_int = preprocessing.LabelEncoder()
@@ -39,7 +35,7 @@ def split_dataset(fname, train_size):
     return X_train, X_test, y_train, y_test
 
 
-def train_forest(x_train, y_train, num_instances):
+def train_rf_classifier(x_train, y_train, num_instances):
 
     classifier = RandomForestClassifier(n_estimators=num_instances,
                                         random_state=42,
@@ -52,6 +48,18 @@ def train_forest(x_train, y_train, num_instances):
     #print(create_mem_bin_layouts("prueba.txt", forest[-1]))
     return classifier
 
+def train_rf_regression(x_train, y_train, num_instances):
+
+    regression = RandomForestRegressor(n_estimators=num_instances,
+                                        #random_state=42,
+                                        #min_samples_split=20,
+                                        max_depth=8)
+
+    regression.fit(x_train, y_train)
+
+    #print(forest[-1])
+    #print(create_mem_bin_layouts("prueba.txt", forest[-1]))
+    return regression
 
 def create_model(x_train, y_train):
 
@@ -131,7 +139,7 @@ def export_to_hex_ram(clf):
             #node_info['left_child'] = str(children_left[i])
             #node_info['right_child'] = str(children_right[i])
             addr += 2
-            print(node_info)
+            #print(node_info)
             tree_dict.append(node_info)
 
     return tree_dict
@@ -258,7 +266,9 @@ def export_to_json(filename, tree_dict):
 
 
     with open(filename, "w") as f:
-        if f.write(json_file_content+"\n"):
-            print("[SUCCESS] Exported to {filename}".format(filename=filename))
-        else:
+        if f.write(json_file_content+"\n") == False:
             print("[ERROR] Exporting to JSON.")
+        #if f.write(json_file_content+"\n"):
+        #    #print("[SUCCESS] Exported to {filename}".format(filename=filename))
+        #else:
+        #    print("[ERROR] Exporting to JSON.")

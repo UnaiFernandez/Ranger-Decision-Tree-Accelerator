@@ -3,45 +3,54 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sklearn
 import time
-from sklearn.datasets import load_iris, load_digits
+from sklearn.datasets import load_iris, load_digits, fetch_california_housing
 
 from ram_converter import *
 from dt_utils import *
 
+import sys
 
-#iris = load_iris()
-#X = iris.data
-#y = iris.target
-#x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
-#digits = load_digits()
-#X = digits.data
-#y = digits.target
+if len(sys.argv) < 2:
+    print("[ERROR] Few arguments!")
+    exit(1)
+elif len(sys.argv) == 2:
+    train_size = 0.8
+else:
+    train_size = float(sys.argv[2])
+
+dataset = sys.argv[1]
+test_size = 1-train_size
+
+
+x_train, x_test, y_train, y_test = split_dataset(dataset, train_size=train_size)
+
+
+#california = fetch_california_housing()
+#X = california.data
+#y = california.target
 #x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 
 
-x_train, x_test, y_train, y_test = split_dataset("datasets/iris.data", train_size=0.6)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/heart_attack.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/wine.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/bank_note.data", train_size=0.8)
-#x_train, x_test, y_train, y_test = split_dataset("datasets/diabetes.data", train_size=0.8)
-
-print("[-] Training model")
+# Training model
 num_instances = 64
+avg_nodes = 0
+max_nodes = 0
 
 start_train = time.time()
-rf = train_forest(x_train, y_train, num_instances)
+rf = train_rf_classifier(x_train, y_train, num_instances)
+#rf = train_rf_regression(x_train, y_train, num_instances)
 stop_train = time.time()
 total_train = stop_train - start_train
-print("[-] Testing Random Forest")
 
+# Testing model
 start = time.time()
 y_pred = rf.predict(x_test)
 stop = time.time()
 total = stop - start
 
-print("[-] Exporting data to files")
+# Export data to mem layouts
 forest_bin = []
 forest_hex = []
 for i in range(num_instances):
@@ -59,62 +68,52 @@ for i in range(num_instances):
     forest_bin.append(dt_bin)
     forest_hex.append(dt_hex)
 
-    print("DT {}".format(i))
-    print("nodes: {}".format(len(dt_bin) - 1))
+    avg_nodes += len(dt_bin)-1
+    if len(dt_bin)-1 >= max_nodes:
+        max_nodes = len(dt_bin)-1 
+
 
 data_mem, data_mem_bin = create_data_mem(x_test)
 
 num_features = len(x_test[0])
-#print("Num features: {}".format(num_features))
 
 y_test = y_test.to_numpy()
 num_labels = len(y_test)
-print(num_labels)
 
 data_mem.insert(0, format(num_features, "0{}x".format(8)))
 data_mem_bin.insert(0, format(num_features, "0{}b".format(32)))
 
 for i in range(len(y_test)):
     data_mem.append(format(y_test[i], "0{}x".format(8)))
+    #data_mem.append(format(int(y_test[i]), "0{}x".format(8)))
 
-#forest[0].insert(0, format(num_instances, "0{}b".format(32)))
-
-# File layout
-#
-# Num instances
-# Node number
-# node
-# node ...
-# Node number
-# ...
-# Feature number
-# data
-# data
-# ...
-
-print("[-] Writing memory layouts to txt files")
-
+# Wirte mem layouts to files
 forest_bin = mat_to_array(forest_bin)
 forest_hex = mat_to_array(forest_hex)
 forest_hex.insert(0, format(num_labels, "0{}x".format(8)))
 forest_bin.insert(0, format(num_labels, "0{}b".format(32)))
 
 accuracy = accuracy_score(y_test, y_pred)
-
+#accuracy = 0
 
 num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
 forest_hex.insert(0, num_elems_hex)
 
-
 write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")
 write_to_file(forest_hex + data_mem, "../ranger/memory_content/random_forest_hex.txt")
-#write_to_file(forest[1:], "../ranger/memory_content/bin_node_mem_content.txt")
-#write_to_file(data_mem[1:], "../ranger/memory_content/data_mem_content.txt")
 
-
+print("\nSETTINGS")
+print("-------------------------------------------------------")
+print("Dataset:                     {}".format(dataset))
+print("Training size:               {}".format(train_size))
+print("Testing size:                {}".format(round(test_size, 2)))
 print("\nTRAINING")
 print("-------------------------------------------------------")
 print("Number of trees:             {}".format(num_instances))
+print("Avg. node number:            {}".format(avg_nodes/num_instances))
+print("Max node number:             {}".format(max_nodes))
+print("Len config file:             {}".format(len(forest_hex) + len(data_mem)))
+print("Feature number:              {}".format(num_features))
 print("Total time:                  {} ms".format(round(total_train*1000, 2)))
 # numero de trees
 print("\nTEST RESULTS")
@@ -125,9 +124,8 @@ print("Average inference time:      {} us".format(time_to_process))
 
 print(f'Accuracy:                    {accuracy * 100:.2f}%')
 
-conf_matrix = confusion_matrix(y_test, y_pred)
-print(f'\nConfusion matrix:\n {conf_matrix}')
+#conf_matrix = confusion_matrix(y_test, y_pred)
+#print(f'\nConfusion matrix:\n {conf_matrix}')
 
-print(len(x_test))
 print("y test: {}".format(y_test[0:15]))
 print("y pred: {}".format(y_pred[0:15]))

@@ -21,7 +21,7 @@ def write_to_file(list, filename):
     with open(filename, "w") as f:
         for i in list:
             f.write("".join(str(i) + "\n"))
-        print("[SUCCESS] Data writen to {}".format(filename))
+        #print("[SUCCESS] Data writen to {}".format(filename))
 
 def mat_to_array(mat):
     l = []
