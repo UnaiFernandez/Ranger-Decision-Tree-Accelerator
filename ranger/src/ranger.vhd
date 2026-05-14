@@ -4,10 +4,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 use work.dt_accel_pkg.all;
-use work.fifo_pkg.all;
 use work.ranger_pkg.all;
 use work.configurator_pkg.all;
-use work.configurat_pkg.all;
 use work.general_package.all;
 
 entity ranger is
@@ -224,24 +222,7 @@ begin
     en_config <= '1' when (current_s = E1 and config_done = '0') else '0';
     up_int_data <= '1' when current_s = E2 and i_fifo_empty = '0' else '0';
 
-    --CONFIG: configurator
-    --generic map(
-    --               g_dt_number	=> g_n_estimators,
-    --               addr_width    => addr_width
-    --           )
-    --port map(
-    --            i_clk		=> i_clk,
-    --            i_reset		=> i_reset,
-    --            i_en_config	=> en_config,
-    --            i_data		=> i_fifo_data, -- REVISAR
-    --            i_up_int_data	=> up_int_data,
-    --            i_empty_fifo => i_fifo_empty
-    --            ----o_stop => stop,
-    --            ----o_last => last,
-    --            --o_re_data	=> o_rd_fifo_data
-    --        );
-
-    CONFIG2: configurat
+    CONFIG: configurator
     generic map(
                    g_dt_number	=> g_n_estimators,
                    g_addr_width    => g_addr_width

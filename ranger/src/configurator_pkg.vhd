@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package configurator_pkg is
-    component  configurator is
+    component configurator is
 	generic(
     	    g_dt_number : integer;
 	    g_ADDR_WIDTH: integer

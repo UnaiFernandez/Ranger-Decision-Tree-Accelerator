@@ -16,15 +16,12 @@ entity ram is
     port(
         i_CLK	    : in std_logic;
         i_RE_0 	    : in std_logic;
-        i_RE_1 	    : in std_logic;
         i_WE_1 	    : in std_logic;
         i_ADDR_0    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
-        i_ADDR_1    : in unsigned(g_ADDR_WIDTH - 1 downto 0);
         i_WR_ADDR   : in unsigned(g_ADDR_WIDTH - 1 downto 0);
         i_DATA_1    : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
         --------------------------------------------------------------
-        o_DATA_0    : out std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-        o_DATA_1    : out std_logic_vector(g_DATA_WIDTH - 1 downto 0)
+        o_DATA_0    : out std_logic_vector(g_DATA_WIDTH - 1 downto 0)
     );
 end ram;
 
@@ -71,11 +68,6 @@ begin
 		    o_DATA_0 <= ram_mem(to_integer(i_ADDR_0));
 		--else
 		--    o_DATA_0 <= (others => '0');
-	        end if;
-	        if i_RE_1 = '1' then
-		    o_DATA_1 <= ram_mem(to_integer(i_ADDR_1));
-		--else
-		--    o_DATA_1 <= (others => '0');
 	        end if;
 	        if i_WE_1 = '1' then
 		      	ram_mem(to_integer(i_WR_ADDR)) <= i_DATA_1;

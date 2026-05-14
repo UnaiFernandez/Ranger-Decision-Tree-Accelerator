@@ -2,7 +2,7 @@ library ieee;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.fifo_pkg.all;
+--use work.fifo_pkg.all;
 use work.ram_pkg.all;
 
 entity axis_fifo is
@@ -76,13 +76,10 @@ generic map(
 port map(
     i_CLK	    => i_clk,
     i_RE_0	    => '1',
-    i_RE_1	    => '1', -- not used
     i_WE_1	    => wr_en,
     i_ADDR_0	    => addr_0,
-    i_ADDR_1	    => addr_1, -- not used
     i_WR_ADDR	    => addr_2,
     o_DATA_0	    => m00_TDATA,
-    o_DATA_1	    => m00_TDATA,
     i_DATA_1	    => s00_TDATA
 );
 

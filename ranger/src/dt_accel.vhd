@@ -5,7 +5,6 @@ use ieee.numeric_std.all;
 
 use work.dt_ctl_pkg.all;
 use work.ram_pkg.all;
-use work.fifo_pkg.all;
 use work.dt_accel_pkg.all;
 use work.general_package.all;
 
@@ -72,39 +71,13 @@ begin
     port map(
         i_CLK		=> i_clk,
         i_RE_0		=> RE_node,
-        i_RE_1		=> RE_int_data,
         i_WE_1		=> i_SEL,
         i_ADDR_0	=> node_addr_0,
-        i_ADDR_1	=> int_data_addr,
         i_WR_ADDR	=> i_DATA_ADDR,
         i_DATA_1	=> i_DATA_MEM,
-        o_DATA_0	=> node_info,
-        o_DATA_1	=> int_data
+        o_DATA_0	=> node_info
     );
 
----- INTERNAL DATA MEMORY
---    INT_DATA_MEM: ram
---    generic map(
---        g_ADDR_WIDTH	=> g_ADDR_WIDTH,
---        g_DATA_WIDTH	=> g_DATA_WIDTH,
---        --g_DEPTH		=> g_DEPTH,
---        g_DEPTH		=> 254,
---        g_INIT_FILE	=> "/home/unai/Projects/dt_vhdl/ranger/memory_content/data_mem_content.txt",
---        --g_INIT_FILE	=> "./memory_content/data_mem_content.txt",
---        g_INIT		=> '0'
---    )
---    port map(
---        i_CLK		=> i_clk,
---        i_RE_0		=> RE_int_data,
---        i_RE_1		=> RE_int_data,
---        i_WE_1		=> i_GET_DATA,
---        i_ADDR_0	=> int_data_addr,
---        i_ADDR_1	=> int_data_addr,
---        i_WR_ADDR	=> i_data_addr,
---        i_DATA_1	=> i_DATA_MEM,
---        o_DATA_0	=> int_data,
---        o_DATA_1	=> int_data
---    );
 
 -- DT CONTROL
     DT: dt_ctl
@@ -117,15 +90,9 @@ begin
         i_reset		=> i_reset,
         i_ENABLE	=> i_enable,
         i_node_info	=> node_info,
-        i_threshold	=> threshold,
-        i_data_out	=> int_data,
         i_calc_result	=> i_calc_result,
         o_RE_node	=> RE_node,
-        o_RE_thr	=> RE_thr,
-        o_RE_data	=> RE_int_data,
         o_node_addr	=> node_addr_0,
-        o_thr_addr	=> thr_addr,
-        o_data_addr	=> int_data_addr,
         o_DONE		=> task_terminated,
         o_class		=> class
     );

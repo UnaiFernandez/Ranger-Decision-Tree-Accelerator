@@ -11,7 +11,7 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 128;
+    constant  n_estimators : integer := 100;
     constant  node_mem_size : integer := 512;
     constant  in_fifo_size : integer := 1024;
     constant  out_fifo_size : integer := 64;
