@@ -1,0 +1,1398 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue May 26 09:26:28 2026
+# Process ID         : 6983
+# Current directory  : /home/unai/Projects/dt_vhdl/ranger
+# Command line       : vivado -mode batch -source /home/unai/Projects/dt_vhdl/ranger/test.tcl
+# Log file           : /home/unai/Projects/dt_vhdl/ranger/vivado.log
+# Journal file       : /home/unai/Projects/dt_vhdl/ranger/vivado.jou
+# Running On         : Watson
+# Platform           : Debian
+# Operating System   : Debian GNU/Linux 13 (trixie)
+# Processor Detail   : Intel(R) Core(TM) Ultra 7 265U
+# CPU Frequency      : 1402.585 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 14
+# Host memory        : 66856 MB
+# Swap memory        : 50574 MB
+# Total Virtual      : 117431 MB
+# Available Virtual  : 113991 MB
+#-----------------------------------------------------------
+source /home/unai/Projects/dt_vhdl/ranger/test.tcl
+# open_project /home/unai/Projects/Ranger/Ranger.xpr
+Scanning sources...
+Finished scanning sources
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-100:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-100/E.0/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-100:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-100/E.0/1.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-35:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-35/E.0/1.0/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-35:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-35/E.0/1.1/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-s7-25:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-s7-25/E.0/board.xml as part xc7s25csga324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-s7-50:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-s7-50/B.0/board.xml as part xc7s50csga324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty/C.0/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:basys3:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/basys3/C.0/board.xml as part xc7a35tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod-s7-25:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod-s7-25/B.0/board.xml as part xc7s25csga225-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod_a7-15t:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod_a7-15t/B.0/board.xml as part xc7a15tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod_a7-35t:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod_a7-35t/B.0/board.xml as part xc7a35tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:genesys2:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/genesys2/H/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-100t:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-100t/D.0/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-100t:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-100t/D.0/1.3/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-50t:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-50t/D.0/1.0/board.xml as part xc7a50ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-50t:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-50t/D.0/1.3/board.xml as part xc7a50ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys4:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys4/B.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys4_ddr:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys4_ddr/C.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys_video:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys_video/A.0/1.1/board.xml as part xc7a200tsbg484-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys_video:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys_video/A.0/1.2/board.xml as part xc7a200tsbg484-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:sword:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/sword/C.0/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.2/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.3/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:ac701:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/ac701/1.4/board.xml as part xc7a200tfbg676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/emb-plus-vpr-4616/1.0/board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/emb-plus-vpr-4616/1.1/board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kc705:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kc705/1.6/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kc705:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kc705/1.7/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.6/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.7/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.4/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.5 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.5/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu1500:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu1500/1.2/board.xml as part xcku115-flvb2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:scu35:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/scu35/1.0/board.xml as part xcsu35p-sbvb625-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:sp701:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/sp701/1.0/board.xml as part xc7s100fgga676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:sp701:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/sp701/1.1/board.xml as part xc7s100fgga676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:v80:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/v80/1.0/board.xml as part xcv80-lsva4737-2mhp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc707:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc707/1.4/board.xml as part xc7vx485tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc707:part0:1.5 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc707/1.5/board.xml as part xc7vx485tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc709:part0:1.8 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc709/1.8/board.xml as part xc7vx690tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:2.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/2.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.4/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.6/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.7/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu110:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu110/1.4/board.xml as part xcvu190-flgc2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.0/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.3/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.4/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu128:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu128/production/1.0/board.xml as part xcvu37p-fsvh2892-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu129:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu129/production/1.0/board.xml as part xcvu29p-fsga2577-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu1525:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu1525/1.3/board.xml as part xcvu9p-fsgd2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.0/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.1/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.2/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek385:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek385/1.0/board.xml as part xc2ve3858-ssva2112-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vermeo_t1_mpsoc:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vermeo_t1_mpsoc/1.0/board.xml as part xczu19eg-ffvd1760-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vermeo_t1_rfsoc:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vermeo_t1_rfsoc/1.0/board.xml as part xczu21dr-ffvd1156-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.1/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.2/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:2.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/2.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.3/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.0/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.1/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.2/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu102:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu102/3.3/board.xml as part xczu9eg-ffvb1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu102:part0:3.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu102/3.4/board.xml as part xczu9eg-ffvb1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.2/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.3/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.4/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu1275:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu1275/1.0/board.xml as part xczu29dr-ffvf1760-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu1285:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu1285/1.0/board.xml as part xczu39dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/production/2.0/board.xml as part xczu48dr-fsvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/production/2.0/board.xml as part xczu49dr-ffvf1760-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+WARNING: [IP_Flow 19-3664] IP 'Ranger_bd_RANGER_MAIN_0_0' generated file not found '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0.dcp'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'Ranger_bd_RANGER_MAIN_0_0' generated file not found '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_sim_netlist.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'Ranger_bd_RANGER_MAIN_0_0' generated file not found '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_sim_netlist.vhdl'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'Ranger_bd_RANGER_MAIN_0_0' generated file not found '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_stub.v'. Please regenerate to continue.
+WARNING: [IP_Flow 19-3664] IP 'Ranger_bd_RANGER_MAIN_0_0' generated file not found '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_stub.vhdl'. Please regenerate to continue.
+INFO: [Project 1-5698] Found the below utility IPs instantiated in block design /home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd which have equivalent inline hdl with improved performance and reduced diskspace.
+It is recommended to migrate these utility IPs to inline hdl  using the command upgrade_project -migrate_to_inline_hdl.  The utility IPs may be deprecated in future releases.
+More information on inline hdl is available in UG994.
+Utility IP Component Instances:
+ Ranger_bd_xlconcat_0_0
+Ranger_bd_xlslice_0_0
+Ranger_bd_xlslice_0_1
+# update_module_reference Ranger_bd_RANGER_MAIN_0_0
+INFO: [IP_Flow 19-5107] Inferred bus interface 'm00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'reset' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'm00_ps'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'reset'.
+WARNING: [IP_Flow 19-11770] Clock interface 'clk' has no FREQ_HZ parameter.
+INFO: [IP_Flow 19-5107] Inferred bus interface 'm00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'reset' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'm00_ps'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'reset'.
+WARNING: [IP_Flow 19-11770] Clock interface 'clk' has no FREQ_HZ parameter.
+Reading block design file </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd>...
+Adding component instance block -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
+Adding component instance block -- xilinx.com:ip:axi_fifo_mm_s:4.3 - axi_fifo_mm_s_0
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_smc
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_50M
+Adding component instance block -- xilinx.com:module_ref:RANGER_MAIN:1.0 - RANGER_MAIN_0
+Adding component instance block -- xilinx.com:ip:xlconcat:2.1 - xlconcat_0
+Adding component instance block -- xilinx.com:ip:xlslice:1.0 - xlslice_0
+Adding component instance block -- xilinx.com:ip:xlslice:1.0 - xlslice_1
+Successfully read diagram <Ranger_bd> from block design file </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd>
+Upgrading '/home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd'
+INFO: [IP_Flow 19-3420] Updated Ranger_bd_RANGER_MAIN_0_0 to use current project options
+Wrote  : </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd> 
+# reset_run synth_1
+INFO: [Project 1-1161] Replacing file /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp with file /home/unai/Projects/Ranger/Ranger.runs/synth_1/Ranger_bd_wrapper.dcp
+# launch_runs synth_1 -jobs 7
+INFO: [BD 5-943] Reserving offset range <0x43C0_0000 [ 64K ]> from slave interface '/axi_smc/S00_AXI' to master interface '/axi_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] Ranger_bd_axi_smc_0: SmartConnect Ranger_bd_axi_smc_0 is in Low-Area Mode.
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+Wrote  : </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd> 
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/sim/Ranger_bd.v
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v
+Exporting to file /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/hw_handoff/Ranger_bd_axi_smc_0.hwh
+Generated Hardware Definition File /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/synth/Ranger_bd_axi_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_smc .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block RANGER_MAIN_0 .
+Exporting to file /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hw_handoff/Ranger_bd.hwh
+Generated Hardware Definition File /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.hwdef
+INFO: [IP_Flow 19-4993] Using cached IP synthesis design for IP Ranger_bd_axi_smc_0, cache-ID = 3cbd532b2c359e05; cache size = 36.360 MB.
+[Tue May 26 09:26:42 2026] Launched Ranger_bd_RANGER_MAIN_0_0_synth_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/Ranger_bd_RANGER_MAIN_0_0_synth_1/runme.log
+[Tue May 26 09:26:42 2026] Launched synth_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/synth_1/runme.log
+launch_runs: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1873.812 ; gain = 189.438 ; free physical = 55853 ; free virtual = 107987
+# wait_on_run synth_1
+[Tue May 26 09:26:42 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log Ranger_bd_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source Ranger_bd_wrapper.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue May 26 09:28:25 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source Ranger_bd_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+INFO: [Project 1-5698] Found the below utility IPs instantiated in block design /home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd which have equivalent inline hdl with improved performance and reduced diskspace.
+It is recommended to migrate these utility IPs to inline hdl  using the command upgrade_project -migrate_to_inline_hdl.  The utility IPs may be deprecated in future releases.
+More information on inline hdl is available in UG994.
+Utility IP Component Instances:
+ Ranger_bd_xlconcat_0_0
+Ranger_bd_xlslice_0_0
+Ranger_bd_xlslice_0_1
+Command: read_checkpoint -auto_incremental -incremental /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top Ranger_bd_wrapper -part xc7z020clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 8911
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2180.039 ; gain = 439.828 ; free physical = 53568 ; free virtual = 106173
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_wrapper' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:13]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_RANGER_MAIN_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_RANGER_MAIN_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_RANGER_MAIN_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_RANGER_MAIN_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_axi_fifo_mm_s_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_axi_fifo_mm_s_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_axi_fifo_mm_s_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_axi_fifo_mm_s_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mm2s_prmry_reset_out_n' of module 'Ranger_bd_axi_fifo_mm_s_0_0' is unconnected for instance 'axi_fifo_mm_s_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+WARNING: [Synth 8-7071] port 's2mm_prmry_reset_out_n' of module 'Ranger_bd_axi_fifo_mm_s_0_0' is unconnected for instance 'axi_fifo_mm_s_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+WARNING: [Synth 8-7023] instance 'axi_fifo_mm_s_0' of module 'Ranger_bd_axi_fifo_mm_s_0_0' has 30 connections declared, but only 28 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_axi_smc_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_axi_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_axi_smc_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_axi_smc_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'M00_AXI_awprot' of module 'Ranger_bd_axi_smc_0' is unconnected for instance 'axi_smc' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+WARNING: [Synth 8-7071] port 'M00_AXI_arprot' of module 'Ranger_bd_axi_smc_0' is unconnected for instance 'axi_smc' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+WARNING: [Synth 8-7023] instance 'axi_smc' of module 'Ranger_bd_axi_smc_0' has 59 connections declared, but only 57 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_processing_system7_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_processing_system7_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_processing_system7_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'USB0_PORT_INDCTL' of module 'Ranger_bd_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+WARNING: [Synth 8-7071] port 'USB0_VBUS_PWRSELECT' of module 'Ranger_bd_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+WARNING: [Synth 8-7023] instance 'processing_system7_0' of module 'Ranger_bd_processing_system7_0_0' has 66 connections declared, but only 64 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_rst_ps7_0_50M_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_rst_ps7_0_50M_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_rst_ps7_0_50M_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-8827-Watson/realtime/Ranger_bd_rst_ps7_0_50M_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7023] instance 'rst_ps7_0_50M' of module 'Ranger_bd_rst_ps7_0_50M_0' has 10 connections declared, but only 7 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlconcat_0_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlconcat_0_0/synth/Ranger_bd_xlconcat_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlconcat_v2_1_7_xlconcat' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/9c1a/hdl/xlconcat_v2_1_vl_rfs.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'xlconcat_v2_1_7_xlconcat' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/9c1a/hdl/xlconcat_v2_1_vl_rfs.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlconcat_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlconcat_0_0/synth/Ranger_bd_xlconcat_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlslice_0_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_0/synth/Ranger_bd_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlslice_v1_0_5_xlslice' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'xlslice_v1_0_5_xlslice' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlslice_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_0/synth/Ranger_bd_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlslice_0_1' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_1/synth/Ranger_bd_xlslice_0_1.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlslice_v1_0_5_xlslice__parameterized0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'xlslice_v1_0_5_xlslice__parameterized0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlslice_0_1' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_1/synth/Ranger_bd_xlslice_0_1.v:53]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_wrapper' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v:13]
+WARNING: [Synth 8-7129] Port Din[0] in module xlslice_v1_0_5_xlslice__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Din[1] in module xlslice_v1_0_5_xlslice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In4[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In5[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In6[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In7[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In8[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In9[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In10[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In11[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In12[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In13[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In14[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In15[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In16[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In17[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In18[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In19[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In20[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In21[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In22[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In23[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In24[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In25[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In26[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In27[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In28[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In29[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In30[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In31[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In32[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In33[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In34[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In35[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In36[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In37[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In38[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In39[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In40[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In41[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In42[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In43[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In44[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In45[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In46[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In47[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In48[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In49[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In50[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In51[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In52[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In53[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In54[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In55[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In56[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In57[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In58[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In59[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In60[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In61[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In62[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In63[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In64[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In65[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In66[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In67[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In68[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In69[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In70[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In71[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In72[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In73[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In74[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In75[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In76[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In77[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In78[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In79[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In80[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In81[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In82[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In83[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In84[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In85[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In86[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In87[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In88[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In89[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In90[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In91[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In92[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In93[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In94[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In95[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In96[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In97[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In98[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In99[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In100[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In101[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2260.977 ; gain = 520.766 ; free physical = 53485 ; free virtual = 106092
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2275.820 ; gain = 535.609 ; free physical = 53477 ; free virtual = 106083
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2275.820 ; gain = 535.609 ; free physical = 53477 ; free virtual = 106083
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2275.820 ; gain = 0.000 ; free physical = 53477 ; free virtual = 106083
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0_in_context.xdc] for cell 'Ranger_bd_i/processing_system7_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0_in_context.xdc] for cell 'Ranger_bd_i/processing_system7_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0_in_context.xdc] for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0_in_context.xdc] for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0_in_context.xdc] for cell 'Ranger_bd_i/axi_smc'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0_in_context.xdc] for cell 'Ranger_bd_i/axi_smc'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_in_context.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_in_context.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_in_context.xdc] for cell 'Ranger_bd_i/RANGER_MAIN_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_in_context.xdc] for cell 'Ranger_bd_i/RANGER_MAIN_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Ranger_bd_wrapper_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Ranger_bd_wrapper_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2321.777 ; gain = 0.000 ; free physical = 53503 ; free virtual = 106121
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2321.812 ; gain = 0.000 ; free physical = 53503 ; free virtual = 106121
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2321.812 ; gain = 581.602 ; free physical = 53521 ; free virtual = 106138
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 2329.781 ; gain = 589.570 ; free physical = 53521 ; free virtual = 106138
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2329.781 ; gain = 589.570 ; free physical = 53520 ; free virtual = 106138
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2329.781 ; gain = 589.570 ; free physical = 53518 ; free virtual = 106137
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 2329.781 ; gain = 589.570 ; free physical = 53515 ; free virtual = 106128
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2425.781 ; gain = 685.570 ; free physical = 53415 ; free virtual = 106027
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2425.781 ; gain = 685.570 ; free physical = 53415 ; free virtual = 106027
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2435.797 ; gain = 695.586 ; free physical = 53415 ; free virtual = 106027
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+---------------------------------+----------+
+|      |BlackBox name                    |Instances |
++------+---------------------------------+----------+
+|1     |Ranger_bd_RANGER_MAIN_0_0        |         1|
+|2     |Ranger_bd_axi_fifo_mm_s_0_0      |         1|
+|3     |Ranger_bd_axi_smc_0              |         1|
+|4     |Ranger_bd_processing_system7_0_0 |         1|
+|5     |Ranger_bd_rst_ps7_0_50M_0        |         1|
++------+---------------------------------+----------+
+
+Report Cell Usage: 
++------+-------------------------------+------+
+|      |Cell                           |Count |
++------+-------------------------------+------+
+|1     |Ranger_bd_RANGER_MAIN_0        |     1|
+|2     |Ranger_bd_axi_fifo_mm_s_0      |     1|
+|3     |Ranger_bd_axi_smc              |     1|
+|4     |Ranger_bd_processing_system7_0 |     1|
+|5     |Ranger_bd_rst_ps7_0_50M        |     1|
+|6     |IBUF                           |     2|
+|7     |OBUF                           |     4|
++------+-------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.609 ; gain = 870.398 ; free physical = 53250 ; free virtual = 105868
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2610.609 ; gain = 824.406 ; free physical = 53249 ; free virtual = 105867
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 2610.617 ; gain = 870.398 ; free physical = 53249 ; free virtual = 105867
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2610.617 ; gain = 0.000 ; free physical = 53249 ; free virtual = 105867
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2610.617 ; gain = 0.000 ; free physical = 53438 ; free virtual = 106046
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: d2032388
+INFO: [Common 17-83] Releasing license: Synthesis
+50 Infos, 114 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:20 ; elapsed = 00:00:19 . Memory (MB): peak = 2610.645 ; gain = 1072.246 ; free physical = 53437 ; free virtual = 106045
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1722.260; main = 1722.260; forked = 249.203
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3285.270; main = 2610.609; forked = 955.488
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2634.621 ; gain = 0.000 ; free physical = 53437 ; free virtual = 106045
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/synth_1/Ranger_bd_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file Ranger_bd_wrapper_utilization_synth.rpt -pb Ranger_bd_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 09:28:48 2026...
+[Tue May 26 09:29:08 2026] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:02:25 ; elapsed = 00:02:26 . Memory (MB): peak = 1873.812 ; gain = 0.000 ; free physical = 55048 ; free virtual = 107648
+# launch_runs impl_1 -jobs 7
+[Tue May 26 09:29:16 2026] Launched impl_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/impl_1/runme.log
+launch_runs: Time (s): cpu = 00:00:09 ; elapsed = 00:00:07 . Memory (MB): peak = 1873.812 ; gain = 0.000 ; free physical = 54803 ; free virtual = 107410
+# wait_on_run impl_1
+[Tue May 26 09:29:16 2026] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log Ranger_bd_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source Ranger_bd_wrapper.tcl -notrace
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Tue May 26 09:29:17 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source Ranger_bd_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+Command: link_design -top Ranger_bd_wrapper -part xc7z020clg400-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Project 1-5699] Read binary netlist with skipMacroContent - 1
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0.dcp' for cell 'Ranger_bd_i/RANGER_MAIN_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0.dcp' for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0.dcp' for cell 'Ranger_bd_i/axi_smc'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.dcp' for cell 'Ranger_bd_i/processing_system7_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0.dcp' for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Netlist sorting complete. Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.18 . Memory (MB): peak = 1820.547 ; gain = 0.000 ; free physical = 54199 ; free virtual = 106799
+INFO: [Netlist 29-17] Analyzing 1565 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2025.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.xdc] for cell 'Ranger_bd_i/processing_system7_0/inst'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.xdc] for cell 'Ranger_bd_i/processing_system7_0/inst'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/ip/ip_1/bd_14e5_psr_aclk_0_board.xdc] for cell 'Ranger_bd_i/axi_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/ip/ip_1/bd_14e5_psr_aclk_0_board.xdc] for cell 'Ranger_bd_i/axi_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/smartconnect.xdc] for cell 'Ranger_bd_i/axi_smc/inst'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/smartconnect.xdc] for cell 'Ranger_bd_i/axi_smc/inst'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_board.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M/U0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_board.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M/U0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+INFO: [Project 1-1714] 23 XPM XDC files have been applied to the design.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2573.762 ; gain = 0.000 ; free physical = 53566 ; free virtual = 106177
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 14 instances were transformed.
+  RAM64M => RAM64M (RAMD64E(x4)): 14 instances
+
+17 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:09 . Memory (MB): peak = 2573.797 ; gain = 981.867 ; free physical = 53566 ; free virtual = 106177
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.4 . Memory (MB): peak = 2595.957 ; gain = 22.160 ; free physical = 53520 ; free virtual = 106141
+
+Starting Cache Timing Information Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Cache Timing Information Task | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.45 . Memory (MB): peak = 2595.957 ; gain = 0.000 ; free physical = 53503 ; free virtual = 106124
+
+Starting Logic Optimization Task
+
+Phase 1 Initialization
+
+Phase 1.1 Core Generation And Design Setup
+Phase 1.1 Core Generation And Design Setup | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53189 ; free virtual = 105798
+
+Phase 1.2 Setup Constraints And Sort Netlist
+Phase 1.2 Setup Constraints And Sort Netlist | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53189 ; free virtual = 105798
+Phase 1 Initialization | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53189 ; free virtual = 105798
+
+Phase 2 Timer Update And Timing Data Collection
+
+Phase 2.1 Timer Update
+Phase 2.1 Timer Update | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.8 ; elapsed = 00:00:00.24 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53177 ; free virtual = 105797
+
+Phase 2.2 Timing Data Collection
+Phase 2.2 Timing Data Collection | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.84 ; elapsed = 00:00:00.28 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53177 ; free virtual = 105797
+Phase 2 Timer Update And Timing Data Collection | Checksum: 2331d2677
+
+Time (s): cpu = 00:00:00.85 ; elapsed = 00:00:00.29 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53177 ; free virtual = 105797
+
+Phase 3 Retarget
+INFO: [Opt 31-1851] Number of loadless carry chains removed were: 0
+INFO: [Opt 31-1834] Total Chains To Be Transformed Were: 0 AND Number of Transformed insts Created are: 0
+INFO: [Opt 31-138] Pushed 11 inverter(s) to 41 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 3 Retarget | Checksum: 18a5c7765
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.62 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53178 ; free virtual = 105798
+Retarget | Checksum: 18a5c7765
+INFO: [Opt 31-389] Phase Retarget created 11 cells and removed 46 cells
+INFO: [Opt 31-1021] In phase Retarget, 20 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 4 Constant propagation
+INFO: [Opt 31-138] Pushed 2 inverter(s) to 2 load pin(s).
+Phase 4 Constant propagation | Checksum: 169c1dead
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.82 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53189 ; free virtual = 105799
+Constant propagation | Checksum: 169c1dead
+INFO: [Opt 31-389] Phase Constant propagation created 44 cells and removed 82 cells
+INFO: [Opt 31-1021] In phase Constant propagation, 20 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 5 Sweep
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53188 ; free virtual = 105798
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53188 ; free virtual = 105797
+Phase 5 Sweep | Checksum: 11455707a
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2910.855 ; gain = 0.000 ; free physical = 53188 ; free virtual = 105798
+Sweep | Checksum: 11455707a
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 274 cells
+INFO: [Opt 31-1021] In phase Sweep, 25 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 6 BUFG optimization
+Phase 6 BUFG optimization | Checksum: 11455707a
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53188 ; free virtual = 105799
+BUFG optimization | Checksum: 11455707a
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 7 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 7 Shift Register Optimization | Checksum: 11455707a
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53188 ; free virtual = 105799
+Shift Register Optimization | Checksum: 11455707a
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+
+Phase 8 Post Processing Netlist
+Phase 8 Post Processing Netlist | Checksum: 14b5d7261
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53187 ; free virtual = 105799
+Post Processing Netlist | Checksum: 14b5d7261
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 0 cells
+INFO: [Opt 31-1021] In phase Post Processing Netlist, 20 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 9 Finalization
+
+Phase 9.1 Finalizing Design Cores and Updating Shapes
+Phase 9.1 Finalizing Design Cores and Updating Shapes | Checksum: 13fd12e8c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53186 ; free virtual = 105796
+
+Phase 9.2 Verifying Netlist Connectivity
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2942.871 ; gain = 0.000 ; free physical = 53186 ; free virtual = 105796
+Phase 9.2 Verifying Netlist Connectivity | Checksum: 13fd12e8c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53185 ; free virtual = 105796
+Phase 9 Finalization | Checksum: 13fd12e8c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53185 ; free virtual = 105796
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |              11  |              46  |                                             20  |
+|  Constant propagation         |              44  |              82  |                                             20  |
+|  Sweep                        |               0  |             274  |                                             25  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               0  |                                             20  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Ending Logic Optimization Task | Checksum: 13fd12e8c
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 2942.871 ; gain = 32.016 ; free physical = 53185 ; free virtual = 105796
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Running Vector-less Activity Propagation...
+INFO: [Pwropt 34-9] Applying IDT optimizations ...
+INFO: [Pwropt 34-10] Applying ODC optimizations ...
+
+Finished Running Vector-less Activity Propagation
+
+
+Starting PowerOpt Patch Enables Task
+INFO: [Pwropt 34-162] WRITE_MODE attribute of 0 BRAM(s) out of a total of 112 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
+INFO: [Pwropt 34-201] Structural ODC has moved 0 WE to EN ports
+Number of BRAM Ports augmented: 1 newly gated: 0 Total Ports: 224
+Ending PowerOpt Patch Enables Task | Checksum: d1539263
+
+Time (s): cpu = 00:00:00.16 ; elapsed = 00:00:00.17 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52888 ; free virtual = 105514
+Ending Power Optimization Task | Checksum: d1539263
+
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:06 . Memory (MB): peak = 3385.410 ; gain = 442.539 ; free physical = 52888 ; free virtual = 105514
+
+Starting Final Cleanup Task
+Ending Final Cleanup Task | Checksum: d1539263
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52888 ; free virtual = 105515
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52888 ; free virtual = 105515
+Ending Netlist Obfuscation Task | Checksum: 144f8877c
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52888 ; free virtual = 105515
+INFO: [Common 17-83] Releasing license: Implementation
+47 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+opt_design: Time (s): cpu = 00:00:22 ; elapsed = 00:00:10 . Memory (MB): peak = 3385.410 ; gain = 811.613 ; free physical = 52889 ; free virtual = 105515
+INFO: [Vivado 12-24828] Executing command : report_drc -file Ranger_bd_wrapper_drc_opted.rpt -pb Ranger_bd_wrapper_drc_opted.pb -rpx Ranger_bd_wrapper_drc_opted.rpx
+Command: report_drc -file Ranger_bd_wrapper_drc_opted.rpt -pb Ranger_bd_wrapper_drc_opted.pb -rpx Ranger_bd_wrapper_drc_opted.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_drc_opted.rpt.
+report_drc completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00.1 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52861 ; free virtual = 105479
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52861 ; free virtual = 105479
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.32 ; elapsed = 00:00:00.07 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52859 ; free virtual = 105479
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.36 ; elapsed = 00:00:00.08 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52859 ; free virtual = 105480
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52859 ; free virtual = 105480
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105480
+Write Physdb Complete: Time (s): cpu = 00:00:00.49 ; elapsed = 00:00:00.11 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105480
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_opt.dcp' has been generated.
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors, 21 Warnings
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52841 ; free virtual = 105460
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: bbc263e8
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.04 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52841 ; free virtual = 105461
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52841 ; free virtual = 105461
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 640c8649
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52835 ; free virtual = 105462
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 1a1e93503
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:04 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52832 ; free virtual = 105456
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 1a1e93503
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:04 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52832 ; free virtual = 105457
+Phase 1 Placer Initialization | Checksum: 1a1e93503
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:04 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52832 ; free virtual = 105456
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+Phase 2.1 Floorplanning | Checksum: 148d0e3ee
+
+Time (s): cpu = 00:00:12 ; elapsed = 00:00:05 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52840 ; free virtual = 105475
+
+Phase 2.2 Update Timing before SLR Path Opt
+Phase 2.2 Update Timing before SLR Path Opt | Checksum: af2af236
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:06 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52851 ; free virtual = 105477
+
+Phase 2.3 Post-Processing in Floorplanning
+Phase 2.3 Post-Processing in Floorplanning | Checksum: af2af236
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:06 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52851 ; free virtual = 105476
+
+Phase 2.4 Global Place Phase1
+Phase 2.4 Global Place Phase1 | Checksum: 16172fa61
+
+Time (s): cpu = 00:00:46 ; elapsed = 00:00:17 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52891 ; free virtual = 105529
+
+Phase 2.5 Global Place Phase2
+
+Phase 2.5.1 UpdateTiming Before Physical Synthesis
+Phase 2.5.1 UpdateTiming Before Physical Synthesis | Checksum: 20ab7dc2a
+
+Time (s): cpu = 00:00:49 ; elapsed = 00:00:18 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52897 ; free virtual = 105534
+
+Phase 2.5.2 Physical Synthesis In Placer
+INFO: [Physopt 32-1035] Found 3 LUTNM shape to break, 2551 LUT instances to create LUTNM shape
+INFO: [Physopt 32-1044] Break lutnm for timing: one critical 3, two critical 0, total 3, new lutff created 0
+INFO: [Physopt 32-1138] End 1 Pass. Optimized 1666 nets or LUTs. Breaked 3 LUTs, combined 1663 existing LUTs and moved 0 existing LUT
+INFO: [Physopt 32-65] No nets found for high-fanout optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-46] Identified 26 candidate nets for critical-cell optimization.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[8]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[7]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[5]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[5]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[7]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[3]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[0]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[1]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[3]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[10]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[9]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[11]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[2]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[11]. Replicated 1 times.
+INFO: [Physopt 32-571] Net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[12] was not replicated.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[4]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[6]. Replicated 1 times.
+INFO: [Physopt 32-81] Processed net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[9]. Replicated 1 times.
+INFO: [Physopt 32-571] Net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[10] was not replicated.
+INFO: [Physopt 32-571] Net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[6] was not replicated.
+INFO: [Physopt 32-571] Net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/rd_addr_reg_n_0_[4] was not replicated.
+INFO: [Physopt 32-571] Net Ranger_bd_i/RANGER_MAIN_0/inst/IN_AXIS_FIFO/wr_addr_reg_n_0_[12] was not replicated.
+INFO: [Physopt 32-232] Optimized 17 nets. Created 17 new instances.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 17 nets or cells. Created 17 new cells, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52890 ; free virtual = 105519
+INFO: [Physopt 32-456] No candidate cells for DSP register optimization found in the design.
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-1123] No candidate cells found for Shift Register to Pipeline optimization
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-1401] No candidate cells found for Shift Register optimization.
+INFO: [Physopt 32-677] No candidate cells for Shift Register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-526] No candidate cells for BRAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-949] No candidate nets found for dynamic/static region interface net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52890 ; free virtual = 105518
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |            3  |           1663  |                  1666  |           0  |           1  |  00:00:01  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Very High Fanout                                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Critical Cell                                    |           17  |              0  |                    17  |           0  |           1  |  00:00:01  |
+|  DSP Register                                     |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  BRAM Register                                    |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |           20  |           1663  |                  1683  |           0  |          10  |  00:00:02  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.5.2 Physical Synthesis In Placer | Checksum: 25b535dce
+
+Time (s): cpu = 00:00:54 ; elapsed = 00:00:20 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52889 ; free virtual = 105518
+Phase 2.5 Global Place Phase2 | Checksum: 297dd7bba
+
+Time (s): cpu = 00:00:56 ; elapsed = 00:00:21 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52879 ; free virtual = 105508
+Phase 2 Global Placement | Checksum: 297dd7bba
+
+Time (s): cpu = 00:00:56 ; elapsed = 00:00:21 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52878 ; free virtual = 105507
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 20ac0b9a3
+
+Time (s): cpu = 00:00:58 ; elapsed = 00:00:22 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52870 ; free virtual = 105499
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 198465693
+
+Time (s): cpu = 00:01:02 ; elapsed = 00:00:24 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52863 ; free virtual = 105492
+
+Phase 3.3 Area Swap Optimization
+Phase 3.3 Area Swap Optimization | Checksum: 1bedcf36b
+
+Time (s): cpu = 00:01:03 ; elapsed = 00:00:24 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52850 ; free virtual = 105490
+
+Phase 3.4 Pipeline Register Optimization
+Phase 3.4 Pipeline Register Optimization | Checksum: 1fe61bac3
+
+Time (s): cpu = 00:01:03 ; elapsed = 00:00:24 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52850 ; free virtual = 105490
+
+Phase 3.5 Fast Optimization
+Phase 3.5 Fast Optimization | Checksum: 1a13a5711
+
+Time (s): cpu = 00:01:10 ; elapsed = 00:00:26 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52863 ; free virtual = 105493
+
+Phase 3.6 Small Shape Detail Placement
+Phase 3.6 Small Shape Detail Placement | Checksum: 294f7e495
+
+Time (s): cpu = 00:01:14 ; elapsed = 00:00:29 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52859 ; free virtual = 105489
+
+Phase 3.7 Re-assign LUT pins
+Phase 3.7 Re-assign LUT pins | Checksum: 25e65e6b4
+
+Time (s): cpu = 00:01:15 ; elapsed = 00:00:30 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105488
+
+Phase 3.8 Pipeline Register Optimization
+Phase 3.8 Pipeline Register Optimization | Checksum: 218bd0fb3
+
+Time (s): cpu = 00:01:16 ; elapsed = 00:00:30 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105488
+Phase 3 Detail Placement | Checksum: 218bd0fb3
+
+Time (s): cpu = 00:01:16 ; elapsed = 00:00:30 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105488
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: 1f26ac94d
+
+Phase 4.1.1.1 BUFG Insertion
+
+Starting Physical Synthesis Task
+
+Phase 1 Physical Synthesis Initialization
+INFO: [Physopt 32-721] Multithreading enabled for phys_opt_design using a maximum of 8 CPUs
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=-0.777 | TNS=-27.564 |
+Phase 1 Physical Synthesis Initialization | Checksum: 25cffd7da
+
+Time (s): cpu = 00:00:00.74 ; elapsed = 00:00:00.22 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52866 ; free virtual = 105495
+INFO: [Place 46-56] BUFG insertion identified 0 candidate nets. Inserted BUFG: 0, Replicated BUFG Driver: 0, Skipped due to Placement/Routing Conflicts: 0, Skipped due to Timing Degradation: 0, Skipped due to netlist editing failed: 0.
+Ending Physical Synthesis Task | Checksum: 2295f5bdf
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.33 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52866 ; free virtual = 105495
+Phase 4.1.1.1 BUFG Insertion | Checksum: 1f26ac94d
+
+Time (s): cpu = 00:01:24 ; elapsed = 00:00:32 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52865 ; free virtual = 105495
+
+Phase 4.1.1.2 Post Placement Timing Optimization
+INFO: [Place 30-746] Post Placement Timing Summary WNS=0.501. For the most accurate timing information please run report_timing.
+Phase 4.1.1.2 Post Placement Timing Optimization | Checksum: 1dba1865e
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:33 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52850 ; free virtual = 105490
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:33 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52850 ; free virtual = 105490
+Phase 4.1 Post Commit Optimization | Checksum: 1dba1865e
+
+Time (s): cpu = 00:01:26 ; elapsed = 00:00:33 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52850 ; free virtual = 105489
+
+Phase 4.2 Post Placement Cleanup
+Phase 4.2 Post Placement Cleanup | Checksum: 1dba1865e
+
+Time (s): cpu = 00:01:26 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+
+Phase 4.3 Placer Reporting
+
+Phase 4.3.1 Print Estimated Congestion
+INFO: [Place 30-612] Post-Placement Estimated Congestion 
+ ____________________________________________________
+|           | Global Congestion | Short Congestion  |
+| Direction | Region Size       | Region Size       |
+|___________|___________________|___________________|
+|      North|                1x1|                2x2|
+|___________|___________________|___________________|
+|      South|                1x1|                2x2|
+|___________|___________________|___________________|
+|       East|                1x1|                2x2|
+|___________|___________________|___________________|
+|       West|                1x1|                1x1|
+|___________|___________________|___________________|
+
+Phase 4.3.1 Print Estimated Congestion | Checksum: 1dba1865e
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+Phase 4.3 Placer Reporting | Checksum: 1dba1865e
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+
+Phase 4.4 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: f0cb710e
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+Ending Placer Task | Checksum: 56fd2625
+
+Time (s): cpu = 00:01:27 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52858 ; free virtual = 105487
+115 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+place_design: Time (s): cpu = 00:01:31 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52857 ; free virtual = 105487
+INFO: [Vivado 12-24838] Running report commands "report_control_sets, report_io, report_utilization" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_io -file Ranger_bd_wrapper_io_placed.rpt
+report_io: Time (s): cpu = 00:00:00.34 ; elapsed = 00:00:00.15 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52849 ; free virtual = 105479
+INFO: [Vivado 12-24828] Executing command : report_control_sets -verbose -file Ranger_bd_wrapper_control_sets_placed.rpt
+report_control_sets: Time (s): cpu = 00:00:00.53 ; elapsed = 00:00:00.26 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52832 ; free virtual = 105462
+INFO: [Vivado 12-24828] Executing command : report_utilization -file Ranger_bd_wrapper_utilization_placed.rpt -pb Ranger_bd_wrapper_utilization_placed.pb
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.37 ; elapsed = 00:00:00.09 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52798 ; free virtual = 105435
+Wrote PlaceDB: Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.93 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52763 ; free virtual = 105425
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52763 ; free virtual = 105425
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.05 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52763 ; free virtual = 105426
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.04 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52755 ; free virtual = 105420
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52755 ; free virtual = 105421
+Write Physdb Complete: Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52755 ; free virtual = 105421
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_placed.dcp' has been generated.
+Command: phys_opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+
+Starting Initial Update Timing Task
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52781 ; free virtual = 105442
+INFO: [Vivado_Tcl 4-2279] Estimated Timing Summary | WNS= 0.501 | TNS= 0.000 | 
+INFO: [Vivado_Tcl 4-383] Design worst setup slack (WNS) is greater than or equal to 0.000 ns. All physical synthesis setup optimizations will be skipped.
+INFO: [Vivado_Tcl 4-232] No setup violation found. The netlist was not modified.
+INFO: [Common 17-83] Releasing license: Implementation
+126 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+phys_opt_design completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.28 ; elapsed = 00:00:00.06 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52777 ; free virtual = 105443
+Wrote PlaceDB: Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.92 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52760 ; free virtual = 105442
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52760 ; free virtual = 105442
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52760 ; free virtual = 105442
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52759 ; free virtual = 105443
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52759 ; free virtual = 105443
+Write Physdb Complete: Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52758 ; free virtual = 105443
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_physopt.dcp' has been generated.
+Command: route_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+
+
+Starting Routing Task
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 8 CPUs
+
+Phase 1 Build RT Design
+Checksum: PlaceDB: 304c9f73 ConstDB: 0 ShapeSum: 10b713c2 RouteDB: 15f972f0
+Post Restoration Checksum: NetGraph: 7e45f97c | NumContArr: 6c2ed70b | Constraints: c2a8fa9d | Timing: c2a8fa9d
+Phase 1 Build RT Design | Checksum: 26fc6c5c1
+
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:10 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52704 ; free virtual = 105352
+
+Phase 2 Router Initialization
+
+Phase 2.1 Fix Topology Constraints
+Phase 2.1 Fix Topology Constraints | Checksum: 26fc6c5c1
+
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:10 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52704 ; free virtual = 105352
+
+Phase 2.2 Pre Route Cleanup
+Phase 2.2 Pre Route Cleanup | Checksum: 26fc6c5c1
+
+Time (s): cpu = 00:00:19 ; elapsed = 00:00:11 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52703 ; free virtual = 105352
+ Number of Nodes with overlaps = 0
+
+Phase 2.3 Update Timing
+Phase 2.3 Update Timing | Checksum: 2c0313ab7
+
+Time (s): cpu = 00:00:29 ; elapsed = 00:00:14 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52690 ; free virtual = 105349
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.727  | TNS=0.000  | WHS=-0.317 | THS=-106.599|
+
+
+Phase 2.4 Soft Constraint Pins - Fast Budgeting
+Phase 2.4 Soft Constraint Pins - Fast Budgeting | Checksum: 2fab0e11a
+
+Time (s): cpu = 00:00:33 ; elapsed = 00:00:15 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52691 ; free virtual = 105341
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0.201874 %
+  Global Horizontal Routing Utilization  = 0.249408 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 26799
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 23899
+  Number of Partially Routed Nets     = 2900
+  Number of Node Overlaps             = 2892
+
+Phase 2 Router Initialization | Checksum: 23cc32d18
+
+Time (s): cpu = 00:00:33 ; elapsed = 00:00:15 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52687 ; free virtual = 105336
+
+Phase 3 Global Routing
+Phase 3 Global Routing | Checksum: 23cc32d18
+
+Time (s): cpu = 00:00:34 ; elapsed = 00:00:15 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52687 ; free virtual = 105336
+
+Phase 4 Initial Routing
+
+Phase 4.1 Initial Net Routing Pass
+Phase 4.1 Initial Net Routing Pass | Checksum: 203ca3cba
+
+Time (s): cpu = 00:00:42 ; elapsed = 00:00:17 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52689 ; free virtual = 105338
+Phase 4 Initial Routing | Checksum: 203ca3cba
+
+Time (s): cpu = 00:00:42 ; elapsed = 00:00:17 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52689 ; free virtual = 105338
+
+Phase 5 Rip-up And Reroute
+
+Phase 5.1 Global Iteration 0
+ Number of Nodes with overlaps = 4013
+ Number of Nodes with overlaps = 970
+ Number of Nodes with overlaps = 405
+ Number of Nodes with overlaps = 156
+ Number of Nodes with overlaps = 38
+ Number of Nodes with overlaps = 18
+ Number of Nodes with overlaps = 6
+ Number of Nodes with overlaps = 8
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.185  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.1 Global Iteration 0 | Checksum: 20a807fce
+
+Time (s): cpu = 00:01:16 ; elapsed = 00:00:33 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52706 ; free virtual = 105356
+
+Phase 5.2 Global Iteration 1
+ Number of Nodes with overlaps = 15
+ Number of Nodes with overlaps = 12
+ Number of Nodes with overlaps = 8
+ Number of Nodes with overlaps = 6
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.185  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.2 Global Iteration 1 | Checksum: 291727617
+
+Time (s): cpu = 00:01:19 ; elapsed = 00:00:34 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52708 ; free virtual = 105357
+
+Phase 5.3 Global Iteration 2
+ Number of Nodes with overlaps = 1
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.185  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.3 Global Iteration 2 | Checksum: 2455b9dab
+
+Time (s): cpu = 00:01:20 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+Phase 5 Rip-up And Reroute | Checksum: 2455b9dab
+
+Time (s): cpu = 00:01:20 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+
+Phase 6 Delay and Skew Optimization
+
+Phase 6.1 Delay CleanUp
+Phase 6.1 Delay CleanUp | Checksum: 2455b9dab
+
+Time (s): cpu = 00:01:20 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+
+Phase 6.2 Clock Skew Optimization
+Phase 6.2 Clock Skew Optimization | Checksum: 2455b9dab
+
+Time (s): cpu = 00:01:21 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+Phase 6 Delay and Skew Optimization | Checksum: 2455b9dab
+
+Time (s): cpu = 00:01:21 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+
+Phase 7 Post Hold Fix
+
+Phase 7.1 Hold Fix Iter
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=0.185  | TNS=0.000  | WHS=0.018  | THS=0.000  |
+
+Phase 7.1 Hold Fix Iter | Checksum: 1e9938d64
+
+Time (s): cpu = 00:01:22 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+Phase 7 Post Hold Fix | Checksum: 1e9938d64
+
+Time (s): cpu = 00:01:22 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105357
+
+Phase 8 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 5.87035 %
+  Global Horizontal Routing Utilization  = 7.44244 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 8 Route finalize | Checksum: 1e9938d64
+
+Time (s): cpu = 00:01:23 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105356
+
+Phase 9 Verifying routed nets
+
+ Verification completed successfully
+Phase 9 Verifying routed nets | Checksum: 1e9938d64
+
+Time (s): cpu = 00:01:23 ; elapsed = 00:00:35 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52707 ; free virtual = 105356
+
+Phase 10 Depositing Routes
+Phase 10 Depositing Routes | Checksum: 2d47ee124
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:36 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105354
+
+Phase 11 Post Process Routing
+Phase 11 Post Process Routing | Checksum: 2d47ee124
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:36 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105354
+
+Phase 12 Post Router Timing
+INFO: [Route 35-57] Estimated Timing Summary | WNS=0.185  | TNS=0.000  | WHS=0.018  | THS=0.000  |
+
+INFO: [Route 35-327] The final timing numbers are based on the router estimated timing analysis. For a complete and accurate timing signoff, please run report_timing_summary.
+Phase 12 Post Router Timing | Checksum: 2d47ee124
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:36 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105355
+Total Elapsed time in route_design: 36.38 secs
+
+Phase 13 Post-Route Event Processing
+Phase 13 Post-Route Event Processing | Checksum: eec4397f
+
+Time (s): cpu = 00:01:25 ; elapsed = 00:00:37 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105354
+INFO: [Route 35-16] Router Completed Successfully
+Ending Routing Task | Checksum: eec4397f
+
+Time (s): cpu = 00:01:26 ; elapsed = 00:00:37 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105354
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+139 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:01:26 ; elapsed = 00:00:37 . Memory (MB): peak = 3385.410 ; gain = 0.000 ; free physical = 52705 ; free virtual = 105354
+INFO: [Vivado 12-24828] Executing command : report_drc -file Ranger_bd_wrapper_drc_routed.rpt -pb Ranger_bd_wrapper_drc_routed.pb -rpx Ranger_bd_wrapper_drc_routed.rpx
+Command: report_drc -file Ranger_bd_wrapper_drc_routed.rpt -pb Ranger_bd_wrapper_drc_routed.pb -rpx Ranger_bd_wrapper_drc_routed.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_drc_routed.rpt.
+report_drc completed successfully
+INFO: [Vivado 12-24828] Executing command : report_methodology -file Ranger_bd_wrapper_methodology_drc_routed.rpt -pb Ranger_bd_wrapper_methodology_drc_routed.pb -rpx Ranger_bd_wrapper_methodology_drc_routed.rpx
+Command: report_methodology -file Ranger_bd_wrapper_methodology_drc_routed.rpt -pb Ranger_bd_wrapper_methodology_drc_routed.pb -rpx Ranger_bd_wrapper_methodology_drc_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Vivado_Tcl 2-1520] The results of Report Methodology are in file /home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_methodology_drc_routed.rpt.
+report_methodology completed successfully
+INFO: [Vivado 12-24828] Executing command : report_timing_summary -max_paths 10 -routable_nets -report_unconstrained -file Ranger_bd_wrapper_timing_summary_routed.rpt -pb Ranger_bd_wrapper_timing_summary_routed.pb -rpx Ranger_bd_wrapper_timing_summary_routed.rpx -warn_on_violation 
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Vivado 12-24838] Running report commands "report_bus_skew, report_incremental_reuse, report_route_status" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_incremental_reuse -file Ranger_bd_wrapper_incremental_reuse_routed.rpt
+INFO: [Vivado_Tcl 4-1062] Incremental flow is disabled. No incremental reuse Info to report.
+INFO: [Vivado 12-24828] Executing command : report_bus_skew -warn_on_violation -file Ranger_bd_wrapper_bus_skew_routed.rpt -pb Ranger_bd_wrapper_bus_skew_routed.pb -rpx Ranger_bd_wrapper_bus_skew_routed.rpx
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Vivado 12-24828] Executing command : report_route_status -file Ranger_bd_wrapper_route_status.rpt -pb Ranger_bd_wrapper_route_status.pb
+INFO: [Vivado 12-24828] Executing command : report_power -file Ranger_bd_wrapper_power_routed.rpt -pb Ranger_bd_wrapper_power_summary_routed.pb -rpx Ranger_bd_wrapper_power_routed.rpx
+Command: report_power -file Ranger_bd_wrapper_power_routed.rpt -pb Ranger_bd_wrapper_power_summary_routed.pb -rpx Ranger_bd_wrapper_power_routed.rpx
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+159 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+INFO: [Vivado 12-24828] Executing command : report_clock_utilization -file Ranger_bd_wrapper_clock_utilization_routed.rpt
+generate_parallel_reports: Time (s): cpu = 00:00:41 ; elapsed = 00:00:11 . Memory (MB): peak = 3474.941 ; gain = 89.531 ; free physical = 52504 ; free virtual = 105171
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.31 ; elapsed = 00:00:00.07 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52489 ; free virtual = 105166
+Wrote PlaceDB: Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.88 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52446 ; free virtual = 105144
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52446 ; free virtual = 105144
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.57 ; elapsed = 00:00:00.31 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52444 ; free virtual = 105147
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52444 ; free virtual = 105149
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52444 ; free virtual = 105150
+Write Physdb Complete: Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 3474.941 ; gain = 0.000 ; free physical = 52444 ; free virtual = 105150
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/impl_1/Ranger_bd_wrapper_routed.dcp' has been generated.
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 09:31:12 2026...
+[Tue May 26 09:31:37 2026] impl_1 finished
+wait_on_runs: Time (s): cpu = 00:00:00.91 ; elapsed = 00:02:22 . Memory (MB): peak = 1873.812 ; gain = 0.000 ; free physical = 54942 ; free virtual = 107618
+INFO: [Common 17-206] Exiting Vivado at Tue May 26 09:31:37 2026...

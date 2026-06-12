@@ -1,0 +1,655 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Wed May 27 14:17:16 2026
+# Process ID         : 72019
+# Current directory  : /home/unai/Projects/dt_vhdl/ranger
+# Command line       : vivado -mode batch -source /home/unai/Projects/dt_vhdl/ranger/test.tcl
+# Log file           : /home/unai/Projects/dt_vhdl/ranger/vivado.log
+# Journal file       : /home/unai/Projects/dt_vhdl/ranger/vivado.jou
+# Running On         : Watson
+# Platform           : Debian
+# Operating System   : Debian GNU/Linux 13 (trixie)
+# Processor Detail   : Intel(R) Core(TM) Ultra 7 265U
+# CPU Frequency      : 1320.297 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 14
+# Host memory        : 66856 MB
+# Swap memory        : 50574 MB
+# Total Virtual      : 117431 MB
+# Available Virtual  : 112938 MB
+#-----------------------------------------------------------
+source /home/unai/Projects/dt_vhdl/ranger/test.tcl
+# open_project /home/unai/Projects/Ranger/Ranger.xpr
+Scanning sources...
+Finished scanning sources
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-100:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-100/E.0/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-100:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-100/E.0/1.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-35:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-35/E.0/1.0/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-a7-35:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-a7-35/E.0/1.1/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-s7-25:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-s7-25/E.0/board.xml as part xc7s25csga324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty-s7-50:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty-s7-50/B.0/board.xml as part xc7s50csga324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:arty:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/arty/C.0/board.xml as part xc7a35ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:basys3:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/basys3/C.0/board.xml as part xc7a35tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod-s7-25:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod-s7-25/B.0/board.xml as part xc7s25csga225-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod_a7-15t:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod_a7-15t/B.0/board.xml as part xc7a15tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:cmod_a7-35t:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/cmod_a7-35t/B.0/board.xml as part xc7a35tcpg236-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:genesys2:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/genesys2/H/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-100t:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-100t/D.0/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-100t:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-100t/D.0/1.3/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-50t:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-50t/D.0/1.0/board.xml as part xc7a50ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys-a7-50t:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys-a7-50t/D.0/1.3/board.xml as part xc7a50ticsg324-1l specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys4:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys4/B.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys4_ddr:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys4_ddr/C.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys_video:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys_video/A.0/1.1/board.xml as part xc7a200tsbg484-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:nexys_video:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/nexys_video/A.0/1.2/board.xml as part xc7a200tsbg484-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:sword:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/sword/C.0/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.0/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.1/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.2/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part digilentinc.com:usb104-a7:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/boards/board_files/usb104-a7/B/1.3/board.xml as part xc7a100tcsg324-1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:ac701:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/ac701/1.4/board.xml as part xc7a200tfbg676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/emb-plus-vpr-4616/1.0/board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/emb-plus-vpr-4616/1.1/board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kc705:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kc705/1.6/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kc705:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kc705/1.7/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.6/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.7/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.4/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu116:part0:1.5 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu116/1.5/board.xml as part xcku5p-ffvb676-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu1500:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu1500/1.2/board.xml as part xcku115-flvb2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:scu35:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/scu35/1.0/board.xml as part xcsu35p-sbvb625-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:sp701:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/sp701/1.0/board.xml as part xc7s100fgga676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:sp701:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/sp701/1.1/board.xml as part xc7s100fgga676-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:v80:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/v80/1.0/board.xml as part xcv80-lsva4737-2mhp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc707:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc707/1.4/board.xml as part xc7vx485tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc707:part0:1.5 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc707/1.5/board.xml as part xc7vx485tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vc709:part0:1.8 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vc709/1.8/board.xml as part xc7vx690tffg1761-2 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:2.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/2.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.4/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.6 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.6/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu108:part0:1.7 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu108/1.7/board.xml as part xcvu095-ffva2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu110:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu110/1.4/board.xml as part xcvu190-flgc2104-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.0/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.3/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu118:part0:2.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu118/2.4/board.xml as part xcvu9p-flga2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu128:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu128/production/1.0/board.xml as part xcvu37p-fsvh2892-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu129:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu129/production/1.0/board.xml as part xcvu29p-fsga2577-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vcu1525:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vcu1525/1.3/board.xml as part xcvu9p-fsgd2104-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.0/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.1/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek280:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek280/production/1.2/board.xml as part xcve2802-vsvh1760-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vek385:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vek385/1.0/board.xml as part xc2ve3858-ssva2112-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vermeo_t1_mpsoc:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vermeo_t1_mpsoc/1.0/board.xml as part xczu19eg-ffvd1760-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vermeo_t1_rfsoc:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vermeo_t1_rfsoc/1.0/board.xml as part xczu21dr-ffvd1156-2l-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.0/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.1/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vhk158:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vhk158/production/1.2/board.xml as part xcvh1582-vsva3697-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:2.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/2.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.3/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.0/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.1 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.1/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk180:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk180/production/1.2/board.xml as part xcvp1802-lsvc4072-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu102:part0:3.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu102/3.3/board.xml as part xczu9eg-ffvb1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu102:part0:3.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu102/3.4/board.xml as part xczu9eg-ffvb1156-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.2 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.2/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.3 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.3/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu111:part0:1.4 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu111/1.4/board.xml as part xczu28dr-ffvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu1275:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu1275/1.0/board.xml as part xczu29dr-ffvf1760-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu1285:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu1285/1.0/board.xml as part xczu39dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/production/2.0/board.xml as part xczu48dr-fsvg1517-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/production/2.0/board.xml as part xczu49dr-ffvf1760-2-e specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at /home/unai/.Xilinx/2025.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+INFO: [Project 1-5698] Found the below utility IPs instantiated in block design /home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd which have equivalent inline hdl with improved performance and reduced diskspace.
+It is recommended to migrate these utility IPs to inline hdl  using the command upgrade_project -migrate_to_inline_hdl.  The utility IPs may be deprecated in future releases.
+More information on inline hdl is available in UG994.
+Utility IP Component Instances:
+ Ranger_bd_xlconcat_0_0
+Ranger_bd_xlslice_0_0
+Ranger_bd_xlslice_0_1
+# update_module_reference Ranger_bd_RANGER_MAIN_0_0
+INFO: [IP_Flow 19-5107] Inferred bus interface 'm00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'reset' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'm00_ps'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'reset'.
+WARNING: [IP_Flow 19-11770] Clock interface 'clk' has no FREQ_HZ parameter.
+INFO: [IP_Flow 19-5107] Inferred bus interface 'm00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 's00_ps' of definition 'xilinx.com:interface:axis:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'reset' of definition 'xilinx.com:signal:reset:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'clk' of definition 'xilinx.com:signal:clock:1.0' (from Xilinx Repository).
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_BUSIF' with value 'm00_ps'.
+INFO: [IP_Flow 19-4728] Bus Interface 'clk': Added interface parameter 'ASSOCIATED_RESET' with value 'reset'.
+WARNING: [IP_Flow 19-11770] Clock interface 'clk' has no FREQ_HZ parameter.
+Reading block design file </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd>...
+Adding component instance block -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
+Adding component instance block -- xilinx.com:ip:axi_fifo_mm_s:4.3 - axi_fifo_mm_s_0
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_smc
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_50M
+Adding component instance block -- xilinx.com:module_ref:RANGER_MAIN:1.0 - RANGER_MAIN_0
+Adding component instance block -- xilinx.com:ip:xlconcat:2.1 - xlconcat_0
+Adding component instance block -- xilinx.com:ip:xlslice:1.0 - xlslice_0
+Adding component instance block -- xilinx.com:ip:xlslice:1.0 - xlslice_1
+Successfully read diagram <Ranger_bd> from block design file </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd>
+Upgrading '/home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd'
+INFO: [IP_Flow 19-3420] Updated Ranger_bd_RANGER_MAIN_0_0 to use current project options
+Wrote  : </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd> 
+# reset_run synth_1
+INFO: [Project 1-1161] Replacing file /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp with file /home/unai/Projects/Ranger/Ranger.runs/synth_1/Ranger_bd_wrapper.dcp
+# launch_runs synth_1 -jobs 7
+INFO: [BD 5-943] Reserving offset range <0x43C0_0000 [ 64K ]> from slave interface '/axi_smc/S00_AXI' to master interface '/axi_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] Ranger_bd_axi_smc_0: SmartConnect Ranger_bd_axi_smc_0 is in Low-Area Mode.
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+Wrote  : </home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd> 
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/sim/Ranger_bd.v
+Verilog Output written to : /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v
+Exporting to file /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/hw_handoff/Ranger_bd_axi_smc_0.hwh
+Generated Hardware Definition File /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/synth/Ranger_bd_axi_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_smc .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block RANGER_MAIN_0 .
+Exporting to file /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hw_handoff/Ranger_bd.hwh
+Generated Hardware Definition File /home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.hwdef
+INFO: [IP_Flow 19-4993] Using cached IP synthesis design for IP Ranger_bd_axi_smc_0, cache-ID = 3cbd532b2c359e05; cache size = 36.360 MB.
+[Wed May 27 14:17:28 2026] Launched Ranger_bd_RANGER_MAIN_0_0_synth_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/Ranger_bd_RANGER_MAIN_0_0_synth_1/runme.log
+[Wed May 27 14:17:28 2026] Launched synth_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/synth_1/runme.log
+launch_runs: Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 1853.121 ; gain = 165.523 ; free physical = 51834 ; free virtual = 107065
+# wait_on_run synth_1
+[Wed May 27 14:17:28 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log Ranger_bd_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source Ranger_bd_wrapper.tcl
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Wed May 27 14:18:23 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source Ranger_bd_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+INFO: [Project 1-5698] Found the below utility IPs instantiated in block design /home/unai/Projects/Ranger/Ranger.srcs/sources_1/bd/Ranger_bd/Ranger_bd.bd which have equivalent inline hdl with improved performance and reduced diskspace.
+It is recommended to migrate these utility IPs to inline hdl  using the command upgrade_project -migrate_to_inline_hdl.  The utility IPs may be deprecated in future releases.
+More information on inline hdl is available in UG994.
+Utility IP Component Instances:
+ Ranger_bd_xlconcat_0_0
+Ranger_bd_xlslice_0_0
+Ranger_bd_xlslice_0_1
+Command: read_checkpoint -auto_incremental -incremental /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/unai/Projects/Ranger/Ranger.srcs/utils_1/imports/synth_1/Ranger_bd_wrapper.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top Ranger_bd_wrapper -part xc7z020clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 72816
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2180.277 ; gain = 441.797 ; free physical = 50339 ; free virtual = 105635
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_wrapper' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:13]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_RANGER_MAIN_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_RANGER_MAIN_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_RANGER_MAIN_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_RANGER_MAIN_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_axi_fifo_mm_s_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_axi_fifo_mm_s_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_axi_fifo_mm_s_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_axi_fifo_mm_s_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mm2s_prmry_reset_out_n' of module 'Ranger_bd_axi_fifo_mm_s_0_0' is unconnected for instance 'axi_fifo_mm_s_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+WARNING: [Synth 8-7071] port 's2mm_prmry_reset_out_n' of module 'Ranger_bd_axi_fifo_mm_s_0_0' is unconnected for instance 'axi_fifo_mm_s_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+WARNING: [Synth 8-7023] instance 'axi_fifo_mm_s_0' of module 'Ranger_bd_axi_fifo_mm_s_0_0' has 30 connections declared, but only 28 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:177]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_axi_smc_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_axi_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_axi_smc_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_axi_smc_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'M00_AXI_awprot' of module 'Ranger_bd_axi_smc_0' is unconnected for instance 'axi_smc' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+WARNING: [Synth 8-7071] port 'M00_AXI_arprot' of module 'Ranger_bd_axi_smc_0' is unconnected for instance 'axi_smc' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+WARNING: [Synth 8-7023] instance 'axi_smc' of module 'Ranger_bd_axi_smc_0' has 59 connections declared, but only 57 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:206]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_processing_system7_0_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_processing_system7_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_processing_system7_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'USB0_PORT_INDCTL' of module 'Ranger_bd_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+WARNING: [Synth 8-7071] port 'USB0_VBUS_PWRSELECT' of module 'Ranger_bd_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+WARNING: [Synth 8-7023] instance 'processing_system7_0' of module 'Ranger_bd_processing_system7_0_0' has 66 connections declared, but only 64 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:264]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_rst_ps7_0_50M_0' [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_rst_ps7_0_50M_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_rst_ps7_0_50M_0' (0#1) [/home/unai/Projects/Ranger/Ranger.runs/synth_1/.Xil/Vivado-72751-Watson/realtime/Ranger_bd_rst_ps7_0_50M_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'Ranger_bd_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+WARNING: [Synth 8-7023] instance 'rst_ps7_0_50M' of module 'Ranger_bd_rst_ps7_0_50M_0' has 10 connections declared, but only 7 given [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:329]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlconcat_0_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlconcat_0_0/synth/Ranger_bd_xlconcat_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlconcat_v2_1_7_xlconcat' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/9c1a/hdl/xlconcat_v2_1_vl_rfs.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'xlconcat_v2_1_7_xlconcat' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/9c1a/hdl/xlconcat_v2_1_vl_rfs.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlconcat_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlconcat_0_0/synth/Ranger_bd_xlconcat_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlslice_0_0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_0/synth/Ranger_bd_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlslice_v1_0_5_xlslice' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'xlslice_v1_0_5_xlslice' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlslice_0_0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_0/synth/Ranger_bd_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'Ranger_bd_xlslice_0_1' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_1/synth/Ranger_bd_xlslice_0_1.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlslice_v1_0_5_xlslice__parameterized0' [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'xlslice_v1_0_5_xlslice__parameterized0' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ipshared/6792/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_xlslice_0_1' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_xlslice_0_1/synth/Ranger_bd_xlslice_0_1.v:53]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/synth/Ranger_bd.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'Ranger_bd_wrapper' (0#1) [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/hdl/Ranger_bd_wrapper.v:13]
+WARNING: [Synth 8-7129] Port Din[0] in module xlslice_v1_0_5_xlslice__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Din[1] in module xlslice_v1_0_5_xlslice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In4[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In5[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In6[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In7[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In8[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In9[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In10[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In11[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In12[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In13[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In14[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In15[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In16[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In17[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In18[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In19[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In20[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In21[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In22[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In23[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In24[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In25[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In26[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In27[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In28[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In29[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In30[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In31[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In32[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In33[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In34[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In35[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In36[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In37[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In38[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In39[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In40[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In41[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In42[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In43[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In44[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In45[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In46[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In47[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In48[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In49[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In50[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In51[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In52[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In53[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In54[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In55[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In56[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In57[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In58[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In59[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In60[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In61[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In62[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In63[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In64[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In65[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In66[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In67[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In68[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In69[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In70[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In71[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In72[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In73[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In74[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In75[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In76[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In77[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In78[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In79[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In80[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In81[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In82[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In83[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In84[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In85[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In86[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In87[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In88[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In89[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In90[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In91[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In92[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In93[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In94[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In95[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In96[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In97[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In98[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In99[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In100[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+WARNING: [Synth 8-7129] Port In101[0] in module xlconcat_v2_1_7_xlconcat is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2261.215 ; gain = 522.734 ; free physical = 50247 ; free virtual = 105544
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2276.059 ; gain = 537.578 ; free physical = 50239 ; free virtual = 105536
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2276.059 ; gain = 537.578 ; free physical = 50239 ; free virtual = 105536
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2276.059 ; gain = 0.000 ; free physical = 50239 ; free virtual = 105536
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0_in_context.xdc] for cell 'Ranger_bd_i/processing_system7_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0_in_context.xdc] for cell 'Ranger_bd_i/processing_system7_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0_in_context.xdc] for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0_in_context.xdc] for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0_in_context.xdc] for cell 'Ranger_bd_i/axi_smc'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0_in_context.xdc] for cell 'Ranger_bd_i/axi_smc'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_in_context.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_in_context.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_in_context.xdc] for cell 'Ranger_bd_i/RANGER_MAIN_0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0_in_context.xdc] for cell 'Ranger_bd_i/RANGER_MAIN_0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Ranger_bd_wrapper_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Ranger_bd_wrapper_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2322.016 ; gain = 0.000 ; free physical = 50271 ; free virtual = 105569
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2322.051 ; gain = 0.000 ; free physical = 50264 ; free virtual = 105561
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2322.051 ; gain = 583.570 ; free physical = 50251 ; free virtual = 105548
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2330.020 ; gain = 591.539 ; free physical = 50251 ; free virtual = 105548
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2330.020 ; gain = 591.539 ; free physical = 50257 ; free virtual = 105554
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2330.020 ; gain = 591.539 ; free physical = 50256 ; free virtual = 105555
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2330.020 ; gain = 591.539 ; free physical = 50256 ; free virtual = 105559
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2425.020 ; gain = 686.539 ; free physical = 50190 ; free virtual = 105493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2425.020 ; gain = 686.539 ; free physical = 50190 ; free virtual = 105493
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2435.035 ; gain = 696.555 ; free physical = 50174 ; free virtual = 105477
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+---------------------------------+----------+
+|      |BlackBox name                    |Instances |
++------+---------------------------------+----------+
+|1     |Ranger_bd_RANGER_MAIN_0_0        |         1|
+|2     |Ranger_bd_axi_fifo_mm_s_0_0      |         1|
+|3     |Ranger_bd_axi_smc_0              |         1|
+|4     |Ranger_bd_processing_system7_0_0 |         1|
+|5     |Ranger_bd_rst_ps7_0_50M_0        |         1|
++------+---------------------------------+----------+
+
+Report Cell Usage: 
++------+-------------------------------+------+
+|      |Cell                           |Count |
++------+-------------------------------+------+
+|1     |Ranger_bd_RANGER_MAIN_0        |     1|
+|2     |Ranger_bd_axi_fifo_mm_s_0      |     1|
+|3     |Ranger_bd_axi_smc              |     1|
+|4     |Ranger_bd_processing_system7_0 |     1|
+|5     |Ranger_bd_rst_ps7_0_50M        |     1|
+|6     |IBUF                           |     2|
+|7     |OBUF                           |     4|
++------+-------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.848 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 2609.848 ; gain = 825.375 ; free physical = 50042 ; free virtual = 105345
+Synthesis Optimization Complete : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2609.855 ; gain = 871.367 ; free physical = 50042 ; free virtual = 105345
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2609.855 ; gain = 0.000 ; free physical = 50042 ; free virtual = 105345
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2609.855 ; gain = 0.000 ; free physical = 50215 ; free virtual = 105518
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: d2032388
+INFO: [Common 17-83] Releasing license: Synthesis
+50 Infos, 114 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:19 ; elapsed = 00:00:18 . Memory (MB): peak = 2609.883 ; gain = 1072.215 ; free physical = 50215 ; free virtual = 105518
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1804.646; main = 1804.646; forked = 275.788
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3301.508; main = 2609.848; forked = 955.488
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2633.859 ; gain = 0.000 ; free physical = 50215 ; free virtual = 105518
+INFO: [Common 17-1381] The checkpoint '/home/unai/Projects/Ranger/Ranger.runs/synth_1/Ranger_bd_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file Ranger_bd_wrapper_utilization_synth.rpt -pb Ranger_bd_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed May 27 14:18:45 2026...
+[Wed May 27 14:19:05 2026] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:01:12 ; elapsed = 00:01:37 . Memory (MB): peak = 1853.121 ; gain = 0.000 ; free physical = 51812 ; free virtual = 107110
+# launch_runs impl_1 -jobs 7
+[Wed May 27 14:19:11 2026] Launched impl_1...
+Run output will be captured here: /home/unai/Projects/Ranger/Ranger.runs/impl_1/runme.log
+launch_runs: Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 1869.129 ; gain = 16.008 ; free physical = 51589 ; free virtual = 106917
+# wait_on_run impl_1
+[Wed May 27 14:19:11 2026] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log Ranger_bd_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source Ranger_bd_wrapper.tcl -notrace
+
+
+****** Vivado v2025.1 (64-bit)
+  **** SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+  **** IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+  **** SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+  **** Start of session at: Wed May 27 14:19:12 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source Ranger_bd_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/unai/.Xilinx/2025.1/Vivado/data/ip'.
+Command: link_design -top Ranger_bd_wrapper -part xc7z020clg400-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Project 1-5699] Read binary netlist with skipMacroContent - 1
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_RANGER_MAIN_0_0/Ranger_bd_RANGER_MAIN_0_0.dcp' for cell 'Ranger_bd_i/RANGER_MAIN_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_fifo_mm_s_0_0/Ranger_bd_axi_fifo_mm_s_0_0.dcp' for cell 'Ranger_bd_i/axi_fifo_mm_s_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/Ranger_bd_axi_smc_0.dcp' for cell 'Ranger_bd_i/axi_smc'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.dcp' for cell 'Ranger_bd_i/processing_system7_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0.dcp' for cell 'Ranger_bd_i/rst_ps7_0_50M'
+Netlist sorting complete. Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.07 . Memory (MB): peak = 1793.871 ; gain = 0.000 ; free physical = 50981 ; free virtual = 106309
+INFO: [Netlist 29-17] Analyzing 489 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2025.1
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.xdc] for cell 'Ranger_bd_i/processing_system7_0/inst'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_processing_system7_0_0/Ranger_bd_processing_system7_0_0.xdc] for cell 'Ranger_bd_i/processing_system7_0/inst'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/ip/ip_1/bd_14e5_psr_aclk_0_board.xdc] for cell 'Ranger_bd_i/axi_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/bd_0/ip/ip_1/bd_14e5_psr_aclk_0_board.xdc] for cell 'Ranger_bd_i/axi_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/smartconnect.xdc] for cell 'Ranger_bd_i/axi_smc/inst'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_axi_smc_0/smartconnect.xdc] for cell 'Ranger_bd_i/axi_smc/inst'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_board.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M/U0'
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.gen/sources_1/bd/Ranger_bd/ip/Ranger_bd_rst_ps7_0_50M_0/Ranger_bd_rst_ps7_0_50M_0_board.xdc] for cell 'Ranger_bd_i/rst_ps7_0_50M/U0'
+Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+Finished Parsing XDC File [/home/unai/Projects/Ranger/Ranger.srcs/constrs_1/new/zybo-z7-master.xdc]
+INFO: [Project 1-1714] 23 XPM XDC files have been applied to the design.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2533.117 ; gain = 0.000 ; free physical = 50404 ; free virtual = 105747
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 14 instances were transformed.
+  RAM64M => RAM64M (RAMD64E(x4)): 14 instances
+
+17 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 2533.152 ; gain = 987.656 ; free physical = 50404 ; free virtual = 105747
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+ERROR: [DRC MDRV-1] Multiple Driver Nets: Net Ranger_bd_i/RANGER_MAIN_0/inst/DT_RANGER/CONFIG/last_feature_reg has multiple drivers: Ranger_bd_i/RANGER_MAIN_0/inst/DT_RANGER/CONFIG/FSM_onehot_current_s_reg[1]_i_4/CO[1], and Ranger_bd_i/RANGER_MAIN_0/inst/DT_RANGER/CONFIG/FSM_onehot_current_s[1]_i_3/O.
+INFO: [Project 1-461] DRC finished with 1 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+ERROR: [Vivado_Tcl 4-78] Error(s) found during DRC. Opt_design not run.
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.4 . Memory (MB): peak = 2536.086 ; gain = 2.934 ; free physical = 50355 ; free virtual = 105698
+INFO: [Common 17-83] Releasing license: Implementation
+22 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+opt_design failed
+ERROR: [Common 17-39] 'opt_design' failed due to earlier errors.
+
+INFO: [Common 17-206] Exiting Vivado at Wed May 27 14:19:24 2026...
+[Wed May 27 14:19:44 2026] impl_1 finished
+ERROR: [Vivado 12-13638] Failed runs(s) : 'impl_1'
+wait_on_runs: Time (s): cpu = 00:00:00.85 ; elapsed = 00:00:34 . Memory (MB): peak = 1869.129 ; gain = 0.000 ; free physical = 51752 ; free virtual = 107094
+ERROR: [Common 17-39] 'wait_on_runs' failed due to earlier errors.
+
+    while executing
+"wait_on_run impl_1"
+    (file "/home/unai/Projects/dt_vhdl/ranger/test.tcl" line 7)
+INFO: [Common 17-206] Exiting Vivado at Wed May 27 14:19:44 2026...

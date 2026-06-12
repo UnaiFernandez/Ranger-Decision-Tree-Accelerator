@@ -11,12 +11,12 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 100;
+    constant  n_estimators : integer := 16;
     constant  node_mem_size : integer := 512;
     constant  in_fifo_size : integer := 1024;
     constant  out_fifo_size : integer := 64;
     constant  mem_config_file : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/random_forest_bin.txt";
-    constant  debug : std_logic := '0';
+    constant  debug : std_logic := '1';
 
     constant  data_width : integer := 32;
     constant  addr_width : integer := 16;
