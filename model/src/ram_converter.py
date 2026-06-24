@@ -55,7 +55,8 @@ def create_mem_bin_layouts(t_dict):
         try:
             feature = int(node['feature'])
             right_addr = find_node(data, node['right_child'])
-            threshold, threshold_bin, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            #threshold, threshold_bin, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            threshold, threshold_bin, *_ = to_fixed_point(float(node['threshold']))
             node_info = f'{right_addr:016b}'+f'{feature*2:016b}'
             node_mem.append(node_info)
             node_mem.append(threshold_bin)
@@ -96,7 +97,8 @@ def create_mem_hex_layouts( t_dict):
         try:
             feature = int(node['feature'])
             right_addr = find_node(data, node['right_child'])
-            threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            #threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            threshold, *_ = to_fixed_point(float(node['threshold']))
             node_info = f'{right_addr:04x}'+f'{feature*2:04x}'
             node_mem.append(node_info)
             node_mem.append(threshold)
@@ -147,7 +149,8 @@ def create_mem_bin_layouts_new_format( t_dict):
                 left_addr = (find_node(data, str(int(node['left_child']) >> 1)) << 1) | 0
             #right_addr = find_node(data, node['right_child'])
             #left_addr = find_node(data, node['left_child'])
-            threshold, threshold_bin, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            #threshold, threshold_bin, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            threshold, threshold_bin, *_ = to_fixed_point(float(node['threshold']))
             node_info = (left_addr << 21) | (right_addr << 10) | feature
             node_info = f'{node_info:032b}'
             #node_info = f'{right_addr:04x}'+f'{feature:04x}'
@@ -199,7 +202,8 @@ def create_mem_hex_layouts_new_format( t_dict):
                 left_addr = (find_node(data, str(int(node['left_child']) >> 1)) << 1) | 0
             #right_addr = find_node(data, node['right_child'])
             #left_addr = find_node(data, node['left_child'])
-            threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            #threshold, *_ = to_floating_point(float(node['threshold']), 8, 23)
+            threshold, *_ = to_fixed_point(float(node['threshold']))
             node_info = (left_addr << 21) | (right_addr << 10) | feature
             node_info = f'{node_info:08x}'
             #node_info = f'{right_addr:04x}'+f'{feature:04x}'
@@ -257,7 +261,8 @@ def create_mem_layouts(filename, t_dict):
                 addr += 1
                 ch_node_id = int(ch['node_id'])
                 ch_comp = get_code(ch['cond'])
-                ch_value, *_ = to_floating_point(float(ch['value']), 8, 20)
+                #ch_value, *_ = to_floating_point(float(ch['value']), 8, 20)
+                ch_value, *_ = to_fixed_point(float(ch['value']))
                 #ch_value, *_ = to_floating_point(float(ch['value']))
                 hex_val = ch_value+ch_comp
                 #f_val = (-1)**(sign) * (1 + mantissa) * (2**(exp-127))
@@ -293,7 +298,8 @@ def create_data_mem(data):
     row = len(data)
     for r in range(0, row):
         for c in range(0, col):
-            threshold, threshold_bin, *_ = to_floating_point(float(data[r, c]), 8, 23)
+            #threshold, threshold_bin, *_ = to_floating_point(float(data[r, c]), 8, 23)
+            threshold, threshold_bin, *_ = to_fixed_point(float(data[r, c]))
             threshold_list.append(threshold);
             threshold_list_bin.append(threshold_bin);
 

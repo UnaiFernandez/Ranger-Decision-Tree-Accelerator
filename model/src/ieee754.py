@@ -1,7 +1,7 @@
 exponent_bits = 8
 mantissa_bits = 20
-integer_bits  = 14
-fraction_bits = 14
+integer_bits  = 15
+fraction_bits = 16
 
 
 def to_fixed_point(number):
@@ -17,10 +17,11 @@ def to_fixed_point(number):
         integer = integer_bin
 
 
-    formatted_num = sign + integer + \
-           format(fraction, "0{}b".format(fraction_bits))
+    formatted_num_bin = sign + integer + format(fraction, "0{}b".format(fraction_bits))
 
-    return formatted_num, integer, fraction
+    formatted_num = format(int(formatted_num_bin, 2), "0{}x".format(8))
+
+    return formatted_num, formatted_num_bin, integer, fraction
 
 
 def get_fraction(number):
@@ -101,13 +102,16 @@ def get_mantissa(number, m_bits):
 
     return bin
 
-#a1, *_ = to_fixed_point(1.5)
-#a2, *_ = to_fixed_point(-1.5)
+#a1f, a1, inte, fra = to_fixed_point(-43.625)
+#a2, *_ = to_fixed_point(-0.0625)
 #
-#b1, *_ = to_floating_point(1.5, exponent_bits, mantissa_bits)
+#b1f, *_ = to_floating_point(1.5, exponent_bits, mantissa_bits)
 #b2, *_ = to_floating_point(-1.5, exponent_bits, mantissa_bits)
 #
 #print(a1)
+#print(a1f)
+#print(inte)
+#print(fra)
 #print(a2)
 #print(b1)
 #print(b2)

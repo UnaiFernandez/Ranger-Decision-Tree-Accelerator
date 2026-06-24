@@ -40,7 +40,8 @@ architecture arch_dt_ctl of dt_ctl is
     --signal feature, right_node, left_node, next_node : std_logic_vector(g_ADDR_WIDTH - 1 downto 0);
     signal next_node : unsigned(g_ADDR_WIDTH - 1 downto 0) := (others => '0');
     signal node_info : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
-    signal threshold : float(8 downto -23);
+    --signal threshold : float(8 downto -23);
+    signal threshold : sfixed(15 downto -16);
 
 -- R class
     signal LD_class : std_logic;
@@ -52,7 +53,8 @@ architecture arch_dt_ctl of dt_ctl is
 
 --
     signal leaf, go_right, read_node_info : std_logic;
-    signal data_out : float(8 downto -23);
+    --signal data_out : float(8 downto -23);
+    signal data_out : sfixed(15 downto -16);
 
 
     signal ld_node_info: std_logic := '0';
@@ -67,8 +69,8 @@ architecture arch_dt_ctl of dt_ctl is
     signal ld_node_addr : std_logic := '0';
     signal cl_node_addr : std_logic := '0';
 
-    signal cl_c_addr_sel : std_logic := '0';
-    signal c_addr_sel : unsigned(1 downto 0) := "00";
+    signal ld_addr, ld_next : std_logic := '0';
+
 
 begin
 
@@ -126,30 +128,55 @@ begin
     begin
         if rising_edge(i_clk) then
             if ld_threshold = '1' then
-                threshold <= to_float(i_NODE_INFO);
+                --threshold <= to_float(i_NODE_INFO);
+                threshold <= to_sfixed(i_NODE_INFO, threshold);
             end if;
         end if;
     end process;
+
+    --ld_node_addr <= '1' when current_s = E1
+    --                or current_s = E2
+    --                or (current_s = E4)
+    --                or current_s = E5 else '0';
+
+    --cl_node_addr <= '1' when (current_s = E0 and i_enable = '1') or (current_s = E6 and i_enable = '1') else '0';
+
+    --process(i_clk, cl_node_addr, ld_node_addr, mux_addr)
+    --begin
+    --    if rising_edge(i_clk) then
+    --        if cl_node_addr = '1' then
+    --            node_addr <= (others => '0');
+    --        elsif ld_node_addr = '1' then
+    --            node_addr <= mux_addr;
+    --        end if;
+    --    end if;
+    --end process;
 
     ld_node_addr <= '1' when current_s = E1
                     or current_s = E2
                     or (current_s = E4 and leaf = '0')
-                    or current_s = E5 
-                    or (current_s = E6 and i_enable = '1') else '0';
+                    or (current_s = E6 and i_enable = '1')
+                    or current_s = E5 else '0';
 
     cl_node_addr <= '1' when (current_s = E0 and i_enable = '1') or (current_s = E4 and leaf = '1') else '0';
 
-    process(i_clk, cl_node_addr, ld_node_addr, mux_addr)
+    process(i_clk, cl_node_addr, ld_node_addr, current_s)
     begin
-        if cl_node_addr = '1' then
-            --node_addr <= X"0001";
-            node_addr <= (others => '0');
-        elsif rising_edge(i_clk) then
-            if ld_node_addr = '1' then
-                 node_addr <= mux_addr;
+        if rising_edge(i_clk) then
+            if cl_node_addr = '1' then
+                node_addr <= (others => '0');
+            elsif ld_node_addr = '1' then
+                if current_s = E2 then
+                    node_addr <= data_addr;
+                elsif current_s = E4 and leaf = '0' then
+                    node_addr <= '0' & next_node(g_ADDR_WIDTH - 1 downto 1);
+                elsif current_s = E1 or current_s = E5 or (current_s = E6 and i_enable = '1') then
+                    node_addr <= node_addr + 1;
+                end if;
             end if;
         end if;
     end process;
+
 
     --sel_addr <= "10" when current_s = E2 else "01" when current_s = E4 and leaf = '0' else "11" when current_s = E1 or current_s = E5 else "00";
     --
@@ -164,34 +191,18 @@ begin
     --    end case;
     --end process;
 
-    cl_c_addr_sel <= '1' when current_s = E1 or current_s = E5 else '0';
-    --cl_c_addr_sel <= '1' when current_s = E2 else '0';
-    process(i_clk, current_s, i_enable)
-    begin
-        if rising_edge(i_clk) then
-            if cl_c_addr_sel = '1' then
-                c_addr_sel <= "01";
-            elsif current_s = E6 and i_enable = '0' then
-                c_addr_sel <= "00";
-            else
-                c_addr_sel <= c_addr_sel + 1;
-            end if;
-        end if;
-    end process;
-
-
-    process(c_addr_sel, next_node, node_addr, data_addr)
-    begin
-        if c_addr_sel = 1 then
-            mux_addr <= data_addr;
-        elsif c_addr_sel = 2 then
-            mux_addr <= (others => '0');
-        elsif c_addr_sel = 3 then
-            mux_addr <= '0' & next_node(g_ADDR_WIDTH - 1 downto 1);
-        else
-            mux_addr <= node_addr + 1;
-        end if;
-    end process;
+    --process(current_s, leaf, next_node, node_addr, data_addr)
+    --begin
+    --    if current_s = E2 then
+    --        mux_addr <= data_addr;
+    --    elsif current_s = E4 and leaf = '0' then
+    --        mux_addr <= '0' & next_node(g_ADDR_WIDTH - 1 downto 1);
+    --    elsif current_s = E1 or current_s = E5 then
+    --        mux_addr <= node_addr + 1;
+    --    else
+    --        mux_addr <= (others => '0');
+    --    end if;
+    --end process;
 
     o_NODE_ADDR <= node_addr;
 
@@ -221,7 +232,7 @@ begin
     --next_node <= unsigned("00000" & node_info(20 downto 10)) when (go_right = '1')
     --             else unsigned("00000" & node_info(31 downto 21));
 
-    process(go_right, node_info)
+    process(i_clk, go_right, node_info)
     begin
         if go_right = '1' then
             next_node <= unsigned("00000" & node_info(20 downto 10));
@@ -239,11 +250,14 @@ begin
 
     process(i_clk, threshold, i_NODE_INFO)
     begin
-        if to_float(i_NODE_INFO) <= threshold then
-            go_right <= '0';
-        else
-            go_right <= '1';
-        end if;
+        --if rising_edge(i_clk) then
+            --if to_float(i_NODE_INFO) <= threshold then
+            if to_sfixed(i_NODE_INFO, data_out) <= threshold then
+                go_right <= '0';
+            else
+                go_right <= '1';
+            end if;
+        --end if;
     end process;
 
 -- R class

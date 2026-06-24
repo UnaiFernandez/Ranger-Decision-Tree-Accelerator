@@ -34,7 +34,7 @@ x_train, x_test, y_train, y_test = split_dataset(dataset, train_size=train_size)
 
 
 # Training model
-num_instances = 64
+num_instances = 16
 avg_nodes = 0
 max_nodes = 0
 
@@ -127,5 +127,5 @@ print(f'Accuracy:                    {accuracy * 100:.2f}%')
 #conf_matrix = confusion_matrix(y_test, y_pred)
 #print(f'\nConfusion matrix:\n {conf_matrix}')
 
-print("y test: {}".format(y_test[0:15]))
-print("y pred: {}".format(y_pred[0:15]))
+print("y test: {}".format(y_test[0:30]))
+print("y pred: {}".format(y_pred[0:30]))
