@@ -248,7 +248,7 @@ begin
 
 -- CMP
 
-    process(i_clk, threshold, i_NODE_INFO)
+    process(i_clk, threshold, i_NODE_INFO, data_out)
     begin
         --if rising_edge(i_clk) then
             --if to_float(i_NODE_INFO) <= threshold then
