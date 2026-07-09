@@ -12,9 +12,9 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 256;
+    constant  n_estimators : integer := 128;
     constant  n_classes : integer := 4;  
-    constant  chunk_size : integer := 32;
+    constant  chunk_size : integer := 64;
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
@@ -22,7 +22,6 @@ package general_package is
     constant  out_fifo_size : integer := 64;
     constant  mem_config_file : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/random_forest_bin.txt";
     constant  debug : std_logic := '1';
-
     constant  data_width : integer := 32;
     constant  addr_width : integer := 16;
 
@@ -30,12 +29,13 @@ package general_package is
 
 	  --type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
 	  type mat_t is array (natural range <>) of std_logic_vector(n_classes - 1 downto 0);
-	  type cols_t is array (natural range <>) of unsigned(n_estimators - 1 downto 0);
-	  type cols_t_2 is array (natural range <>) of unsigned(count_width - 1 downto 0);
+	  type cols_t is array (natural range <>) of unsigned(count_width - 1 downto 0);
     subtype sum_t is unsigned(count_width - 1 downto 0);
 
 	  procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(n_estimators - 1 downto 0));	
-	  procedure find_max(signal sum_mat : in cols_t_2; signal class : out integer);	
+	  procedure find_max(signal sum_mat : in cols_t; signal class : out integer);
+
+    function get_chunk_votes(mat: mat_t; j: integer; c:integer) return std_logic_vector; 
 	
 end package;
 
@@ -53,7 +53,7 @@ package body general_package is
 				sum <= tmp_sum;
 	  end add_set_bits;
 
-	  procedure find_max(signal sum_mat : in cols_t_2; signal class : out integer) is	
+	  procedure find_max(signal sum_mat : in cols_t; signal class : out integer) is	
 		    variable tmp_class : integer:= 0;
 		    variable max : sum_t; --unsigned(n_estimators - 1 downto 0);
 	  begin
@@ -78,13 +78,15 @@ package body general_package is
         return r;
     end function;
 
-    --function to_matrix(vec : std_logic_vector(N_ESTIMATORS*N_CLASSES-1 downto 0)) return mat_t is
-    --    variable tmp : mat_t(0 to N_ESTIMATORS-1);
-    --begin
-    --    for i in 0 to N_ESTIMATORS-1 loop
-    --        tmp(i) := vec((i+1)*N_CLASSES-1 downto i*N_CLASSES);
-    --    end loop;
-    --    return tmp;
-    --end function;    
+    function get_chunk_votes(mat: mat_t; j: integer; c:integer) return std_logic_vector is 
+        variable votes_chunk : std_logic_vector(chunk_size-1 downto 0) := (others => '0');
+    begin
+        for i in 0 to chunk_size-1 loop
+            if (c * chunk_size + i) < n_estimators then
+                votes_chunk(i) := mat(c * chunk_size + i)(j);
+            end if;
+        end loop;
+        return votes_chunk;
+    end function;
 
 end package body;

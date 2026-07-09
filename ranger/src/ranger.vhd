@@ -72,9 +72,6 @@ architecture arch_ranger of ranger is
     signal class_mat : mat_t(0 to g_n_estimators - 1);
 --signal sum_mat : cols_t(0 to 15);
     signal sum_mat : cols_t(0 to 3);
-    signal sum_mat_2 : cols_t_2(0 to 3);
---signal sum_mat_tmp : cols_t(0 to 15) := (others => (others => '0'));
-    signal sum_mat_tmp : cols_t(0 to 3) := (others => (others => '0'));
 
     signal inc_c, ld_cycles : std_logic;
     signal cycle_count : integer := 0;
@@ -176,22 +173,11 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-    --calculate_cols: for I in 0 to 3 generate
-    --    add_set_bits(class_mat, I, sum_mat_tmp(I));
-    --end generate;
-
-    --process(i_CLK)
-    --begin
-    --    if rising_edge(i_CLK) then
-    --        sum_mat <= sum_mat_tmp;
-    --    end if;
-    --end process;
-
     u_aggregator: entity work.aggregator
         port map(
             i_clk => i_CLK,
             i_mat => class_mat,
-            o_resul => sum_mat_2 
+            o_resul => sum_mat 
         );
 
     en_find_max <= '1' when current_s = E4 else '0';
@@ -200,8 +186,7 @@ begin
     begin
         if rising_edge(i_CLK) then
             if en_find_max = '1' then
-                find_max(sum_mat_2, max_class);
-                --find_max_2(sum_mat, max_class);
+                find_max(sum_mat, max_class);
             end if;
         end if;
     end process;
