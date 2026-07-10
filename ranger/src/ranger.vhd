@@ -72,6 +72,7 @@ architecture arch_ranger of ranger is
     signal class_mat : mat_t(0 to g_n_estimators - 1);
 --signal sum_mat : cols_t(0 to 15);
     signal sum_mat : cols_t(0 to 3);
+    signal sum_mat_r : cols_t(0 to 3);
 
     signal inc_c, ld_cycles : std_logic;
     signal cycle_count : integer := 0;
@@ -180,13 +181,20 @@ begin
             o_resul => sum_mat 
         );
 
-    en_find_max <= '1' when current_s = E4 else '0';
+    process(i_clk)
+    begin
+        if rising_edge(i_clk) then
+            sum_mat_r <= sum_mat;
+        end if;
+    end process;
+
+    en_find_max <= '1' when current_s = E5 else '0';
 
     process(i_CLK)
     begin
         if rising_edge(i_CLK) then
             if en_find_max = '1' then
-                find_max(sum_mat, max_class);
+                find_max(sum_mat_r, max_class);
             end if;
         end if;
     end process;

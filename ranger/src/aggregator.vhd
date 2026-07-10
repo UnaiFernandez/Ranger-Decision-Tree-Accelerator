@@ -14,17 +14,14 @@ end entity;
 
 architecture arch_aggregator of aggregator is
             
-signal res : unsigned(COUNT_WIDTH-1 downto 0); 
+signal res : unsigned(COUNT_WIDTH-1 downto 0) := (others => '0'); 
 
 begin
     gen_classes : for j in 0 to N_CLASSES-1 generate
-        signal votes_j      : std_logic_vector(N_ESTIMATORS-1 downto 0);
         signal chunk_counts : cols_t(0 to N_CHUNKS-1);
         signal chunk_counts_r : cols_t(0 to N_CHUNKS-1);    
     begin
         -- Count votes in chunks of CHUNK_SIZE
-        -- ToDo: Se puede pasar a una funcion en general_package
-        -- function get_chunk_votes(mat: mat_t; j: integer; c: integer) return std_logic_vector is
         gen_chunks : for c in 0 to N_CHUNKS-1 generate
             --signal votes_chunk : std_logic_vector(CHUNK_SIZE-1 downto 0);
         begin
@@ -37,7 +34,6 @@ begin
             --        end if;
             --    end loop;
             --end process;
-
             u_counter : entity work.count_votes
                 generic map (
                     N_INPUTS    => CHUNK_SIZE,
@@ -45,6 +41,7 @@ begin
                 )
                 port map (
                     i_votes => get_chunk_votes(i_mat, j, c),
+                    --i_votes => votes_chunk,
                     o_count => chunk_counts(c)
                 );
         end generate;
@@ -57,21 +54,32 @@ begin
         end process;
 
 
+
         -- Sum all partial counts 
-        process(i_clk)
-            variable total : unsigned(COUNT_WIDTH-1 downto 0); 
-        begin 
-            total := (others => '0'); 
-            for c in 0 to N_CHUNKS-1 loop 
-                 total := total + chunk_counts_r(c); 
-            end loop;
-            if rising_edge(i_clk) then
-                res <= total;
-            end if;
-            --o_resul(j) <= total;
-        end process;
+        --process(all)
+        --    variable total : unsigned(COUNT_WIDTH-1 downto 0); 
+        --begin 
+        --    total := (others => '0'); 
+        --    for c in 0 to N_CHUNKS-1 loop 
+        --         total := total + chunk_counts_r(c); 
+        --    end loop;
+        --    if rising_edge(i_clk) then
+        --        res <= total;
+        --    end if;
+        --    o_resul(j) <= total;
+        --end process;
+        -- Sum all partial counts 
+        -- All es para tener en cuanta todas las señales??
+        --process(i_clk)
+        --begin
+        --    if rising_edge(i_clk) then
+        --        res <= total_sum(chunk_counts_r);
+        --    end if;
+        --    --o_resul(j) <= total_sum(chunk_counts_r);
+        --end process;
         
-        o_resul(j) <= res;
+        o_resul(j) <= total_sum(chunk_counts_r);
+        --o_resul(j) <= res;
 
     end generate;
 end architecture;

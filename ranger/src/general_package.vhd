@@ -12,9 +12,9 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 128;
+    constant  n_estimators : integer := 32;
     constant  n_classes : integer := 4;  
-    constant  chunk_size : integer := 64;
+    constant  chunk_size : integer := 16;
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
@@ -34,8 +34,8 @@ package general_package is
 
 	  procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(n_estimators - 1 downto 0));	
 	  procedure find_max(signal sum_mat : in cols_t; signal class : out integer);
-
     function get_chunk_votes(mat: mat_t; j: integer; c:integer) return std_logic_vector; 
+    function total_sum(chunk: cols_t) return unsigned;
 	
 end package;
 
@@ -87,6 +87,16 @@ package body general_package is
             end if;
         end loop;
         return votes_chunk;
+    end function;
+    
+
+    function total_sum(chunk: cols_t) return unsigned is
+        variable total : unsigned(COUNT_WIDTH-1 downto 0) := (others => '0');
+    begin
+        for c in 0 to N_CHUNKS-1 loop 
+             total := total + chunk(c); 
+        end loop;
+        return total;
     end function;
 
 end package body;

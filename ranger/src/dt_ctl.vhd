@@ -3,7 +3,7 @@ library ieee_proposed;
 
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.fixed_pkg.all;
+--use ieee_proposed.fixed_pkg.all;
 --use ieee.float_pkg.all;
 --use ieee_proposed.fixed_pkg.all;
 --use ieee_proposed.float_pkg.all;
@@ -41,7 +41,8 @@ architecture arch_dt_ctl of dt_ctl is
     signal next_node : unsigned(g_ADDR_WIDTH - 1 downto 0) := (others => '0');
     signal node_info : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     --signal threshold : float(8 downto -23);
-    signal threshold : sfixed(15 downto -16);
+    --signal threshold : sfixed(15 downto -16);
+    signal threshold : signed(g_DATA_WIDTH - 1 downto 0);
 
 -- R class
     signal LD_class : std_logic;
@@ -54,7 +55,8 @@ architecture arch_dt_ctl of dt_ctl is
 --
     signal leaf, go_right, read_node_info : std_logic;
     --signal data_out : float(8 downto -23);
-    signal data_out : sfixed(15 downto -16);
+    --signal data_out : sfixed(15 downto -16);
+    signal data_out : signed(g_DATA_WIDTH - 1 downto 0);
 
 
     signal ld_node_info: std_logic := '0';
@@ -129,7 +131,8 @@ begin
         if rising_edge(i_clk) then
             if ld_threshold = '1' then
                 --threshold <= to_float(i_NODE_INFO);
-                threshold <= to_sfixed(i_NODE_INFO, threshold);
+                --threshold <= to_sfixed(i_NODE_INFO, threshold);
+                threshold <= signed(i_NODE_INFO);
             end if;
         end if;
     end process;
@@ -252,7 +255,8 @@ begin
     begin
         --if rising_edge(i_clk) then
             --if to_float(i_NODE_INFO) <= threshold then
-            if to_sfixed(i_NODE_INFO, data_out) <= threshold then
+            --if to_sfixed(i_NODE_INFO, data_out) <= threshold then
+            if signed(i_NODE_INFO) <= threshold then
                 go_right <= '0';
             else
                 go_right <= '1';
