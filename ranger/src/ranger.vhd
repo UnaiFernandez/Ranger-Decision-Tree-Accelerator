@@ -34,7 +34,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
     -- State machine
-    type state is (E0, E01, E1, E2, E3, E4, E5, E6, E7);
+    type state is (E0, E01, E1, E2, E3, E4, E5, E8, E6, E7);
     signal current_s, next_s: state;
 
     -- DT_ACCEL
@@ -108,7 +108,8 @@ begin
                 else next_s <= E3;
                 end if;
             when E4 => next_s <= E5;
-            when E5 => next_s <= E6;
+            when E5 => next_s <= E8;
+            when E8 => next_s <= E6;
             when E6 => if stop = '1' then next_s <= E7;
                 elsif i_fifo_empty = '0' then next_s <= E2;
                 else next_s <= E6;
@@ -202,7 +203,7 @@ begin
   --class_aggregation(class_mat, class_temp);	
   --class <= class_temp when calc_done = '1' else (others=>'0');
 
-    calc_done <= '1' when current_s = E5 else '0';
+    calc_done <= '1' when current_s = E8 else '0';
 
     o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' or current_s = E7 else std_logic_vector(to_unsigned(max_class, class'length));
     o_wr_fifo_data <= '1' when calc_done = '1' or (current_s = E7) else '0';
