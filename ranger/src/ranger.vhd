@@ -178,7 +178,9 @@ begin
     u_aggregator: entity work.aggregator
         port map(
             i_clk => i_CLK,
+            i_reset => i_reset,
             i_mat => class_mat,
+            i_ready => ready,
             o_resul => sum_mat 
         );
 
