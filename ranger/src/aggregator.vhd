@@ -10,6 +10,7 @@ entity aggregator is
         i_mat : in  mat_t;
         i_ready : in std_logic;
         o_done : out std_logic;
+        o_max : out integer;
         o_resul : out cols_t
     );
 end entity;   
@@ -24,7 +25,7 @@ architecture arch_aggregator of aggregator is
             
     signal sum_mat : cols_t(0 to 3);
     signal sum_mat_r : cols_t(0 to 3);
-    signal max_class : integer range 0 to 15;
+    signal max_class : integer;
     signal res : unsigned(COUNT_WIDTH-1 downto 0) := (others => '0'); 
 
 begin
@@ -110,6 +111,7 @@ begin
 
     o_done <= '1' when current_s = E3 else '0';
     o_resul <= sum_mat;
+    o_max <= max_class;
 
 
 end architecture;

@@ -18,7 +18,7 @@ package general_package is
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
-    constant  in_fifo_size : integer := 1024;
+    constant  in_fifo_size : integer := 2024;
     constant  out_fifo_size : integer := 64;
     constant  mem_config_file : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/random_forest_bin.txt";
     constant  debug : std_logic := '1';
