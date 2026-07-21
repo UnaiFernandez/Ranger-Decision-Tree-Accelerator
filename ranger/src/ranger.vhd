@@ -195,11 +195,21 @@ begin
     begin
         if rising_edge(i_CLK) then
             if en_find_max = '1' then
-                find_max(sum_mat_r, max_class);
+                --find_max(sum_mat_r, max_class);
+                --find_max_tree(sum_mat_r, max_class);
+                max_class <= max_tree(sum_mat_r, sum_mat_r'low, sum_mat_r'high).idx;
             end if;
         end if;
     end process;
 
+    --u_find_max: entity work.find_max 
+    --generic map(
+    --    COUNT_WIDTH : COUNT_WIDTH
+    --)
+    --port map(
+    --    i_sum_mat => sum_mat_r,
+    --    o_max_class => max_class
+    --);
   --class_aggregation(class_mat, class_temp);	
   --class <= class_temp when calc_done = '1' else (others=>'0');
 

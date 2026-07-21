@@ -23,7 +23,7 @@ module tb_design_1_wrapper();
   );
 
   initial sysclk = 0;
-  always #10 sysclk = ~sysclk;
+  always #8 sysclk = ~sysclk;
 
   initial begin
     btn0 = 0; btn1 = 0; btn2 = 0;

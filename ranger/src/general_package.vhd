@@ -12,9 +12,9 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 32;
+    constant  n_estimators : integer := 128;
     constant  n_classes : integer := 4;  
-    constant  chunk_size : integer := 16;
+    constant  chunk_size : integer := 64;
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
@@ -32,11 +32,20 @@ package general_package is
 	  type cols_t is array (natural range <>) of unsigned(count_width - 1 downto 0);
     subtype sum_t is unsigned(count_width - 1 downto 0);
 
+  type max_idx_t is record    
+        val : sum_t;    
+        idx : integer;
+    end record; 
+
 	  procedure add_set_bits(signal class_mat : in mat_t; col : in natural; signal sum: out unsigned(n_estimators - 1 downto 0));	
 	  procedure find_max(signal sum_mat : in cols_t; signal class : out integer);
+    procedure find_max_tree(    signal sum_mat : in  cols_t;    signal class   : out integer);   
+    function max_tree(    a   : cols_t;    low : integer;    high: integer) return max_idx_t; 
     function get_chunk_votes(mat: mat_t; j: integer; c:integer) return std_logic_vector; 
     function total_sum(chunk: cols_t) return unsigned;
 	
+  
+    
 end package;
 
 package body general_package is
@@ -54,11 +63,12 @@ package body general_package is
 	  end add_set_bits;
 
 	  procedure find_max(signal sum_mat : in cols_t; signal class : out integer) is	
-		    variable tmp_class : integer:= 0;
+		    variable tmp_class : integer;
 		    variable max : sum_t; --unsigned(n_estimators - 1 downto 0);
 	  begin
-        max := (others => '0');
-		    for i in sum_mat'range loop
+        max := sum_mat(0);
+        tmp_class := 0;
+		    for i in sum_mat'low + 1 to sum_mat'high loop
 		        if sum_mat(i) > max then
 					      max := sum_mat(i);
 					      tmp_class := i;
@@ -66,6 +76,44 @@ package body general_package is
 		    end loop;
 		    class <= tmp_class;
     end find_max;
+
+    procedure find_max_tree(    signal sum_mat : in  cols_t;    signal class   : out integer) is    
+        constant N : integer := sum_mat'length;
+        type level_t is array (natural range <>) of max_idx_t;    
+        variable curr : level_t(0 to N-1);    
+        variable nxt : level_t(0 to N-1);    
+        variable count : integer;begin    
+        -- Cargar hojas    
+            for i in 0 to N-1 loop        
+                curr(i).val := sum_mat(sum_mat'low + i);        
+                curr(i).idx := sum_mat'low + i;    
+            end loop;
+            count := N;
+        -- Reducción por árbol    
+            while count > 1 loop        
+                for i in 0 to (count/2)-1 loop            
+                    if curr(2*i).val >= curr(2*i+1).val then                
+                        nxt(i) := curr(2*i);            
+                    else                
+                        nxt(i) := curr(2*i+1);            
+                    end if;        
+                end loop;
+            if (count mod 2) = 1 then            
+                nxt(count/2) := curr(count-1);            
+                count := count/2 + 1;        
+            else            
+                count := count/2;        
+            end if;
+            for i in 0 to count-1 loop            
+                curr(i) := nxt(i);        
+            end loop;    
+        end loop;
+        class <= curr(0).idx;
+    end procedure;
+
+
+function max_tree(    a   : cols_t;    low : integer;    high: integer) return max_idx_t is    variable res : max_idx_t;    variable m1  : max_idx_t;    variable m2  : max_idx_t;    variable mid : integer;begin    if low = high then        res.val := a(low);        res.idx := low;        return res;    else        mid := (low + high) / 2;        m1 := max_tree(a, low, mid);        m2 := max_tree(a, mid + 1, high);
+        if m1.val >= m2.val then            return m1;        else            return m2;        end if;    end if;end function;
 
     function ceil_log2(n : positive) return natural is
         variable v : natural := n - 1;
