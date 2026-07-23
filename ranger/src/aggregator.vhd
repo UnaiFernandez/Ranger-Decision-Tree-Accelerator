@@ -10,8 +10,8 @@ entity aggregator is
         i_mat : in  mat_t;
         i_ready : in std_logic;
         o_done : out std_logic;
-        o_max : out integer;
-        o_resul : out cols_t
+        o_max : out integer
+        --o_resul : out cols_t
     );
 end entity;   
 
@@ -25,7 +25,7 @@ architecture arch_aggregator of aggregator is
             
     signal sum_mat : cols_t(0 to 3);
     signal sum_mat_r : cols_t(0 to 3);
-    signal max_class : integer;
+    signal max_class : integer := 0;
     signal res : unsigned(COUNT_WIDTH-1 downto 0) := (others => '0'); 
 
 begin
@@ -71,7 +71,7 @@ begin
                 )
                 port map (
                     i_votes => get_chunk_votes(i_mat, j, c),
-                    o_count => chunk_counts(c)
+                    o_count => chunk_counts(c).val
                 );
         end generate;
 
@@ -82,35 +82,36 @@ begin
             end if;
         end process;
                 
-        sum_mat(j) <= total_sum(chunk_counts_r);
+        sum_mat(j).val <= total_sum(chunk_counts_r);
+        sum_mat(j).idx <= j;
         
     end generate;
     
-    ld_total_sum <= '1' when current_s = E1 else '0';
+    --ld_total_sum <= '1' when current_s = E1 else '0';
 
     process(i_CLK)
     begin
         if rising_edge(i_clk) then
-            if ld_total_sum = '1' then
+      --      if ld_total_sum = '1' then
                 sum_mat_r <= sum_mat;
-            end if;
+        --    end if;
         end if;
     end process;
 
     en_find_max <= '1' when current_s = E2 else '0';
-    process(i_CLK)
+    process(i_CLK, sum_mat_r, max_class)
     begin
         if rising_edge(i_CLK) then
-            if en_find_max = '1' then
+            --if en_find_max = '1' then
                 --find_max(sum_mat_r, max_class);
-                --find_max_tree(sum_mat_r, max_class);
-                max_class <= max_tree(sum_mat_r, sum_mat_r'low, sum_mat_r'high).idx;
-            end if;
+                find_max_tree(sum_mat_r, max_class);
+                --max_class <= max_tree(sum_mat_r, sum_mat_r'low, sum_mat_r'high).idx;
+            --end if;
         end if;
     end process;
 
     o_done <= '1' when current_s = E3 else '0';
-    o_resul <= sum_mat;
+    --o_resul <= sum_mat;
     o_max <= max_class;
 
 

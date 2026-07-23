@@ -120,6 +120,7 @@ begin
     m00_ps_tdata <= X"0000" & ps_data;
     m00_ps_tvalid <= ps_tvalid;
 	  m00_ps_tlast <= '1' when ps_tlast = '1' and pl_last = '1' else '0';
+    --m00_ps_tlast <= ps_tlast;
     s00_ps_tready <= ps_tready;
 	  empty_fifo <= in_fifo_empty;
 end arch_RANGER_MAIN;

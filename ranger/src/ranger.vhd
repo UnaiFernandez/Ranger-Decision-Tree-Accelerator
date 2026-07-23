@@ -108,7 +108,11 @@ begin
             when E3 => if calc_done = '1' then next_s <= E4;
                 else next_s <= E3;
                 end if;
-            when E4 => next_s <= E5;
+            --when E4 => next_s <= E5;
+            when E4 => if stop = '1' then next_s <= E5;
+                elsif i_fifo_empty = '0' then next_s <= E2;
+                else next_s <= E4;
+                end if;
             when E5 => next_s <= E01;
             --when E4 => next_s <= E5;
             --when E5 => next_s <= E8;
@@ -185,8 +189,8 @@ begin
             i_mat => class_mat,
             i_ready => ready,
             o_done => calc_done,
-            o_max => max_class,
-            o_resul => sum_mat 
+            o_max => max_class
+            --o_resul => sum_mat 
         );
 
     --process(i_clk)
@@ -223,18 +227,21 @@ begin
     --calc_done <= '1' when current_s = E8 else '0';
 
     o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(to_unsigned(max_class, class'length));
-    o_wr_fifo_data <= '1' when calc_done = '1' or (current_s = E5) else '0';
+    o_wr_fifo_data <= '1' when calc_done = '1' or current_s = E5 else '0';
+    --o_wr_fifo_data <= '1' when calc_done = '1' or (sel_cycles = '1' and (current_s = E4 or current_s = E5)) else '0';
 
-    process(i_CLK, result_ready, ready)
-    begin
-        if rising_edge(i_CLK) then
-            if result_ready = const_ready and current_s = E3 then
-                ready <= '1';
-            else 
-                ready <= '0';
-            end if;
-        end if;
-    end process;
+    ready <= '1' when result_ready = const_ready and current_s = E3 else '0';
+
+    --process(i_CLK, result_ready, ready)
+    --begin
+    --    if rising_edge(i_CLK) then
+    --        if result_ready = const_ready and current_s = E3 then
+    --            ready <= '1';
+    --        else 
+    --            ready <= '0';
+    --        end if;
+    --    end if;
+    --end process;
     enable <= '1' when current_s = E2 and data_loaded = '1' else '0';
 
     -- CONFIGURATOR
@@ -309,7 +316,7 @@ begin
     inc_c <= '1' when config_done = '1' and stop = '0' and idle = '0' else '0';
     ld_cycles <= '1' when config_done = '1' and stop = '1' else '0';
 
-    sel_cycles <= '1' when current_s = E4 and stop = '1' else '0';
+    sel_cycles <= '1' when stop = '1' else '0';
     process(i_clk, inc_c, start, i_reset)
     begin
         if rising_edge(i_clk) then
