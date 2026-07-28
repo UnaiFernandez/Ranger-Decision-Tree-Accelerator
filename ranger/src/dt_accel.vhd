@@ -24,6 +24,7 @@ entity dt_accel is
         i_DATA_ADDR : in UNSIGNED(g_ADDR_WIDTH - 1 downto 0);
         i_DATA_MEM  : in std_logic_vector(g_DATA_WIDTH - 1 downto 0);
 	      i_CALC_RESULT : in std_logic;
+        i_num_features : in integer;
         ----------------------------------------------------
         --o_CLASS	    : out std_logic_vector(g_K - 1 downto 0);
 	      o_CLASS	: out std_logic_vector(g_K - 1 downto 0);
@@ -91,6 +92,7 @@ begin
         i_ENABLE	=> i_enable,
         i_node_info	=> node_info,
         i_calc_result	=> i_calc_result,
+        i_num_features => i_num_features,
         o_RE_node	=> RE_node,
         o_node_addr	=> node_addr_0,
         o_DONE		=> task_terminated,

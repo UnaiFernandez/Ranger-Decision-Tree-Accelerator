@@ -83,6 +83,10 @@ architecture arch_ranger of ranger is
 
     signal infer : std_logic_vector(31 downto 0);
     signal idle : std_logic;
+    signal dec_sample : std_logic;
+    signal num_features : integer;
+
+    signal enable2 : std_logic := '0';
 
 begin
     -- State machine
@@ -110,18 +114,11 @@ begin
                 end if;
             --when E4 => next_s <= E5;
             when E4 => if stop = '1' then next_s <= E5;
-                elsif i_fifo_empty = '0' then next_s <= E2;
+                elsif i_fifo_empty = '1' and data_loaded = '0' then next_s <= E01;
+                elsif data_loaded = '1' then next_s <= E3;
                 else next_s <= E4;
                 end if;
             when E5 => next_s <= E01;
-            --when E4 => next_s <= E5;
-            --when E5 => next_s <= E8;
-            --when E8 => next_s <= E6;
-            --when E6 => if stop = '1' then next_s <= E7;
-            --    elsif i_fifo_empty = '0' then next_s <= E2;
-            --    else next_s <= E6;
-            --    end if;
-            --when E7 => next_s <= E01; 
         end case;
     end process;
 
@@ -177,6 +174,7 @@ begin
             i_GET_DATA	        => get_data,
             i_DATA_ADDR		=> data_addr, -- TODO: Remane to avoid confusion
             i_CALC_RESULT	=> calc_done,
+            i_num_features => num_features,
             o_class	        => class_mat(I),
             o_DONE	        => result_ready(I)
         );
@@ -190,45 +188,10 @@ begin
             i_ready => ready,
             o_done => calc_done,
             o_max => max_class
-            --o_resul => sum_mat 
         );
-
-    --process(i_clk)
-    --begin
-    --    if rising_edge(i_clk) then
-    --        sum_mat_r <= sum_mat;
-    --    end if;
-    --end process;
-
-    --en_find_max <= '1' when current_s = E5 else '0';
-
-    --process(i_CLK)
-    --begin
-    --    if rising_edge(i_CLK) then
-    --        if en_find_max = '1' then
-    --            --find_max(sum_mat_r, max_class);
-    --            --find_max_tree(sum_mat_r, max_class);
-    --            max_class <= max_tree(sum_mat_r, sum_mat_r'low, sum_mat_r'high).idx;
-    --        end if;
-    --    end if;
-    --end process;
-
-    --u_find_max: entity work.find_max 
-    --generic map(
-    --    COUNT_WIDTH : COUNT_WIDTH
-    --)
-    --port map(
-    --    i_sum_mat => sum_mat_r,
-    --    o_max_class => max_class
-    --);
-  --class_aggregation(class_mat, class_temp);	
-  --class <= class_temp when calc_done = '1' else (others=>'0');
-
-    --calc_done <= '1' when current_s = E8 else '0';
 
     o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(to_unsigned(max_class, class'length));
     o_wr_fifo_data <= '1' when calc_done = '1' or current_s = E5 else '0';
-    --o_wr_fifo_data <= '1' when calc_done = '1' or (sel_cycles = '1' and (current_s = E4 or current_s = E5)) else '0';
 
     ready <= '1' when result_ready = const_ready and current_s = E3 else '0';
 
@@ -242,12 +205,21 @@ begin
     --        end if;
     --    end if;
     --end process;
-    enable <= '1' when current_s = E2 and data_loaded = '1' else '0';
+    enable <= '1' when (current_s = E2 or current_s = E4) and data_loaded = '1' else '0';
+
+    process(i_clk)
+    begin
+        if rising_edge(i_clk) then
+                enable2 <= enable;
+        end if;
+    end process;
 
     -- CONFIGURATOR
 
     en_config <= '1' when (current_s = E1 and config_done = '0') else '0';
-    up_int_data <= '1' when current_s = E2 and i_fifo_empty = '0' else '0';
+    up_int_data <= '1' when (current_s = E2 or current_s = E3) and i_fifo_empty = '0' else '0';
+
+    dec_sample <= '1' when current_s = E4 or current_s = E5 else '0';
 
     CONFIG: configurator
     generic map(
@@ -261,12 +233,14 @@ begin
                 i_data		=> i_fifo_data, -- REVISAR
                 i_up_int_data	=> up_int_data,
                 i_empty_fifo => i_fifo_empty,
+                i_dec_sample => dec_sample,
                 o_infer => infer,
                 o_get_data	=> get_data,
                 o_dt_id		=> dt_id,
                 o_data_addr	=> data_addr,
                 o_CONFIG_DONE   => config_done,
                 o_transfer_done => data_loaded,
+                o_num_features => num_features,
                 o_re_data	=> o_rd_fifo_data
             );
 

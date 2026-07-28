@@ -17,6 +17,7 @@ entity configurator is
             i_data		: in std_logic_vector(31 downto 0);
             i_up_int_data	: in std_logic;
             i_empty_fifo	: in std_logic; 
+				    i_dec_sample	: in std_logic; 
             -----------------------------------------------
             o_dt_id		: out std_logic_vector(7 downto 0);
             o_infer : out std_logic_vector(31 downto 0);
@@ -24,6 +25,7 @@ entity configurator is
             o_config_done	: out std_logic;
             o_re_data	: out std_logic;
             o_transfer_done : out std_logic;
+            o_num_features : out integer;
             o_get_data	: out std_logic
         );
 end configurator;
@@ -80,16 +82,27 @@ architecture arch_configurator of configurator is
     signal re_data : std_logic := '0';
 
 
+
+    signal up_int_data : std_logic;
+    signal c_sample : integer := 0;
+    signal cl_c_sample : std_logic := '0';
+    signal dec_c_sample : std_logic := '0';
+    signal inc_c_sample : std_logic := '0';
+    signal sample_empty : std_logic := '0';
+
+    signal sel_base : std_logic := '0';
+    signal base_feature_addr : unsigned(g_ADDR_WIDTH - 1 downto 0);
+
 begin
 
 
     -- State machine
-    process(current_s, i_en_config, last_node, last_dt, i_up_int_data, loaded, last_feature, d_en_config, d_up_int_data)
+    process(current_s, i_en_config, last_node, last_dt, up_int_data, loaded, last_feature, d_en_config, d_up_int_data)
     begin
         case current_s is
             when E0 => if i_en_config = '1' then next_s <= E1;
-                    elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '0' then next_s <= E4;
-                    elsif i_en_config = '0' and i_up_int_data = '1' and loaded = '1' then next_s <= E5;
+                    elsif i_en_config = '0' and up_int_data = '1' and loaded = '0' then next_s <= E4;
+                    elsif i_en_config = '0' and up_int_data = '1' and loaded = '1' then next_s <= E5;
                     else next_s <= E0;
                     end if;
             when E1 => if i_en_config = '1' then next_s <= E2;
@@ -102,7 +115,7 @@ begin
                     elsif d_en_config = '1' and last_node = '1' and last_dt = '1' then next_s <= E0;
                     else next_s <= E3;
                     end if;
-            when E4 => if i_up_int_data = '1' then next_s <= E5;
+            when E4 => if up_int_data = '1' then next_s <= E5;
                     else next_s <= E4;
                     end if;
             when E5 => if d_up_int_data = '1' and last_feature = '1' then next_s <= E0;
@@ -128,17 +141,16 @@ begin
     end process;
 
     re_data <= '1' when (current_s = E0 and i_en_config = '1') --leer cabecera
-                or (current_s = E0 and i_up_int_data = '1') 
+                or (current_s = E0 and up_int_data = '1') 
                 or (current_s = E1 and i_en_config = '1') 
                 or (current_s = E2 and i_en_config = '1') 
                 or (current_s = E3 and last_node = '0' and i_en_config = '1') 
                 or (current_s = E3 and re_en_counter = 1 and i_en_config = '1')
-                or (current_s = E4 and i_up_int_data = '1') 
-                or (current_s = E5 and last_feature = '0' and i_up_int_data = '1') 
-                or (current_s = E5 and re_en_counter = 1 and i_up_int_data = '1') else '0';
+                or (current_s = E4 and up_int_data = '1') 
+                or (current_s = E5 and last_feature = '0' and up_int_data = '1') 
+                or (current_s = E5 and re_en_counter = 1 and up_int_data = '1') else '0';
 
     o_re_data <= re_data;
-    --o_get_data <= '1' when current_s = E5 and i_empty_fifo = '0' else '0';
     o_get_data <= '1' when current_s = E5 and d_empty_fifo = '0' else '0';
 
     -- num labels register
@@ -177,11 +189,11 @@ begin
         end if;
     end process;    
 
-    --delayed i_up_int_data
-    process(i_clk, i_up_int_data)
+    --delayed up_int_data
+    process(i_clk, up_int_data)
     begin
         if rising_edge(i_clk) then
-            d_up_int_data <= i_up_int_data;
+            d_up_int_data <= up_int_data;
         end if;
     end process; 
 
@@ -197,7 +209,7 @@ begin
 
     cl_re_en_counter <= '1' when (current_s = E2 and d_en_config = '1') 
                         or current_s = E4 
-                        or (current_s = E0 and i_up_int_data = '1' and loaded = '1') else '0';
+                        or (current_s = E0 and up_int_data = '1' and loaded = '1') else '0';
 
     dec_re_en_counter <= '1' when (current_s = E3 and re_data = '1') or (current_s = E5 and re_data = '1') else '0';
 
@@ -273,20 +285,22 @@ begin
 
     o_config_done <= config_done;
 
-    o_transfer_done <= '1' when current_s = E5 and last_feature = '1' and re_en_counter = 0 else '0';
+    --o_transfer_done <= '1' when current_s = E5 and last_feature = '1' and re_en_counter = 0 else '0';
+    o_transfer_done <= sample_empty ;
+
 
     
     -- Num features counter
 
-    cl_num_features <= '1' when (current_s = E0 and i_en_config = '0' and i_up_int_data = '1' and loaded = '1') else '0';
-    ld_num_features <= '1' when current_s = E0 and i_up_int_data = '1' and loaded = '0' else '0';
+    cl_num_features <= '1' when (current_s = E0 and i_en_config = '0' and up_int_data = '1' and loaded = '1') else '0';
+    ld_num_features <= '1' when current_s = E0 and up_int_data = '1' and loaded = '0' else '0';
     dec_num_features <= '1' when current_s = E5 and last_feature = '0' and d_up_int_data = '1' else '0';
 
     process(i_clk, cl_num_features, ld_num_features, dec_num_features)
     begin
         if rising_edge(i_clk) then
             if cl_num_features = '1' then
-                data_addr <= (others => '0');
+                data_addr <= base_feature_addr;
                 num_features <= r_num_features;
             elsif ld_num_features = '1' then
                 data_addr <= (others => '0');
@@ -299,6 +313,8 @@ begin
         end if;
     end process;
 
+    o_num_features <= r_num_features;
+
     last_feature <= '1' when num_features <= 0 else '0';
     -- Loaded
 
@@ -310,6 +326,42 @@ begin
             elsif ld_num_features = '1' then
                 loaded <= '1';
             end if;
+        end if;
+    end process;
+
+
+--------------------------------------------------------
+    --up_int_data <= i_up_int_data;
+
+    up_int_data <= '1' when i_up_int_data = '1' and c_sample < 2 else '0';
+
+    -- Sample counter
+    cl_c_sample <= '1' when current_s = E4 else '0';
+    --dec_c_sample <= '1' when i_dec_sample = '1' and sample_empty = '1' else '0'; -- Señal externa en E4 de ranger
+    dec_c_sample <= i_dec_sample; -- Señal externa en E4 de ranger
+    inc_c_sample <= '1' when current_s = E5 and last_feature = '1' else '0';
+    sample_empty <= '1' when c_sample > 1 else '0';
+
+    process(i_clk)
+    begin    
+        if rising_edge(i_clk) then        
+            if cl_c_sample = '1' then            
+                c_sample <= 0;        
+            elsif dec_c_sample = '1' then            
+                c_sample <= c_sample - 1;        
+            elsif inc_c_sample = '1' then            
+                c_sample <= c_sample + 1;
+                sel_base <= not sel_base;
+            end if;    
+        end if;
+    end process;
+
+    process(sel_base)
+    begin
+        if sel_base = '1' then
+            base_feature_addr <= to_unsigned(r_num_features + 1, g_ADDR_WIDTH); -- TODO: no se si el +1 puede generar problemas de timing
+        else
+            base_feature_addr <= to_unsigned(0, g_ADDR_WIDTH);
         end if;
     end process;
 

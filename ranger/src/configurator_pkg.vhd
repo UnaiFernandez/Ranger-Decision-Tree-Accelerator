@@ -16,6 +16,7 @@ package configurator_pkg is
     	    i_data : in std_logic_vector(31 downto 0);
     	    i_up_int_data : in std_logic;
 				i_empty_fifo	: in std_logic; 
+				i_dec_sample	: in std_logic; 
     	    -----------------------------------------------
     	    o_dt_id : out std_logic_vector(7 downto 0);
             o_infer : out std_logic_vector(31 downto 0);
@@ -23,6 +24,7 @@ package configurator_pkg is
 	    o_config_done : out std_logic;
     	    o_re_data : out std_logic;
     	    o_transfer_done : out std_logic;
+          o_num_features : out integer;
     	    o_get_data : out std_logic
     	);
     end component;
