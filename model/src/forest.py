@@ -164,6 +164,19 @@ print(f'Accuracy:                    {accuracy * 100:.2f}%')
 print("y test: {}".format(y_test[0:30]))
 print("y pred: {}".format(y_pred[0:30]))
 
+indices = np.arange(len(y_pred))
+
+df = pd.DataFrame({
+    'Indice': indices,
+    'Valor': y_pred
+})
+    
+# 5. Guardar a CSV omitiendo el índice automático de Pandas (index=False)
+output_filename = "results/sklearn_results.csv"
+df.to_csv(output_filename, index=False)
+print(f"[INFO] Arreglo guardado exitosamente en '{output_filename}' en formato HEX.")
+
+
 
 plt.figure(figsize=(6, 6))
 plt.scatter(y_test, y_pred, s=8, alpha=0.4)
