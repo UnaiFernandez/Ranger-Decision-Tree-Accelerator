@@ -21,7 +21,7 @@ entity dt_ctl is
 	      o_RE_NODE			: out std_logic;
 	      o_NODE_ADDR			: out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	      o_DONE			: out std_logic;
-	      o_CLASS		        : out std_logic_vector(15 downto 0)
+	      o_CLASS		        : out std_logic_vector(9 downto 0)
 	);
 end dt_ctl;
 
@@ -34,7 +34,7 @@ architecture arch_dt_ctl of dt_ctl is
 -- C node mem
     signal LD_c_node_mem, INC_c_node_mem, CL_c_node_mem : std_logic;
     signal c_node_mem_out : std_logic_vector(g_ADDR_WIDTH - 1 downto 0);
-    signal next_node : unsigned(g_ADDR_WIDTH - 1 downto 0) := (others => '0');
+    signal next_node : unsigned(10 downto 0) := (others => '0');
     signal node_info : std_logic_vector(g_DATA_WIDTH - 1 downto 0);
     signal threshold : signed(g_DATA_WIDTH - 1 downto 0);
 
@@ -143,7 +143,7 @@ begin
                 if current_s = E2 then
                     node_addr <= data_addr;
                 elsif current_s = E4 and leaf = '0' then
-                    node_addr <= '0' & next_node(g_ADDR_WIDTH - 1 downto 1);
+                    node_addr <= resize(next_node(10 downto 1), g_addr_width);
                 elsif current_s = E1 or current_s = E5 or (current_s = E6 and i_enable = '1') then
                     node_addr <= node_addr + 1;
                 end if;
@@ -173,9 +173,9 @@ begin
     process(i_clk, go_right, node_info)
     begin
         if go_right = '1' then
-            next_node <= unsigned("00000" & node_info(20 downto 10));
+            next_node <= unsigned(node_info(20 downto 10));
         else 
-            next_node <= unsigned("00000" & node_info(31 downto 21));
+            next_node <= unsigned(node_info(31 downto 21));
         end if;
     end process;
 
@@ -202,7 +202,7 @@ begin
     begin
         if rising_edge(i_clk) then
     	      if ld_class = '1' then
-    	          o_class <= '0' & std_logic_vector(next_node(15 downto 1));
+    	          o_class <= std_logic_vector(next_node(10 downto 1));
     	      end if;
         end if;
     end process;
@@ -219,7 +219,7 @@ begin
 
 
     --process(sel_base, i_num_features)
-    process(sel_base)
+    process(sel_base, i_num_features)
     begin
         if sel_base = '1' then
             base_feature_addr <= to_unsigned(i_num_features + 1, g_ADDR_WIDTH);

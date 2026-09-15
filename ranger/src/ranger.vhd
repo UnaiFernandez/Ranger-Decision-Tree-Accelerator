@@ -55,7 +55,7 @@ architecture arch_ranger of ranger is
 
     -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
-    signal max_class : integer;
+    signal max_class : unsigned(addr_width - 1 downto 0);
     signal class_temp	: std_logic_vector(g_addr_width - 1 downto 0);
     --signal class_old	: std_logic_vector(g_addr_width - 1 downto 0);
 
@@ -162,7 +162,7 @@ begin
         generic map(
             g_data_width => g_data_width,
             g_addr_width => g_addr_width,
-            g_K => 4,
+            g_K => 10,
             g_DEPTH	 => 1024
         )
         port map(
@@ -180,7 +180,7 @@ begin
         );
     end generate DT_ACCELERATOR;
 
-    u_aggregator: entity work.aggregator
+    u_aggregator: entity work.r_aggregator
         port map(
             i_clk => i_CLK,
             i_reset => i_reset,
@@ -190,7 +190,8 @@ begin
             o_max => max_class
         );
 
-    o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(to_unsigned(max_class, class'length));
+    --o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(to_unsigned(max_class, class'length));
+    o_fifo_data <= std_logic_vector(to_unsigned(cycle_count, class'length)) when sel_cycles = '1' else std_logic_vector(max_class);
     o_wr_fifo_data <= '1' when calc_done = '1' or current_s = E5 else '0';
 
     ready <= '1' when result_ready = const_ready and current_s = E3 else '0';
@@ -311,9 +312,9 @@ begin
             if current_s = E2 and data_loaded = '1' then
                 report "Features loaded" severity note;
             end if;
-            if calc_done = '1' then
-                report "Final Class:" & integer'image(max_class) severity note;
-            end if;
+            --if calc_done = '1' then
+            --    report "Final Class:" & integer'image(max_class) severity note;
+            --end if;
         end if;
     end process p_ASSERT;
 

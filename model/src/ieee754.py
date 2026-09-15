@@ -3,21 +3,40 @@ mantissa_bits = 20
 integer_bits  = 15
 fraction_bits = 16
 
+def to_signed(number):
+    rounded_number = number * (2^16)
+    integer_bin= format(int(abs(rounded_number)), "0{}b".format(31))
 
-def to_fixed_point(number):
-    integer_bin= format(int(abs(number)), "0{}b".format(integer_bits))
+    if number < 0:
+        sign = "1"
+        integer = ''.join('1' if bit == '0' else '0' for bit in integer_bin)
+    else:
+        sign = "0"
+        integer = integer_bin
+
+    formatted_num_bin = sign + integer
+    formatted_num = format(int(formatted_num_bin, 2), "0{}x".format(8))
+
+    return formatted_num, formatted_num_bin, integer
+
+
+def to_fixed_point(number, i_bits, fr_bits):
+    integer_bin= format(int(abs(number)), "0{}b".format(i_bits))
     fraction = get_fraction(number)
 
     if number < 0:
         sign = "1"
         integer = ''.join('1' if bit == '0' else '0' for bit in integer_bin)
-        #integer = format((int(integer_bin, 2) + 1), "0{}b".format(integer_bits)) # 2's complement
+        #integer = format((int(integer_bin, 2) + 1), "0{}b".format(i_bits)) # 2's complement
     else:
         sign = "0"
         integer = integer_bin
 
 
-    formatted_num_bin = sign + integer + format(fraction, "0{}b".format(fraction_bits))
+    if i_bits == 0:
+        formatted_num_bin = sign + format(fraction, "0{}b".format(fr_bits))
+    else:
+        formatted_num_bin = sign + integer + format(fraction, "0{}b".format(fr_bits))
 
     formatted_num = format(int(formatted_num_bin, 2), "0{}x".format(8))
 
@@ -102,15 +121,56 @@ def get_mantissa(number, m_bits):
 
     return bin
 
-#a1f, a1, inte, fra = to_fixed_point(-43.625)
-#a2, *_ = to_fixed_point(-0.0625)
-#
-#b1f, *_ = to_floating_point(1.5, exponent_bits, mantissa_bits)
-#b2, *_ = to_floating_point(-1.5, exponent_bits, mantissa_bits)
-#
+
+def to_fixed_point_new(number, i_bits, fr_bits, signed=True):
+    scale = 1 << fr_bits
+
+    if signed:
+        total_bits = 1 + i_bits + fr_bits   # 1 bit de signo
+        min_val = -(1 << i_bits)
+        max_val = (1 << i_bits) - (1 / scale)
+    else:
+        total_bits = i_bits + fr_bits
+        min_val = 0
+        max_val = (1 << i_bits) - (1 / scale)
+
+    if not (min_val <= number <= max_val):
+        raise ValueError(f"Fuera de rango para este formato: [{min_val}, {max_val}]")
+
+    fixed = round(number * scale)
+
+    if signed and fixed < 0:
+        fixed = (1 << total_bits) + fixed   # complemento a 2
+
+    mask = (1 << total_bits) - 1
+    fixed &= mask
+
+    binary = format(fixed, f"0{total_bits}b")
+    hexa = format(fixed, f"0{(total_bits + 3)//4}X")
+
+    return hexa, binary, fixed
+
+
+#a1f, a1, inte = to_fixed_point_new(0.672, 0, 10, False)
+#b1f, b1, inteb = to_fixed_point_new(0.925, 0, 10, False)
+#print("A:")
 #print(a1)
 #print(a1f)
 #print(inte)
+#print("B:")
+#print(b1)
+#print(b1f)
+#print(inteb)
+#a1f, a1, inte = to_fixed_point_new(-43.354, 15, 16, True)
+#b1f, b1, inteb = to_fixed_point_new(11.225, 15, 16, True)
+#print("A:")
+#print(a1)
+#print(a1f)
+#print(inte)
+#print("B:")
+#print(b1)
+#print(b1f)
+#print(inteb)
 #print(fra)
 #print(a2)
 #print(b1)

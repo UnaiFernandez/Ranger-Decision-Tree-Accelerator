@@ -149,6 +149,7 @@ void * read_axis_fifo(void * arg){
             printf("(%X) ", out_buff[j]);                  
         }                 
         printf("... ");
+        printf("(%X) -- ", out_buff[output_size]);
         printf("Bytes read: %d\n", bytes_rd);                 
     }                                                      
     //}                                                                                

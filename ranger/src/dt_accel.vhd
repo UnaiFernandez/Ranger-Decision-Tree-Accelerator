@@ -12,7 +12,7 @@ entity dt_accel is
     generic(
         g_DATA_WIDTH: integer := 32;
         g_ADDR_WIDTH: integer := 16;
-	      g_K	    : integer := 4;
+	      g_K	    : integer := 10;
         g_DEPTH	    : integer := 512
     );
     port(
@@ -49,7 +49,7 @@ architecture arch_dt_accel of dt_accel is
 
 -- DT_CTL
     --signal class: std_logic_vector(g_K - 1 downto 0);
-    signal class: std_logic_vector(15 downto 0);
+    signal class: std_logic_vector(9 downto 0);
 
 -- DT ACCEL control signals
     signal task_terminated : STD_LOGIC;
@@ -109,8 +109,9 @@ begin
 		    if rising_edge(i_CLK) then
 			      o_h_v := (others => '0');
 			      if task_terminated = '1' then
-				        idx := to_integer(unsigned(class));
-				        o_h_v(idx) := '1';
+				        --idx := to_integer(unsigned(class));
+				        --o_h_v(idx) := '1';
+                o_h_v := class;
 			      end if;
 			      o_CLASS <= o_h_v;
 		    end if;

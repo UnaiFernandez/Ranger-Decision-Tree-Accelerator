@@ -356,7 +356,7 @@ begin
         end if;
     end process;
 
-    process(sel_base)
+    process(sel_base, r_num_features)
     begin
         if sel_base = '1' then
             base_feature_addr <= to_unsigned(r_num_features + 1, g_ADDR_WIDTH); -- TODO: no se si el +1 puede generar problemas de timing

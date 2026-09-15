@@ -14,11 +14,11 @@ package general_package is
     -----------------------------------------------------
     constant  n_estimators : integer := 128;
     constant  n_classes : integer := 4;  
-    constant  chunk_size : integer := 16;
+    constant  chunk_size : integer := 8;
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
-    constant  in_fifo_size : integer := 1024;
+    constant  in_fifo_size : integer := 512;
     constant  out_fifo_size : integer := 64;
     constant  mem_config_file : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/random_forest_bin.txt";
     constant  debug : std_logic := '0';
@@ -34,8 +34,10 @@ package general_package is
 
 
 	  --type mat_t is array (natural range <>) of std_logic_vector(15 downto 0);
-	  type mat_t is array (natural range <>) of std_logic_vector(n_classes - 1 downto 0);
+	  type mat_t is array (natural range <>) of std_logic_vector(9 downto 0);
 	  type cols_t is array (natural range <>) of sum_t;
+    type cols_r_t is array (natural range <>) of unsigned(data_width - 1 downto 0);
+    type unsigned_array_t is array (natural range <>) of unsigned(addr_width-1 downto 0);
 	  --type cols_t is array (natural range <>) of unsigned(count_width - 1 downto 0);
     --subtype sum_t is unsigned(count_width - 1 downto 0);
 
@@ -45,8 +47,9 @@ package general_package is
     --function max_tree(    a   : cols_t;    low : integer;    high: integer) return sum_t; 
     function get_chunk_votes(mat: mat_t; j: integer; c:integer) return std_logic_vector; 
     function total_sum(chunk: cols_t) return unsigned;
-	
-  
+
+    function get_chunk_sum(mat: mat_t; c:integer) return unsigned;
+    function total_sum_r(chunk: cols_r_t) return unsigned;
     
 end package;
 
@@ -147,4 +150,50 @@ package body general_package is
         return total;
     end function;
 
+
+    function total_sum_r(chunk: cols_r_t) return unsigned is
+        variable partial : cols_r_t(0 to N_CHUNKS-1);
+        variable n       : integer := N_CHUNKS;
+    begin
+        partial := chunk;
+        while n > 1 loop
+            for i in 0 to (n/2)-1 loop
+                partial(i) := partial(2*i) + partial(2*i + 1);
+            end loop;
+    
+            if (n mod 2) = 1 then
+                partial(n/2) := partial(n-1);
+                n := n/2 + 1;
+            else
+                n := n/2;
+            end if;
+        end loop;
+    
+        return partial(0);
+    end function;
+
+
+    function get_chunk_sum(mat: mat_t; c: integer) return unsigned is
+        variable partial : unsigned_array_t(0 to chunk_size-1);
+        variable n       : integer := chunk_size;
+    begin
+        for i in 0 to chunk_size - 1 loop
+            partial(i) := resize(unsigned(mat(c*chunk_size + i)), 16);
+        end loop;
+
+        while n > 1 loop
+            for i in 0 to (n/2)-1 loop
+                partial(i) := partial(2*i) + partial(2*i + 1);
+            end loop;
+
+            if (n mod 2) = 1 then
+                partial(n/2) := partial(n-1);
+                n := n/2 + 1;
+            else
+                n := n/2;
+            end if;
+        end loop;
+
+        return resize(partial(0), 32);
+    end function;
 end package body;

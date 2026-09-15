@@ -21,7 +21,7 @@ package dt_ctl_pkg is
             o_RE_node			: out std_logic;
             o_node_addr		    	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
             o_DONE		    	: out std_logic;
-            o_class		        : out std_logic_vector(15 downto 0)
+            o_class		        : out std_logic_vector(9 downto 0)
         );
     end component;
 
