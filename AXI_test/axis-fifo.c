@@ -168,6 +168,95 @@ void * write_axis_fifo(void * arg){
     pthread_exit(NULL);                                       
 }
 
+//void * read_axis_fifo(void * arg){                                                         
+//    int fd_r, j;                               
+//    uint32_t * out_buff;                                                   
+//    uint32_t output_size;                                     
+//    size_t total_bytes_to_read;
+//    size_t total_bytes_read = 0;
+//    struct pollfd pfd; // Estructura para el poll
+//
+//    printf("[INFO] Thread 2 (read fifo)\n");                                                  
+//
+//    fd_r = *(int*)arg;                                                     
+//    output_size = num_labels + 1;                                         
+//    total_bytes_to_read = output_size * sizeof(uint32_t);
+//    out_buff = malloc(total_bytes_to_read);             
+//
+//    // Configuración del poll
+//    pfd.fd = fd_r;
+//    pfd.events = POLLIN; // Queremos saber cuándo hay datos listos para ser leídos
+//
+//    printf("[*] Esperando a que la FPGA tenga datos disponibles...\n");
+//
+//    // Bucle para asegurar que leemos exactamente todo el paquete completo
+//    while (total_bytes_read < total_bytes_to_read) {
+//        
+//        // Espera de hasta 5000 milisegundos (5 segundos) a que llegue el evento POLLIN
+//        int ret = poll(&pfd, 1, 5000); 
+//        
+//        if (ret < 0) {
+//            printf("[ERROR] Error en el poll de lectura: %s\n", strerror(errno));
+//            break;
+//        } else if (ret == 0) {
+//            printf("[WARNING] Timeout: La FPGA no ha devuelto datos en 5 segundos.\n");
+//            break;
+//        }
+//
+//        // Si el evento recibido es POLLIN, leemos de forma segura la ráfaga disponible
+//        if (pfd.revents & POLLIN) {
+//            size_t bytes_restantes = total_bytes_to_read - total_bytes_read;
+//            ssize_t bytes_rd = read(fd_r, (char*)out_buff + total_bytes_read, bytes_restantes);
+//            
+//            if (bytes_rd < 0) {
+//                printf("[ERROR] Error leyendo de la FIFO: %s\n", strerror(errno));
+//                break;
+//            } else if (bytes_rd == 0) {
+//                printf("[WARNING] La FIFO se cerró inesperadamente.\n");
+//                break; 
+//            }
+//
+//            total_bytes_read += bytes_rd;
+//        }
+//    }
+//
+//    // Comprobamos si logramos absorber con éxito todo el bloque de datos esperado
+//    if(total_bytes_read == total_bytes_to_read){                                      
+//        printf("[*] Receiving data: ");                                       
+//        for(j = 0; j < 10; j++){
+//            printf("(%X) ", out_buff[j]);                  
+//        }                 
+//        printf("... ");
+//        printf("(%X) -- ", out_buff[output_size-1]);
+//        printf("Bytes read: %zu\n", total_bytes_read);                 
+//    } else {
+//        printf("[ERROR] Lectura incompleta. Se leyeron %zu de %zu bytes esperados.\n", 
+//               total_bytes_read, total_bytes_to_read);
+//    }                                                      
+//                                                                                    
+//    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*10.0;
+//    float samp_p_sec = 1.0/(avg_c_time / 1000000000.0);
+//    printf("--------------------------------------\n");
+//    printf("[*] Total cycles: %d\n", out_buff[num_labels]);
+//    printf("[*] Average inference time: %0.2f ns\n", avg_c_time);
+//    printf("[*] Samples per second: %0.2f samp/s\n", samp_p_sec);
+//
+//    int c = 0;
+//
+//    for(int j = 0; j < num_labels; j++){
+//        if(out_buff[j] == mem_layout[labels_base + j]){
+//            c++;
+//        }
+//    }
+//    float acc = (c * 100.0)/(float)num_labels;
+//    printf("[*] Accuracy: %0.2f %% (%d/%d)\n", acc, c, num_labels);
+//
+//    export_results_to_csv("resultado_inferencia.csv", out_buff, output_size, &mem_layout[labels_base], num_labels);
+//    free(out_buff);                                           
+//    pthread_exit(NULL);                                                   
+//}
+
+
 void * read_axis_fifo(void * arg){                                                         
     int fd_r, i, j;                               
     uint32_t * out_buff;                                                   

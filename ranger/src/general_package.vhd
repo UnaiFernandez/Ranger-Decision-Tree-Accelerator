@@ -19,7 +19,7 @@ package general_package is
     constant  count_width : integer := ceil_log2(n_estimators + 1);
     constant  node_mem_size : integer := 512;
     constant  in_fifo_size : integer := 512;
-    constant  out_fifo_size : integer := 64;
+    constant  out_fifo_size : integer := 512;
     constant  mem_config_file : string := "/home/unai/Projects/dt_vhdl/ranger/memory_content/random_forest_bin.txt";
     constant  debug : std_logic := '0';
     constant  data_width : integer := 32;

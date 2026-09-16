@@ -37,6 +37,7 @@ def plot_simple_csv(csv_path="results/resultado_inferencia.csv"):
         return
 
     df['Valor_Norm'] = (df['Valor_Decimal'] / 1024) * (5.00001 - 0.14999) + 0.14999 
+    #df['Valor_Norm'] = (df['Valor_Decimal'] / 1024) * (58.53 - 17.19) + 17.19 
 
 
     # 3. Configurar y crear la gráfica
