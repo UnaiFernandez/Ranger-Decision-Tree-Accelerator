@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import sklearn
 import time
 from sklearn.datasets import load_iris, load_digits, fetch_california_housing
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 
 from ram_converter import *
 import dt_utils
@@ -32,7 +33,7 @@ if dataset == "datasets/california":
     california = fetch_california_housing()
     X = california.data
     y = california.target
-    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.02)
+    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.049)
 else:
     x_train, x_test, y_train, y_test = dt_utils.split_dataset(dataset, train_size=train_size)
 
@@ -41,9 +42,12 @@ else:
 dt_utils.y_min = min(y_train)
 dt_utils.y_max = max(y_train)
 
-print("MAX: " + str(dt_utils.y_max) + " MIN: " + str(dt_utils.y_min))
 
-
+print("[ SETTINGS ]")
+print("• Dataset:                     {}".format(dataset))
+print("• Training size:               {}".format(train_size))
+print("• Testing size:                {}".format(round(test_size, 2)))
+print("\n[ TRAINING ]")
 
 # Training model
 num_instances = 128
@@ -92,15 +96,11 @@ data_mem, data_mem_bin = create_data_mem(x_test)
 
 num_features = len(x_test[0])
 
-
-if isinstance(y_test, np.ndarray):
-    print("¡Sí! y_test es un numpy.ndarray")
-else:
+if isinstance(y_test, np.ndarray) == False:
     y_test = y_test.to_numpy()
 
 #if classification:
 num_labels = len(y_test)
-print(num_labels)
 #Copy classes to memory
 for i in range(len(y_test)):
     #data_mem.append(format(y_test[i], "0{}x".format(8)))
@@ -128,7 +128,7 @@ if classification:
 else:
     accuracy = 0
 
-num_elems_hex = format(len(forest_hex)+len(data_mem), "0{}x".format(8))
+num_elems_hex = format(num_features, "0{}x".format(2)) + format(len(forest_hex)+len(data_mem), "0{}x".format(6))
 forest_hex.insert(0, num_elems_hex)
 
 write_to_file(forest_bin + data_mem_bin, "../ranger/memory_content/random_forest_bin.txt")
@@ -136,60 +136,107 @@ write_to_file(forest_hex + data_mem, "../ranger/memory_content/random_forest_hex
 write_to_file(forest_hex + data_mem, "./conf/"+dataset.split("/")[1])
 
 
-print("\nSETTINGS")
-print("-------------------------------------------------------")
-print("Dataset:                     {}".format(dataset))
-print("Training size:               {}".format(train_size))
-print("Testing size:                {}".format(round(test_size, 2)))
-print("\nTRAINING")
-print("-------------------------------------------------------")
-print("Number of trees:             {}".format(num_instances))
-print("Avg. node number:            {}".format(avg_nodes/num_instances))
-print("Max node number:             {}".format(max_nodes))
-print("Len config file:             {}".format(len(forest_hex) + len(data_mem)))
-print("Feature number:              {}".format(num_features))
-print("Total time:                  {} ms".format(round(total_train*1000, 2)))
+print("• Number of trees:             {}".format(num_instances))
+print("• Avg. node number:            {}".format(avg_nodes/num_instances))
+print("• Max node number:             {}".format(max_nodes))
+print("• Len config file:             {}".format(len(forest_hex) + len(data_mem)))
+print("• Feature number:              {}".format(num_features))
+print("• Total time:                  {} ms".format(round(total_train*1000, 2)))
 # numero de trees
-print("\nTEST RESULTS")
-print("-------------------------------------------------------")
-print("Total time:                  {} ms".format(round(total*1000, 2)))
+print("\n[ TEST RESULTS ]")
+print("• Total time:                  {} ms".format(round(total*1000, 2)))
 time_to_process = round((total * 1000000) / len(x_test), 2)
-print("Average inference time:      {} us".format(time_to_process))
+print("• Average inference time:      {} us".format(time_to_process))
 
-print(f'Accuracy:                    {accuracy * 100:.2f}%')
+if classification:
+    print(f'• Accuracy:                    {accuracy * 100:.2f}%')
+    #conf_matrix = confusion_matrix(y_test, y_pred)
+    #print(f'\nConfusion matrix:\n {conf_matrix}')
+else:
+    # 1. R-cuadrado (idéntico al .score)
+    print("• R² Score:                   ", round(r2_score(y_test, y_pred), 2))
+    
+    # 2. Error Absoluto Medio (MAE)
+    # Te dice, en promedio, cuánto se equivoca el modelo (en las mismas unidades que 'y')
+    print("• MAE:                        ", round(mean_absolute_error(y_test, y_pred), 2))
+    
+    # 3. Error Cuadrático Medio (MSE)
+    # Eleva los errores al cuadrado; castiga más severamente los errores grandes
+    print("• MSE:                        ", round(mean_squared_error(y_test, y_pred), 2))
+    
+    # 4. Raíz del Error Cuadrático Medio (RMSE)
+    # Es la raíz del MSE, lo que devuelve el error a las unidades originales de tu variable
+    print("• RMSE:                       ", round(np.sqrt(mean_squared_error(y_test, y_pred)), 2))
 
-#conf_matrix = confusion_matrix(y_test, y_pred)
-#print(f'\nConfusion matrix:\n {conf_matrix}')
 
-print("y test: {}".format(y_test[0:30]))
-print("y pred: {}".format(y_pred[0:30]))
-
+print("")
 indices = np.arange(len(y_pred))
 
 df = pd.DataFrame({
     'Indice': indices,
     'Valor': y_pred
 })
+
+ret_file = input("Save Results to file [y/n] >> ")
+
+if ret_file in ['y', 'Y']:
+    output_filename = "results/sklearn_results.csv"
+    stats_filename = "results/sklearn_max_min.csv"
+
+    df.to_csv(output_filename, index=False)
     
-# 5. Guardar a CSV omitiendo el índice automático de Pandas (index=False)
-output_filename = "results/sklearn_results.csv"
-df.to_csv(output_filename, index=False)
-print(f"[INFO] Arreglo guardado exitosamente en '{output_filename}' en formato HEX.")
+    out_df = pd.DataFrame([[dt_utils.y_max, dt_utils.y_min]], columns=["max", "min"])    
+    out_df.to_csv(stats_filename, index=False) 
+
+    print(f"File saved successfilly in '{output_filename}'.")
 
 
 
 plt.figure(figsize=(6, 6))
 plt.scatter(y_test, y_pred, s=8, alpha=0.4)
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-plt.xlabel("Real")
-plt.ylabel("Predicho")
-plt.title("Real vs Predicho")
-plt.show()
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 
+         color='#E92828',
+         linestyle='--',
+         label='Recta de regresión')
+
+plt.title("Regresión", fontsize=14, fontweight='bold', pad=15)
+
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.legend(loc='upper right')
+
+# Ajustar márgenes
+plt.tight_layout()
+
 
 plt.figure(figsize=(6, 6))
-plt.plot(y_test)
-plt.plot(y_pred)
-plt.xlabel("Real")
-plt.ylabel("Predicho")
-plt.title("Real vs Predicho")
-plt.show()
+plt.plot(y_test,
+         color='#1f77b4',
+         linestyle='-',
+         #marker='o',
+         #markersize=4,
+         alpha=0.8,
+         label='Salida test')
+
+plt.plot(y_pred,
+         color='#ff7f0e',
+         linestyle='-',
+         marker='o',
+         markersize=4,
+         alpha=0.8,
+         label='Salida predicción')
+
+# Estética y etiquetas
+plt.title("Predicciones sklearn", fontsize=14, fontweight='bold', pad=15)
+plt.xlabel("Indice de la Muestra", fontsize=11)
+plt.ylabel("Valor Obtenido (Decimal)", fontsize=11)
+
+plt.grid(True, linestyle=':', alpha=0.6)
+plt.legend(loc='upper right')
+
+# Ajustar márgenes
+plt.tight_layout()
+
+ret_plot = input("Save Results to file [y/n] >> ")
+
+if ret_plot in ['y', 'Y']:
+    plt.show()

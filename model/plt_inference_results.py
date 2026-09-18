@@ -7,6 +7,11 @@ def plot_simple_csv(csv_path="results/resultado_inferencia.csv"):
         print(f"[ERROR] No se encontró el archivo: {csv_path}")
         return
 
+    stats_df = pd.read_csv("results/sklearn_max_min.csv")
+
+    max_value = stats_df.loc[0, "max"]
+    min_value = stats_df.loc[0, "min"]
+    
     # 1. Leer el CSV (detecta automáticamente cabeceras como 'Indice' y 'Valor')
     # Si tu CSV no tiene cabeceras, usamos names=['Indice', 'Valor']
     try:
@@ -36,7 +41,7 @@ def plot_simple_csv(csv_path="results/resultado_inferencia.csv"):
         print(f"[ERROR] No se pudieron convertir algunos valores HEX a decimal: {e}")
         return
 
-    df['Valor_Norm'] = (df['Valor_Decimal'] / 1024) * (5.00001 - 0.14999) + 0.14999 
+    df['Valor_Norm'] = (df['Valor_Decimal'] / 1024) * (max_value - min_value) + min_value 
     #df['Valor_Norm'] = (df['Valor_Decimal'] / 1024) * (58.53 - 17.19) + 17.19 
 
 

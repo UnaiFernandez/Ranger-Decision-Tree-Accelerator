@@ -151,7 +151,7 @@ def create_data_mem(data):
     for r in range(0, row):
         for c in range(0, col):
             #threshold, threshold_bin, *_ = to_floating_point(float(data[r, c]), 8, 23)
-            print(float(data[r, c]))
+            #print(float(data[r, c]))
             threshold, threshold_bin, *_ = to_fixed_point_new(float(data[r, c]), 15, 16, True)
             #print(str(data[r, c]) + "HEX: " + str(threshold))
             threshold_list.append(threshold);
