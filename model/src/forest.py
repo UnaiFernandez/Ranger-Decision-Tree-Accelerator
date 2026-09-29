@@ -5,6 +5,7 @@ import sklearn
 import time
 from sklearn.datasets import load_iris, load_digits, fetch_california_housing
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+import datetime
 
 from ram_converter import *
 import dt_utils
@@ -180,13 +181,18 @@ df = pd.DataFrame({
 ret_file = input("Save Results to file [y/n] >> ")
 
 if ret_file in ['y', 'Y']:
-    output_filename = "results/sklearn_results.csv"
-    stats_filename = "results/sklearn_max_min.csv"
+    x = datetime.datetime.now()
+    output_filename = "results/sklearn_results" + x.strftime("_%H_%M_%S_") + ".csv"
+    stats_filename = "results/sklearn_max_min" + x.strftime("_%H_%M_%S_") + ".csv"
 
     df.to_csv(output_filename, index=False)
     
-    out_df = pd.DataFrame([[dt_utils.y_max, dt_utils.y_min]], columns=["max", "min"])    
+    out_df = pd.DataFrame([[dt_utils.y_max, dt_utils.y_min, round(r2_score(y_test, y_pred), 2), round(mean_absolute_error(y_test, y_pred), 2), round(mean_squared_error(y_test, y_pred), 2), round(np.sqrt(mean_squared_error(y_test, y_pred)), 2)]], columns=["max", "min", "R2", "MAE", "MSE", "RMSE"])    
     out_df.to_csv(stats_filename, index=False) 
+
+    write_to_file(forest_hex + data_mem, "results/"+dataset.split("/")[1]+x.strftime("_%H_%M_%S_"))
+    write_to_file(y_test, "results/y_test"+x.strftime("_%H_%M_%S"))
+
 
     print(f"File saved successfilly in '{output_filename}'.")
 
@@ -236,7 +242,7 @@ plt.legend(loc='upper right')
 # Ajustar márgenes
 plt.tight_layout()
 
-ret_plot = input("Save Results to file [y/n] >> ")
+ret_plot = input("Plot results [y/n] >> ")
 
 if ret_plot in ['y', 'Y']:
     plt.show()

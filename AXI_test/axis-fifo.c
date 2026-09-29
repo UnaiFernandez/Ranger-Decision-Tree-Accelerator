@@ -26,6 +26,8 @@ uint32_t conf_size = 0;
 uint32_t labels_base = 0;
 uint32_t divisor = 1;
 
+clock_t start, stop;
+
 static void signal_handler(int signal) {
     switch (signal) {
         case SIGINT:
@@ -132,6 +134,8 @@ void * write_axis_fifo(void * arg){
     pfd.events = POLLOUT;
 
     printf(">> Inference data\n");
+
+    start = clock();
     while(start_addr < (num_inputs - num_labels)){
 
         int ret = poll(&pfd, 1, 2000); //esperar FIFO 1000ms
@@ -170,7 +174,7 @@ void * write_axis_fifo(void * arg){
             start_addr += chunk_size;  
         }
     }                                                              
-    printf("\n");                                                          
+    //printf("\n");                                                          
 
     close(fd_w);                                                           
     pthread_exit(NULL);                                       
@@ -240,7 +244,7 @@ void * read_axis_fifo(void * arg){
     ssize_t bytes_rd; 
 
     //usleep(3000);
-    sleep(1);
+    //sleep(1);
     //printf("[INFO] Thread 2 (read fifo)\n");                                                  
 
     fd_r = *(int*)arg;                                                     
@@ -254,19 +258,21 @@ void * read_axis_fifo(void * arg){
     i = 0;
     bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
     if(bytes_rd == (ssize_t)(output_size * sizeof(uint32_t))){                                      
-        printf(">> Received %d Bytes\n\n", bytes_rd);                                       
+        //printf(">> Received %d Bytes\n\n", bytes_rd);                                       
         for(j = 0; j < 40; j++){
             i++;
-            printf("%04X ", out_buff[j]);                  
+          //  printf("%04X ", out_buff[j]);                  
             if(i == 10){
-                printf("\n");
+            //    printf("\n");
                 i = 0;
             }
         }                 
-        printf("\n");
+        //printf("\n");
     }                                                      
+
+    stop = clock();
     //}                                                                                
-    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*10.0;
+    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*8.0;
     float samp_p_sec = 1.0/(avg_c_time / 1000000000.0);
     printf("-------------------------------------------------\n");
     printf("   - Total cycles: %d\n", out_buff[num_labels]);
@@ -281,7 +287,7 @@ void * read_axis_fifo(void * arg){
         }
     }
     float acc = (c * 100.0)/(float)num_labels;
-    printf("[*] Accuracy: %0.2f \% (%d/%d)\n", acc, c, num_labels);
+    printf("   - Accuracy: %0.2f \% (%d/%d)\n", acc, c, num_labels);
 
     export_results_to_csv("resultado_inferencia.csv", out_buff, output_size, &mem_layout[labels_base], num_labels);
     free(out_buff);                                           
@@ -324,17 +330,24 @@ int main(int argc, char ** argv){
 
     sleep(4);
 
+    //clock_t start = clock();
     //Create threads
     pthread_create(&th1, NULL, write_axis_fifo, (void *) &fd_w);
     pthread_create(&th2, NULL, read_axis_fifo, (void *) &fd_r);
-
-    //while(running){
+    
+       //while(running){
     //	sleep(1);
     //}
 
     //printf("Bye bye ...\n");
     pthread_join(th1, NULL);
     pthread_join(th2, NULL);
+
+
+    double total_time = (double)(stop - start)/CLOCKS_PER_SEC;
+
+    printf("Total segundos: %f\n", total_time);
+
 
     free(mem_layout);                             
     return 0;
