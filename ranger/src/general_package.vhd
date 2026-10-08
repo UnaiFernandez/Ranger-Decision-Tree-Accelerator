@@ -12,7 +12,7 @@ package general_package is
     -----------------------------------------------------
     --                  Configuration                  --
     -----------------------------------------------------
-    constant  n_estimators : integer := 128;
+    constant  n_estimators : integer := 256;
     constant  n_classes : integer := 4;  
     constant  chunk_size : integer := 8;
     constant  n_chunks : positive := (n_estimators + chunk_size - 1) / chunk_size; -- ToDo: Revisar

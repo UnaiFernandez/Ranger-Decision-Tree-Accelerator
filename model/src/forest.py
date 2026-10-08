@@ -51,7 +51,7 @@ print("• Testing size:                {}".format(round(test_size, 2)))
 print("\n[ TRAINING ]")
 
 # Training model
-num_instances = 128
+num_instances = 256
 avg_nodes = 0
 max_nodes = 0
 
@@ -80,8 +80,9 @@ for i in range(num_instances):
     dt_hex_ram = dt_utils.export_to_hex_ram(clf, classification)
     dt_bin = create_mem_bin_layouts_new_format(dt_hex_ram)
     dt_hex = create_mem_hex_layouts_new_format(dt_hex_ram)
-    node_number_hex = format(len(dt_hex), "0{}x".format(6)) + format(i+1, "0{}x".format(2))
-    node_number_bin = format(len(dt_bin), "0{}b".format(24)) + format(i+1, "0{}b".format(8))
+    numero_32bits = (len(dt_hex) << 10) | (i+1)
+    node_number_hex = format(numero_32bits, "08x")
+    node_number_bin = format(len(dt_bin), "0{}b".format(22)) + format(i+1, "0{}b".format(10))
     dt_bin.insert(0, node_number_bin)
     dt_hex.insert(0, node_number_hex)
     forest_bin.append(dt_bin)

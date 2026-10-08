@@ -51,7 +51,7 @@ architecture arch_ranger of ranger is
     signal config_done : std_logic;
     signal up_int_data : std_logic := '0';
     signal en_config : std_logic;
-    signal dt_id : std_logic_vector(7 downto 0);
+    signal dt_id : std_logic_vector(9 downto 0);
 
     -- Data memory
     signal class	: std_logic_vector(g_addr_width - 1 downto 0);
@@ -145,7 +145,7 @@ begin
         sel_v := (others => '0');
         if get_data = '1' then
             sel_v := (others => '1');
-        elsif dt_id /= "00000000" then
+        elsif dt_id /= "0000000000" then
             idx := to_integer(unsigned(dt_id)) - 1;
             if idx >= sel_v'low and idx <= sel_v'high then
                 sel_v(idx) := '1';

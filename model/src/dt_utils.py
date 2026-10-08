@@ -57,6 +57,7 @@ def train_rf_regression(x_train, y_train, num_instances):
 
     regression = RandomForestRegressor(n_estimators=num_instances,
                                         random_state=42,
+                                        min_samples_leaf=5,
                                         #min_samples_split=30,
                                         max_depth=8)
 

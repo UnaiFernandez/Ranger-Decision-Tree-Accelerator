@@ -18,7 +18,7 @@ package configurator_pkg is
 				i_empty_fifo	: in std_logic; 
 				i_dec_sample	: in std_logic; 
     	    -----------------------------------------------
-    	    o_dt_id : out std_logic_vector(7 downto 0);
+    	    o_dt_id : out std_logic_vector(9 downto 0);
             o_infer : out std_logic_vector(31 downto 0);
 	    o_data_addr : out unsigned(g_ADDR_WIDTH - 1 downto 0);
 	    o_config_done : out std_logic;

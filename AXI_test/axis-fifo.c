@@ -12,7 +12,7 @@
 #include <poll.h>
 #include <sys/ioctl.h>
 
-#define MAX_BUF_SIZE 508
+#define MAX_BUF_SIZE 256
 #define NUM_INFERENCES 60
 
 #define DIV 2
@@ -134,6 +134,8 @@ void * write_axis_fifo(void * arg){
     pfd.events = POLLOUT;
 
     printf(">> Inference data\n");
+    printf("%08X\n", mem_layout[conf_size]);
+    printf("%08X\n", mem_layout[conf_size - 1]);
 
     start = clock();
     while(start_addr < (num_inputs - num_labels)){
@@ -194,7 +196,7 @@ int send_config(void * arg){
     pfd.events = POLLOUT;
 
     printf(">> Configuration ");
-    while(start_addr < (conf_size)){
+    while(start_addr < conf_size){
 
         int ret = poll(&pfd, 1, 2000); //esperar FIFO 2000ms
 
@@ -227,7 +229,7 @@ int send_config(void * arg){
                 //printf(".");
                 //printf("addr =  %d + %d\n", start_addr, j);
             //}                                                
-            //usleep(100);                          
+            usleep(100);                          
             //i += MAX_BUF_SIZE;                                           
             start_addr += chunk_size;  
         }
@@ -328,7 +330,7 @@ int main(int argc, char ** argv){
 
     send_config((void *) &fd_w);
 
-    sleep(4);
+    //sleep(4);
 
     //clock_t start = clock();
     //Create threads

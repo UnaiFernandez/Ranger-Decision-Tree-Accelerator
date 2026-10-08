@@ -19,7 +19,7 @@ entity configurator is
             i_empty_fifo	: in std_logic; 
 				    i_dec_sample	: in std_logic; 
             -----------------------------------------------
-            o_dt_id		: out std_logic_vector(7 downto 0);
+            o_dt_id		: out std_logic_vector(9 downto 0);
             o_infer : out std_logic_vector(31 downto 0);
             o_DATA_ADDR	: out unsigned(g_ADDR_WIDTH - 1 downto 0);
             o_config_done	: out std_logic;
@@ -40,7 +40,7 @@ architecture arch_configurator of configurator is
     signal num_labels : unsigned(31 downto 0);
     -- dt_id
     signal ld_dt_id : std_logic := '0';
-    signal dt_id : std_logic_vector(7 downto 0);
+    signal dt_id : std_logic_vector(9 downto 0);
     -- delayed i_en_config
     signal d_en_config : std_logic;
     -- delayed i_up_int_data
@@ -173,7 +173,7 @@ begin
     begin
         if rising_edge(i_clk) then
             if ld_dt_id = '1' then
-                dt_id <= i_data(7 downto 0);
+                dt_id <= i_data(9 downto 0);
             end if;
         end if;
     end process;
@@ -220,7 +220,7 @@ begin
                 if config_done = '1' then
                     re_en_counter <= r_num_features;
                 else
-                    re_en_counter <= to_integer(unsigned(i_data(20 downto 8))-1);
+                    re_en_counter <= to_integer(unsigned(i_data(31 downto 10))-1);
                 end if;
             elsif dec_re_en_counter = '1' then
                 re_en_counter <= re_en_counter - 1;
@@ -238,7 +238,7 @@ begin
     begin
         if rising_edge(i_clk) then
             if cl_node_counter = '1' then
-                node_counter <= to_integer(unsigned(i_data(20 downto 8)) -1);
+                node_counter <= to_integer(unsigned(i_data(31 downto 10)) -1);
                 node_addr <= (others => '0');
             elsif copy_dt_id = '1' then
                 node_addr <= dt_id_addr + 1;
