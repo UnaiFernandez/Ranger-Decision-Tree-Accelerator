@@ -15,6 +15,7 @@
 #define MAX_BUF_SIZE 256
 #define NUM_INFERENCES 60
 #define NUM_SAMPLES_POW 2000
+#define REPS 1
 
 #define DIV 2
 static volatile int running = 1;
@@ -27,14 +28,32 @@ uint32_t conf_size = 0;
 uint32_t labels_base = 0;
 uint32_t divisor = 1;
 
-clock_t start, stop;
+//clock_t start, stop;
 
-volatile int ranger_exec;
+struct timespec start;
+struct timespec stop;
+
+static inline uint64_t timespec_diff_ns(struct timespec *start, struct timespec *end)
+{
+    struct timespec result;
+    if ((end->tv_nsec - start->tv_nsec) < 0) {
+        result.tv_sec = end->tv_sec - start->tv_sec - 1;
+        result.tv_nsec = end->tv_nsec - start->tv_nsec + 1000000000L;
+    } else {
+        result.tv_sec = end->tv_sec - start->tv_sec;
+        result.tv_nsec = end->tv_nsec - start->tv_nsec;
+    }
+
+    return (result.tv_sec * 1000000000L) + result.tv_nsec;
+}
+
+
 
 //static int ranger_exec = 0;
 //static pthread_mutex_t __mutex_shared_variable = (pthread_mutex_t) PTHREAD_MUTEX_INITIALIZER;
 
 struct power_t{
+        struct timespec timestamp;
         int raw;
         float current;
         float power;
@@ -63,7 +82,6 @@ int export_results_to_csv(const char *filename, uint32_t *out_buff, uint32_t num
 
     fprintf(csv_file, "Indice,Valor Obtenido (HEX)\n");
 
-    int correctas = 0;
     for (uint32_t j = 0; j < num_labels; j++) {
         uint32_t obtenido = out_buff[j];
 
@@ -84,14 +102,14 @@ int export_results_to_csv_float(const char *filename, struct power_t *out_buff, 
         return -1;
     }
 
-    fprintf(csv_file, "Indice,RAW_XADC,Corriente_A,Potencia_W,Exec\n");
+    fprintf(csv_file, "Timestamp,RAW_XADC,Corriente_A,Potencia_W,Exec\n");
 
-    int correctas = 0;
     for (uint32_t j = 0; j < num_labels; j++) {
         struct power_t obtenido = out_buff[j];
         int r_exec = out_buff[j].r_exec;
+        uint64_t timestamp = (obtenido.timestamp.tv_sec * 1000000000ULL) + obtenido.timestamp.tv_nsec;
 
-        fprintf(csv_file, "%u,%08X,%0.2f,%0.2f,%d\n", j, obtenido.raw, obtenido.current, obtenido.power, obtenido.r_exec);
+        fprintf(csv_file, "%llu,%08X,%0.2f,%0.2f,%d\n", (unsigned long long)timestamp, obtenido.raw, obtenido.current, obtenido.power, obtenido.r_exec);
 
     }
 
@@ -170,6 +188,8 @@ void * measure_power (void * arg){
             pthread_exit(NULL);
         }
 
+        clock_gettime(CLOCK_MONOTONIC, &p_meas.timestamp);
+
         p_meas.raw = atoi(buffer);
 
         p_meas.current = ((((float)p_meas.raw * 244.0) / 3900.0) - 0.8 ) / 52.0;
@@ -180,20 +200,20 @@ void * measure_power (void * arg){
 
         p_meas.power = 5.0 * p_meas.current;
 
-        p_meas.r_exec = ranger_exec;
+        p_meas.r_exec = 0;
 
         //printf("%d | %0.2f | %0.2f\n", p_meas.raw, p_meas.current, p_meas.power);
 
         out_power_buff[idx] = p_meas;
 
 
-        usleep(5000);
+        usleep(2000);
         idx++;
     }
 
-    for(int i = 0; i < 30; i++){
-        printf("%0.2f\n", out_power_buff[i].power);
-    }
+    //for(int i = 0; i < 30; i++){
+    //    printf("%0.2f\n", out_power_buff[i].power);
+    //}
   
     export_results_to_csv_float("power_results.csv", out_power_buff, NUM_SAMPLES_POW);
     close(fd_pow); 
@@ -202,7 +222,7 @@ void * measure_power (void * arg){
 }
 
 void * write_axis_fifo(void * arg){                                    
-    int fd_w, i, j;                                                        
+    int fd_w;                                                        
     int start_addr = conf_size;                   
     ssize_t bytes_wr;                                       
     uint32_t chunk_size;                                              
@@ -215,44 +235,46 @@ void * write_axis_fifo(void * arg){
 
     printf(">> Inference data\n");
 
-    start = clock();
-    ranger_exec = 1;
-    while(start_addr < (num_inputs - num_labels)){
+    //start = clock();
+    clock_gettime(CLOCK_MONOTONIC, &start);
+    for(int i = 0; i < REPS; i++){
+        while(start_addr < (num_inputs - num_labels)){
 
-        int ret = poll(&pfd, 1, 2000); //esperar FIFO 1000ms
+            //int ret = poll(&pfd, 1, 2000); //esperar FIFO 1000ms
 
-        if(ret < 0){
-            printf("[ERROR] Poll error: %s\n", strerror(errno));
-            break;
-        }else if(ret == 0){
-            printf("[WARNING] Timeout: La FPGA no está liberando espacio en la FIFO\n");
-            continue;
-        }
+            //if(ret < 0){
+            //    printf("[ERROR] Poll error: %s\n", strerror(errno));
+            //    break;
+            //}else if(ret == 0){
+            //    printf("[WARNING] Timeout: La FPGA no está liberando espacio en la FIFO\n");
+            //    continue;
+            //}
 
-        if(pfd.revents & POLLOUT){
-            if((num_inputs - start_addr) > MAX_BUF_SIZE){
-                chunk_size = MAX_BUF_SIZE;
-            }else{
-                chunk_size = num_inputs - start_addr;
-            }
+            //if(pfd.revents & POLLOUT){
+                if((num_inputs - start_addr) > MAX_BUF_SIZE){
+                    chunk_size = MAX_BUF_SIZE;
+                }else{
+                    chunk_size = num_inputs - start_addr;
+                }
 
-            // Write to file                                       
-            bytes_wr = write(fd_w, mem_layout + start_addr, chunk_size*sizeof(uint32_t));
+                // Write to file                                       
+                bytes_wr = write(fd_w, mem_layout + start_addr, chunk_size*sizeof(uint32_t));
 
-            if(bytes_wr < 0){
-                printf("[ERROR] Write failed: %s\n", strerror(errno));
-                break;
-            }
-            start_addr += chunk_size;  
-        }
-    }                                                              
+                if(bytes_wr < 0){
+                    printf("[ERROR] Write failed: %s\n", strerror(errno));
+                    break;
+                }
+                start_addr += chunk_size;  
+            //}
+        } 
+    }
 
     close(fd_w);                                                           
     pthread_exit(NULL);                                       
 }
 
 int send_config(void * arg){                                    
-    int fd_w, i, j;                                                        
+    int fd_w;                                                        
     int start_addr = 0;                   
     ssize_t bytes_wr;                                       
     uint32_t chunk_size;                                              
@@ -318,23 +340,28 @@ void * read_axis_fifo(void * arg){
     //while(i < num_inputs){                                                           
     //while(running){                             
 
-    i = 0;
-    bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
-    if(bytes_rd == (ssize_t)(output_size * sizeof(uint32_t))){                                      
-        //printf(">> Received %d Bytes\n\n", bytes_rd);                                       
-        for(j = 0; j < 40; j++){
-            i++;
-          //  printf("%04X ", out_buff[j]);                  
-            if(i == 10){
-            //    printf("\n");
-                i = 0;
-            }
-        }                 
-        //printf("\n");
-    }                                                      
 
-    stop = clock();
-    ranger_exec = 0;
+    for(int k = 0; k < REPS; k++){
+        i = 0;
+        bytes_rd = read(fd_r, out_buff, output_size*sizeof(uint32_t));
+        if(bytes_rd == (ssize_t)(output_size * sizeof(uint32_t))){                                      
+            //printf(">> Received %d Bytes\n\n", bytes_rd);                                       
+            for(j = 0; j < 40; j++){
+                i++;
+              //  printf("%04X ", out_buff[j]);                  
+                if(i == 10){
+                //    printf("\n");
+                    i = 0;
+                }
+            }                 
+            //printf("\n");
+        }                                                      
+        printf("Read -> %d\n", k);
+
+    //stop = clock();
+    clock_gettime(CLOCK_MONOTONIC, &stop);
+
+    }                                                      
     //}                                                                                
     float avg_c_time = (out_buff[num_labels]/(float)num_labels)*8.0;
     float samp_p_sec = 1.0/(avg_c_time / 1000000000.0);
@@ -353,6 +380,9 @@ void * read_axis_fifo(void * arg){
     float acc = (c * 100.0)/(float)num_labels;
     printf("   - Accuracy: %0.2f \% (%d/%d)\n", acc, c, num_labels);
 
+    //ranger_exec = 0;
+    //stop = clock();
+
     export_results_to_csv("resultado_inferencia.csv", out_buff, num_labels);
     free(out_buff);                                           
     pthread_exit(NULL);                                                   
@@ -362,6 +392,7 @@ int main(int argc, char ** argv){
 
     pthread_t th1, th2, th_pow;
     int fd_w, fd_r, fd_pow;
+    uint64_t total_time;
 
     printf("    ____  ___    _   __________________        __            __   \n"); 
     printf("   / __ \\/   |  / | / / ____/ ____/ __ \\      / /____  _____/ /_\n");
@@ -386,9 +417,9 @@ int main(int argc, char ** argv){
     printf(">> Opened file: %s\n", argv[1]);
 
 
-    ranger_exec = 0;
     pthread_create(&th_pow, NULL, measure_power, (void *) &fd_pow);
-    sleep(5);
+
+    sleep(2);
 
     //get_mem_layout("./mem_layout.txt");   
     if (get_mem_layout(argv[1]) != 0){
@@ -418,9 +449,12 @@ int main(int argc, char ** argv){
     pthread_join(th_pow, NULL);
 
 
-    double total_time = (double)(stop - start)/CLOCKS_PER_SEC;
+    total_time = timespec_diff_ns(&start, &stop);
+    
 
-    printf("Total segundos: %f\n", total_time);
+    //double total_time = (double)(stop - start)/CLOCKS_PER_SEC;
+
+    printf("Total ns: %ld\n", total_time);
 
 
     free(mem_layout);                             

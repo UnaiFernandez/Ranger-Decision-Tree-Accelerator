@@ -34,7 +34,7 @@ end ranger;
 architecture arch_ranger of ranger is
 
     -- State machine
-    type state is (E0, E01, E1, E2, E3, E4, E5);
+    type state is (E0, E01, E1, E2, E3, E4, E5, E6, E7);
     --type state is (E0, E01, E1, E2, E3, E4, E5, E8, E6, E7);
     signal current_s, next_s: state;
 
@@ -79,6 +79,7 @@ architecture arch_ranger of ranger is
     signal cycle_count : integer := 0;
     signal sel_cycles : std_logic := '0';
     signal ld_last : std_logic := '0';
+    signal cl_last : std_logic := '0';
     signal last : std_logic := '0';
 
     signal infer : std_logic_vector(31 downto 0);
@@ -118,7 +119,9 @@ begin
                 elsif data_loaded = '1' then next_s <= E3;
                 else next_s <= E4;
                 end if;
-            when E5 => next_s <= E01;
+            when E5 => next_s <= E6;
+            when E6 => next_s <= E7;
+            when E7 => next_s <= E01;
         end case;
     end process;
 
@@ -250,11 +253,11 @@ begin
 
     dec_inf_counter <= '1' when calc_done = '1' and current_s = E3 else '0';
 
-    process(i_clk, dec_inf_counter, inference_number, start, i_reset)
+    process(i_clk, dec_inf_counter, inference_number, cl_last, i_reset)
     begin
         if rising_edge(i_clk) then
             --if i_reset = '1' or start = '1' or init = '1' then
-            if start = '1' or (config_done = '1' and current_s = E1) then
+            if cl_last = '1' or (config_done = '1' and current_s = E1) then
                 inference_number <= to_integer(unsigned(infer));
                 --inference_number <= 19;
             elsif dec_inf_counter = '1' and inference_number /= 0 then 
@@ -265,11 +268,12 @@ begin
 
 
     ld_last <= '1' when inference_number = 0 and current_s = E5 else '0';
+    cl_last <= '1' when current_s = E7 else '0';
     
     process(i_clk, ld_last, start)
     begin
         if rising_edge(i_clk) then
-            if start = '1' then
+            if cl_last = '1' then
                 last <= '0';
             elsif ld_last = '1' then
                 last <= '1';
@@ -292,10 +296,10 @@ begin
     ld_cycles <= '1' when config_done = '1' and stop = '1' else '0';
 
     sel_cycles <= '1' when stop = '1' else '0';
-    process(i_clk, inc_c, start, i_reset)
+    process(i_clk, inc_c, cl_last, i_reset)
     begin
         if rising_edge(i_clk) then
-            if i_reset = '1' or start = '1' then
+            if i_reset = '1' or cl_last = '1' then
                 cycle_count <= 0;
             elsif inc_c = '1' then 
                 cycle_count <= cycle_count + 1;
