@@ -12,7 +12,7 @@
 #include <poll.h>
 #include <sys/ioctl.h>
 
-#define MAX_BUF_SIZE 256
+#define MAX_BUF_SIZE 500
 #define NUM_INFERENCES 60
 #define NUM_SAMPLES_POW 2000
 #define REPS 1
@@ -240,17 +240,17 @@ void * write_axis_fifo(void * arg){
     for(int i = 0; i < REPS; i++){
         while(start_addr < (num_inputs - num_labels)){
 
-            //int ret = poll(&pfd, 1, 2000); //esperar FIFO 1000ms
+            int ret = poll(&pfd, 1, 2000); //esperar FIFO 1000ms
 
-            //if(ret < 0){
-            //    printf("[ERROR] Poll error: %s\n", strerror(errno));
-            //    break;
-            //}else if(ret == 0){
-            //    printf("[WARNING] Timeout: La FPGA no está liberando espacio en la FIFO\n");
-            //    continue;
-            //}
+            if(ret < 0){
+                printf("[ERROR] Poll error: %s\n", strerror(errno));
+                break;
+            }else if(ret == 0){
+                printf("[WARNING] Timeout: La FPGA no está liberando espacio en la FIFO\n");
+                continue;
+            }
 
-            //if(pfd.revents & POLLOUT){
+            if(pfd.revents & POLLOUT){
                 if((num_inputs - start_addr) > MAX_BUF_SIZE){
                     chunk_size = MAX_BUF_SIZE;
                 }else{
@@ -265,7 +265,7 @@ void * write_axis_fifo(void * arg){
                     break;
                 }
                 start_addr += chunk_size;  
-            //}
+            }
         } 
     }
 
@@ -363,7 +363,7 @@ void * read_axis_fifo(void * arg){
 
     }                                                      
     //}                                                                                
-    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*8.0;
+    float avg_c_time = (out_buff[num_labels]/(float)num_labels)*10.0;
     float samp_p_sec = 1.0/(avg_c_time / 1000000000.0);
     printf("-------------------------------------------------\n");
     printf("   - Total cycles: %d\n", out_buff[num_labels]);

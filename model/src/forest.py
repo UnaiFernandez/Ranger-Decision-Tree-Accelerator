@@ -6,6 +6,12 @@ import time
 from sklearn.datasets import load_iris, load_digits, fetch_california_housing
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import datetime
+from pyJoules.energy_meter import measure_energy
+from pyJoules.handler.csv_handler import CSVHandler
+from pyJoules.handler.pandas_handler import PandasHandler
+import io
+
+
 
 from ram_converter import *
 import dt_utils
@@ -29,14 +35,21 @@ else:
 dataset = sys.argv[1]
 test_size = 1-train_size
 
+test_folder = "/home/unai/Projects/dt_vhdl/model/results/tests_regresion/test_unai_128_dt/"
 
 if dataset == "datasets/california":
     california = fetch_california_housing()
     X = california.data
     y = california.target
-    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.049)
+    #x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=0.049)
+    x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(X, y, test_size=train_size)
+    x_test = x_test[:1000]
+    y_test = y_test[:1000]
 else:
     x_train, x_test, y_train, y_test = dt_utils.split_dataset(dataset, train_size=train_size)
+    #x_train, x_test, y_train, y_test = dt_utils.split_dataset_fixed_train_test("/home/unai/Projects/dt_vhdl/model/datasets/train_RUL.csv", "/home/unai/Projects/dt_vhdl/model/datasets/test_RUL.csv")
+    #x_test = x_test[:1000]
+    #y_test = y_test[:1000]
 
 #print(x_test)
 
@@ -51,7 +64,7 @@ print("• Testing size:                {}".format(round(test_size, 2)))
 print("\n[ TRAINING ]")
 
 # Training model
-num_instances = 256
+num_instances = 128
 avg_nodes = 0
 max_nodes = 0
 
@@ -66,11 +79,28 @@ stop_train = time.time()
 total_train = stop_train - start_train
 
 # Testing model
-start = time.time()
-y_pred = rf.predict(x_test)
-y_pred = np.round(y_pred, 2)
-stop = time.time()
-total = stop - start
+memory_buffer = io.StringIO()
+
+#handler = CSVHandler(memory_buffer)
+handler = PandasHandler()
+
+@measure_energy(handler=handler)
+def test_model():
+    start = time.time()
+    y_pred = rf.predict(x_test)
+    y_pred = np.round(y_pred, 2)
+    stop = time.time()
+    total = stop - start
+    return total, y_pred
+
+total, y_pred = test_model()
+df_energy = handler.get_dataframe()
+
+df_energy['cpu_watts'] = (df_energy['package_0'] / 1_000_000) / df_energy['duration']
+
+print(df_energy[['duration', 'package_0', 'cpu_watts']])
+
+
 
 # Export data to mem layouts
 forest_bin = []
@@ -183,16 +213,16 @@ ret_file = input("Save Results to file [y/n] >> ")
 
 if ret_file in ['y', 'Y']:
     x = datetime.datetime.now()
-    output_filename = "results/sklearn_results" + x.strftime("_%H_%M_%S_") + ".csv"
-    stats_filename = "results/sklearn_max_min" + x.strftime("_%H_%M_%S_") + ".csv"
+    output_filename = test_folder + "sklearn_results" + x.strftime("_%H_%M_%S_") + ".csv"
+    stats_filename = test_folder + "sklearn_max_min" + x.strftime("_%H_%M_%S_") + ".csv"
 
     df.to_csv(output_filename, index=False)
     
     out_df = pd.DataFrame([[dt_utils.y_max, dt_utils.y_min, round(r2_score(y_test, y_pred), 2), round(mean_absolute_error(y_test, y_pred), 2), round(mean_squared_error(y_test, y_pred), 2), round(np.sqrt(mean_squared_error(y_test, y_pred)), 2)]], columns=["max", "min", "R2", "MAE", "MSE", "RMSE"])    
     out_df.to_csv(stats_filename, index=False) 
 
-    write_to_file(forest_hex + data_mem, "results/"+dataset.split("/")[1]+x.strftime("_%H_%M_%S_"))
-    write_to_file(y_test, "results/y_test"+x.strftime("_%H_%M_%S"))
+    write_to_file(forest_hex + data_mem, test_folder+dataset.split("/")[1]+x.strftime("_%H_%M_%S_")+".data")
+    write_to_file(y_test, test_folder + "y_test.csv")
 
 
     print(f"File saved successfilly in '{output_filename}'.")

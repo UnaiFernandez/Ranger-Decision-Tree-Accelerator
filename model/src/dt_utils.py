@@ -40,6 +40,47 @@ def split_dataset(fname, train_size):
     return X_train, X_test, y_train, y_test
 
 
+def split_dataset_fixed_train_test(fname_train, fname_test):
+    data_train = pd.read_csv(fname_train, sep = ",", header=None)
+    data_test = pd.read_csv(fname_test, sep = ",", header=None)
+
+    str_to_int = preprocessing.LabelEncoder()
+    for column in data_train:
+        if pd.api.types.is_string_dtype(data_train[column]):
+            data_train[column] = str_to_int.fit_transform(data_train[column])
+
+    str_to_int = preprocessing.LabelEncoder()
+    for column in data_test:
+        if pd.api.types.is_string_dtype(data_test[column]):
+            data_test[column] = str_to_int.fit_transform(data_test[column])
+
+
+
+
+    # Separar features con target (train)
+    X_train = data_train.iloc[:, :-1]
+    y_train = data_train.iloc[:, -1]
+
+    # Separar features con target (test)
+    X_test = data_test.iloc[:, :-1]
+    y_test = data_test.iloc[:, -1]
+
+
+    # Se escalan los features para que esten en una escala similar.
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    #print(y_test[:10])
+    #y_train = round((y_train / 400), 4)
+    #y_test = round((y_test / 400), 4)
+    #print(y_test[:10])
+
+    return X_train, X_test, y_train, y_test
+
+
+
+
 def train_rf_classifier(x_train, y_train, num_instances):
 
     classifier = RandomForestClassifier(n_estimators=num_instances,

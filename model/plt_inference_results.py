@@ -5,6 +5,7 @@ import glob
 import sys
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import numpy as np
+from scipy import stats
 
 
 # =====================================================================
@@ -47,18 +48,25 @@ def generar_grafico_potencia(base_dir):
     df = pd.read_csv(csv_filename)
     
     # --- FILTRADO DIGITAL (Media Móvil) ---
-    df["Potencia_Suave_W"] = df["Potencia_W"].rolling(window=VENTANA_SUAVIZADO, center=True, min_periods=1).mean()
+    df["Potencia_Suave_W"] = (
+        df["Potencia_W"]
+        .rolling(window=VENTANA_SUAVIZADO, center=True, min_periods=1)
+        .apply(lambda x: stats.trim_mean(x, proportiontocut=0.3), raw=False)
+    )
+    #df["Potencia_Suave_W"] = df["Potencia_W"].rolling(window=VENTANA_SUAVIZADO, center=True, min_periods=1).mean()
     df["Potencia_Suave_W"] = df["Potencia_Suave_W"].fillna(df["Potencia_W"])
     r_exec = df["Exec"].to_numpy()
 
-    # 2. Detectar transiciones (cambios de estado)
-    # Insertamos un 0 al inicio y al final para capturar ejecuciones que empiecen en la primera fila o terminen en la última
-    cambios = np.diff(np.concatenate(([0], r_exec, [0])))
-    
-    # Donde cambios == 1 significa que pasó de 0 a 1 (Inicio de ventana)
-    indices_inicio = np.where(cambios == 1)[0]
-    # Donde cambios == -1 significa que pasó de 1 a 0 (Fin de ventana)
-    indices_fin = np.where(cambios == -1)[0] - 1
+    df["Timestamp"] = df["Timestamp"] - df["Timestamp"].iloc[0]
+
+    ### 2. Detectar transiciones (cambios de estado)
+    ### Insertamos un 0 al inicio y al final para capturar ejecuciones que empiecen en la primera fila o terminen en la última
+    ##cambios = np.diff(np.concatenate(([0], r_exec, [0])))
+    ##
+    ### Donde cambios == 1 significa que pasó de 0 a 1 (Inicio de ventana)
+    ##indices_inicio = np.where(cambios == 1)[0]
+    ### Donde cambios == -1 significa que pasó de 1 a 0 (Fin de ventana)
+    ##indices_fin = np.where(cambios == -1)[0] - 1
 
     # --- CÁLCULO DE ENERGÍA TOTAL (JULIOS) ---
     energia_julios = (df["Potencia_W"] * INTERVALO_SEGUNDOS).sum()
@@ -72,19 +80,19 @@ def generar_grafico_potencia(base_dir):
     print(f"  - Consumo Medio:           {potencia_media:.3f} W")
     print(f"  - Pico Máximo Real:        {potencia_max:.3f} W")
     print(f"  - Energía Total Consumida: {energia_julios:.2f} Julios (J)")
-    print(f"  - Inicio exec: {df.index[indices_inicio[0]]*0.005:.2f} s")
-    print(f"  - Fin exec: {df.index[indices_fin[0]]*0.005:.2f} s")
+    #print(f"  - Inicio exec: {df.index[indices_inicio[0]]*0.005:.2f} s")
+    #print(f"  - Fin exec: {df.index[indices_fin[0]]*0.005:.2f} s")
 
     # Configuración del Gráfico
     plt.figure(figsize=(8, 5), dpi=100)
     
-    plt.plot(df.index, df["Potencia_W"], color="#7f7f7f", linewidth=0.6, alpha=0.4, 
+    plt.plot(df["Timestamp"], df["Potencia_W"], color="#7f7f7f", linewidth=0.6, alpha=0.4, 
              label="Raw signal")
     
-    plt.plot(df.index, df["Potencia_Suave_W"], color="#1f77b4", linewidth=1.8, 
+    plt.plot(df["Timestamp"], df["Potencia_Suave_W"], color="#1f77b4", linewidth=1.8, 
              label=f"Smoothed signal")
 
-    plt.axvspan(df.index[indices_inicio[0]], df.index[indices_fin[0]], color='orange', alpha=0.3, label="Execution")
+    #plt.axvspan(df.index[indices_inicio[0]], df.index[indices_fin[0]], color='orange', alpha=0.3, label="Execution")
 
     plt.axhline(y=potencia_max, color="#d62728", linestyle="--", alpha=0.7, 
                 label=f"Max power ({potencia_max:.2f} W)")
@@ -92,11 +100,12 @@ def generar_grafico_potencia(base_dir):
                 label=f"Avg. power ({potencia_media:.2f} W)")
 
     plt.title(f"Real-time power consumption", fontsize=13, fontweight='bold', pad=15)
-    plt.xlabel("Samples", fontsize=11, labelpad=10)
+    plt.xlabel("Time (s)", fontsize=11, labelpad=10)
     plt.ylabel("Power (W)", fontsize=11, labelpad=10)
     
     #plt.ylim(max(0, potencia_min - 0.3), potencia_max + 0.4)
-    plt.ylim(1.6, 3.25)
+    #plt.ylim(1.6, 3.25)
+    plt.ylim(1.8, 2.8)
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.legend(loc="upper left", frameon=True, shadow=True)
     plt.tight_layout()
